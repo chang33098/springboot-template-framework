@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: /template-framework
+
+spring:
+  application:
+    name: @parent.name@
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  profiles:
+    active: @env@
+  mvc:
+    throw-exception-if-no-handler-found: true
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  resources:
+    add-mappings: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+logging:
+  config: classpath:logback/logback-@env@.xml

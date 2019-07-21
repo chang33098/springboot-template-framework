@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>save</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" th:href="@{/static/layuiadmin/layui/css/layui.css}" media="all">
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>添加一级菜单</legend>
+</fieldset>
+<form action="" class="layui-form" id="save-form" lay-filter="save-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" placeholder="菜单名称" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单图标：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="icon" lay-verify="required" placeholder="菜单图标的样式类" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <a href="https://www.layui.com/doc/element/icon.html" target="view_window">参考LayUI的规范</a>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">访问链接：</label>
+        <div class="layui-input-block">
+            <input type="text" name="uri" value="#" lay-verify="required" placeholder="输入页面对应的uri(若为一级菜单则使用'#'代替)" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">序号：</label>
+        <div class="layui-input-block">
+            <input type="text" name="sortNo" lay-verify="required|sortno" placeholder="菜单的排序编号" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="save-submit" id="save-submit"
+               value="确认添加">
+    </div>
+</form>
+<script src="../layuiadmin/layui/layui.js" th:src="@{/static/layuiadmin/layui/layui.js}"></script>
+<script src="../layuiadmin/lib/jquery-3.3.1.min.js" th:src="@{/static/layuiadmin/lib/jquery-3.3.1.min.js}"></script>
+<script th:inline="none">
+    layui.use(['form', 'laydate', 'upload'], function () {
+        var form = layui.form;
+        //自定义校验
+        form.verify({
+            sortno: [/^[0-9]+$/, '请输入正确的序号']
+        });
+
+        //监听提交
+        form.on('submit(save-submit)', function (data) {
+            var field = data.field; //获取提交的字段(将数据提交至服务端)
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+            console.info(field);
+
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: '/sysmenu/parent_save',
+                type: 'post',
+                data: JSON.stringify(field),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (result) {
+                    if (result === 0) {
+                        layer.msg('提交成功', {icon: 1});
+
+                        parent.layui.table.reload('data-table'); //重载表格
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        layer.msg('提交失败', {icon: 5})
+                    }
+                },
+                error: function () {
+                    layer.msg('请求出错 可能是网络原因所导致', {icon: 5})
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>

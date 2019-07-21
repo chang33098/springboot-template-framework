@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <include resource="logback/logback-base.xml"/>
+
+    <!-- Log Level -->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="debug"/>
+        <appender-ref ref="info"/>
+        <appender-ref ref="warn"/>
+        <appender-ref ref="error"/>
+    </root>
+
+    <!--  -->
+    <logger name="com.example.boot" level="info" additivity="true"/>
+    <logger name="org.springframework.web" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.springframework.security" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.hibernate" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+</configuration>
