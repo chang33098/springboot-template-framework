@@ -1,6 +1,7 @@
-package springboottemplatedomain.user.persistent;
+package com.example.boot.springboottemplatedomain.user.persistent;
 
 import lombok.Data;
+import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -51,4 +52,8 @@ public class SystemUser {
 
     @Column(columnDefinition = "datetime comment '最后一次登录时间'")
     private Timestamp lastLoginTime;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", columnDefinition = "int comment '系统角色ID'")
+    private SystemRole role;
 }

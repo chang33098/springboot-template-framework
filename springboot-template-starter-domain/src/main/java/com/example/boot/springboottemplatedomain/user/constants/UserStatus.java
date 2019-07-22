@@ -1,4 +1,4 @@
-package springboottemplatedomain.user.constants;
+package com.example.boot.springboottemplatedomain.user.constants;
 
 import lombok.Getter;
 

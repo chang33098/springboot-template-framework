@@ -1,4 +1,4 @@
-package springboottemplatedomain.role;
+package com.example.boot.springboottemplatedomain.role.persistent;
 
 import lombok.Data;
 
