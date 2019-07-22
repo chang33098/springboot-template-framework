@@ -54,6 +54,6 @@ public class SystemUser {
     private Timestamp lastLoginTime;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", columnDefinition = "int comment '系统角色ID'")
+    @JoinColumn(name = "role_id", columnDefinition = "bigint comment '系统角色ID'")
     private SystemRole role;
 }

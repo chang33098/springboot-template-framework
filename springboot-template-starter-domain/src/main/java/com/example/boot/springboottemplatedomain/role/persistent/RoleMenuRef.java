@@ -21,10 +21,10 @@ public class RoleMenuRef {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", columnDefinition = "int comment '系统角色ID'")
+    @JoinColumn(name = "role_id", columnDefinition = "bigint comment '系统角色ID'")
     private SystemRole role;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id'", columnDefinition = "int comment '系统菜单ID'")
+    @JoinColumn(name = "menu_id", columnDefinition = "bigint comment '系统菜单ID'")
     private SystemMenu menu;
 }

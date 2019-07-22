@@ -14,7 +14,7 @@
     <artifactId>springboot-template-starter</artifactId>
     <name>springboot-template-starter</name>
     <packaging>jar</packaging>
-    <description>JM Spring Boot Starter</description>
+    <description>springboot-template-starter</description>
 
     <dependencies>
         <dependency>

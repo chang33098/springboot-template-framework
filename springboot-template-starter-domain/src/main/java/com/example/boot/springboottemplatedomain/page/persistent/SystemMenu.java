@@ -46,6 +46,6 @@ public class SystemMenu {
     private Timestamp updateTime;
 
     @OneToMany
-    @JoinColumn(name = "parent_id", columnDefinition = "int comment '父菜单ID'")
+    @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
     private List<SystemMenu> menus;
 }

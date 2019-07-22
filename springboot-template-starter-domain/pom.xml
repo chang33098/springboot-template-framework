@@ -12,5 +12,8 @@
     </parent>
 
     <artifactId>springboot-template-starter-domain</artifactId>
+    <name>springboot-template-starter-domain</name>
+    <packaging>jar</packaging>
+    <description>springboot-template-starter-domain</description>
 
 </project>
