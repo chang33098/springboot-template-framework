@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.page.constants;
+package com.example.boot.springboottemplatedomain.role.constants;
 
 import lombok.Getter;
 

@@ -15,14 +15,11 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "system_menu")
-public class SystemMenu {
+public class SystemPage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(columnDefinition = "varchar(50) comment '菜单图标ID'")
-    private String icon;
 
     @Column(columnDefinition = "varchar(50) comment '菜单名称'")
     private String name;
@@ -33,19 +30,9 @@ public class SystemMenu {
     @Column(columnDefinition = "varchar(255) comment '菜单作用描述'")
     private String description;
 
-    @Column(columnDefinition = "tinyint comment '是否为父节点(1:父菜单, 2:子菜单)'")
-    private int isRoot;
-
-    @Column(columnDefinition = "tinyint comment '排序编号(默认为0)'")
-    private int sortNo;
-
     @Column(columnDefinition = "datetime comment '创建时间'")
     private Timestamp createTime;
 
     @Column(columnDefinition = "datetime comment '修改时间'")
     private Timestamp updateTime;
-
-    @OneToMany
-    @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
-    private List<SystemMenu> menus;
 }
