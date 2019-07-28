@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@Table(name = "system_menu")
+@Table(name = "system_page")
 public class SystemPage {
 
     @Id

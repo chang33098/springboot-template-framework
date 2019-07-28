@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatedomain.role.persistent;
 
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -41,4 +42,8 @@ public class RoleMenuRef {
     @OneToMany
     @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
     private List<RoleMenuRef> childNodes;
+
+    @OneToMany
+    @JoinColumn(name = "menu_id", columnDefinition = "bigint comment '菜单ID'")
+    private List<SystemPermission> permissions;
 }
