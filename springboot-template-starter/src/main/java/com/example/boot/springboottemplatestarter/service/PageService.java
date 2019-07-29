@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.service;
 
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import org.springframework.data.domain.Page;
 
@@ -11,11 +12,5 @@ import org.springframework.data.domain.Page;
  */
 public interface PageService {
 
-    /**
-     *
-     * @param pageNo
-     * @param limit
-     * @return
-     */
-    Page<SystemPage> findAllPage(int pageNo, int limit);
+    Page<SystemPage> findAllPage(FindAllPagePLO plo);
 }

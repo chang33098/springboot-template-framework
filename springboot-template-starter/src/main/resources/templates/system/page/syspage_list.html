@@ -102,55 +102,29 @@
                 {title: '创建时间', field: 'createTime'},
                 {title: '更新时间', field: 'updateTime'},
                 {title: '操作', fixed: 'right', toolbar: '#table-toolbar', width: 150}
-            ]
+            ],
+            event: function (obj) {
+                var data = obj.data;
+                if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function (index) {
+
+                    });
+                } else if (obj.event === 'modify') {
+                    layer.open({
+                        type: 2,
+                        title: '修改',
+                        content: '/sysuser/modify/' + data.id, //连接
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        btn: ['确定', '取消'], yes: function (index, layero) {
+                            //点击确认触发 iframe 内容中的按钮提交
+                            var submit = layero.find('iframe').contents().find("#modify-submit");
+                            submit.click();
+                        }
+                    });
+                }
+            }
         });
-
-
-//        var active = {
-//            batchdel: function () {
-//                layer.msg('执行批量删除(尚未实现)');
-//            },
-//            save: function () {
-//                layer.open({
-//                    type: 2,
-//                    title: '添加',
-//                    content: '/sysuser/save', //连接
-//                    maxmin: true,
-//                    area: ['100%', '100%'],
-//                    btn: ['确定', '取消'], yes: function (index, layero) {
-//                        //点击确认触发 iframe 内容中的按钮提交
-//                        var submit = layero.find('iframe').contents().find("#save-submit");
-//                        submit.click();
-//                    }
-//                });
-//            }
-//        };
-//        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
-//            var type = $(this).data('type');
-//            active[type] ? active[type].call(this) : '';
-//        });
-
-//        table.on('tool(data-table)', function (obj) {
-//            var data = obj.data;
-//            if (obj.event === 'delete') {
-//                layer.confirm('真的删除行么', function (index) {
-//
-//                });
-//            } else if (obj.event === 'modify') {
-//                layer.open({
-//                    type: 2,
-//                    title: '修改',
-//                    content: '/sysuser/modify/' + data.id, //连接
-//                    maxmin: true,
-//                    area: ['100%', '100%'],
-//                    btn: ['确定', '取消'], yes: function (index, layero) {
-//                        //点击确认触发 iframe 内容中的按钮提交
-//                        var submit = layero.find('iframe').contents().find("#modify-submit");
-//                        submit.click();
-//                    }
-//                });
-//            }
-//        });
 
         laydate.render({
             elem: '#column1'

@@ -1,7 +1,4 @@
 var page = {
-    init: function () {
-        console.info('页面初始化完毕');
-    },
     init_table: function (option) {
         option.table.render({
             elem: option.elem,
@@ -28,12 +25,6 @@ var page = {
             }
         });
 
-
-    },
-    detail: function () {
-
-    },
-    delete: function (option) {
-
+        table.on('tool(data-table)', option.event);
     }
 };

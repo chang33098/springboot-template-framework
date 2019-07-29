@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +34,11 @@ public class PageController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public Page<SystemPage> findAllPage(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-                                        @RequestParam(value = "limit", defaultValue = "10") int limit) {
+    public Page<SystemPage> findAllPage(FindAllPagePLO plo) {
 
-        Page<SystemPage> pages = pageService.findAllPage(pageNo, limit);
+        Page<SystemPage> pages = pageService.findAllPage(plo);
         return pages;
     }
+
 
 }

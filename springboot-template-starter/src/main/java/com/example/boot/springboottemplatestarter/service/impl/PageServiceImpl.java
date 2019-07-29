@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatestarter.repository.PageRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
@@ -30,7 +31,10 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Page<SystemPage> findAllPage(int pageNo, int limit) {
+    public Page<SystemPage> findAllPage(FindAllPagePLO plo) {
+        int pageNo = plo.getPageNo();
+        int limit = plo.getLimit();
+
         Pageable pageable = PageRequest.of(pageNo - 1, limit);
 
         Page<SystemPage> page = pageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
