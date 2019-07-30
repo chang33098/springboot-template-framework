@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
  * @author Johnny Miller (鍾俊), email: johnnysviva@outlook.com
  * @date 2019-03-23 16:26
  **/
+@SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SecurityException extends BaseException {

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
  * @author Johnny Miller (鍾俊), email: johnnysviva@outlook.com
  * @date 2019-03-02 17:15
  **/
+@SuppressWarnings("unused")
 public class BizException extends BaseException {
     private static final long serialVersionUID = 6403325238832002908L;
 
