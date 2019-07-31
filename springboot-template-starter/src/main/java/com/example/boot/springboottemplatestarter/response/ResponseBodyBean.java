@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatestarter.common;
+package com.example.boot.springboottemplatestarter.response;
 
 import com.example.boot.springboottemplatestarter.exception.BizException;
 import com.example.boot.springboottemplatestarter.exception.base.BaseException;

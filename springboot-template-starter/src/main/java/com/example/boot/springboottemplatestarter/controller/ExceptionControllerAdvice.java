@@ -3,18 +3,18 @@ package com.example.boot.springboottemplatestarter.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 
-import com.example.boot.springboottemplatestarter.common.ResponseBodyBean;
+import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.exception.base.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +31,18 @@ import java.util.Objects;
 @Slf4j
 @ControllerAdvice
 public class ExceptionControllerAdvice {
+
+//    @ExceptionHandler(value = NoHandlerFoundException.class)
+//    public ModelAndView notFoundHandle(HttpServletRequest request, HttpServletResponse response,
+//                                       Exception exception) {
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+//        modelAndView.setViewName("/error/404");
+//
+//        return modelAndView;
+//    }
+
     /**
      * <p>Exception handler.</p>
      * <p><strong>ATTENTION</strong>: In this method, <strong><em>cannot throw any exception</em></strong>.</p>

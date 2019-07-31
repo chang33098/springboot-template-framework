@@ -31,10 +31,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
         return factory -> {
             factory.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST, "/error/400"));
             factory.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401"));
-            factory.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/error/405"));
+            factory.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/error/403"));
             factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"));
+            factory.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/error/405"));
             factory.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
-            factory.addErrorPages(new ErrorPage(Throwable.class, "/error/500"));
         };
     }
 
@@ -45,6 +45,15 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/homepage1").setViewName("home/homepage1");
         registry.addViewController("/homepage2").setViewName("home/homepage2");
 
+        /**
+         * 异常页面
+         */
+        registry.addViewController("/error/400").setViewName("/error/400");
+        registry.addViewController("/error/401").setViewName("/error/401");
+        registry.addViewController("/error/403").setViewName("/error/403");
+        registry.addViewController("/error/404").setViewName("/error/404");
+        registry.addViewController("/error/405").setViewName("/error/405");
+        registry.addViewController("/error/500").setViewName("/error/500");
     }
 
     @Override
