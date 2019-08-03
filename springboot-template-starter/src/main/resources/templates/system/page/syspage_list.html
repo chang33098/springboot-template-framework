@@ -52,7 +52,7 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div style="padding-bottom: 10px;">
-                        <button class="layui-btn layuiadmin-btn-list" data-type="save">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="create">
                             <i class="layui-icon layui-icon-add-1"></i>添加用户
                         </button>
                     </div>
@@ -126,12 +126,22 @@
             }
         });
 
+        var active = {
+            create: function () {
+                page.open_view({
+                    url: '/system/page/create',
+                    title: '添加系统页面'
+                });
+            }
+        };
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
         laydate.render({
             elem: '#column1'
         });
-    });
-
-    $(function () {
     });
 </script>
 </body>

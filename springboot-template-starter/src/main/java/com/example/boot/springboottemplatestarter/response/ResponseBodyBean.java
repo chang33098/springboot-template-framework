@@ -154,6 +154,18 @@ public class ResponseBodyBean<T> implements Serializable {
     /**
      * Respond a message and status is OK.
      *
+     * @return response body
+     */
+    public static <T> ResponseBodyBean<T> ofSuccess() {
+        return ResponseBodyBean.<T>builder().timestamp(new Date())
+                .status(HttpStatus.OK.value())
+                .message(HttpStatus.OK.getReasonPhrase())
+                .build();
+    }
+
+    /**
+     * Respond a message and status is OK.
+     *
      * @param message message to be responded
      * @return response body
      */

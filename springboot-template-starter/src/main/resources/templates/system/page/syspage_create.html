@@ -12,7 +12,7 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>添加</legend>
 </fieldset>
-<form action="" class="layui-form" id="save-form" lay-filter="save-form" style="padding: 20px 30px 0 0;">
+<form class="layui-form" id="save-form" lay-filter="save-form" style="padding: 20px 30px 0 0;">
     <div class="layui-form-item">
         <label class="layui-form-label">账号：</label>
         <div class="layui-input-block">
@@ -48,7 +48,6 @@
 
     layui.use(['form', 'laydate', 'upload'], function () {
         form = layui.form;
-
 
         //监听提交
         form.on('submit(submit)', function (data) {

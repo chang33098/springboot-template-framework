@@ -8,7 +8,7 @@ var page = {
             title: option.title,
             page: true,
             loading: true,
-            limit: 10,
+            limit: option.limit || 10,
             limits: [10, 30, 50, 100],
             cols: [option.cols],
             parseData: function (result) {
@@ -26,5 +26,19 @@ var page = {
         });
 
         table.on('tool(data-table)', option.event);
+    },
+    open_view: function (option) {
+        layer.open({
+            type: 2,
+            title: option.title || 'title',
+            content: domain + option.url, //连接
+            maxmin: option.maxmin || true,
+            area: option.area || ['100%', '100%'],
+            btn: option.btn || ['确定', '取消'],
+            yes: option.yes || function (index, layero) {
+                var submit = layero.find('iframe').contents().find("#save-submit");
+                submit.click();
+            }
+        });
     }
 };

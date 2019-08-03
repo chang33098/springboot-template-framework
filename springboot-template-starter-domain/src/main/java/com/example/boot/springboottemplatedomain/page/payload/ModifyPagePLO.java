@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
  * write this class description...
  *
  * @author Chang
- * @date 2019/8/1 0:04
+ * @date 2019/8/3 14:46
  */
 @Data
-public class CreatePagePLO {
+public class ModifyPagePLO {
 
     @NotNull
     private String name;
