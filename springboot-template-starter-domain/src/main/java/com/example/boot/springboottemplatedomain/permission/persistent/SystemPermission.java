@@ -35,8 +35,4 @@ public class SystemPermission {
 
     @Column(columnDefinition = "datetime comment '更新时间'")
     private Timestamp updateTime;
-
-    @OneToMany
-    @JoinColumn(name = "permission_id", columnDefinition = "bigint comment '系统权限ID'")
-    private List<SystemPermissionUrl> permissionUrls;
 }

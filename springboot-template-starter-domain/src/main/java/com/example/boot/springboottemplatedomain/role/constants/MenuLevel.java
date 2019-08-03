@@ -17,6 +17,10 @@ public enum  MenuLevel {
     private Integer type;
     private String desc;
 
+    public static boolean parentMenu(int type) {
+        return PARENT_MENU.type == type;
+    }
+
     MenuLevel(Integer type, String desc) {
         this.type = type;
         this.desc = desc;

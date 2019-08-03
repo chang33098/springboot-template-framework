@@ -24,4 +24,8 @@ public class SystemPermissionUrl {
 
     @Column(columnDefinition = "varchar(50) comment '排序编号'")
     private int sortNo;
+
+    @ManyToOne
+    @JoinColumn(name = "permission_id", columnDefinition = "bigint comment '系统权限ID'")
+    private SystemPermission permission;
 }

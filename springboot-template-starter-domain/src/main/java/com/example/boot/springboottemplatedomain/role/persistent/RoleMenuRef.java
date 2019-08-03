@@ -5,6 +5,7 @@ import com.example.boot.springboottemplatedomain.permission.persistent.SystemPer
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,11 +26,14 @@ public class RoleMenuRef {
     @Column(columnDefinition = "varchar(50) comment '菜单图标(使用layui的图标class)'")
     private String icon;
 
+    @Column(columnDefinition = "varchar(50) comment '菜单名称'")
+    private String menuName;
+
     @Column(columnDefinition = "tinyint comment '菜单级别(1:父菜单, 2:子菜单)'")
-    private int menuLevel;
+    private Integer menuLevel;
 
     @Column(columnDefinition = "tinyint comment '排序编号(默认为0)'")
-    private int sortNo;
+    private Integer sortNo;
 
     @ManyToOne
     @JoinColumn(name = "role_id", columnDefinition = "bigint comment '系统角色ID'")
@@ -41,9 +45,9 @@ public class RoleMenuRef {
 
     @OneToMany
     @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
-    private List<RoleMenuRef> childNodes;
+    private List<RoleMenuRef> childNodes = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "menu_id", columnDefinition = "bigint comment '菜单ID'")
-    private List<SystemPermission> permissions;
+    private List<SystemPermission> permissions = new ArrayList<>();
 }

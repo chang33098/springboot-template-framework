@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @Table(name = "system_user", indexes = {
-        @Index(name = "account_index", columnList = "account", unique = true)
+        @Index(name = "username_index", columnList = "username", unique = true)
 })
 public class SystemUser {
 
@@ -24,7 +24,7 @@ public class SystemUser {
     private Long id;
 
     @Column(columnDefinition = "varchar(100) comment '登陆账号'")
-    private String account;
+    private String username;
 
     @Column(columnDefinition = "varchar(100) comment '登陆密码'")
     private String password;
@@ -42,7 +42,7 @@ public class SystemUser {
     private String description;
 
     @Column(columnDefinition = "tinyint comment '用户状态 1:正常, 2:已禁用'")
-    private Long status;
+    private Integer status;
 
     @Column(columnDefinition = "datetime comment '创建时间'")
     private Timestamp createTime;
