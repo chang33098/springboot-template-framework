@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -7,13 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 /**
  * Created by chang .
@@ -21,10 +19,9 @@ import java.util.List;
  * Time: 18:27
  * Description: To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-
-    public static final long MAX_AGE_SECS = 3600;
 
     @Bean
     public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
@@ -41,6 +38,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/login").setViewName("login");
+
         registry.addViewController("/console").setViewName("home/console");
         registry.addViewController("/homepage1").setViewName("home/homepage1");
         registry.addViewController("/homepage2").setViewName("home/homepage2");
@@ -69,6 +68,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
-                .maxAge(MAX_AGE_SECS);
+                .maxAge(3600);
     }
 }
