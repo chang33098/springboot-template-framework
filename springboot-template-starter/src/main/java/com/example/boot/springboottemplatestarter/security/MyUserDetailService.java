@@ -30,14 +30,10 @@ import java.util.stream.Collectors;
 @Component
 public class MyUserDetailService implements UserDetailsService {
 
-    private final UserService userService;
-    private final RoleService roleService;
-
     @Autowired
-    public MyUserDetailService(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
-    }
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 初始化security登录用户的信息(通过username获取)

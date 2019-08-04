@@ -22,7 +22,7 @@ import java.util.List;
  * Description: To change this template use File | Settings | File Templates.
  */
 @Configuration
-public class MyMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     public static final long MAX_AGE_SECS = 3600;
 
