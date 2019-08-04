@@ -1,9 +1,11 @@
 package com.example.boot.springboottemplatedomain.page.persistent;
 
+import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,4 +37,8 @@ public class SystemPage {
 
     @Column(columnDefinition = "datetime comment '修改时间'")
     private Timestamp updateTime;
+
+    @OneToMany
+    @JoinColumn(name = "page_id", columnDefinition = "bigint comment '页面ID'")
+    private List<SystemPermission> permissions = new ArrayList<>();
 }

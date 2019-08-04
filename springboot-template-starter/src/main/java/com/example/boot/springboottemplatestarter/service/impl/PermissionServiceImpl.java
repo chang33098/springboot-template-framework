@@ -26,7 +26,8 @@ public class PermissionServiceImpl implements PermissionService {
         this.permissionUrlRepository = permissionUrlRepository;
     }
 
-    public List<SystemPermissionUrl> findAllSysPermissionUrls() {
+    @Override
+    public List<SystemPermissionUrl> findAllPermissionUrl() {
         return permissionUrlRepository.findAll();
     }
 }

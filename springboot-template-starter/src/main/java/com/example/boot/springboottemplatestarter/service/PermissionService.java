@@ -1,5 +1,9 @@
 package com.example.boot.springboottemplatestarter.service;
 
+import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
+
+import java.util.List;
+
 /**
  * write this class description...
  *
@@ -8,5 +12,5 @@ package com.example.boot.springboottemplatestarter.service;
  */
 public interface PermissionService {
 
-
+    List<SystemPermissionUrl> findAllPermissionUrl();
 }

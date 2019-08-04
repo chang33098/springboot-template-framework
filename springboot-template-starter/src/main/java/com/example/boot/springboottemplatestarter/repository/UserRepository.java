@@ -5,6 +5,8 @@ import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * write this class description...
  *

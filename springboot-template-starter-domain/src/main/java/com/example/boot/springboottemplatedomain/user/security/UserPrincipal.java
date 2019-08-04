@@ -100,9 +100,9 @@ public class UserPrincipal implements UserDetails {
 
         menuRO.setUrl(menuPO.getPage().getUrl());
 
-        if (!menuPO.getChildNodes().isEmpty()) {
+        if (!menuPO.getChildMenus().isEmpty()) {
             List<UserMenuRO> menuROS = new ArrayList<>();
-            menuPO.getChildNodes().forEach(childNode -> {
+            menuPO.getChildMenus().forEach(childNode -> {
                 UserMenuRO childNodeRO = createMenuRO(childNode);
                 menuROS.add(childNodeRO);
             });

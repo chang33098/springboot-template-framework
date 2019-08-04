@@ -1,7 +1,13 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
+import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
+import com.example.boot.springboottemplatestarter.repository.RoleRepository;
 import com.example.boot.springboottemplatestarter.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * write this class description...
@@ -11,4 +17,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
+
+    private final RoleRepository roleRepository;
+    private final RoleMenuRefRepository roleMenuRefRepository;
+
+    @Autowired
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository) {
+        this.roleRepository = roleRepository;
+        this.roleMenuRefRepository = roleMenuRefRepository;
+    }
+
+    @Override
+    public List<RoleMenuRef> findAllByRoleIdOrderBySortNoAsc(Long roleId) {
+        return roleMenuRefRepository.findAllByRoleIdOrderBySortNoAsc(roleId);
+    }
 }

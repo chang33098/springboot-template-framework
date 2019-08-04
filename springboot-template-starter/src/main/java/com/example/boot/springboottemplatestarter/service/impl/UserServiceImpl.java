@@ -1,9 +1,14 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
+import com.example.boot.springboottemplatestarter.repository.UserRepository;
 import com.example.boot.springboottemplatestarter.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 /**
  * write this class description...
@@ -14,9 +19,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Page<SystemUser> findAllUserPage(int pageNo, int limit) {
         return null;
+    }
+
+    @Override
+    public SystemUser findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

@@ -9,10 +9,19 @@ import org.springframework.data.domain.Page;
 public interface UserService {
 
     /**
+     * 查询所有后台管理员信息
      *
      * @param pageNo
      * @param limit
      * @return
      */
     Page<SystemUser> findAllUserPage(int pageNo, int limit);
+
+    /**
+     * 通过用户(登录账号)获取管理员信息
+     *
+     * @param username 用户名
+     * @return 系统用户
+     */
+    SystemUser findByUsername(String username);
 }

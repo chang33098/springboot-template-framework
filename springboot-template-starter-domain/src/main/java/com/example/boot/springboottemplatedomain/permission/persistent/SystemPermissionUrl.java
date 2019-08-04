@@ -20,7 +20,7 @@ public class SystemPermissionUrl {
     private Long id;
 
     @Column(columnDefinition = "varchar(100) comment '权限可访问的URL'")
-    private String url;
+    private String matchUrl;
 
     @Column(columnDefinition = "varchar(50) comment '排序编号'")
     private int sortNo;
