@@ -20,12 +20,12 @@
         <dependency>
             <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-starter-domain</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-starter</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
