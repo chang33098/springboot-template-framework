@@ -33,6 +33,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        if (!securityConfiguration.getEnabled()) { //若状态设为false, 放行所有请求
+            http.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+            return;
+        }
+
         http.csrf().disable(); //关闭csrf验证码
 
         http.authorizeRequests().anyRequest().authenticated(); //除permitAll之外的所有请求需登录过后才能访问

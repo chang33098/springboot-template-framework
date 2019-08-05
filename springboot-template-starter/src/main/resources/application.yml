@@ -36,7 +36,25 @@ logging:
   config: classpath:logback/logback-@env@.xml
 
 custom-configuration:
+  view:
+    common-views:
+      - {path: /index, name: index}
+      - {path: /login, name: login}
+    biz-views:
+      - {path: /console, name: home/console}
+      - {path: /homepage1, name: home/homepage1}
+      - {path: /homepage2, name: home/homepage2}
+    error-views:
+      - {path: /error/400, name: error/400}
+      - {path: /error/401, name: error/401}
+      - {path: /error/403, name: error/403}
+      - {path: /error/404, name: error/404}
+      - {path: /error/405, name: error/405}
+      - {path: /error/500, name: error/500}
+  resources:
+    - {pathPattern: /static/**, location: classpath:/static/}
   security:
+    enabled: false
     super-admin:
       username: admin
       password: admin

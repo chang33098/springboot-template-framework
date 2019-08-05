@@ -18,6 +18,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "custom-configuration.security")
 public class CustomSecurityConfiguration {
 
+    private Boolean enabled = true;
+
     private SuperAdminConfig superAdmin;
     private FormLoginConfig formLogin;
     private LogoutConfig logout;
