@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -38,20 +39,18 @@ public class MyUserDetailService implements UserDetailsService {
     /**
      * 初始化security登录用户的信息(通过username获取)
      *
-     * @param username 登录账号
+     * @param credentials 登录账号
      * @return spring-security user details
      * @throws UsernameNotFoundException
      * @throws IllegalArgumentException
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, IllegalArgumentException {
-        username = username.trim(); //去除两边的空格
-
-        SystemUser user = userService.findByUsername(username);
-        if (user == null) {
-            log.error("[MyUserDetailService] cannot get user info, username: {}", username);
-            throw new UsernameNotFoundException("username [{" + username + "}] not exists.");
-        }
+    public UserDetails loadUserByUsername(final String credentials) throws UsernameNotFoundException, IllegalArgumentException {
+        final String username = credentials.trim(); //去除两边的空格
+        SystemUser user = userService.findByUsername(username).orElseThrow(() -> {
+            log.error("User's account not found: {}", username);
+            return new UsernameNotFoundException("User's account not found: " + username);
+        });
 
         SystemRole role = user.getRole();
         Assert.notNull(role, "账号[{}]的系统角色为空", username);

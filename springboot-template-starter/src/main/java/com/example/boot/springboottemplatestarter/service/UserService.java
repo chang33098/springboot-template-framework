@@ -3,6 +3,8 @@ package com.example.boot.springboottemplatestarter.service;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 /**
  * Created by ANdady on 2019/7/28.
  */
@@ -23,5 +25,5 @@ public interface UserService {
      * @param username 用户名
      * @return 系统用户
      */
-    SystemUser findByUsername(String username);
+    Optional<SystemUser> findByUsername(String username);
 }

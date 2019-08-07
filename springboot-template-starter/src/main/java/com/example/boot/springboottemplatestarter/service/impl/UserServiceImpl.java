@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatestarter.service.impl;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import com.example.boot.springboottemplatestarter.repository.UserRepository;
 import com.example.boot.springboottemplatestarter.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
  * @author Chang
  * @date 2019/7/28 15:06
  */
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SystemUser findByUsername(String username) {
+    public Optional<SystemUser> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 }

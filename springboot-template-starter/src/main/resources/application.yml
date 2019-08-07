@@ -54,7 +54,7 @@ custom-configuration:
   resources:
     - {pathPattern: /static/**, location: classpath:/static/}
   security:
-    enabled: false
+    enabled: true
     super-admin:
       username: admin
       password: admin
@@ -62,7 +62,7 @@ custom-configuration:
       username-param: username
       password-param: password
       login-page: /login
-      login-processing-url: /login/submit
+      login-processing-url: /j_spring_secutity_check
       default-success-url: /index
       failure-url: /login
     logout:

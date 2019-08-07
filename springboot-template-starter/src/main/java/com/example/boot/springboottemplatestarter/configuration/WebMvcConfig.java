@@ -1,13 +1,16 @@
 package com.example.boot.springboottemplatestarter.configuration;
 
+import com.example.boot.springboottemplatestarter.properties.CustomResourceConfiguration;
+import com.example.boot.springboottemplatestarter.properties.CustomViewConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -21,7 +24,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
+@EnableConfigurationProperties({CustomViewConfiguration.class, CustomResourceConfiguration.class})
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    private final CustomViewConfiguration viewConfiguration;
+    private final CustomResourceConfiguration resourceConfiguration;
+
+    @Autowired
+    public WebMvcConfig(CustomViewConfiguration viewConfiguration, CustomResourceConfiguration resourceConfiguration) {
+        this.viewConfiguration = viewConfiguration;
+        this.resourceConfiguration = resourceConfiguration;
+    }
 
     @Bean
     public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
@@ -37,30 +50,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/login").setViewName("login");
-
-        registry.addViewController("/console").setViewName("home/console");
-        registry.addViewController("/homepage1").setViewName("home/homepage1");
-        registry.addViewController("/homepage2").setViewName("home/homepage2");
-
-        /**
-         * 异常页面
-         */
-        registry.addViewController("/error/400").setViewName("/error/400");
-        registry.addViewController("/error/401").setViewName("/error/401");
-        registry.addViewController("/error/403").setViewName("/error/403");
-        registry.addViewController("/error/404").setViewName("/error/404");
-        registry.addViewController("/error/405").setViewName("/error/405");
-        registry.addViewController("/error/500").setViewName("/error/500");
+        viewConfiguration.getCommonViews().forEach(view -> registry.addViewController(view.getPath()).setViewName(view.getName()));
+        viewConfiguration.getBizViews().forEach(view -> registry.addViewController(view.getPath()).setViewName(view.getName()));
+        viewConfiguration.getErrorViews().forEach(view -> registry.addViewController(view.getPath()).setViewName(view.getName()));
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        /**
-         * 过滤静态资源(CSS, JavaScript和图片资源)
-         */
-        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/"); //layuiadmin的样式以及插件
+        resourceConfiguration.getResources().forEach(
+                resourceHandler ->
+                registry.addResourceHandler(resourceHandler.getPathPattern()).addResourceLocations(resourceHandler.getLocation())
+        );
+//        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/"); //layuiadmin的样式以及插件
     }
 
     @Override

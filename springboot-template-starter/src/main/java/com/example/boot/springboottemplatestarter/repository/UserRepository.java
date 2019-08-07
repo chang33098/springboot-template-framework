@@ -16,5 +16,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<SystemUser, Long>, JpaSpecificationExecutor<SystemUser> {
 
-    SystemUser findByUsername(String username);
+    Optional<SystemUser> findByUsername(String username);
 }

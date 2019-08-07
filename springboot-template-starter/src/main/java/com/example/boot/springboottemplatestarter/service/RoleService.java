@@ -9,5 +9,11 @@ import java.util.List;
  */
 public interface RoleService {
 
+    /**
+     *
+     *
+     * @param roleId
+     * @return
+     */
     List<RoleMenuRef> findAllByRoleIdOrderBySortNoAsc(Long roleId);
 }

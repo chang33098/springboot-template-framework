@@ -8,6 +8,7 @@ import com.example.boot.springboottemplatestarter.exception.base.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -43,6 +44,24 @@ public class ExceptionControllerAdvice {
 //        return modelAndView;
 //    }
 
+//
+
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ModelAndView notFoundHandle(HttpServletRequest request, HttpServletResponse response,
+                                       Exception exception) {
+
+        log.error("[GlobalExceptionCapture] UsernameNotFoundException: {}", exception.getMessage());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setStatus(HttpStatus.UNAUTHORIZED);
+        modelAndView.setViewName("/login");
+
+//        modelAndView.getModel().put();
+
+        return modelAndView;
+    }
+
     /**
      * <p>Exception handler.</p>
      * <p><strong>ATTENTION</strong>: In this method, <strong><em>cannot throw any exception</em></strong>.</p>
@@ -60,7 +79,8 @@ public class ExceptionControllerAdvice {
         if (exception instanceof NoHandlerFoundException) {
             log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
                     ((NoHandlerFoundException) exception).getRequestURL(),
-                    ((NoHandlerFoundException) exception).getHttpMethod());
+                    ((NoHandlerFoundException) exception).getHttpMethod(),
+                    exception);
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND);
         } else if (exception instanceof HttpRequestMethodNotSupportedException) {
