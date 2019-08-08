@@ -40,5 +40,26 @@ var page = {
                 submit.click();
             }
         });
+    },
+    async_request: function (option) {
+        $.ajax({
+            url: domain + option.url,
+            async: option.async || true,
+            type: option.type || 'get',
+            data: option.data || {},
+            dataType: option.dataType || 'json',
+            success: option.success || function (result) {
+                console.info(result);
+
+                layer.msg(result.message, {icon: '1'});
+                $('#form-search').submit();
+            },
+            error: option.error || function (error) {
+                console.info(error);
+
+                layer.msg('', {icon: '5'});
+
+            }
+        })
     }
 };

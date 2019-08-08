@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatestarter.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 
+import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.properties.CustomSecurityConfiguration;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.exception.base.BaseException;
@@ -68,6 +69,24 @@ public class ExceptionControllerAdvice {
     }
 
     /**
+     * 处理资源不存在所抛出的异常(例: 传入错误的参数, 导致查询返回的结果为null)
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception ResourceNotFoundException
+     * @return ResponseBodyBean
+     */
+    @ResponseBody
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseBodyBean resourceNotFound(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             ResourceNotFoundException exception) {
+        log.error("[GlobalExceptionCapture] ResourceNotFoundException: {}", exception);
+        response.setStatus(HttpStatus.NOT_FOUND.value());
+        return ResponseBodyBean.ofException(exception);
+    }
+
+    /**
      * <p>Exception handler.</p>
      * <p><strong>ATTENTION</strong>: In this method, <strong><em>cannot throw any exception</em></strong>.</p>
      *
@@ -77,7 +96,7 @@ public class ExceptionControllerAdvice {
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public ResponseBodyBean handleException(HttpServletRequest request,
+    public ResponseBodyBean globalHandle(HttpServletRequest request,
                                             HttpServletResponse response,
                                             Exception exception) {
 

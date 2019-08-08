@@ -37,10 +37,10 @@
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                <button id="form-search" class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="form-search">
                                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
                                 </button>
-                                <button class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
+                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
                                     <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i> 重置
                                 </button>
                             </div>
@@ -107,7 +107,7 @@
                 var data = obj.data;
                 if (obj.event === 'delete') {
                     layer.confirm('真的删除行么', function (index) {
-
+                        deletePage(data.id);
                     });
                 } else if (obj.event === 'modify') {
                     layer.open({
@@ -143,6 +143,13 @@
             elem: '#column1'
         });
     });
+
+    function deletePage(id) {
+        page.async_request({
+            url: '/system/page/delete/' + id,
+            type: 'delete'
+        });
+    }
 </script>
 </body>
 </html>

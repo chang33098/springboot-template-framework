@@ -54,7 +54,7 @@ custom-configuration:
   resources:
     - {pathPattern: /static/**, location: classpath:/static/}
   security:
-    enabled: true
+    enabled: false
     super-admin:
       username: admin
       password: admin

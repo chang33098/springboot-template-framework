@@ -6,8 +6,10 @@ import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.PageRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import java.util.List;
  * @author Chang
  * @date 2019/7/28 15:05
  */
+@Slf4j
 @Service
 public class PageServiceImpl implements PageService {
 
@@ -65,8 +68,10 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public void modifyPage(Long pageId, ModifyPagePLO plo) {
-        SystemPage page = pageRepository.findById(pageId).orElse(null);
-        Assert.notNull(page, "无效的页面ID");
+        SystemPage page = pageRepository.findById(pageId).orElseThrow(() -> {
+            log.error("页面ID [{}] 不存在", pageId);
+            return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
+        });
 
         BeanUtil.copyProperties(plo, page);
 
@@ -75,8 +80,10 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public void deletePage(Long pageId) {
-        SystemPage page = pageRepository.findById(pageId).orElse(null);
-        Assert.notNull(page, "无效的页面ID");
+        SystemPage page = pageRepository.findById(pageId).orElseThrow(() -> {
+            log.error("页面ID [{}] 不存在", pageId);
+            return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
+        });
 
         pageRepository.delete(page);
     }
