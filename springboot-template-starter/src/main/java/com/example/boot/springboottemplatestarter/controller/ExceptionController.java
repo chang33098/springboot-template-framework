@@ -44,7 +44,7 @@ public class ExceptionController extends BasicErrorController {
 
     @Autowired
     public ExceptionController(ErrorAttributes errorAttributes, ServerProperties serverProperties,
-                           List<ErrorViewResolver> errorViewResolvers) {
+                               List<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, serverProperties.getError(), errorViewResolvers);
     }
 
@@ -64,7 +64,7 @@ public class ExceptionController extends BasicErrorController {
                 isIncludeStackTrace(request, MediaType.TEXT_HTML));
 
         log.warn("************* 403 ERROR INFO *************");
-        log.warn("403异常的请求URL: {}", model.get("path"));
+        log.warn("403异常的请求URL:  {}", model.get("path"));
 
         return new ModelAndView("/error/404", model);
     }
@@ -83,7 +83,7 @@ public class ExceptionController extends BasicErrorController {
                 isIncludeStackTrace(request, MediaType.TEXT_HTML));
 
         log.warn("************* 404 ERROR INFO *************");
-        log.warn("404异常的请求URL: {}", model.get("path"));
+        log.warn("404异常的请求URL:  {}", model.get("path"));
 
         return new ModelAndView("/error/404", model);
     }
@@ -103,11 +103,11 @@ public class ExceptionController extends BasicErrorController {
                 isIncludeStackTrace(request, MediaType.TEXT_HTML));
 
         log.error("************* 500 ERROR INFO *************");
-        log.error("error: {}", model.get("error"));
-        log.error("status: {}", model.get("status"));
-        log.error("path: {}", model.get("path"));
+        log.error("error:   {}", model.get("error"));
+        log.error("status:  {}", model.get("status"));
+        log.error("path:    {}", model.get("path"));
         log.error("message: {}", model.get("message"));
-        log.error("trace: {}", model.get("trace"));
+        log.error("trace:   {}", model.get("trace"));
 
         return new ModelAndView("/error/500", model);
     }
