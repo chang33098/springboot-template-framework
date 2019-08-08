@@ -48,6 +48,23 @@ public class ResponseBodyBean<T> implements Serializable {
     }
 
     /**
+     * <p>Respond to client with HttpStatus (status may be OK or other).</p>
+     * <p><strong>ATTENTION:</strong></p>
+     * <p>This method CANNOT be used by controller or service or other class, only provided for Exception controller
+     * .</p>
+     *
+     * @param status  HttpStatus
+     * @param message message to be responded
+     * @return response body for ExceptionControllerAdvice
+     */
+    public static <T> ResponseBodyBean<T> ofStatus(HttpStatus status, String message) {
+        return ResponseBodyBean.<T>builder().timestamp(new Date())
+                .status(status.value())
+                .message(message)
+                .build();
+    }
+
+    /**
      * <p>Respond to client with HttpStatus and data.</p>
      * <p><strong>ATTENTION:</strong></p>
      * <p>This method CANNOT be used by controller or service or other class, only provided for Exception controller
@@ -71,13 +88,28 @@ public class ResponseBodyBean<T> implements Serializable {
      * <p>This method CANNOT be used by controller or service or other class, only provided for Exception controller
      * .</p>
      *
-     * @param status  status code
+     * @param status  http status
      * @param message message to be responded
      * @param data    data to be responded
      * @return response body for ExceptionControllerAdvice
      */
-    public static <T> ResponseBodyBean<T> ofStatus(Integer status, String message, T data) {
-        return ResponseBodyBean.<T>builder().timestamp(new Date()).status(status).message(message).data(data).build();
+    public static <T> ResponseBodyBean<T> ofStatus(HttpStatus status, String message, T data) {
+        return ResponseBodyBean.<T>builder().timestamp(new Date()).status(status.value()).message(message).data(data).build();
+    }
+
+    /**
+     * <p>Highly customizable response. Status might be any HttpStatus&#39; code value.</p>
+     * <p><strong>ATTENTION:</strong></p>
+     * <p>This method CANNOT be used by controller or service or other class, only provided for Exception controller
+     * .</p>
+     *
+     * @param httpCode http status code
+     * @param message  message to be responded
+     * @param data     data to be responded
+     * @return response body for ExceptionControllerAdvice
+     */
+    public static <T> ResponseBodyBean<T> ofStatus(Integer httpCode, String message, T data) {
+        return ResponseBodyBean.<T>builder().timestamp(new Date()).status(httpCode).message(message).data(data).build();
     }
 
     /**
@@ -90,11 +122,11 @@ public class ResponseBodyBean<T> implements Serializable {
      * @param data    data to be responded
      * @return response body
      */
-    public static <T> ResponseBodyBean<T> setResponse(Integer status, String message, T data) {
-        if (!(HttpStatus.OK.value() == status)) {
-            throw new BaseException(status, message, data);
+    public static <T> ResponseBodyBean<T> setResponse(HttpStatus status, String message, T data) {
+        if (!(HttpStatus.OK.value() == status.value())) {
+            throw new BaseException(status.value(), message, data);
         }
-        return ResponseBodyBean.<T>builder().timestamp(new Date()).status(status).message(message).data(data).build();
+        return ResponseBodyBean.<T>builder().timestamp(new Date()).status(status.value()).message(message).data(data).build();
     }
 
     /**
@@ -228,7 +260,7 @@ public class ResponseBodyBean<T> implements Serializable {
      * @return response body
      */
     public static <T> ResponseBodyBean<T> ofError() {
-        return setResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null);
+        return setResponse(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null);
     }
 
     /**
@@ -238,7 +270,7 @@ public class ResponseBodyBean<T> implements Serializable {
      * @return response body
      */
     public static <T> ResponseBodyBean<T> ofError(HttpStatus status) {
-        return setResponse(status.value(), status.getReasonPhrase(), null);
+        return setResponse(status, status.getReasonPhrase(), null);
     }
 
     /**

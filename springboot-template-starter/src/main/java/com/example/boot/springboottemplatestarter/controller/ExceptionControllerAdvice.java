@@ -3,9 +3,12 @@ package com.example.boot.springboottemplatestarter.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 
+import com.example.boot.springboottemplatestarter.properties.CustomSecurityConfiguration;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.exception.base.BaseException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +16,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -31,33 +33,36 @@ import java.util.Objects;
  **/
 @Slf4j
 @ControllerAdvice
+@EnableConfigurationProperties(CustomSecurityConfiguration.class)
 public class ExceptionControllerAdvice {
 
-//    @ExceptionHandler(value = NoHandlerFoundException.class)
-//    public ModelAndView notFoundHandle(HttpServletRequest request, HttpServletResponse response,
-//                                       Exception exception) {
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setStatus(HttpStatus.NOT_FOUND);
-//        modelAndView.setViewName("/error/404");
-//
-//        return modelAndView;
-//    }
+    private final CustomSecurityConfiguration securityConfiguration;
 
-//
+    @Autowired
+    public ExceptionControllerAdvice(CustomSecurityConfiguration securityConfiguration) {
+        this.securityConfiguration = securityConfiguration;
+    }
 
+    /**
+     * 处理spring security中UsernameNotFoundException的异常
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception UsernameNotFoundException
+     * @return ModelAndView
+     */
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ModelAndView notFoundHandle(HttpServletRequest request, HttpServletResponse response,
-                                       Exception exception) {
+                                       UsernameNotFoundException exception) {
 
         log.error("[GlobalExceptionCapture] UsernameNotFoundException: {}", exception.getMessage());
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setStatus(HttpStatus.UNAUTHORIZED);
-        modelAndView.setViewName("/login");
+        modelAndView.setViewName(securityConfiguration.getFormLogin().getLoginPage());
 
-//        modelAndView.getModel().put();
+        modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.UNAUTHORIZED, exception.getMessage()));
 
         return modelAndView;
     }
@@ -94,13 +99,13 @@ public class ExceptionControllerAdvice {
         } else if (exception instanceof MethodArgumentNotValidException) {
             log.error("[GlobalExceptionCapture] MethodArgumentNotValidException: {}", exception.getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST.value());
-            return ResponseBodyBean.ofStatus(HttpStatus.BAD_REQUEST.value(),
+            return ResponseBodyBean.ofStatus(HttpStatus.BAD_REQUEST,
                     getFieldErrorMessageFromException((MethodArgumentNotValidException) exception),
                     null);
         } else if (exception instanceof ConstraintViolationException) {
             log.error("[GlobalExceptionCapture] ConstraintViolationException: {}", exception.getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST.value());
-            return ResponseBodyBean.ofStatus(HttpStatus.BAD_REQUEST.value(),
+            return ResponseBodyBean.ofStatus(HttpStatus.BAD_REQUEST,
                     CollUtil.getFirst(((ConstraintViolationException) exception)
                             .getConstraintViolations())
                             .getMessage(), null);
@@ -117,7 +122,7 @@ public class ExceptionControllerAdvice {
 
         log.error("[GlobalExceptionCapture]: Exception information: {} ", exception.getMessage(), exception);
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return ResponseBodyBean.ofStatus(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null);
+        return ResponseBodyBean.ofStatus(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null);
     }
 
     /**
