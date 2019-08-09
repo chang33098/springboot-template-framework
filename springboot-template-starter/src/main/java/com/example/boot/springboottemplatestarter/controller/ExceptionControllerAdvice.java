@@ -83,7 +83,20 @@ public class ExceptionControllerAdvice {
                                              ResourceNotFoundException exception) {
         log.error("[GlobalExceptionCapture] ResourceNotFoundException: {}", exception);
         response.setStatus(HttpStatus.NOT_FOUND.value());
-        return ResponseBodyBean.ofException(exception);
+        return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public ResponseBodyBean methodNotAllowed(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             HttpRequestMethodNotSupportedException exception) {
+        log.error("[GlobalExceptionCapture] HttpRequestMethodNotSupportedException: " +
+                        "Current method is {}, Support HTTP method = {}",
+                exception.getMethod(),
+                JSONUtil.toJsonStr(exception.getSupportedHttpMethods()));
+        response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
+        return ResponseBodyBean.ofStatus(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -97,8 +110,8 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public ResponseBodyBean globalHandle(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            Exception exception) {
+                                         HttpServletResponse response,
+                                         Exception exception) {
 
         if (exception instanceof NoHandlerFoundException) {
             log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
@@ -107,14 +120,6 @@ public class ExceptionControllerAdvice {
                     exception);
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND);
-        } else if (exception instanceof HttpRequestMethodNotSupportedException) {
-            log.error("[GlobalExceptionCapture] HttpRequestMethodNotSupportedException: " +
-                            "Current method is {}, Support HTTP method = {}",
-                    ((HttpRequestMethodNotSupportedException) exception).getMethod(),
-                    JSONUtil.toJsonStr(
-                            ((HttpRequestMethodNotSupportedException) exception).getSupportedHttpMethods()));
-            response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
-            return ResponseBodyBean.ofStatus(HttpStatus.METHOD_NOT_ALLOWED);
         } else if (exception instanceof MethodArgumentNotValidException) {
             log.error("[GlobalExceptionCapture] MethodArgumentNotValidException: {}", exception.getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST.value());

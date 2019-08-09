@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * write this class description...
  *
@@ -38,6 +40,11 @@ public class PageController {
         return "system/page/syspage_list";
     }
 
+    /**
+     *
+     * @param plo
+     * @return
+     */
     @GetMapping(value = "list")
     @ResponseBody
     public Page<SystemPage> findAllPage(FindAllPagePLO plo) {
@@ -46,21 +53,37 @@ public class PageController {
         return pages;
     }
 
+    /**
+     *
+     *
+     * @return
+     */
     @GetMapping(value = "create")
     public String createPage() {
         return "system/page/syspage_create";
     }
 
+    /**
+     *
+     * @param plo
+     * @return
+     */
     @PostMapping(value = "create")
     @ResponseBody
-    public ResponseBodyBean createPage(@ModelAttribute CreatePagePLO plo) {
+    public ResponseBodyBean createPage(@RequestBody @Valid CreatePagePLO plo) {
+        pageService.createPage(plo);
         return ResponseBodyBean.ofSuccess();
     }
 
+    /**
+     *
+     * @param pageId
+     * @param model
+     * @return
+     */
     @GetMapping(value = "modify/{page_id}")
     public String modifyPage(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
-        Assert.notNull(page, "无效的页面ID");
 
         ModifyPageRO pageRO = ModifyPageRO.transferPageRO(page);
         model.addAttribute("page", pageRO);
@@ -68,13 +91,25 @@ public class PageController {
         return "system/page/syspage_modify";
     }
 
+    /**
+     *
+     * @param pageId
+     * @param plo
+     * @return
+     */
     @PutMapping(value = "modify/{page_id}")
     @ResponseBody
-    public ResponseBodyBean modifyPage(@PathVariable(value = "page_id") Long pageId, @RequestBody ModifyPagePLO plo) {
+    public ResponseBodyBean modifyPage(@PathVariable(value = "page_id") Long pageId,
+                                       @RequestBody @Valid ModifyPagePLO plo) {
         pageService.modifyPage(pageId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 
+    /**
+     *
+     * @param pageId
+     * @return
+     */
     @DeleteMapping(value = "delete/{page_id}")
     @ResponseBody
     public ResponseBodyBean deletePage(@PathVariable(value = "page_id") Long pageId) {

@@ -23,13 +23,13 @@ public class SystemPage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "varchar(50) comment '菜单名称'")
+    @Column(columnDefinition = "varchar(50) comment '页面名称'")
     private String name;
 
-    @Column(columnDefinition = "varchar(100) comment '菜单访问链接(若为父级菜单, 则无访问链接)'")
+    @Column(columnDefinition = "varchar(100) comment '页面访问链接'")
     private String url;
 
-    @Column(columnDefinition = "varchar(255) comment '菜单作用描述'")
+    @Column(columnDefinition = "varchar(255) comment '页面作用描述'")
     private String description;
 
     @Column(columnDefinition = "datetime comment '创建时间'")

@@ -55,7 +55,10 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public SystemPage getPageById(Long pageId) {
-        return pageRepository.findById(pageId).orElse(null);
+        return pageRepository.findById(pageId).orElseThrow(() -> {
+            log.error("页面ID [{}] 不存在", pageId);
+            return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
+        });
     }
 
     @Override

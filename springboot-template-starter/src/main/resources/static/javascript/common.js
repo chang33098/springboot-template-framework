@@ -36,29 +36,24 @@ var page = {
             area: option.area || ['100%', '100%'],
             btn: option.btn || ['确定', '取消'],
             yes: option.yes || function (index, layero) {
-                var submit = layero.find('iframe').contents().find("#save-submit");
+                var submit = layero.find('iframe').contents().find("#submit");
                 submit.click();
             }
         });
     },
     async_request: function (option) {
+        //application/x-www-form-urlencoded; charset=UTF-8
         $.ajax({
             url: domain + option.url,
             async: option.async || true,
             type: option.type || 'get',
             data: option.data || {},
             dataType: option.dataType || 'json',
-            success: option.success || function (result) {
-                console.info(result);
-
-                layer.msg(result.message, {icon: '1'});
-                $('#form-search').submit();
-            },
+            contentType: option.contentType || 'application/json; charset=utf-8',
+            success: option.success,
             error: option.error || function (error) {
                 console.info(error);
-
-                layer.msg('', {icon: '5'});
-
+                layer.msg(error.responseJSON.message, {icon: 5});
             }
         })
     }

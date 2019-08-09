@@ -14,26 +14,26 @@
 </fieldset>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <div class="layui-form-item">
-        <label class="layui-form-label">账号：</label>
+        <label class="layui-form-label">菜单名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="account" lay-verify="required|account" placeholder="登陆账号(只能由英文、数字和下划线组成)"
+            <input type="text" name="name" lay-verify="required" placeholder="登陆账号(只能由英文、数字和下划线组成)"
                    class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">密码：</label>
+        <label class="layui-form-label">访问链接：</label>
         <div class="layui-input-block">
-            <input type="password" name="password" lay-verify="required|password" placeholder="登陆密码(不少于6位数)"
-                   autocomplete="off"
+            <input type="text" name="url" lay-verify="required" placeholder="页面访问URL(设置页面的相对路径)"
                    class="layui-input">
         </div>
     </div>
+
 
     <div class="layui-form-item">
         <label class="layui-form-label">用途描述：</label>
         <div class="layui-input-block">
-            <textarea name="description" class="layui-textarea" placeholder="对该账号进行简述"></textarea>
+            <textarea name="description" class="layui-textarea" placeholder="该页面的用途描述"></textarea>
         </div>
     </div>
 
@@ -49,9 +49,23 @@
     layui.use(['form', 'laydate', 'upload'], function () {
         form = layui.form;
 
-        //监听提交
         form.on('submit(submit)', function (data) {
+            var field = data.field; //表单参数
+            var index = parent.layer.getFrameIndex(window.name);
 
+            page.async_request({
+                url: '/system/page/create',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
         });
     })
 </script>
