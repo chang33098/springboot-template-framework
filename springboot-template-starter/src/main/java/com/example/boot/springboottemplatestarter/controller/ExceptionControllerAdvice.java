@@ -86,6 +86,14 @@ public class ExceptionControllerAdvice {
         return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
+    /**
+     * 处理HTTP METHOD不支持的异常
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception HttpRequestMethodNotSupportedException
+     * @return ResponseBodyBean
+     */
     @ResponseBody
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     public ResponseBodyBean methodNotAllowed(HttpServletRequest request,
