@@ -14,4 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/system/role")
 public class RoleController {
+
+    public String role() {
+        return "system/role/sysrole_list";
+    }
 }

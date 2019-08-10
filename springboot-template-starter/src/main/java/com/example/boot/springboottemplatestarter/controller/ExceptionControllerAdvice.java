@@ -34,7 +34,7 @@ import java.util.Objects;
  **/
 @Slf4j
 @ControllerAdvice
-@EnableConfigurationProperties(CustomSecurityConfiguration.class)
+@EnableConfigurationProperties({CustomSecurityConfiguration.class})
 public class ExceptionControllerAdvice {
 
     private final CustomSecurityConfiguration securityConfiguration;
@@ -53,7 +53,8 @@ public class ExceptionControllerAdvice {
      * @return ModelAndView
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    public ModelAndView notFoundHandle(HttpServletRequest request, HttpServletResponse response,
+    public ModelAndView notFoundHandle(HttpServletRequest request,
+                                       HttpServletResponse response,
                                        UsernameNotFoundException exception) {
 
         log.error("[GlobalExceptionCapture] UsernameNotFoundException: {}", exception.getMessage());
@@ -64,6 +65,33 @@ public class ExceptionControllerAdvice {
         modelAndView.setViewName(securityConfiguration.getFormLogin().getLoginPage());
 
         modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.UNAUTHORIZED, exception.getMessage()));
+
+        return modelAndView;
+    }
+
+    /**
+     * 处理资源404所引起的[NoHandlerFoundException]异常
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception NoHandlerFoundException
+     * @return ModelAndView
+     */
+    @ExceptionHandler(value = NoHandlerFoundException.class)
+    public ModelAndView noHandlerFound(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       NoHandlerFoundException exception) {
+        log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
+                exception.getRequestURL(),
+                exception.getHttpMethod(),
+                exception);
+        response.setStatus(HttpStatus.NOT_FOUND.value());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+        modelAndView.setViewName("/error/404");
+
+        modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND, exception.getMessage()));
 
         return modelAndView;
     }
@@ -121,14 +149,16 @@ public class ExceptionControllerAdvice {
                                          HttpServletResponse response,
                                          Exception exception) {
 
-        if (exception instanceof NoHandlerFoundException) {
-            log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
-                    ((NoHandlerFoundException) exception).getRequestURL(),
-                    ((NoHandlerFoundException) exception).getHttpMethod(),
-                    exception);
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND);
-        } else if (exception instanceof MethodArgumentNotValidException) {
+//        if (exception instanceof NoHandlerFoundException) {
+//            log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
+//                    ((NoHandlerFoundException) exception).getRequestURL(),
+//                    ((NoHandlerFoundException) exception).getHttpMethod(),
+//                    exception);
+//            response.setStatus(HttpStatus.NOT_FOUND.value());
+//            return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND);
+//        } else
+
+        if (exception instanceof MethodArgumentNotValidException) {
             log.error("[GlobalExceptionCapture] MethodArgumentNotValidException: {}", exception.getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST.value());
             return ResponseBodyBean.ofStatus(HttpStatus.BAD_REQUEST,

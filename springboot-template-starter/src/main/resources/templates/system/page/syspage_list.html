@@ -28,9 +28,9 @@
                     <div class="layui-card-header">查询条件</div>
                     <div class="layui-card-body layui-row layui-col-space10">
                         <div class="layui-col-md3">
-                            <label class="layui-form-label">菜单名称：</label>
+                            <label class="layui-form-label">页面名称：</label>
                             <div class="layui-input-block">
-                                <input type="text" id="column1" name="column1" placeholder="字段1的查询条件"
+                                <input type="text" name="name" placeholder="页面名称"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                     <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
 
                     <script type="text/html" id="table-toolbar">
-                        <a class="layui-btn layui-btn-xs" lay-event="modify">
+                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="modify">
                             <i class="layui-icon layui-icon-edit"></i>编辑
                         </a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
@@ -110,17 +110,9 @@
                         deletePage(data.id);
                     });
                 } else if (obj.event === 'modify') {
-                    layer.open({
-                        type: 2,
-                        title: '修改',
-                        content: '/sysuser/modify/' + data.id, //连接
-                        maxmin: true,
-                        area: ['100%', '100%'],
-                        btn: ['确定', '取消'], yes: function (index, layero) {
-                            //点击确认触发 iframe 内容中的按钮提交
-                            var submit = layero.find('iframe').contents().find("#modify-submit");
-                            submit.click();
-                        }
+                    page.open_view({
+                        url: '/system/page/modify/' + data.id,
+                        title: '编辑'
                     });
                 }
             }
@@ -130,7 +122,7 @@
             create: function () {
                 page.open_view({
                     url: '/system/page/create',
-                    title: '添加系统页面'
+                    title: '添加'
                 });
             }
         };
@@ -138,16 +130,16 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
-        laydate.render({
-            elem: '#column1'
-        });
     });
 
     function deletePage(id) {
         page.async_request({
             url: '/system/page/delete/' + id,
-            type: 'delete'
+            type: 'delete',
+            success: function (result) {
+                layer.msg(result.message, {icon: 1});
+                $('#form-search').click();
+            }
         });
     }
 </script>

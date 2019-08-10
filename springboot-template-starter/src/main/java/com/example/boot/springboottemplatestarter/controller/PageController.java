@@ -1,21 +1,23 @@
 package com.example.boot.springboottemplatestarter.controller;
 
-import cn.hutool.core.lang.Assert;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
+import com.example.boot.springboottemplatedomain.page.response.PageFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * write this class description...
@@ -41,22 +43,26 @@ public class PageController {
     }
 
     /**
+     * 分页查询
      *
-     * @param plo
-     * @return
+     * @param plo 查询参数PLO
+     * @return 分页数据
      */
     @GetMapping(value = "list")
     @ResponseBody
-    public Page<SystemPage> findAllPage(FindAllPagePLO plo) {
+    public Page<PageFindAllRO> findAllPage(FindAllPagePLO plo) {
+        Page<SystemPage> page = pageService.findAllPage(plo);
 
-        Page<SystemPage> pages = pageService.findAllPage(plo);
-        return pages;
+        List<PageFindAllRO> pageROS = PageFindAllRO.createPageFindAllROS(page.getContent());
+        Page<PageFindAllRO> page2 = new PageImpl<>(pageROS, page.getPageable(), page.getTotalElements());
+
+        return page2;
     }
 
     /**
+     * 创建系统页面
      *
-     *
-     * @return
+     * @return create page
      */
     @GetMapping(value = "create")
     public String createPage() {
@@ -64,9 +70,10 @@ public class PageController {
     }
 
     /**
+     * 创建系统页面
      *
-     * @param plo
-     * @return
+     * @param plo 页面参数PLO
+     * @return message
      */
     @PostMapping(value = "create")
     @ResponseBody
@@ -76,10 +83,11 @@ public class PageController {
     }
 
     /**
+     * 编辑页面
      *
-     * @param pageId
-     * @param model
-     * @return
+     * @param pageId 页面ID
+     * @param model  Model
+     * @return modify page
      */
     @GetMapping(value = "modify/{page_id}")
     public String modifyPage(@PathVariable(value = "page_id") Long pageId, Model model) {
@@ -92,10 +100,11 @@ public class PageController {
     }
 
     /**
+     * 编辑页面
      *
-     * @param pageId
-     * @param plo
-     * @return
+     * @param pageId 页面ID
+     * @param plo    参数载体PLO
+     * @return message
      */
     @PutMapping(value = "modify/{page_id}")
     @ResponseBody
@@ -106,9 +115,10 @@ public class PageController {
     }
 
     /**
+     * 删除页面
      *
-     * @param pageId
-     * @return
+     * @param pageId 页面ID
+     * @return message
      */
     @DeleteMapping(value = "delete/{page_id}")
     @ResponseBody
