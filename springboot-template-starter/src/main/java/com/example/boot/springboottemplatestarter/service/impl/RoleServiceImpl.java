@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleMenuRef> findAllByRoleIdOrderBySortNoAsc(Long roleId) {
+    public List<RoleMenuRef> securityGetAllRoleMenuByRoleId(Long roleId) {
         return roleMenuRefRepository.findAllByRoleIdOrderBySortNoAsc(roleId);
     }
 }

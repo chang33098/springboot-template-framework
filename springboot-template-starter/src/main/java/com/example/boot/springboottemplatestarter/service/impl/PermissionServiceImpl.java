@@ -6,6 +6,7 @@ import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermi
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
+import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.PermissionRepository;
 import com.example.boot.springboottemplatestarter.repository.PermissionUrlRepository;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
@@ -55,6 +56,19 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public SystemPermission getPermissionById(Long permissionId) {
+        return permissionRepository.findById(permissionId)
+                .orElseThrow(() -> new ResourceNotFoundException("权限ID [" + permissionId + "] 不存在"));
+    }
+
+    @Override
+    public List<SystemPermissionUrl> getPermissionsByPermissionId(Long permissionId) {
+        return permissionUrlRepository.findAllByPermissionId(permissionId);
+    }
+
+    // TODO: 2019/8/12 方法重用
+
+    @Override
     public void createPermission(CreatePermissionPLO plo) {
         SystemPermission permission = new SystemPermission();
         BeanUtil.copyProperties(plo, permission);
@@ -74,8 +88,26 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public void modifyPermission(Long permissionId, ModifyPermissionPLO plo) {
+        SystemPermission permission = permissionRepository.findById(permissionId)
+                .orElseThrow(() -> new ResourceNotFoundException("权限ID [" + permissionId + "] 不存在"));
+        BeanUtil.copyProperties(plo, permission);
 
+        permission.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        permissionRepository.save(permission);
+
+        permissionUrlRepository.deleteAllByPermissionId(permissionId);
+
+        plo.getMatchUrls().forEach(data -> {
+            SystemPermissionUrl permissionUrl = new SystemPermissionUrl();
+            permissionUrl.setMatchUrl(data.getMatchUrl());
+            permissionUrl.setPermission(permission);
+            permissionUrl.setSortNo(data.getSortNo());
+
+            permissionUrlRepository.save(permissionUrl);
+        });
     }
+
+    // TODO: 2019/8/12 校验当前删除的页面是否已被[roleMenuRef]表所使用
 
     @Override
     public void deletePermission(Long permissionId) {
@@ -83,7 +115,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<SystemPermissionUrl> findAllPermissionUrl() {
+    public List<SystemPermissionUrl> securityGetAllPermissionUrl() {
         return permissionUrlRepository.findAll();
     }
 }

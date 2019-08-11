@@ -20,10 +20,10 @@ public interface UserService {
     Page<SystemUser> findAllUserPage(int pageNo, int limit);
 
     /**
-     * 通过用户(登录账号)获取管理员信息
+     * [spring security] 通过用户(登录账号)获取管理员信息
      *
      * @param username 用户名
      * @return 系统用户
      */
-    Optional<SystemUser> findByUsername(String username);
+    Optional<SystemUser> securityGetUserByUsername(String username);
 }

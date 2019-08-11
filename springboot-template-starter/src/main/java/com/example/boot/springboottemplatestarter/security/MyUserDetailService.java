@@ -47,7 +47,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String credentials) throws UsernameNotFoundException, IllegalArgumentException {
         final String username = credentials.trim(); //去除两边的空格
-        SystemUser user = userService.findByUsername(username).orElseThrow(() -> {
+        SystemUser user = userService.securityGetUserByUsername(username).orElseThrow(() -> {
             log.error("User's account not found: {}", username);
             return new UsernameNotFoundException("User's account not found: " + username);
         });
@@ -55,7 +55,7 @@ public class MyUserDetailService implements UserDetailsService {
         SystemRole role = user.getRole();
         Assert.notNull(role, "账号[{}]的系统角色为空", username);
 
-        List<RoleMenuRef> roleMenus = roleService.findAllByRoleIdOrderBySortNoAsc(role.getId());
+        List<RoleMenuRef> roleMenus = roleService.securityGetAllRoleMenuByRoleId(role.getId());
         List<SystemPermission> permissions = roleMenus.stream()
                 .map(RoleMenuRef::getPermissions)
                 .flatMap(Collection::stream).collect(Collectors.toList()); //获取角色对应的权限信息

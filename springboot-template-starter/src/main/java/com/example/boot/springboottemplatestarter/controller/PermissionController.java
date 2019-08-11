@@ -4,6 +4,7 @@ import com.example.boot.springboottemplatedomain.permission.payload.CreatePermis
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
+import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
 import com.example.boot.springboottemplatedomain.permission.response.PermissionFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -65,7 +67,10 @@ public class PermissionController {
     }
 
     @GetMapping(value = "modify/{permission_id}")
-    public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId) {
+    public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId, Model model) {
+        SystemPermission permission = permissionService.getPermissionById(permissionId);
+        List<SystemPermissionUrl> permissionUrls = permissionService.getPermissionsByPermissionId(permissionId);
+
         return "";
     }
 
@@ -73,6 +78,7 @@ public class PermissionController {
     @ResponseBody
     public ResponseBodyBean modifyPermission(@PathVariable(value = "permission_id") Long permissionId,
                                              @RequestBody @Valid ModifyPermissionPLO plo) {
+        permissionService.modifyPermission(permissionId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 

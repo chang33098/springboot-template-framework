@@ -38,7 +38,7 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        List<SystemPermissionUrl> permissionUrls = permissionService.findAllPermissionUrl();
+        List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
         if (!permissionUrls.isEmpty()) {
             permissionUrls.forEach(permissionUrl -> resourceMap.put(permissionUrl.getMatchUrl(),
                     (Collection<ConfigAttribute>) Stream.builder().add(new SecurityConfig(permissionUrl.getPermission().getCode()))));

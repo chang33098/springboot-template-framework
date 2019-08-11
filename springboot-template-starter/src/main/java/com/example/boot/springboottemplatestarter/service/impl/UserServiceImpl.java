@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<SystemUser> findByUsername(String username) {
+    public Optional<SystemUser> securityGetUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 }

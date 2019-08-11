@@ -21,7 +21,12 @@ public class ModifyPermissionPLO {
     @NotNull
     private String code;
     private String description;
-
     @NotEmpty
-    List<String> matchUrls = new ArrayList<>();
+    private List<ModifyPermissionPLO.PermissionUrl> matchUrls = new ArrayList<>();
+
+    @Data
+    public static class PermissionUrl {
+        private String matchUrl;
+        private Integer sortNo;
+    }
 }
