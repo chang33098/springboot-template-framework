@@ -34,11 +34,11 @@ public class PageFindAllRO {
     /**
      * Create PageFindAllRO List. Transfer PO to the RO.
      *
-     * @param pages PAGE PO LIST
-     * @return PAGE RO LIST
+     * @param pages PagePO List
+     * @return PageFindAllRO
      */
     public static List<PageFindAllRO> createPageFindAllROS(List<SystemPage> pages) {
-        List<PageFindAllRO> pageROS = new ArrayList<>();
+        List<PageFindAllRO> pageROS = new ArrayList<>(pages.size());
 
         pages.forEach(page -> {
             PageFindAllRO pageRO = new PageFindAllRO();

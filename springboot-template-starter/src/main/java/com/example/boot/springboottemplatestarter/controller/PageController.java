@@ -39,7 +39,7 @@ public class PageController {
 
     @GetMapping
     public String page() {
-        return "system/page/syspage_list";
+        return "system/page/page_list";
     }
 
     /**
@@ -51,12 +51,12 @@ public class PageController {
     @GetMapping(value = "list")
     @ResponseBody
     public Page<PageFindAllRO> findAllPage(FindAllPagePLO plo) {
-        Page<SystemPage> page = pageService.findAllPage(plo);
+        Page<SystemPage> POPAGE = pageService.findAllPage(plo);
 
-        List<PageFindAllRO> pageROS = PageFindAllRO.createPageFindAllROS(page.getContent());
-        Page<PageFindAllRO> page2 = new PageImpl<>(pageROS, page.getPageable(), page.getTotalElements());
+        List<PageFindAllRO> pageROS = PageFindAllRO.createPageFindAllROS(POPAGE.getContent());
+        Page<PageFindAllRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
-        return page2;
+        return ROPAGE;
     }
 
     /**
@@ -66,7 +66,7 @@ public class PageController {
      */
     @GetMapping(value = "create")
     public String createPage() {
-        return "system/page/syspage_create";
+        return "system/page/page_create";
     }
 
     /**
@@ -96,7 +96,7 @@ public class PageController {
         ModifyPageRO pageRO = ModifyPageRO.transferPageRO(page);
         model.addAttribute("page", pageRO);
 
-        return "system/page/syspage_modify";
+        return "system/page/page_modify";
     }
 
     /**

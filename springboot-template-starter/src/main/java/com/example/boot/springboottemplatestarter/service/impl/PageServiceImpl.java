@@ -1,7 +1,6 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Assert;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +28,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@Transactional
 public class PageServiceImpl implements PageService {
 
     private final PageRepository pageRepository;

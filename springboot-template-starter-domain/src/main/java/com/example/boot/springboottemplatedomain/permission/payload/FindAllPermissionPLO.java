@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.page.payload;
+package com.example.boot.springboottemplatedomain.permission.payload;
 
 import com.example.boot.springboottemplatedomain.common.PaginationPLO;
 import lombok.Data;
@@ -10,7 +10,8 @@ import lombok.Data;
  * @date 2019/7/29 23:26
  */
 @Data
-public class FindAllPagePLO extends PaginationPLO {
+public class FindAllPermissionPLO extends PaginationPLO {
 
     private String name;
+    private String code;
 }
