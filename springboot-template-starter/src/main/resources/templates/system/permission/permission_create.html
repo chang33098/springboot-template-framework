@@ -9,31 +9,55 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>添加</legend>
-</fieldset>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+
+    <!-- todo 添加字段有效性的校验 -->
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>权限信息</legend>
+    </fieldset>
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名称：</label>
+        <label class="layui-form-label">权限名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" placeholder="登陆账号(只能由英文、数字和下划线组成)"
+            <input type="text" name="name" lay-verify="required" placeholder="权限名称"
                    class="layui-input">
         </div>
     </div>
-
     <div class="layui-form-item">
-        <label class="layui-form-label">访问链接：</label>
+        <label class="layui-form-label">权限代码：</label>
         <div class="layui-input-block">
-            <input type="text" name="url" lay-verify="required" placeholder="页面访问URL(设置页面的相对路径)"
+            <input type="text" name="code" lay-verify="required" placeholder="权限代码(由英文和下划线组成)"
                    class="layui-input">
         </div>
     </div>
-
-
     <div class="layui-form-item">
         <label class="layui-form-label">用途描述：</label>
         <div class="layui-input-block">
             <textarea name="description" class="layui-textarea" placeholder="该页面的用途描述"></textarea>
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>权限URL</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">拦截路径</label>
+        <div class="layui-input-block">
+            <button type="button" onclick="addPermissionUrl()" class="layui-btn layui-btn-primary">添加拦截路径</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div id="url-1" class="layui-inline permission-url">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline" style="width: 255px;">
+                <input type="url" name="matchUrl" lay-verify="required" placeholder="请输入拦截的URL(相对路径)"
+                       class="layui-input">
+            </div>
+            <div class="layui-input-inline" style="width: 65px;">
+                <button type="button" onclick="delPermissionUrl(1)" class="layui-btn layui-btn-danger">
+                    <i class="layui-icon layui-icon-delete"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -54,7 +78,7 @@
             var index = parent.layer.getFrameIndex(window.name);
 
             page.async_request({
-                url: '/system/page/create',
+                url: '/system/permission/create',
                 type: 'post',
                 data: JSON.stringify(field),
                 success: function (result) {
@@ -67,7 +91,29 @@
                 }
             })
         });
-    })
+    });
+
+    function addPermissionUrl() {
+        var divId = new Date().getTime();
+
+        var permissionUrl = $('.permission-url:first').clone();
+        permissionUrl.attr('url-' + divId);
+        permissionUrl.find('input[name="matchUrl"]').val('');
+        permissionUrl.find('button').attr('click', 'delPermissionUrl("' + divId + '")');
+
+        $('.permission-url:last').after(permissionUrl);
+        form.render();
+    }
+
+    function delPermissionUrl(id) {
+        var length = $('.permission-url').length;
+        if (length <= 1) {
+            layer.msg('至少拦截一个地址');
+            return;
+        }
+
+        $('#url-' + id).remove();
+    }
 </script>
 </body>
 </html>

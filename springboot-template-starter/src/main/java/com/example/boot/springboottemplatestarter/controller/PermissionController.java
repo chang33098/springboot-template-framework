@@ -1,10 +1,12 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
+import com.example.boot.springboottemplatedomain.permission.response.ModifyPermissionRO;
 import com.example.boot.springboottemplatedomain.permission.response.PermissionFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
@@ -71,7 +73,10 @@ public class PermissionController {
         SystemPermission permission = permissionService.getPermissionById(permissionId);
         List<SystemPermissionUrl> permissionUrls = permissionService.getPermissionsByPermissionId(permissionId);
 
-        return "";
+        ModifyPermissionRO permissionRO = ModifyPermissionRO.createPermissionRO(permission, permissionUrls);
+        model.addAttribute("permission", permissionRO);
+
+        return "system/permission/permission_modify";
     }
 
     @PutMapping(value = "modify/{permission_id}")
