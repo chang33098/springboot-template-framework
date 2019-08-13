@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @date 2019/8/11 0:12
  */
 @Data
-public class PageFindAllRO {
+public class FindAllPageRO {
 
     private Long id;
     private String name;
@@ -28,20 +28,19 @@ public class PageFindAllRO {
     private Timestamp createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
-
     private String pagePermission;
 
     /**
-     * Create PageFindAllRO List. Transfer PO to the RO.
+     * Create FindAllPageRO List. Transfer PO to the RO.
      *
      * @param pages PagePO List
-     * @return PageFindAllRO
+     * @return FindAllPageRO
      */
-    public static List<PageFindAllRO> createPageFindAllROS(List<SystemPage> pages) {
-        List<PageFindAllRO> pageROS = new ArrayList<>(pages.size());
+    public static List<FindAllPageRO> createPageFindAllROS(List<SystemPage> pages) {
+        List<FindAllPageRO> pageROS = new ArrayList<>(pages.size());
 
         pages.forEach(page -> {
-            PageFindAllRO pageRO = new PageFindAllRO();
+            FindAllPageRO pageRO = new FindAllPageRO();
             BeanUtil.copyProperties(page, pageRO);
 
             String pagePermission = page.getPermissions()

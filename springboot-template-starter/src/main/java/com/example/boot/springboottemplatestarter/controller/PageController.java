@@ -4,8 +4,8 @@ import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatedomain.page.response.FindAllPageRO;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
-import com.example.boot.springboottemplatedomain.page.response.PageFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,11 +50,11 @@ public class PageController {
      */
     @GetMapping(value = "list")
     @ResponseBody
-    public Page<PageFindAllRO> findAllPage(FindAllPagePLO plo) {
+    public Page<FindAllPageRO> findAllPage(FindAllPagePLO plo) {
         Page<SystemPage> POPAGE = pageService.findAllPage(plo);
 
-        List<PageFindAllRO> pageROS = PageFindAllRO.createPageFindAllROS(POPAGE.getContent());
-        Page<PageFindAllRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
+        List<FindAllPageRO> pageROS = FindAllPageRO.createPageFindAllROS(POPAGE.getContent());
+        Page<FindAllPageRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ROPAGE;
     }

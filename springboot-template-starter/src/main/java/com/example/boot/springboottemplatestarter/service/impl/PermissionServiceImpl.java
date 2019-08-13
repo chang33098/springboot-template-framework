@@ -20,6 +20,7 @@ import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * write this class description...
@@ -66,8 +67,6 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionUrlRepository.findAllByPermissionId(permissionId);
     }
 
-    // TODO: 2019/8/12 方法重用
-
     @Override
     public void createPermission(CreatePermissionPLO plo) {
         SystemPermission permission = new SystemPermission();
@@ -97,21 +96,23 @@ public class PermissionServiceImpl implements PermissionService {
 
         permissionUrlRepository.deleteAllByPermissionId(permissionId);
 
-        plo.getMatchUrls().forEach(data -> {
-            SystemPermissionUrl permissionUrl = new SystemPermissionUrl();
-            permissionUrl.setMatchUrl(data.getMatchUrl());
-            permissionUrl.setPermission(permission);
-            permissionUrl.setSortNo(data.getSortNo());
-
-            permissionUrlRepository.save(permissionUrl);
-        });
+        List<SystemPermissionUrl> permissionUrls = plo.getMatchUrls().stream()
+                .map(data -> {
+                    SystemPermissionUrl permissionUrl = new SystemPermissionUrl();
+                    permissionUrl.setMatchUrl(data.getMatchUrl());
+                    permissionUrl.setSortNo(data.getSortNo());
+                    permissionUrl.setPermission(permission);
+                    return permissionUrl;
+                }).collect(Collectors.toList());
+        permissionUrlRepository.saveAll(permissionUrls);
     }
 
     // TODO: 2019/8/12 校验当前删除的页面是否已被[roleMenuRef]表所使用
 
     @Override
     public void deletePermission(Long permissionId) {
-
+        permissionUrlRepository.deleteAllByPermissionId(permissionId);
+        permissionRepository.deleteById(permissionId);
     }
 
     @Override

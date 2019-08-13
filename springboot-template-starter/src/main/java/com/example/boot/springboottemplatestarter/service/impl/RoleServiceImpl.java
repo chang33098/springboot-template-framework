@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
+import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleRepository;
 import com.example.boot.springboottemplatestarter.service.RoleService;
@@ -25,6 +26,11 @@ public class RoleServiceImpl implements RoleService {
     public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository) {
         this.roleRepository = roleRepository;
         this.roleMenuRefRepository = roleMenuRefRepository;
+    }
+
+    @Override
+    public List<SystemRole> getAllRole() {
+        return null;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/8/11 13:16
  */
 @Data
-public class PermissionFindAllRO {
+public class FindAllPermissionRO {
 
     private Long id;
     private String name;
@@ -29,16 +29,16 @@ public class PermissionFindAllRO {
     private Timestamp updateTime;
 
     /**
-     * Create PermissionFindAllRO List. Transfer PO to the RO.
+     * Create FindAllPermissionRO List. Transfer PO to the RO.
      *
      * @param permissions PermissionPO List
-     * @return PermissionFindAllRO
+     * @return FindAllPermissionRO
      */
-    public static List<PermissionFindAllRO> createPermissionFindAllROS(List<SystemPermission> permissions) {
-        List<PermissionFindAllRO> permissionROS = new ArrayList<>(permissions.size());
+    public static List<FindAllPermissionRO> createPermissionFindAllROS(List<SystemPermission> permissions) {
+        List<FindAllPermissionRO> permissionROS = new ArrayList<>(permissions.size());
 
         permissions.forEach(permission -> {
-            PermissionFindAllRO permissionRO = new PermissionFindAllRO();
+            FindAllPermissionRO permissionRO = new FindAllPermissionRO();
             BeanUtil.copyProperties(permission, permissionRO);
 
             permissionROS.add(permissionRO);

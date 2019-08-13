@@ -15,4 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/system/user")
 public class UserController {
 
+    @GetMapping
+    public String user() {
+        return "system/user/user_list";
+    }
 }
