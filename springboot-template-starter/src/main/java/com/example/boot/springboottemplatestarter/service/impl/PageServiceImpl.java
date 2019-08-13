@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class PageServiceImpl implements PageService {
         SystemPage page = new SystemPage();
         BeanUtil.copyProperties(plo, page);
 
+        page.setCreateTime(new Timestamp(System.currentTimeMillis()));
+
         pageRepository.save(page);
     }
 
@@ -78,6 +81,8 @@ public class PageServiceImpl implements PageService {
         });
 
         BeanUtil.copyProperties(plo, page);
+
+        page.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 
         pageRepository.save(page);
     }

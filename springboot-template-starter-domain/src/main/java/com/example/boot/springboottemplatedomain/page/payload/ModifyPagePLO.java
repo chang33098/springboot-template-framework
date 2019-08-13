@@ -14,8 +14,13 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ModifyPagePLO {
 
+    // TODO: 2019/8/13 添加[code]的正则校验
+    // TODO: 2019/8/13 添加[url]的正则校验
+
     @NotNull
     private String name;
+    @NotNull
+    private String code;
     @NotNull
     private String url;
     @NotNull

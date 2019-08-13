@@ -40,8 +40,14 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
         List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
         if (!permissionUrls.isEmpty()) {
-            permissionUrls.forEach(permissionUrl -> resourceMap.put(permissionUrl.getMatchUrl(),
-                    (Collection<ConfigAttribute>) Stream.builder().add(new SecurityConfig(permissionUrl.getPermission().getCode()))));
+
+            permissionUrls.forEach(permissionUrl -> {
+                List<ConfigAttribute> configs = (List<ConfigAttribute>) Stream.builder().add(new SecurityConfig(
+                        permissionUrl.getPermission().getPage().getCode() +
+                        "_" +
+                        permissionUrl.getPermission().getCode()));
+                resourceMap.put(permissionUrl.getMatchUrl(), configs);
+            });
         }
     }
 

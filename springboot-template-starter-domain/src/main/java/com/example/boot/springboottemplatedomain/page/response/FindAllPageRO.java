@@ -2,14 +2,12 @@ package com.example.boot.springboottemplatedomain.page.response;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 系统页面分页RO
@@ -21,6 +19,7 @@ import java.util.stream.Collectors;
 public class FindAllPageRO {
 
     private Long id;
+    private String code;
     private String name;
     private String url;
     private String description;
@@ -28,7 +27,6 @@ public class FindAllPageRO {
     private Timestamp createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
-    private String pagePermission;
 
     /**
      * Create FindAllPageRO List. Transfer PO to the RO.
@@ -42,11 +40,7 @@ public class FindAllPageRO {
         pages.forEach(page -> {
             FindAllPageRO pageRO = new FindAllPageRO();
             BeanUtil.copyProperties(page, pageRO);
-
-            String pagePermission = page.getPermissions()
-                    .stream().map(SystemPermission::getName)
-                    .collect(Collectors.joining(", ", "[", "]"));
-            pageRO.setPagePermission(pagePermission);
+            pageROS.add(pageRO);
         });
 
         return pageROS;

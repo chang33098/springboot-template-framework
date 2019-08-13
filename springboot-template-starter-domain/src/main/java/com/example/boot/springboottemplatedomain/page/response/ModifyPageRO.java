@@ -13,10 +13,17 @@ import lombok.Data;
 @Data
 public class ModifyPageRO {
 
+    private String code;
     private String name;
     private String url;
     private String description;
 
+    /**
+     * pagePO transfer to pageRO
+     *
+     * @param page pagePO
+     * @return ModifyPageRO
+     */
     public static ModifyPageRO transferPageRO(SystemPage page) {
         ModifyPageRO pageRO = new ModifyPageRO();
         BeanUtil.copyProperties(page, pageRO);

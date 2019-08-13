@@ -1,12 +1,9 @@
 package com.example.boot.springboottemplatedomain.page.persistent;
 
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 系统菜单模块
@@ -23,6 +20,9 @@ public class SystemPage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "varchar(50) comment '模块代码(由英文和下划线组成)'")
+    private String code;
+
     @Column(columnDefinition = "varchar(50) comment '页面名称'")
     private String name;
 
@@ -37,8 +37,4 @@ public class SystemPage {
 
     @Column(columnDefinition = "datetime comment '修改时间'")
     private Timestamp updateTime;
-
-    @OneToMany
-    @JoinColumn(name = "page_id", columnDefinition = "bigint comment '页面ID'")
-    private List<SystemPermission> permissions = new ArrayList<>();
 }

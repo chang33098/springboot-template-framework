@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatedomain.permission.persistent;
 
+import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,7 +14,9 @@ import java.sql.Timestamp;
  */
 @Data
 @Entity
-@Table(name = "system_permission")
+@Table(name = "system_permission", indexes = {
+        @Index(name = "code_index", columnList = "code", unique = true)
+})
 public class SystemPermission {
 
     @Id
@@ -34,4 +37,8 @@ public class SystemPermission {
 
     @Column(columnDefinition = "datetime comment '更新时间'")
     private Timestamp updateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "page_id", columnDefinition = "bigint comment '关联的页面ID'")
+    private SystemPage page;
 }

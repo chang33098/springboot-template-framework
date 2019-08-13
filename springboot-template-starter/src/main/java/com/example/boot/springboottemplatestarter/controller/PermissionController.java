@@ -90,6 +90,7 @@ public class PermissionController {
     @DeleteMapping(value = "delete/{permission_id}")
     @ResponseBody
     public ResponseBodyBean deletePermission(@PathVariable(value = "permission_id") Long permissionId) {
+        permissionService.deletePermission(permissionId);
         return ResponseBodyBean.ofSuccess();
     }
 }

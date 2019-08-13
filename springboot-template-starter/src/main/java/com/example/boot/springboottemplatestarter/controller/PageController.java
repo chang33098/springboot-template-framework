@@ -42,12 +42,6 @@ public class PageController {
         return "system/page/page_list";
     }
 
-    /**
-     * 分页查询
-     *
-     * @param plo 查询参数PLO
-     * @return 分页数据
-     */
     @GetMapping(value = "list")
     @ResponseBody
     public Page<FindAllPageRO> findAllPage(FindAllPagePLO plo) {
@@ -59,22 +53,11 @@ public class PageController {
         return ROPAGE;
     }
 
-    /**
-     * 创建系统页面
-     *
-     * @return create page
-     */
     @GetMapping(value = "create")
     public String createPage() {
         return "system/page/page_create";
     }
 
-    /**
-     * 创建系统页面
-     *
-     * @param plo 页面参数PLO
-     * @return message
-     */
     @PostMapping(value = "create")
     @ResponseBody
     public ResponseBodyBean createPage(@RequestBody @Valid CreatePagePLO plo) {
@@ -82,13 +65,6 @@ public class PageController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    /**
-     * 编辑页面
-     *
-     * @param pageId 页面ID
-     * @param model  Model
-     * @return modify page
-     */
     @GetMapping(value = "modify/{page_id}")
     public String modifyPage(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
@@ -99,13 +75,6 @@ public class PageController {
         return "system/page/page_modify";
     }
 
-    /**
-     * 编辑页面
-     *
-     * @param pageId 页面ID
-     * @param plo    参数载体PLO
-     * @return message
-     */
     @PutMapping(value = "modify/{page_id}")
     @ResponseBody
     public ResponseBodyBean modifyPage(@PathVariable(value = "page_id") Long pageId,
@@ -114,12 +83,6 @@ public class PageController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    /**
-     * 删除页面
-     *
-     * @param pageId 页面ID
-     * @return message
-     */
     @DeleteMapping(value = "delete/{page_id}")
     @ResponseBody
     public ResponseBodyBean deletePage(@PathVariable(value = "page_id") Long pageId) {
