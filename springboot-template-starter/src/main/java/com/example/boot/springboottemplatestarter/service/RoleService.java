@@ -12,8 +12,6 @@ public interface RoleService {
 
     List<SystemRole> getAllRole();
 
-
-
     /**
      * [spring security] 通过角色ID获取对应的系统菜单
      *

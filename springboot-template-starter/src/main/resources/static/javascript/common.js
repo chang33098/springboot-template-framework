@@ -1,6 +1,7 @@
 var page = {
     init_table: function (option) {
         option.table.render({
+            id: option.id || 'data-table',
             elem: option.elem,
             url: domain + option.url,
             toolbar: false,

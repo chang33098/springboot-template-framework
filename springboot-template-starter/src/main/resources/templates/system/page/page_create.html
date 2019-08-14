@@ -10,6 +10,9 @@
 </head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>模块信息</legend>
+    </fieldset>
     <div class="layui-form-item">
         <label class="layui-form-label">菜单名称：</label>
         <div class="layui-col-md6">
@@ -48,6 +51,17 @@
             </div>
         </div>
     </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>模块权限</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">添加权限</label>
+        <div class="layui-input-block">
+            <button type="button" onclick="addPagePermission()" class="layui-btn layui-btn-primary">添加</button>
+        </div>
+    </div>
+
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="submit" id="submit"
                value="添加">
@@ -78,7 +92,18 @@
                 }
             })
         });
-    })
+    });
+
+    function addPagePermission() {
+        page.open_view({
+            url: '/system/permission/choose_permission',
+            title: '添加权限',
+            yes: function (index, layero) {
+                var submit = layero.find('iframe').contents().find("#choose");
+                submit.click();
+            }
+        });
+    }
 </script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.example.boot.springboottemplatestarter.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
@@ -92,5 +91,10 @@ public class PermissionController {
     public ResponseBodyBean deletePermission(@PathVariable(value = "permission_id") Long permissionId) {
         permissionService.deletePermission(permissionId);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "choose_permission")
+    public String choosePermission() {
+        return "system/permission/choose_permission";
     }
 }

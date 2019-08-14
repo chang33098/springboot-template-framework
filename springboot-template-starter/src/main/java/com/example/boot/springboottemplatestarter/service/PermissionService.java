@@ -17,8 +17,6 @@ import java.util.List;
  */
 public interface PermissionService {
 
-    // TODO: 2019/8/12 添加service方法的注解
-
     Page<SystemPermission> findAllPermission(FindAllPermissionPLO plo);
 
     SystemPermission getPermissionById(Long permissionId);
