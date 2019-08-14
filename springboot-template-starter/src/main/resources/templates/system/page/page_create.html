@@ -14,17 +14,17 @@
         <legend>模块信息</legend>
     </fieldset>
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名称：</label>
+        <label class="layui-form-label">页面名称</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="name" lay-verify="required" placeholder="菜单名称"
+                <input type="text" name="name" lay-verify="required" placeholder="页面名称"
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">菜单所在模块的名称</div>
+            <div class="layui-form-mid layui-word-aux">页面所在模块的名称</div>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">模块代码：</label>
+        <label class="layui-form-label">模块代码</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="code" lay-verify="required" placeholder="模块代码"
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">访问链接：</label>
+        <label class="layui-form-label">访问链接</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="url" lay-verify="required" placeholder="页面访问URL"
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">用途描述：</label>
+        <label class="layui-form-label">用途描述</label>
         <div class="layui-input-block">
             <div class="layui-col-md6">
                 <textarea name="description" class="layui-textarea" placeholder="该页面的用途描述"></textarea>
@@ -58,7 +58,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">添加权限</label>
         <div class="layui-input-block">
-            <button type="button" onclick="addPagePermission()" class="layui-btn layui-btn-primary">添加</button>
+            <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
         </div>
     </div>
 
@@ -94,16 +94,46 @@
         });
     });
 
-    function addPagePermission() {
+    function choosePermission() {
         page.open_view({
             url: '/system/permission/choose_permission',
             title: '添加权限',
             yes: function (index, layero) {
-                var submit = layero.find('iframe').contents().find("#choose");
-                submit.click();
+                layero.find('iframe').contents().find("#choose").click();
             }
         });
     }
+//
+//    /* todo 寻找更优的解决方案 */
+//
+//    function getPermissionInfo(data) {
+//        var permissionInfo = JSON.parse(data);
+//
+//        var divId = new Date().getTime();
+//
+//        var permission = $('#template').clone();
+//        permission.css('display', 'block');
+//
+//        permission.attr('id', 'permission-' + divId);
+//
+//        permission.find('input[name="permissionInfo"]').val(data);
+//        permission.find('input[name="permissionName"]').val(permissionInfo.name);
+//
+//        permission.find('button').attr('click', 'delPermissionInfo("' + divId + '")');
+//
+//        $('.permission-info:last').after(permission);
+//        form.render();
+//    }
+//
+//    function delPermissionInfo(id) {
+//        var length = $('.permission-url').length;
+//        if (length <= 1) {
+//            layer.msg('至少拦截一个地址');
+//            return;
+//        }
+//
+//        $('#permission-' + id).remove();
+//    }
 </script>
 </body>
 </html>
