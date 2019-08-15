@@ -1,11 +1,8 @@
 package com.example.boot.springboottemplatedomain.permission.payload;
 
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.Pattern;
 
 /**
  * 创建系统权限
@@ -19,14 +16,7 @@ public class CreatePermissionPLO {
     @NotNull
     private String name;
     @NotNull
+//    @Pattern(regexp = "/[^A-Z|\\-|_|]/g", message = "请输入正确的权限代码")
     private String code;
     private String description;
-    @NotEmpty
-    private List<PermissionUrl> matchUrls = new ArrayList<>();
-
-    @Data
-    public static class PermissionUrl {
-        private String matchUrl;
-        private Integer sortNo;
-    }
 }

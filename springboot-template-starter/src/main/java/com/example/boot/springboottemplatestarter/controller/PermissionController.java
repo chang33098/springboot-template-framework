@@ -4,7 +4,6 @@ import com.example.boot.springboottemplatedomain.permission.payload.CreatePermis
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
 import com.example.boot.springboottemplatedomain.permission.response.ModifyPermissionRO;
 import com.example.boot.springboottemplatedomain.permission.response.PermissionFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
@@ -70,9 +69,8 @@ public class PermissionController {
     @GetMapping(value = "modify/{permission_id}")
     public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId, Model model) {
         SystemPermission permission = permissionService.getPermissionById(permissionId);
-        List<SystemPermissionUrl> permissionUrls = permissionService.getPermissionsByPermissionId(permissionId);
 
-        ModifyPermissionRO permissionRO = ModifyPermissionRO.createPermissionRO(permission, permissionUrls);
+        ModifyPermissionRO permissionRO = ModifyPermissionRO.createPermissionRO(permission);
         model.addAttribute("permission", permissionRO);
 
         return "system/permission/permission_modify";

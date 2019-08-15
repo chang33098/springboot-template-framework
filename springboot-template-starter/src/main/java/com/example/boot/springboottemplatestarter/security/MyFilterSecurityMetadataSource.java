@@ -1,6 +1,5 @@
 package com.example.boot.springboottemplatestarter.security;
 
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -35,20 +34,22 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
         this.permissionService = permissionService;
     }
 
+    // TODO: 2019/8/15 fix it!!!
+
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
-        if (!permissionUrls.isEmpty()) {
-
-            permissionUrls.forEach(permissionUrl -> {
-                List<ConfigAttribute> configs = (List<ConfigAttribute>) Stream.builder().add(new SecurityConfig(
-                        permissionUrl.getPermission().getPage().getCode() +
-                        "_" +
-                        permissionUrl.getPermission().getCode()));
-                resourceMap.put(permissionUrl.getMatchUrl(), configs);
-            });
-        }
+//        List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
+//        if (!permissionUrls.isEmpty()) {
+//
+//            permissionUrls.forEach(permissionUrl -> {
+//                List<ConfigAttribute> configs = (List<ConfigAttribute>) Stream.builder().add(new SecurityConfig(
+//                        permissionUrl.getPermission().getPage().getCode() +
+//                        "_" +
+//                        permissionUrl.getPermission().getCode()));
+//                resourceMap.put(permissionUrl.getMatchUrl(), configs);
+//            });
+//        }
     }
 
     @Override

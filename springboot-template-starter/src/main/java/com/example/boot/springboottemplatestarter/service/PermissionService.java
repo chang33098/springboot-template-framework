@@ -4,10 +4,7 @@ import com.example.boot.springboottemplatedomain.permission.payload.CreatePermis
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermissionUrl;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * write this class description...
@@ -21,18 +18,9 @@ public interface PermissionService {
 
     SystemPermission getPermissionById(Long permissionId);
 
-    List<SystemPermissionUrl> getPermissionsByPermissionId(Long permissionId);
-
     void createPermission(CreatePermissionPLO plo);
 
     void modifyPermission(Long permissionId, ModifyPermissionPLO plo);
 
     void deletePermission(Long permissionId);
-
-    /**
-     * [spring security] 获取所有的权限拦截的URL
-     *
-     * @return
-     */
-    List<SystemPermissionUrl> securityGetAllPermissionUrl();
 }

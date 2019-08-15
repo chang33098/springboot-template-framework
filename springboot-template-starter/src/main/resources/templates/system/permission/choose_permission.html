@@ -113,11 +113,9 @@
                         layer.msg('请选择关联权限', {icon: '5'});
                         return;
                     }
-
-                    console.info(data);
-
                     parent.layui.table.reload('data-table');
                     parent.layer.close(index);
+                    parent.choosePermissionCallback(data);
                 });
             }
         };
