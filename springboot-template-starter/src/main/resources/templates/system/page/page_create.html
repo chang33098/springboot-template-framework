@@ -58,9 +58,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">页面权限</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="" title="权限1" checked>
-            <input type="checkbox" name="" title="权限2">
-            <input type="checkbox" name="" title="权限3">
+            <input type="hidden" id="permission-data">
+            <!--<input type="checkbox" name="" title="权限1" checked>-->
+            <!--<input type="checkbox" name="" title="权限2">-->
+            <!--<input type="checkbox" name="" title="权限3">-->
             <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
         </div>
     </div>
@@ -100,48 +101,18 @@
     function choosePermission() {
         page.open_view({
             url: '/system/permission/choose_permission',
-            title: '添加权限',
+            title: '系统权限',
+            btn: ['添加勾选的权限', '取消'],
             yes: function (index, layero) {
-                layero.find('iframe').contents().find("#choose").click();
+                layero.find('iframe').contents().find('.check-data-btn').click();
+
+                var permissionData = $('#permission-data').val();
+                var permissions = JSON.parse(permissionData);
+
+
             }
         });
     }
-
-    function choosePermissionCallback(data) {
-        console.info('callback success!');
-        console.info(data);
-    }
-//
-//    /* todo 寻找更优的解决方案 */
-//
-//    function getPermissionInfo(data) {
-//        var permissionInfo = JSON.parse(data);
-//
-//        var divId = new Date().getTime();
-//
-//        var permission = $('#template').clone();
-//        permission.css('display', 'block');
-//
-//        permission.attr('id', 'permission-' + divId);
-//
-//        permission.find('input[name="permissionInfo"]').val(data);
-//        permission.find('input[name="permissionName"]').val(permissionInfo.name);
-//
-//        permission.find('button').attr('click', 'delPermissionInfo("' + divId + '")');
-//
-//        $('.permission-info:last').after(permission);
-//        form.render();
-//    }
-//
-//    function delPermissionInfo(id) {
-//        var length = $('.permission-url').length;
-//        if (length <= 1) {
-//            layer.msg('至少拦截一个地址');
-//            return;
-//        }
-//
-//        $('#permission-' + id).remove();
-//    }
 </script>
 </body>
 </html>

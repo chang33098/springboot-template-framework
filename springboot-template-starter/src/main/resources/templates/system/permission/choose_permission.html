@@ -22,7 +22,6 @@
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
-
             <div class="layui-card">
                 <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                     <div class="layui-card-header">查询条件</div>
@@ -57,19 +56,17 @@
                     </div>
                 </div>
             </div>
-
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div style="padding-bottom: 10px;">
-                        <button id="choose" class="layui-btn layuiadmin-btn-list" data-type="choose">
-                            <i class="layui-icon layui-icon-add-1"></i>确认选择
+                        <button type="button" class="layui-btn layuiadmin-btn-list check-data-btn"
+                                onclick="getCheckData()" style="display: none;">隐藏按钮
                         </button>
                     </div>
 
                     <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -105,25 +102,20 @@
             ]
         });
 
-        var active = {
-            choose: function () {
-                layer.confirm('确认选择?', function (index) {
-                    var checkStatus = table.checkStatus('permission-table'), data = checkStatus.data;
-                    if (data.length < 1) {
-                        layer.msg('请选择关联权限', {icon: '5'});
-                        return;
-                    }
-                    parent.layui.table.reload('data-table');
-                    parent.layer.close(index);
-                    parent.choosePermissionCallback(data);
-                });
-            }
-        };
-        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
     });
+
+    function getCheckData() {
+        var checkStatus = table.checkStatus('permission-table'), data = checkStatus.data;
+        if (data.length < 1) {
+            layer.msg('请勾选对应的权限信息', {icon: 5});
+            return;
+        }
+
+        parent.$('#permission-data').val(JSON.stringify(data));
+
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
 </script>
 </body>
 </html>

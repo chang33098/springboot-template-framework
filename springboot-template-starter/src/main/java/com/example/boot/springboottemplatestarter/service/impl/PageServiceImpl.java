@@ -6,6 +6,7 @@ import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
+import com.example.boot.springboottemplatestarter.repository.PagePermissionRefRepository;
 import com.example.boot.springboottemplatestarter.repository.PageRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +34,12 @@ import java.util.List;
 public class PageServiceImpl implements PageService {
 
     private final PageRepository pageRepository;
+    private final PagePermissionRefRepository pagePermissionRefRepository;
 
     @Autowired
-    public PageServiceImpl(PageRepository pageRepository) {
+    public PageServiceImpl(PageRepository pageRepository, PagePermissionRefRepository pagePermissionRefRepository) {
         this.pageRepository = pageRepository;
+        this.pagePermissionRefRepository = pagePermissionRefRepository;
     }
 
     @Override
