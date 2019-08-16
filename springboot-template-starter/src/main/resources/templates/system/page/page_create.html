@@ -28,7 +28,7 @@
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="code" lay-verify="required" placeholder="模块代码"
-                       class="layui-input">
+                       class="layui-input" style="font-family: Consolas,serif;">
             </div>
             <div class="layui-form-mid layui-word-aux">所在模块的英文代码(只允许输入大写英文和下划线)</div>
         </div>
@@ -38,7 +38,7 @@
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="url" lay-verify="required" placeholder="页面访问URL"
-                       class="layui-input">
+                       class="layui-input" style="font-family: Consolas,serif;">
             </div>
             <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
         </div>
@@ -63,7 +63,7 @@
         </div>
     </div>
     <!-- 设置拦截的url -->
-    <div id="template" class="layui-form-item layui-row layui-col-space10" style="display: none;">
+    <div id="template" class="layui-form-item layui-row layui-col-space10 page-permission" style="display: none;">
         <div class="layui-col-md2" style="width: auto;">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
@@ -73,7 +73,7 @@
         <div class="layui-col-lg5">
             <label class="layui-form-label">拦截的URL</label>
             <div class="layui-input-block">
-                <input type="text" name="interceptUrls" class="layui-input">
+                <input type="text" name="interceptUrls" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input" style="font-family: Consolas,serif;">
             </div>
         </div>
     </div>
@@ -84,7 +84,6 @@
                 <div class="layui-form-mid layui-word-aux">请添加页面所需的权限信息</div>
             </div>
         </div>
-
         <!-- 添加后的权限信息显示在此处 -->
     </div>
     <div class="layui-form-item layui-hide">
@@ -101,10 +100,10 @@
         form = layui.form;
 
         form.on('submit(submit)', function (data) {
-            var field = data.field; //表单参数
             var index = parent.layer.getFrameIndex(window.name);
 
-            packaging(); //数据打包
+            var field = data.field;
+            field.pagePermissions = packaging();
 
             page.async_request({
                 url: '/system/page/create',
@@ -123,10 +122,27 @@
     });
 
     function packaging() {
+        var permissions = [];
+        $('#page-permission-div').find('.page-permission').each(function () {
+            if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
+                var permission = {};
+                permission.permissionId = $(this).find('input[name="permissionId"]').val();
+                permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
+                permissions.push(permission);
+            }
+        });
 
+        return permissions;
     }
 
     function choosePermission() {
+        var url = $('input[name="url"]').val();
+        if (url === '') {
+            layer.msg('请添加页面的访问url');
+            return;
+        }
+        if (url.substr(url.length - 1) !== '/') url = url + '/';
+
         page.open_view({
             url: '/system/permission/choose_permission',
             title: '系统权限',
@@ -144,8 +160,10 @@
                         filter.push(val.code);
 
                         var div = $('#template').clone();
+                        div.attr('id', '');
                         div.css('display', 'block');
                         div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
+                        div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
 
                         $('#page-permission-div').append(div);
                     }

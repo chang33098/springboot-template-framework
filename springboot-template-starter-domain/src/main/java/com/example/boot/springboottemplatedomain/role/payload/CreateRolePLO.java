@@ -15,8 +15,4 @@ public class CreateRolePLO {
     private String name;
     @NotNull
     private String description;
-
-    public static class Permission {
-
-    }
 }

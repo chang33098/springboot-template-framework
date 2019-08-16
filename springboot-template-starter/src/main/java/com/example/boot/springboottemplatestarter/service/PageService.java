@@ -3,8 +3,11 @@ package com.example.boot.springboottemplatestarter.service;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * write this class description...
@@ -17,6 +20,8 @@ public interface PageService {
     Page<SystemPage> findAllPage(FindAllPagePLO plo);
 
     SystemPage getPageById(Long pageId);
+
+    List<PagePermissionRef> getPagePermissionsById(Long pageId);
 
     void createPage(CreatePagePLO plo);
 

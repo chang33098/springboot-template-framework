@@ -12,6 +12,9 @@
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="page-id" th:value="${page.id}">
 
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>模块信息</legend>
+    </fieldset>
     <div class="layui-form-item">
         <label class="layui-form-label">页面名称</label>
         <div class="layui-col-md6">
@@ -27,9 +30,9 @@
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="code" th:value="${page.code}" lay-verify="required" placeholder="模块代码"
-                       class="layui-input">
+                       class="layui-input" style="font-family: Consolas,serif;">
             </div>
-            <div class="layui-form-mid layui-word-aux">所在模块的英文代码(只允许输入英文和下划线)</div>
+            <div class="layui-form-mid layui-word-aux">所在模块的英文代码(只允许输入大写英文和下划线)</div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -37,7 +40,7 @@
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="url" th:value="${page.url}" lay-verify="required" placeholder="页面访问URL"
-                       class="layui-input">
+                       class="layui-input" style="font-family: Consolas,serif;">
             </div>
             <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
         </div>
@@ -51,6 +54,54 @@
         </div>
     </div>
 
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>模块权限</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">页面权限</label>
+        <div class="layui-input-block">
+            <input type="hidden" id="permission-data">
+            <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
+        </div>
+    </div>
+    <!-- 设置拦截的url -->
+    <div id="template" class="layui-form-item layui-row layui-col-space10 page-permission" style="display: none;">
+        <div class="layui-col-md2" style="width: auto;">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="permissionId" title="权限1" checked>
+            </div>
+        </div>
+        <div class="layui-col-lg5">
+            <label class="layui-form-label">拦截的URL</label>
+            <div class="layui-input-block">
+                <input type="text" name="interceptUrls" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input" style="font-family: Consolas,serif;">
+            </div>
+        </div>
+    </div>
+    <div id="page-permission-div">
+        <div id="blank-tips" class="layui-form-item" th:styleappend="${#lists.isEmpty(page.pagePermissions) ? '' : 'display: none;'}">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <div class="layui-form-mid layui-word-aux">请添加页面所需的权限信息</div>
+            </div>
+        </div>
+        <!-- 添加后的权限信息显示在此处 -->
+        <div th:each="permission : ${page.pagePermissions}" class="layui-form-item layui-row layui-col-space10 page-permission">
+            <div class="layui-col-md2" style="width: auto;">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="permissionId" th:value="${permission.permissionId}" th:title="${permission.permissionName}" checked>
+                </div>
+            </div>
+            <div class="layui-col-lg5">
+                <label class="layui-form-label">拦截的URL</label>
+                <div class="layui-input-block">
+                    <input type="text" name="interceptUrls" th:value="${permission.interceptUrls}" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input" style="font-family: Consolas,serif;">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="submit" id="submit"
                value="添加">
@@ -58,20 +109,23 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
+    var filter = [];
     var form;
 
     layui.use(['form', 'laydate', 'upload'], function () {
         form = layui.form;
 
         form.on('submit(submit)', function (data) {
-            var field = data.field; //表单参数
             var index = parent.layer.getFrameIndex(window.name);
+
+            var field = data.field;
+            field.pagePermissions = packaging();
 
             var pageId = $('#page-id').val();
 
             page.async_request({
                 url: '/system/page/modify/' + pageId,
-                type: 'post',
+                type: 'put',
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
@@ -83,7 +137,60 @@
                 }
             })
         });
-    })
+    });
+
+    function packaging() {
+        var permissions = [];
+        $('#page-permission-div').find('.page-permission').each(function () {
+            if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
+                var permission = {};
+                permission.permissionId = $(this).find('input[name="permissionId"]').val();
+                permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
+                permissions.push(permission);
+            }
+        });
+
+        return permissions;
+    }
+
+    function choosePermission() {
+        var url = $('input[name="url"]').val();
+        if (url === '') {
+            layer.msg('请添加页面的访问url');
+            return;
+        }
+        if (url.substr(url.length - 1) !== '/') url = url + '/';
+
+        page.open_view({
+            url: '/system/permission/choose_permission',
+            title: '系统权限',
+            btn: ['添加勾选的权限', '取消'],
+            yes: function (index, layero) {
+                layero.find('iframe').contents().find('.check-data-btn').click();
+
+                $('#blank-tips').css('display', 'none');
+
+                var permissionData = $('#permission-data').val();
+                var permissions = JSON.parse(permissionData);
+
+                permissions.forEach(function (val) {
+                    if (filter.indexOf(val.code) === -1) {
+                        filter.push(val.code);
+
+                        var div = $('#template').clone();
+                        div.attr('id', '');
+                        div.css('display', 'block');
+                        div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
+                        div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
+
+                        $('#page-permission-div').append(div);
+                    }
+                });
+
+                form.render(); //重新渲染控件
+            }
+        });
+    }
 </script>
 </body>
 </html>

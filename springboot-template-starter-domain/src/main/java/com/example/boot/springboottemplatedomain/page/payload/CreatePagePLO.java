@@ -3,7 +3,10 @@ package com.example.boot.springboottemplatedomain.page.payload;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * write this class description...
@@ -26,4 +29,14 @@ public class CreatePagePLO {
     @NotNull
     @Length(max = 500)
     private String description;
+    @NotEmpty
+    private List<CreatePagePermissionPLO> pagePermissions = new ArrayList<>();
+
+    @Data
+    public static class CreatePagePermissionPLO {
+        @NotNull
+        private Long permissionId;
+        @NotNull
+        private String interceptUrls;
+    }
 }

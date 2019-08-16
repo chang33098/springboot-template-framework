@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatestarter.controller;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.page.response.FindAllPageRO;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
@@ -47,7 +48,7 @@ public class PageController {
     public Page<FindAllPageRO> findAllPage(FindAllPagePLO plo) {
         Page<SystemPage> POPAGE = pageService.findAllPage(plo);
 
-        List<FindAllPageRO> pageROS = FindAllPageRO.createPageFindAllROS(POPAGE.getContent());
+        List<FindAllPageRO> pageROS = FindAllPageRO.createFindAllPageROS(POPAGE.getContent());
         Page<FindAllPageRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ROPAGE;
@@ -68,8 +69,9 @@ public class PageController {
     @GetMapping(value = "modify/{page_id}")
     public String modifyPage(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
 
-        ModifyPageRO pageRO = ModifyPageRO.transferPageRO(page);
+        ModifyPageRO pageRO = ModifyPageRO.createModifyPageRO(page, permissionRefs);
         model.addAttribute("page", pageRO);
 
         return "system/page/page_modify";

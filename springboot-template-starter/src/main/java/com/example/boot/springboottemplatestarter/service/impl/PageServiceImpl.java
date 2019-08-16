@@ -4,11 +4,14 @@ import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.PagePermissionRefRepository;
 import com.example.boot.springboottemplatestarter.repository.PageRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
+import com.example.boot.springboottemplatestarter.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,10 +39,13 @@ public class PageServiceImpl implements PageService {
     private final PageRepository pageRepository;
     private final PagePermissionRefRepository pagePermissionRefRepository;
 
+    private final PermissionService permissionService;
+
     @Autowired
-    public PageServiceImpl(PageRepository pageRepository, PagePermissionRefRepository pagePermissionRefRepository) {
+    public PageServiceImpl(PageRepository pageRepository, PagePermissionRefRepository pagePermissionRefRepository, PermissionService permissionService) {
         this.pageRepository = pageRepository;
         this.pagePermissionRefRepository = pagePermissionRefRepository;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -67,13 +73,28 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public List<PagePermissionRef> getPagePermissionsById(Long pageId) {
+        return pagePermissionRefRepository.findAllByPageId(pageId);
+    }
+
+    @Override
     public void createPage(CreatePagePLO plo) {
         SystemPage page = new SystemPage();
         BeanUtil.copyProperties(plo, page);
 
         page.setCreateTime(new Timestamp(System.currentTimeMillis()));
-
         pageRepository.save(page);
+
+        plo.getPagePermissions().forEach(pagePermission -> {
+            PagePermissionRef ref = new PagePermissionRef();
+
+            SystemPermission permission = permissionService.getPermissionById(pagePermission.getPermissionId());
+            ref.setPermission(permission);
+            ref.setInterceptUrls(pagePermission.getInterceptUrls());
+            ref.setPage(page);
+
+            pagePermissionRefRepository.save(ref);
+        });
     }
 
     @Override
@@ -82,12 +103,23 @@ public class PageServiceImpl implements PageService {
             log.error("页面ID [{}] 不存在", pageId);
             return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
         });
-
         BeanUtil.copyProperties(plo, page);
 
         page.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-
         pageRepository.save(page);
+
+        pagePermissionRefRepository.deleteAllByPageId(pageId); //删除旧关联
+
+        plo.getPagePermissions().forEach(pagePermission -> {
+            PagePermissionRef ref = new PagePermissionRef();
+
+            SystemPermission permission = permissionService.getPermissionById(pagePermission.getPermissionId());
+            ref.setPermission(permission);
+            ref.setInterceptUrls(pagePermission.getInterceptUrls());
+            ref.setPage(page);
+
+            pagePermissionRefRepository.save(ref);
+        });
     }
 
     @Override
@@ -97,6 +129,7 @@ public class PageServiceImpl implements PageService {
             return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
         });
 
+        pagePermissionRefRepository.deleteAllByPageId(pageId);
         pageRepository.delete(page);
     }
 }
