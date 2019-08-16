@@ -10,7 +10,7 @@
 </head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
-    <input type="hidden" id="pageId" th:value="${page.id}">
+    <input type="hidden" id="page-id" th:value="${page.id}">
 
     <div class="layui-form-item">
         <label class="layui-form-label">页面名称</label>
@@ -67,7 +67,7 @@
             var field = data.field; //表单参数
             var index = parent.layer.getFrameIndex(window.name);
 
-            var pageId = $('#pageId').val();
+            var pageId = $('#page-id').val();
 
             page.async_request({
                 url: '/system/page/modify/' + pageId,

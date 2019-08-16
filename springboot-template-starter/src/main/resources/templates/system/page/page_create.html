@@ -59,31 +59,34 @@
         <label class="layui-form-label">页面权限</label>
         <div class="layui-input-block">
             <input type="hidden" id="permission-data">
-            <!-- 除了选择关联的权限以外, 还需添加权限拦截的URL -->
-
-            <!--<input type="checkbox" name="" title="权限1">-->
-            <!--<input type="checkbox" name="" title="权限2">-->
-            <!--<input type="checkbox" name="" title="权限3">-->
             <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
         </div>
     </div>
-
     <!-- 设置拦截的url -->
-    <div class="layui-form-item layui-row layui-col-space10">
-        <div class="layui-col-lg3">
+    <div id="template" class="layui-form-item layui-row layui-col-space10" style="display: none;">
+        <div class="layui-col-md2" style="width: auto;">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
-                <input type="checkbox" name="" title="权限1">
+                <input type="checkbox" name="permissionId" title="权限1" checked>
             </div>
         </div>
-        <div class="layui-col-lg9">
-            <label class="layui-form-label"></label>
+        <div class="layui-col-lg5">
+            <label class="layui-form-label">拦截的URL</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input">
+                <input type="text" name="interceptUrls" class="layui-input">
             </div>
         </div>
     </div>
+    <div id="page-permission-div">
+        <div id="blank-tips" class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <div class="layui-form-mid layui-word-aux">请添加页面所需的权限信息</div>
+            </div>
+        </div>
 
+        <!-- 添加后的权限信息显示在此处 -->
+    </div>
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="submit" id="submit"
                value="添加">
@@ -131,13 +134,20 @@
             yes: function (index, layero) {
                 layero.find('iframe').contents().find('.check-data-btn').click();
 
+                $('#blank-tips').css('display', 'none');
+
                 var permissionData = $('#permission-data').val();
                 var permissions = JSON.parse(permissionData);
 
-                permissions.each(function () {
-                    if (filter.indexOf($(this).code) !== -1) {
-                        filter.push($(this).code);
-                        $('#permission-data').after('<input type="checkbox" name="permissionId" title="' + $(this).name + '">');
+                permissions.forEach(function (val) {
+                    if (filter.indexOf(val.code) === -1) {
+                        filter.push(val.code);
+
+                        var div = $('#template').clone();
+                        div.css('display', 'block');
+                        div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
+
+                        $('#page-permission-div').append(div);
                     }
                 });
 
