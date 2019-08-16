@@ -59,10 +59,21 @@
         <label class="layui-form-label">页面权限</label>
         <div class="layui-input-block">
             <input type="hidden" id="permission-data">
-            <!--<input type="checkbox" name="" title="权限1" checked>-->
+            <!-- 除了选择关联的权限以外, 还需添加权限拦截的URL -->
+
+            <!--<input type="checkbox" name="" title="权限1">-->
             <!--<input type="checkbox" name="" title="权限2">-->
             <!--<input type="checkbox" name="" title="权限3">-->
             <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
+        </div>
+    </div>
+
+    <!-- 设置拦截的url -->
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="" title="权限1">
+
         </div>
     </div>
 
@@ -73,6 +84,7 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
+    var filter = [];
     var form;
 
     layui.use(['form', 'laydate', 'upload'], function () {
@@ -81,6 +93,8 @@
         form.on('submit(submit)', function (data) {
             var field = data.field; //表单参数
             var index = parent.layer.getFrameIndex(window.name);
+
+            packaging(); //数据打包
 
             page.async_request({
                 url: '/system/page/create',
@@ -98,6 +112,10 @@
         });
     });
 
+    function packaging() {
+
+    }
+
     function choosePermission() {
         page.open_view({
             url: '/system/permission/choose_permission',
@@ -109,7 +127,14 @@
                 var permissionData = $('#permission-data').val();
                 var permissions = JSON.parse(permissionData);
 
+                permissions.each(function () {
+                    if (filter.indexOf($(this).code) !== -1) {
+                        filter.push($(this).code);
+                        $('#permission-data').after('<input type="checkbox" name="permissionId" title="' + $(this).name + '">');
+                    }
+                });
 
+                form.render(); //重新渲染控件
             }
         });
     }
