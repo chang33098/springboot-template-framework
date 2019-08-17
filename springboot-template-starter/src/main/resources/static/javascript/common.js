@@ -6,6 +6,7 @@ var page = {
             url: domain + option.url,
             toolbar: false,
             defaultToolbar: [],
+            cellMinWidth: 80,
             title: option.title,
             page: true,
             loading: true,

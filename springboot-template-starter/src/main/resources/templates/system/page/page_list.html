@@ -37,7 +37,7 @@
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button id="form-search" class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-submit lay-filter="form-search">
                                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
                                 </button>
                                 <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
@@ -52,16 +52,17 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div style="padding-bottom: 10px;">
-                        <button class="layui-btn layuiadmin-btn-list" data-type="create">
-                            <i class="layui-icon layui-icon-add-1"></i>添加页面
-                        </button>
+                        <button class="layui-btn layui-btn-normal layuiadmin-btn-list" data-type="create">添加页面</button>
                     </div>
 
                     <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
 
                     <script type="text/html" id="table-toolbar">
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="modify">
+                        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modify">
                             <i class="layui-icon layui-icon-edit"></i>编辑
+                        </a>
+                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">
+                            <i class="layui-icon layui-icon-form"></i>详情
                         </a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
                             <i class="layui-icon layui-icon-delete"></i>删除
@@ -102,18 +103,27 @@
                 {title: '作用描述', field: 'description'},
                 {title: '创建时间', field: 'createTime'},
                 {title: '更新时间', field: 'updateTime'},
-                {title: '操作', fixed: 'right', toolbar: '#table-toolbar', width: 150}
+                {title: '操作', toolbar: '#table-toolbar'}
             ],
             event: function (obj) {
                 var data = obj.data;
-                if (obj.event === 'delete') {
-                    layer.confirm('真的删除行么', function (index) {
-                        deletePage(data.id);
-                    });
-                } else if (obj.event === 'modify') {
+                if (obj.event === 'modify') {
                     page.open_view({
                         url: '/system/page/modify/' + data.id,
                         title: '编辑'
+                    });
+                } else if (obj.event === 'detail') {
+                    page.open_view({
+                        url: '/system/page/detail/' + data.id,
+                        title: '详情',
+                        btn: ['返回'],
+                        yes: function (index) {
+                            layer.close(index);
+                        }
+                    });
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function () {
+                        deletePage(data.id);
                     });
                 }
             }

@@ -7,6 +7,7 @@ import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionR
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.page.response.FindAllPageRO;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
+import com.example.boot.springboottemplatedomain.page.response.PageDetailRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,17 @@ public class PageController {
         Page<FindAllPageRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ROPAGE;
+    }
+
+    @GetMapping(value = "detail/{page_id}")
+    public String pageDetail(@PathVariable(value = "page_id") Long pageId, Model model) {
+        SystemPage page = pageService.getPageById(pageId);
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
+
+        PageDetailRO detailRO = PageDetailRO.createPageDetailRO(page, permissionRefs);
+        model.addAttribute("page", detailRO);
+
+        return "system/page/page_detail";
     }
 
     @GetMapping(value = "create")
