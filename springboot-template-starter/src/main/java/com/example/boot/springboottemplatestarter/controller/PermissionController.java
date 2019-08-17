@@ -4,8 +4,8 @@ import com.example.boot.springboottemplatedomain.permission.payload.CreatePermis
 import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
+import com.example.boot.springboottemplatedomain.permission.response.FindAllPermissionRO;
 import com.example.boot.springboottemplatedomain.permission.response.ModifyPermissionRO;
-import com.example.boot.springboottemplatedomain.permission.response.PermissionFindAllRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +44,14 @@ public class PermissionController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public Page<PermissionFindAllRO> findAllPermission(FindAllPermissionPLO plo) {
+    public ResponseBodyBean<Page<FindAllPermissionRO>> findAllPermission(FindAllPermissionPLO plo) {
         Page<SystemPermission> permissionPage = permissionService.findAllPermission(plo);
 
-        List<PermissionFindAllRO> permissionROS = PermissionFindAllRO.createPermissionFindAllROS(permissionPage.getContent());
-        Page<PermissionFindAllRO> permissionROPage = new PageImpl<>(permissionROS,
+        List<FindAllPermissionRO> permissionROS = FindAllPermissionRO.createFindAllPermissionROS(permissionPage.getContent());
+        Page<FindAllPermissionRO> permissionROPage = new PageImpl<>(permissionROS,
                 permissionPage.getPageable(), permissionPage.getTotalElements());
 
-        return permissionROPage;
+        return ResponseBodyBean.ofSuccess(permissionROPage);
     }
 
     @GetMapping(value = "create")
@@ -70,7 +70,7 @@ public class PermissionController {
     public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId, Model model) {
         SystemPermission permission = permissionService.getPermissionById(permissionId);
 
-        ModifyPermissionRO permissionRO = ModifyPermissionRO.createPermissionRO(permission);
+        ModifyPermissionRO permissionRO = ModifyPermissionRO.createModifyPermissionRO(permission);
         model.addAttribute("permission", permissionRO);
 
         return "system/permission/permission_modify";

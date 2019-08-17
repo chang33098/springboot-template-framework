@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
@@ -57,6 +58,10 @@ public class PageServiceImpl implements PageService {
 
         Page<SystemPage> page = pageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
+            if (!StringUtils.isEmpty(plo.getName())) {
+                list.add(criteriaBuilder.like(root.get("name").as(String.class), "%" + plo.getName() + "%"));
+            }
+
             Predicate[] predicates = new Predicate[list.size()];
             return criteriaQuery.where(list.toArray(predicates)).getRestriction();
         }, pageable);

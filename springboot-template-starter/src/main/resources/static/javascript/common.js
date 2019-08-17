@@ -17,8 +17,8 @@ var page = {
                 return {
                     'code': '0',
                     'msg': '加载成功',
-                    'data': result.content,
-                    'count': result.totalElements
+                    'data': result.data.content,
+                    'count': result.data.totalElements
                 };
             },
             request: {

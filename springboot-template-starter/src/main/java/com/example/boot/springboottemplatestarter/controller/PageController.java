@@ -46,13 +46,13 @@ public class PageController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public Page<FindAllPageRO> findAllPage(FindAllPagePLO plo) {
+    public ResponseBodyBean<Page<FindAllPageRO>> findAllPage(FindAllPagePLO plo) {
         Page<SystemPage> POPAGE = pageService.findAllPage(plo);
 
         List<FindAllPageRO> pageROS = FindAllPageRO.createFindAllPageROS(POPAGE.getContent());
         Page<FindAllPageRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
-        return ROPAGE;
+        return ResponseBodyBean.ofSuccess(ROPAGE);
     }
 
     @GetMapping(value = "detail/{page_id}")

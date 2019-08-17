@@ -1,10 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/common_header::header(~{::title})">
+    <meta charset="utf-8">
+    <title>springboot-template-framework</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/layuiadmin/style/admin.css" media="all">
 </head>
 <body>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>组件</cite></a>
+        <a><cite>数据表格</cite></a>
+        <a><cite>开启头部工具栏</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
 
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-card-header">查询条件</div>
+                    <div class="layui-card-body layui-row layui-col-space10">
+                        <div class="layui-col-md3">
+                            <label class="layui-form-label">角色名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" placeholder="角色名称"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
+                                </button>
+                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
+                                    <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i> 重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layui-btn-normal layuiadmin-btn-list" data-type="create">添加页面</button>
+                    </div>
+
+                    <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
+
+                    <script type="text/html" id="table-toolbar">
+                        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modify">
+                            <i class="layui-icon layui-icon-edit"></i>编辑
+                        </a>
+                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">
+                            <i class="layui-icon layui-icon-form"></i>详情
+                        </a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
+                            <i class="layui-icon layui-icon-delete"></i>删除
+                        </a>
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="common/common_footer::footer"></footer>
+<script type="text/javascript" th:inline="javascript">
+    var form, table, laydate;
+
+    layui.use(['form', 'table', 'laydate'], function () {
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        form.on('submit(form-search)', function (data) {
+            var field = data.field;
+            table.reload('data-table', {
+                where: field
+            });
+        });
+
+        page.init_table({
+            table: table,
+            title: '系统页面',
+            url: '/system/role/list',
+            elem: '#data-table',
+            cols: [
+                {type: 'checkbox', fixed: 'left', field: 'id', title: 'id'},
+                {title: '角色名称', field: 'name'},
+                {title: '作用描述', field: 'description'},
+                {title: '创建时间', field: 'createTime'},
+                {title: '修改时间', field: 'updateTime'},
+                {title: '操作', toolbar: '#table-toolbar'}
+            ],
+            event: function (obj) {
+                var data = obj.data;
+                if (obj.event === 'modify') {
+                    page.open_view({
+                        url: '/system/role/modify/' + data.id,
+                        title: '编辑'
+                    });
+                } else if (obj.event === 'detail') {
+                    page.open_view({
+                        url: '/system/role/detail/' + data.id,
+                        title: '详情',
+                        btn: ['返回'],
+                        yes: function (index) {
+                            layer.close(index);
+                        }
+                    });
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function () {
+                        page.async_request({
+                            url: '/system/role/delete/' + id,
+                            type: 'delete',
+                            success: function (result) {
+                                layer.msg(result.message, {icon: 1});
+                                $('#form-search').click();
+                            }
+                        });
+                    });
+                }
+            }
+        });
+
+        var active = {
+            create: function () {
+                page.open_view({
+                    url: '/system/role/create',
+                    title: '添加'
+                });
+            }
+        };
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+</script>
 </body>
 </html>

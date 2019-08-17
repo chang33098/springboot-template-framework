@@ -22,19 +22,12 @@ public class FindAllPermissionRO {
     private String name;
     private String code;
     private String description;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
-    /**
-     * Create FindAllPermissionRO List. Transfer PO to the RO.
-     *
-     * @param permissions PermissionPO List
-     * @return FindAllPermissionRO
-     */
-    public static List<FindAllPermissionRO> createPermissionFindAllROS(List<SystemPermission> permissions) {
+    public static List<FindAllPermissionRO> createFindAllPermissionROS(List<SystemPermission> permissions) {
         List<FindAllPermissionRO> permissionROS = new ArrayList<>(permissions.size());
 
         permissions.forEach(permission -> {
