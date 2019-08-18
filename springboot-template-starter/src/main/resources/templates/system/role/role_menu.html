@@ -9,56 +9,64 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
-<form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+<form class="layui-form" id="form" lay-filter="form" style="padding: 20px;">
     <input type="hidden" id="role-id">
 
     <div class="layui-row layui-col-space15">
         <div class="layui-btn-container">
             <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">添加一级菜单</button>
         </div>
-        <div class="layui-col-md3">
+        <div class="layui-col-md4">
             <div class="layui-card">
                 <div class="layui-card-header">菜单</div>
                 <div class="layui-card-body">
-                    <div id="menu-tree" class="demo-tree-more layui-col-lg2"></div>
+                    <div id="menu-tree" class="demo-tree-more layui-col-lg2" style="float: none;"></div>
                 </div>
             </div>
         </div>
-        <div class="layui-col-md6">
+        <div class="layui-col-md8">
             <div class="layui-card">
                 <div class="layui-card-header">权限</div>
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">菜单图标：</label>
+                            <label class="layui-form-label">菜单图标</label>
                             <div class="layui-input-block">
                                 <input type="text" name="icon" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">菜单名称：</label>
+                            <label class="layui-form-label">菜单名称</label>
                             <div class="layui-input-block">
                                 <input type="text" name="menuName" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">链接页面：</label>
+                            <label class="layui-form-label">链接页面</label>
                             <div class="layui-input-block">
-                                <button type="button" class="layui-btn layui-btn-primary">选择页面</button>
+                                <button type="button" onclick="choosePage()" class="layui-btn layui-btn-primary">选择页面</button>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">页面信息</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" value="页面名称、页面代码等信息">
+                            <!--<label class="layui-form-label">页面信息</label>-->
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="text" class="layui-input" style="color: #999;" placeholder="请选择链接页面" readonly>-->
+                            <!--</div>-->
+                            <div class="layui-inline notchoose-tips">
+                                <label class="layui-form-label">页面信息</label>
+                                <div class="layui-input-inline">
+                                    <div class="layui-form-mid layui-word-aux ">设置页面的相对路径</div>
+                                </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单权限</label>
                             <div class="layui-input-block">
-                                <input type="checkbox" name="like[write]" title="写作">
-                                <input type="checkbox" name="like[read]" title="阅读" checked>
-                                <input type="checkbox" name="like[dai]" title="发呆">
+                                <div class="layui-form-mid layui-word-aux notchoose-tips">设置页面的相对路径</div>
+
+                                <!--<input type="checkbox" name="like[write]" title="写作">-->
+                                <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
+                                <!--<input type="checkbox" name="like[dai]" title="发呆">-->
                             </div>
                         </div>
 
@@ -156,6 +164,10 @@
             data: data1,
         });
     });
+
+    function choosePage() {
+
+    }
 </script>
 </body>
 </html>

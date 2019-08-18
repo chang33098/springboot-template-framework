@@ -103,7 +103,13 @@
             ],
             event: function (obj) {
                 var data = obj.data;
-                if (obj.event === 'modify') {
+
+                if (obj.event === 'role-menu') {
+                    page.open_view({
+                        url: '/system/role/modify/' + data.id + '/menu',
+                        title: '角色菜单'
+                    });
+                } else if (obj.event === 'modify') {
                     page.open_view({
                         url: '/system/role/modify/' + data.id,
                         title: '编辑'
