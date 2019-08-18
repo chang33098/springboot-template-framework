@@ -71,10 +71,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public SystemPage getPageById(Long pageId) {
-        return pageRepository.findById(pageId).orElseThrow(() -> {
-            log.error("页面ID [{}] 不存在", pageId);
-            return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
-        });
+        return pageRepository.findById(pageId).orElseThrow(() -> new ResourceNotFoundException("页面ID [" + pageId + "] 不存在"));
     }
 
     @Override
@@ -104,10 +101,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public void modifyPage(Long pageId, ModifyPagePLO plo) {
-        SystemPage page = pageRepository.findById(pageId).orElseThrow(() -> {
-            log.error("页面ID [{}] 不存在", pageId);
-            return new ResourceNotFoundException("页面ID [" + pageId + "] 不存在");
-        });
+        SystemPage page = pageRepository.findById(pageId).orElseThrow(() -> new ResourceNotFoundException("页面ID [" + pageId + "] 不存在"));
         BeanUtil.copyProperties(plo, page);
 
         page.setUpdateTime(new Timestamp(System.currentTimeMillis()));

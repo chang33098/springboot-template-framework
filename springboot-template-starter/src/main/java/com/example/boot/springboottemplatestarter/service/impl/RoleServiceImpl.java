@@ -1,10 +1,12 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
+import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleRepository;
 import com.example.boot.springboottemplatestarter.service.RoleService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,22 +61,33 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public SystemRole getRoleById(Long roleId) {
-        return null;
+        return roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
     }
 
     @Override
     public void createRole(CreateRolePLO plo) {
+        SystemRole role = new SystemRole();
+        BeanUtil.copyProperties(plo, role);
 
+        role.setCreateTime(new Timestamp(System.currentTimeMillis()));
+
+        roleRepository.save(role);
     }
 
     @Override
-    public void modifyRole(ModifyRolePLO plo) {
+    public void modifyRole(Long roleId, ModifyRolePLO plo) {
+        SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
+        BeanUtil.copyProperties(plo, role);
 
+        role.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+        roleRepository.save(role);
     }
 
     @Override
-    public void deleteRole(Long id) {
-
+    public void deleteRole(Long roleId) {
+        SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
+        roleRepository.delete(role);
     }
 
     @Override

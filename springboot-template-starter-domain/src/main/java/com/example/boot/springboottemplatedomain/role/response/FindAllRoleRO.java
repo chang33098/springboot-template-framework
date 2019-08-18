@@ -20,6 +20,7 @@ public class FindAllRoleRO {
 
     private Long id;
     private String name;
+    private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")
     private Timestamp createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")

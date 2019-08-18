@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.role.payload;
+package com.example.boot.springboottemplatedomain.role.response;
 
 import lombok.Data;
 
@@ -6,11 +6,12 @@ import lombok.Data;
  * write this class description...
  *
  * @author Chang
- * @date 2019/8/17 17:48
+ * @date 2019/8/18 21:15
  */
 @Data
-public class ModifyRolePLO {
+public class ModifyRoleRO {
 
+    private Long id;
     private String name;
     private String description;
 }

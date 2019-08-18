@@ -20,9 +20,9 @@ public interface RoleService {
 
     void createRole(CreateRolePLO plo);
 
-    void modifyRole(ModifyRolePLO plo);
+    void modifyRole(Long roleId, ModifyRolePLO plo);
 
-    void deleteRole(Long id);
+    void deleteRole(Long roleId);
 
     /**
      * [spring security] 通过角色ID获取对应的系统菜单

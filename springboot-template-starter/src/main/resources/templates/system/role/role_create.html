@@ -10,9 +10,6 @@
 </head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>角色信息</legend>
-    </fieldset>
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-col-md6">
@@ -31,23 +28,6 @@
             </div>
         </div>
     </div>
-
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>角色菜单</legend>
-    </fieldset>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">角色描述</label>
-        <div class="layui-input-block">
-            <div class="layui-btn-container">
-                <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
-                <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
-                <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>
-            </div>
-            <div id="menu-tree" class="demo-tree-more"></div>
-        </div>
-    </div>
-
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="submit" id="submit"
@@ -68,7 +48,7 @@
             var field = data.field; //表单参数
 
             page.async_request({
-                url: '/system/permission/create',
+                url: '/system/role/create',
                 type: 'post',
                 data: JSON.stringify(field),
                 success: function (result) {
@@ -80,56 +60,6 @@
                     }
                 }
             })
-        });
-
-        var data1 = [{
-            spread: true,
-            title: '江西'
-            , id: 1
-            , children: [{
-                title: '南昌'
-                , id: 1000
-                , children: [{
-                    title: '青山湖区'
-                    , id: 10001
-                }, {
-                    title: '高新区'
-                    , id: 10002
-                }]
-            }, {
-                title: '九江'
-                , id: 1001
-            }, {
-                title: '赣州'
-                , id: 1002
-            }]
-        }, {
-            title: '广西'
-            , id: 2
-            , children: [{
-                title: '南宁'
-                , id: 2000
-            }, {
-                title: '桂林'
-                , id: 2001
-            }]
-        }, {
-            title: '陕西'
-            , id: 3
-            , children: [{
-                title: '西安'
-                , id: 3000
-            }, {
-                title: '延安'
-                , id: 3001
-            }]
-        }];
-
-        //常规用法
-        tree.render({
-            id: 'menu-tree',
-            elem: '#menu-tree',
-            data: data1,
         });
     });
 </script>
