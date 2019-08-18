@@ -69,41 +69,6 @@
             })
         });
     });
-
-//    function getPermissionUrls() {
-//        var permissionUrls = [];
-//
-//        $('.permission-url').each(function (index) {
-//            var permissionUrl = {};
-//            permissionUrl.matchUrl = $(this).find('input[name="matchUrl"]').val();
-//            permissionUrl.sortNo = (index + 1);
-//            permissionUrls.push(permissionUrl);
-//        });
-//
-//        return permissionUrls;
-//    }
-//
-//    function addPermissionUrl() {
-//        var divId = new Date().getTime();
-//
-//        var permissionUrl = $('.permission-url:first').clone();
-//        permissionUrl.attr('url-' + divId);
-//        permissionUrl.find('input[name="matchUrl"]').val('');
-//        permissionUrl.find('button').attr('click', 'delPermissionUrl("' + divId + '")');
-//
-//        $('.permission-url:last').after(permissionUrl);
-//        form.render();
-//    }
-//
-//    function delPermissionUrl(id) {
-//        var length = $('.permission-url').length;
-//        if (length <= 1) {
-//            layer.msg('至少拦截一个地址');
-//            return;
-//        }
-//
-//        $('#url-' + id).remove();
-//    }
 </script>
 </body>
 </html>

@@ -36,8 +36,9 @@ public class RoleController {
         this.roleService = roleService;
     }
 
+    @GetMapping
     public String role() {
-        return "system/role/sysrole_list";
+        return "system/role/role_list";
     }
 
     @GetMapping(value = "list")
@@ -54,7 +55,7 @@ public class RoleController {
 
     @GetMapping(value = "create")
     public String createRole(Model model) {
-        return "system/role/create";
+        return "system/role/role_create";
     }
 
     @GetMapping(value = "modify/{role_id}")

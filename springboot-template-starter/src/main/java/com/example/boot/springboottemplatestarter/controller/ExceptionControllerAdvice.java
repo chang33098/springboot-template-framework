@@ -7,6 +7,7 @@ import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundExce
 import com.example.boot.springboottemplatestarter.properties.CustomSecurityConfiguration;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.exception.base.BaseException;
+import com.google.common.collect.ImmutableBiMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -91,7 +93,48 @@ public class ExceptionControllerAdvice {
         modelAndView.setStatus(HttpStatus.NOT_FOUND);
         modelAndView.setViewName("/error/404");
 
-        modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND, exception.getMessage()));
+        modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND,
+                exception.getMessage()));
+
+        return modelAndView;
+    }
+
+    // TODO: 2019/8/18 如何在页面上打印异常信息
+
+    /**
+     * 处理thymeleaf模板抛出的[TemplateInputException]异常
+     *
+     * @param request HttpRequest
+     * @param response HttpResponse
+     * @param exception TemplateInputException
+     * @return ModelAndView
+     */
+    @ExceptionHandler(value = TemplateInputException.class)
+    public ModelAndView templateInputHandle(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            TemplateInputException exception) {
+
+        log.error("[GlobalExceptionCapture] NoHandlerFoundException: Template name = {}, Col = {}, Line = {}",
+                exception.getTemplateName(),
+                exception.getCol(),
+                exception.getLine(),
+                exception);
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        modelAndView.setViewName("/error/500");
+
+        modelAndView.getModelMap().addAttribute(
+                ResponseBodyBean.ofStatus(
+                        HttpStatus.NOT_FOUND,
+                        exception.getMessage(),
+                        ImmutableBiMap.of(
+                                "templateName", exception.getTemplateName(),
+                                "col", exception.getCol(),
+                                "line", exception.getLine()
+                        )
+                ));
 
         return modelAndView;
     }

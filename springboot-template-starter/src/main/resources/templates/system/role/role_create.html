@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/common_header::header(~{::title})">
+    <meta charset="utf-8">
+    <title>springboot-template-framework</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
+<form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>角色信息</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="name" lay-verify="required" placeholder="角色名称"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">角色的中文名称</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色描述</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+                <textarea name="description" class="layui-textarea" placeholder="角色的用途描述"></textarea>
+            </div>
+        </div>
+    </div>
 
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>角色菜单</legend>
+    </fieldset>
+
+    <div class="layui-btn-container">
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>
+    </div>
+    <div id="menu-tree" class="demo-tree-more"></div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="submit" id="submit"
+               value="添加">
+    </div>
+</form>
+<footer th:replace="common/common_footer::footer"></footer>
+<script type="text/javascript" th:inline="javascript">
+    var form, tree, util;
+
+    layui.use(['form', 'tree', 'util'], function () {
+        form = layui.form;
+        tree = layui.tree;
+        util = layui.util;
+
+        form.on('submit(submit)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field; //表单参数
+
+            page.async_request({
+                url: '/system/permission/create',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+
+        //基本演示
+        tree.render({
+            id: 'menu-tree',
+            elem: '#menu-tree',
+            isJump: true,
+            showCheckbox: true,
+            data: [
+                {
+                    title: '江西',
+                    children: [{
+                        title: '南昌',
+                        children: [{
+                            title: '高新区'
+                        }]
+                    }]
+                },
+                {
+                    title: '陕西',
+                    children: [{
+                        title: '西安'
+                    }]
+                }
+            ],
+            click: function (obj) {
+                var data = obj.data;
+                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+            }
+        });
+    });
+</script>
 </body>
 </html>
