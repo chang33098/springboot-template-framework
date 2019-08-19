@@ -61,7 +61,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 resourceHandler ->
                 registry.addResourceHandler(resourceHandler.getPathPattern()).addResourceLocations(resourceHandler.getLocation())
         );
-//        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/"); //layuiadmin的样式以及插件
     }
 
     @Override
