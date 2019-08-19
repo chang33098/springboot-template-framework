@@ -52,15 +52,19 @@ public class MyUserDetailService implements UserDetailsService {
             return new UsernameNotFoundException("User's account not found: " + username);
         });
 
-        SystemRole role = user.getRole();
-        Assert.notNull(role, "账号[{}]的系统角色为空", username);
+        // TODO: 2019/8/20 先屏蔽, 待后期数据结构完善后再做调整
 
-        List<RoleMenuRef> roleMenus = roleService.securityGetAllRoleMenuByRoleId(role.getId());
-        List<SystemPermission> permissions = roleMenus.stream()
-                .map(RoleMenuRef::getPermissions)
-                .flatMap(Collection::stream).collect(Collectors.toList()); //获取角色对应的权限信息
+//        SystemRole role = user.getRole();
+//        Assert.notNull(role, "账号[{}]的系统角色为空", username);
+//
+//        List<RoleMenuRef> roleMenus = roleService.securityGetAllRoleMenuByRoleId(role.getId());
+//        List<SystemPermission> permissions = roleMenus.stream()
+//                .map(RoleMenuRef::getPermissions)
+//                .flatMap(Collection::stream).collect(Collectors.toList()); //获取角色对应的权限信息
+//
+//        return UserPrincipal.create(user, roleMenus, permissions);
 
-        return UserPrincipal.create(user, roleMenus, permissions);
+        return null;
     }
 
     /**
