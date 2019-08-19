@@ -10,11 +10,11 @@
 </head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px;">
-    <input type="hidden" id="role-id">
+    <input type="hidden" id="role-id" th:value="${roleId}">
 
     <div class="layui-row layui-col-space15">
         <div class="layui-btn-container">
-            <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">添加一级菜单</button>
+            <button type="button" onclick="choosePage()" class="layui-btn layui-btn-sm">添加一级菜单</button>
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
@@ -26,7 +26,7 @@
         </div>
         <div class="layui-col-md8">
             <div class="layui-card">
-                <div class="layui-card-header">权限</div>
+                <div class="layui-card-header">页面信息</div>
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
                         <div class="layui-form-item">
@@ -63,7 +63,6 @@
                             <label class="layui-form-label">菜单权限</label>
                             <div class="layui-input-block">
                                 <div class="layui-form-mid layui-word-aux notchoose-tips">设置页面的相对路径</div>
-
                                 <!--<input type="checkbox" name="like[write]" title="写作">-->
                                 <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
                                 <!--<input type="checkbox" name="like[dai]" title="发呆">-->
@@ -161,7 +160,7 @@
         tree.render({
             id: 'menu-tree',
             elem: '#menu-tree',
-            data: data1,
+            data: data1
         });
     });
 

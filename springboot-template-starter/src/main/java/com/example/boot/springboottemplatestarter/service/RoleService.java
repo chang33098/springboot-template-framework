@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.service;
 
+import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
 import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
@@ -23,6 +24,8 @@ public interface RoleService {
     void modifyRole(Long roleId, ModifyRolePLO plo);
 
     void deleteRole(Long roleId);
+
+    void createRoleMenu(CreateRoleMenuPLO plo);
 
     /**
      * [spring security] 通过角色ID获取对应的系统菜单

@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.common;
+package com.example.boot.springboottemplatedomain.common.payload;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;

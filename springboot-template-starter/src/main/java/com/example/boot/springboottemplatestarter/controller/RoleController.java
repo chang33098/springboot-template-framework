@@ -1,12 +1,15 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
 import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.role.response.FindAllRoleRO;
 import com.example.boot.springboottemplatedomain.role.response.ModifyRoleRO;
+import com.example.boot.springboottemplatedomain.role.response.RoleMenuRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * write this class description...
@@ -56,7 +60,7 @@ public class RoleController {
     }
 
     @GetMapping(value = "create")
-    public String createRole(Model model) {
+    public String createRole() {
         return "system/role/role_create";
     }
 
@@ -94,8 +98,29 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    @GetMapping(value = "/modify/{role_id}/menu")
-    public String modifyRoleMenu(@PathVariable(value = "role_id") Long roleId) {
+    @GetMapping(value = "modify_role_menu/{role_id}")
+    public String roleMenu(@PathVariable(value = "role_id") Long roleId, Model model) {
+        model.addAttribute("roleId", roleId);
         return "system/role/role_menu";
+    }
+
+    @GetMapping(value = "menus/{role_id}")
+    @ResponseBody
+    public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
+        List<RoleMenuRef> menuRefs = roleService.securityGetAllRoleMenuByRoleId(roleId);
+        List<RoleMenuRO> menuROS = menuRefs.stream().map(menuRef -> {
+            RoleMenuRO menuRO = new RoleMenuRO();
+            menuRO.transferTreeNode(menuRef);
+            return menuRO;
+        }).collect(Collectors.toList());
+
+        return ResponseBodyBean.ofSuccess(menuROS);
+    }
+
+    @PostMapping(value = "create_role_menu")
+    @ResponseBody
+    public ResponseBodyBean createRoleMenu(@RequestBody @Valid CreateRoleMenuPLO plo) {
+
+        return ResponseBodyBean.ofSuccess();
     }
 }

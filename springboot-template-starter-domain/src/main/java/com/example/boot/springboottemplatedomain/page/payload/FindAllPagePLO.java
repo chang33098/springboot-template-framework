@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatedomain.page.payload;
 
-import com.example.boot.springboottemplatedomain.common.PaginationPLO;
+import com.example.boot.springboottemplatedomain.common.payload.PaginationPLO;
 import lombok.Data;
 
 /**

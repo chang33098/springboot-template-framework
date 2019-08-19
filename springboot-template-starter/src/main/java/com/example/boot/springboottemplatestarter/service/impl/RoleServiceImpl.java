@@ -1,6 +1,8 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
 import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
 import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
@@ -9,6 +11,7 @@ import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleRepository;
+import com.example.boot.springboottemplatestarter.service.PageService;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,10 +37,13 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMenuRefRepository roleMenuRefRepository;
 
+    private final PageService pageService;
+
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository, PageService pageService) {
         this.roleRepository = roleRepository;
         this.roleMenuRefRepository = roleMenuRefRepository;
+        this.pageService = pageService;
     }
 
     @Override
@@ -88,6 +94,35 @@ public class RoleServiceImpl implements RoleService {
     public void deleteRole(Long roleId) {
         SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
         roleRepository.delete(role);
+    }
+
+    @Override
+    public void createRoleMenu(CreateRoleMenuPLO plo) {
+
+//        @NotNull
+//        private Long roleId;
+//        @NotNull
+//        private Long pageId;
+//        private String icon;
+//        @NotNull
+//        private String menuName;
+//        @NotNull
+//        private Integer menuLevel;
+//        private Long parentId;
+//        @NotEmpty
+//        @Size(min = 1)
+//        private List<Long> permissionIds = new ArrayList<>();
+
+        final Long roleId = plo.getRoleId();
+        final Long pageId = plo.getPageId();
+
+        SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
+        SystemPage page = pageService.getPageById(pageId);
+
+        RoleMenuRef menuRef = new RoleMenuRef();
+        BeanUtil.copyProperties(plo, menuRef);
+
+        menuRef.setRole(role);
     }
 
     @Override
