@@ -1,9 +1,6 @@
 package com.example.boot.springboottemplatestarter.service;
 
-import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
-import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
+import com.example.boot.springboottemplatedomain.role.payload.*;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import org.springframework.data.domain.Page;
@@ -25,7 +22,11 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
-    void createRoleMenu(CreateRoleMenuPLO plo);
+    void createRoleMenu(Long roleId, CreateRoleMenuPLO plo);
+
+    void modifyRoleMenu(Long roleId, Long menuId, ModifyRoleMenuPLO plo);
+
+    void deleteRoleMenu(Long roleId, Long menuId);
 
     /**
      * [spring security] 通过角色ID获取对应的系统菜单

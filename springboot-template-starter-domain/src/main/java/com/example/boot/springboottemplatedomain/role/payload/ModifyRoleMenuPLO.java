@@ -9,13 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * write this class description...
- *
- * @author Chang
- * @date 2019/8/20 0:06
+ * Created by EDZ on 2019/8/20.
  */
 @Data
-public class CreateRoleMenuPLO {
+public class ModifyRoleMenuPLO {
 
     @NotNull
     private Long pageId;

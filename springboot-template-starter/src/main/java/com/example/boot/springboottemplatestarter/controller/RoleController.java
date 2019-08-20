@@ -1,10 +1,7 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
-import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
+import com.example.boot.springboottemplatedomain.role.payload.*;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.role.response.FindAllRoleRO;
@@ -80,7 +77,7 @@ public class RoleController {
 
         model.addAttribute("role", roleRO);
 
-        return  "system/role/role_modify";
+        return "system/role/role_modify";
     }
 
     @PutMapping(value = "modify/{role_id}")
@@ -98,13 +95,15 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    @GetMapping(value = "modify_role_menu/{role_id}")
+    // TODO: 2019/8/20  下列方法的接口命名方式有待改善
+
+    @GetMapping(value = "{role_id}/role_menu")
     public String roleMenu(@PathVariable(value = "role_id") Long roleId, Model model) {
         model.addAttribute("roleId", roleId);
         return "system/role/role_menu";
     }
 
-    @GetMapping(value = "menus/{role_id}")
+    @GetMapping(value = "{role_id}/menus")
     @ResponseBody
     public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
         List<RoleMenuRef> menuRefs = roleService.securityGetAllRoleMenuByRoleId(roleId);
@@ -117,10 +116,21 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
-    @PostMapping(value = "create_role_menu")
+    @PostMapping(value = "{role_id}/create_role_menu")
     @ResponseBody
-    public ResponseBodyBean createRoleMenu(@RequestBody @Valid CreateRoleMenuPLO plo) {
+    public ResponseBodyBean createRoleMenu(
+            @PathVariable(value = "role_id") Long roleId,
+            @RequestBody @Valid CreateRoleMenuPLO plo) {
+        roleService.createRoleMenu(roleId, plo);
+        return ResponseBodyBean.ofSuccess();
+    }
 
+    @PutMapping(value = "{role_id}/modify_role_menu/{menu_id}")
+    @ResponseBody
+    public ResponseBodyBean modifyRoleMenu(@PathVariable(value = "role_id") Long roleId,
+                                           @PathVariable(value = "menu_id") Long menuId,
+                                           @RequestBody ModifyRoleMenuPLO plo) {
+        roleService.modifyRoleMenu(roleId, menuId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 }

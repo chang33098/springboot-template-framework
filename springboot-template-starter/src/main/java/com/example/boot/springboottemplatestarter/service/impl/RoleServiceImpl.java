@@ -1,14 +1,14 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
-import com.example.boot.springboottemplatedomain.role.payload.CreateRoleMenuPLO;
-import com.example.boot.springboottemplatedomain.role.payload.CreateRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.FindAllRolePLO;
-import com.example.boot.springboottemplatedomain.role.payload.ModifyRolePLO;
+import com.example.boot.springboottemplatedomain.role.payload.*;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
+import com.example.boot.springboottemplatestarter.repository.RoleMenuPermissionRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
@@ -36,13 +36,15 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleMenuRefRepository roleMenuRefRepository;
+    private final RoleMenuPermissionRefRepository roleMenuPermissionRefRepository;
 
     private final PageService pageService;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository, PageService pageService) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository, RoleMenuPermissionRefRepository roleMenuPermissionRefRepository, PageService pageService) {
         this.roleRepository = roleRepository;
         this.roleMenuRefRepository = roleMenuRefRepository;
+        this.roleMenuPermissionRefRepository = roleMenuPermissionRefRepository;
         this.pageService = pageService;
     }
 
@@ -96,24 +98,10 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.delete(role);
     }
 
+    // TODO: 2019/8/20 [createRoleMenu]功能未完善
+
     @Override
-    public void createRoleMenu(CreateRoleMenuPLO plo) {
-
-//        @NotNull
-//        private Long roleId;
-//        @NotNull
-//        private Long pageId;
-//        private String icon;
-//        @NotNull
-//        private String menuName;
-//        @NotNull
-//        private Integer menuLevel;
-//        private Long parentId;
-//        @NotEmpty
-//        @Size(min = 1)
-//        private List<Long> permissionIds = new ArrayList<>();
-
-        final Long roleId = plo.getRoleId();
+    public void createRoleMenu(Long roleId, CreateRoleMenuPLO plo) {
         final Long pageId = plo.getPageId();
 
         SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
@@ -123,6 +111,57 @@ public class RoleServiceImpl implements RoleService {
         BeanUtil.copyProperties(plo, menuRef);
 
         menuRef.setRole(role);
+        menuRef.setPage(page);
+
+        roleMenuRefRepository.save(menuRef);
+
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionByIds(plo.getPermissionIds());
+        permissionRefs.forEach(permissionRef -> {
+            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
+            menuPermissionRef.setPermission(permissionRef);
+            menuPermissionRef.setMenu(menuRef);
+            roleMenuPermissionRefRepository.save(menuPermissionRef);
+        });
+    }
+
+    // TODO: 2019/8/20 [modifyRoleMenu]功能未完善
+    
+    @Override
+    public void modifyRoleMenu(Long roleId, Long menuId, ModifyRoleMenuPLO plo) {
+        final Long pageId = plo.getPageId();
+
+        RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
+        SystemPage page = pageService.getPageById(pageId);
+
+        menuRef.setIcon(plo.getIcon());
+        menuRef.setMenuName(plo.getMenuName());
+        menuRef.setSortNo(plo.getMenuLevel());
+        menuRef.setPage(page);
+
+        roleMenuRefRepository.save(menuRef);
+
+        roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
+
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionByIds(plo.getPermissionIds());
+        permissionRefs.forEach(permissionRef -> {
+            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
+            menuPermissionRef.setPermission(permissionRef);
+            menuPermissionRef.setMenu(menuRef);
+            roleMenuPermissionRefRepository.save(menuPermissionRef);
+        });
+    }
+
+    // TODO: 2019/8/20 [deleteRoleMenu] 功能有待完善
+
+    @Override
+    public void deleteRoleMenu(Long roleId, Long menuId) {
+        RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
+
+        menuRef.getChildMenus().forEach(roleMenuRef -> deleteRoleMenu(roleId, roleMenuRef.getId()));
+
+        roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
+
+        roleMenuRefRepository.delete(menuRef);
     }
 
     @Override

@@ -28,4 +28,6 @@ public interface PageService {
     void modifyPage(Long pageId, ModifyPagePLO plo);
 
     void deletePage(Long pageId);
+
+    List<PagePermissionRef> getPagePermissionByIds(List<Long> refIds);
 }

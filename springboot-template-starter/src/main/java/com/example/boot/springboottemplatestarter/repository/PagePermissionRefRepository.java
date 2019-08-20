@@ -13,4 +13,6 @@ public interface PagePermissionRefRepository extends JpaRepository<PagePermissio
     void deleteAllByPageId(Long pageId);
 
     List<PagePermissionRef> findAllByPageId(Long pageId);
+
+    List<PagePermissionRef> findAllByIdIsIn(List<Long> refIds);
 }

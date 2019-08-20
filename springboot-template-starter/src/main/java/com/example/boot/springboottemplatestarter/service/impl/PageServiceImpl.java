@@ -131,4 +131,9 @@ public class PageServiceImpl implements PageService {
         pagePermissionRefRepository.deleteAllByPageId(pageId);
         pageRepository.delete(page);
     }
+
+    @Override
+    public List<PagePermissionRef> getPagePermissionByIds(List<Long> refIds) {
+        return pagePermissionRefRepository.findAllByIdIsIn(refIds);
+    }
 }
