@@ -29,40 +29,58 @@
                 <div class="layui-card-header">页面信息</div>
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
+                        <input type="hidden" name="parentId">
+                        <input type="hidden" name="pageId">
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单图标</label>
                             <div class="layui-input-block">
-                                <input type="text" name="icon" class="layui-input">
+                                <div class="layui-col-md6">
+                                    <input type="text" name="icon" class="layui-input">
+                                </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单名称</label>
                             <div class="layui-input-block">
-                                <input type="text" name="menuName" class="layui-input">
+                                <div class="layui-col-md6">
+                                    <input type="text" name="menuName" class="layui-input">
+                                </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">链接页面</label>
                             <div class="layui-input-block">
+                                <input type="hidden" id="page-data">
                                 <button type="button" onclick="choosePage()" class="layui-btn layui-btn-primary">选择页面</button>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <!--<label class="layui-form-label">页面信息</label>-->
-                            <!--<div class="layui-input-block">-->
-                                <!--<input type="text" class="layui-input" style="color: #999;" placeholder="请选择链接页面" readonly>-->
-                            <!--</div>-->
-                            <div class="layui-inline notchoose-tips">
-                                <label class="layui-form-label">页面信息</label>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">页面名称</label>
                                 <div class="layui-input-inline">
-                                    <div class="layui-form-mid layui-word-aux ">设置页面的相对路径</div>
+                                    <input type="text" id="page-name" class="layui-input" placeholder="请选择链接页面" readonly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">页面代码</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="page-code" class="layui-input" style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">访问链接</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="page-url" class="layui-input" style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单权限</label>
-                            <div class="layui-input-block">
-                                <div class="layui-form-mid layui-word-aux notchoose-tips">设置页面的相对路径</div>
+                            <div id="blank-tips" class="layui-input-block">
+                                <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
+                            </div>
+                            <div id="page-permission" class="layui-input-block" style="display: none;">
                                 <!--<input type="checkbox" name="like[write]" title="写作">-->
                                 <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
                                 <!--<input type="checkbox" name="like[dai]" title="发呆">-->
@@ -165,7 +183,42 @@
     });
 
     function choosePage() {
+        page.open_view({
+            url: '/system/page/choose_page',
+            title: '系统页面',
+            btn: ['选择页面', '取消'],
+            yes: function (index, layero) {
+                layero.find('iframe').contents().find('.check-data-btn').click();
 
+                $('#blank-tips').css('display', 'none');
+                $('#page-permission').css('display', 'block');
+
+                var pageInfo = JSON.parse($('#page-data').val());
+                $('input[name="pageId"]').val(pageInfo.id);
+                $('#page-name').val(pageInfo.name);
+                $('#page-code').val(pageInfo.code);
+                $('#page-url').val(pageInfo.url);
+
+                $('#page-permission').html('');
+
+                page.async_request({
+                    url: '/system/page/' + pageInfo.id + '/permissions',
+                    success: function (result) {
+                        if (result.status === httpstatus.OK.code) {
+                            var data = result.data;
+                            data.forEach(function (value) {
+                                var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
+                                $('#page-permission').append(checkbox);
+                            });
+
+                            form.render(); //重新渲染控件
+                        } else {
+                            layer.msg(result.message, {icon: 5})
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>
 </body>

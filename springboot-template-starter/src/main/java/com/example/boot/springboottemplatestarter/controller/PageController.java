@@ -8,6 +8,7 @@ import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.page.response.FindAllPageRO;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
 import com.example.boot.springboottemplatedomain.page.response.PageDetailRO;
+import com.example.boot.springboottemplatedomain.page.response.PagePermissionRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -102,5 +103,19 @@ public class PageController {
     public ResponseBodyBean deletePage(@PathVariable(value = "page_id") Long pageId) {
         pageService.deletePage(pageId);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "choose_page")
+    public String choosePage() {
+        return "system/page/choose_page";
+    }
+
+    @GetMapping(value = "{page_id}/permissions")
+    @ResponseBody
+    public ResponseBodyBean<List<PagePermissionRO>> getPagePermissions(@PathVariable(value = "page_id") Long pageId) {
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
+        List<PagePermissionRO> permissionROS = PagePermissionRO.createPagePermissionROS(permissionRefs);
+
+        return ResponseBodyBean.ofSuccess(permissionROS);
     }
 }

@@ -118,9 +118,8 @@ public class RoleController {
 
     @PostMapping(value = "{role_id}/create_role_menu")
     @ResponseBody
-    public ResponseBodyBean createRoleMenu(
-            @PathVariable(value = "role_id") Long roleId,
-            @RequestBody @Valid CreateRoleMenuPLO plo) {
+    public ResponseBodyBean createRoleMenu(@PathVariable(value = "role_id") Long roleId,
+                                           @RequestBody @Valid CreateRoleMenuPLO plo) {
         roleService.createRoleMenu(roleId, plo);
         return ResponseBodyBean.ofSuccess();
     }
