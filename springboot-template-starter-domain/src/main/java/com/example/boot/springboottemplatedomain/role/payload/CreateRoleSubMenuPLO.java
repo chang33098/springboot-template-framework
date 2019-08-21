@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2019/8/20 0:06
  */
 @Data
-public class CreateRoleMenuPLO {
+public class CreateRoleSubMenuPLO {
 
     @NotNull
     private Long pageId;

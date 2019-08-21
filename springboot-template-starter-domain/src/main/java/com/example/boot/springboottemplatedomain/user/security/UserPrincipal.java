@@ -71,7 +71,7 @@ public class UserPrincipal implements UserDetails {
      * @return user principal
      */
     public static UserPrincipal create(SystemUser user, List<RoleMenuRef> userMenus, List<SystemPermission> permissions) {
-        List<UserMenuRO> menus = userMenus.stream().filter(userMenu -> MenuLevel.parentMenu(userMenu.getMenuLevel()))
+        List<UserMenuRO> menus = userMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
                 .map(UserPrincipal::createMenuRO).collect(Collectors.toList());
 
         List<GrantedAuthority> authorities = permissions.stream()

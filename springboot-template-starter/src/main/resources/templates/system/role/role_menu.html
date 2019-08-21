@@ -24,15 +24,16 @@
                 </div>
             </div>
         </div>
-        <div id="menu-form" class="layui-col-md8">
+        <div id="menu-form" class="layui-col-md8" style="display: none;">
             <div class="layui-card">
                 <div class="layui-card-header">页面信息</div>
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
                         <input type="hidden" name="parentId">
-                        <input type="hidden" name="pageId" lay-verify="required" lay-reqText="请选择链接页面">
+                        <input type="hidden" name="menuLevel">
+                        <input type="hidden" name="pageId">
 
-                        <div id="parent-page" class="layui-form-item" style="display: none;">
+                        <div class="layui-form-item sub-menu">
                             <label class="layui-form-label">父页面</label>
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
@@ -57,13 +58,23 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
+                            <label class="layui-form-label">排序编号</label>
+                            <div class="layui-input-block">
+                                <div class="layui-col-md6">
+                                    <input type="number" name="sortNo" value="0" lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item sub-menu">
                             <label class="layui-form-label">链接页面</label>
                             <div class="layui-input-block">
                                 <input type="hidden" id="page-data">
-                                <button type="button" onclick="choosePage()" class="layui-btn layui-btn-primary">选择页面</button>
+                                <button type="button" onclick="choosePage()" class="layui-btn layui-btn-primary">
+                                    选择页面
+                                </button>
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item sub-menu">
                             <div class="layui-inline">
                                 <label class="layui-form-label">页面名称</label>
                                 <div class="layui-input-inline">
@@ -83,21 +94,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item sub-menu">
                             <label class="layui-form-label">菜单权限</label>
                             <div id="blank-tips" class="layui-input-block">
                                 <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
                             </div>
-                            <div id="page-permission" class="layui-input-block" style="display: none;">
-                                <!--<input type="checkbox" name="like[write]" title="写作">-->
-                                <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
-                                <!--<input type="checkbox" name="like[dai]" title="发呆">-->
+                            <div id="page-permission" class="layui-input-block">
+                            <!-- page permission checkbox there -->
                             </div>
                         </div>
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="">添加菜单</button>
+                                <button class="layui-btn root-menu" lay-submit lay-filter="create-root-menu">添加一级菜单</button>
+                                <button class="layui-btn sub-menu" lay-submit lay-filter="create-sub-menu">添加菜单</button>
                             </div>
                         </div>
                     </form>
@@ -105,14 +115,10 @@
             </div>
         </div>
     </div>
-
-    <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="submit" id="submit"
-               value="添加">
-    </div>
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
+    var roleId = $('#role-id').val();
     var form, tree, util;
 
     layui.use(['form', 'tree', 'util'], function () {
@@ -120,12 +126,38 @@
         tree = layui.tree;
         util = layui.util;
 
-        form.on('submit(submit)', function (data) {
+        form.on('submit(create-root-menu)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
 
             page.async_request({
-                url: '/system/permission/create',
+                url: '/system/role/' + roleId + '/create_role_root_menu',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+        form.on('submit(create-sub-menu)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field; //表单参数
+
+            var permissionIds = packaging();
+            if (permissionIds.length < 1) {
+                layer.msg('至少选择勾选一个权限', {icon: 5});
+                return;
+            }
+
+            field.permissionIds = permissionIds;
+
+            page.async_request({
+                url: '/system/role/' + roleId + '/create_role_menu',
                 type: 'post',
                 data: JSON.stringify(field),
                 success: function (result) {
@@ -139,76 +171,70 @@
             })
         });
 
-        var data1 = [{
-            spread: true,
-            title: '江西'
-            , id: 1
-            , children: [{
-                title: '南昌'
-                , id: 1000
-                , children: [{
-                    title: '青山湖区'
-                    , id: 10001
-                }, {
-                    title: '高新区'
-                    , id: 10002
-                }]
-            }, {
-                title: '九江'
-                , id: 1001
-            }, {
-                title: '赣州'
-                , id: 1002
-            }]
-        }, {
-            title: '广西'
-            , id: 2
-            , children: [{
-                title: '南宁'
-                , id: 2000
-            }, {
-                title: '桂林'
-                , id: 2001
-            }]
-        }, {
-            title: '陕西'
-            , id: 3
-            , children: [{
-                title: '西安'
-                , id: 3000
-            }, {
-                title: '延安'
-                , id: 3001
-            }]
-        }];
+        page.async_request({
+            url: '/system/role/' + roleId + '/menus',
+            success: function (result) {
+                if (result.status === httpstatus.OK.code) {
+                    tree.render({
+                        id: 'menu-tree',
+                        elem: '#menu-tree',
+                        edit: ['create', 'modify', 'delete'],
+                        data: result.data,
+                        click: function (obj) {
 
-        //常规用法
-        tree.render({
-            id: 'menu-tree',
-            elem: '#menu-tree',
-            data: data1
-        });
+                        },
+                        operate: function (obj) {
+                            var type = obj.type; //得到操作类型：add、edit、del
+                            var data = obj.data; //得到当前节点的数据
+
+                            if (type === 'create') {
+
+                            } else if (type === 'modify') {
+
+                            } else if (type === 'delete') {
+
+                            }
+                        }
+                    });
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            }
+        })
     });
+    
+    function packaging() {
+        var permissionIds = [];
+        $('input[name="permissionId"]').each(function () {
+            var permissionId = $(this).val();
+            permissionIds.push(permissionId);
+        });
 
+        return permissionIds;
+    }
+    
     function createRootMenu() {
-        $('#menu-form',':input').not(':button, :submit, :reset, :hidden').val('');
-        $('#parent-page').css('display', 'none');
-        $('#blank-tips').css('display', 'block');
-        $('#page-permission').css('block', 'none');
+        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('.sub-menu').css('display', 'none');
+        $('.root-menu').css('display', 'block');
         form.render(); //重新渲染
 
+        $('input[name="menuLevel"]').val(1);
 
+        $('#menu-form').css('display', 'block');
     }
 
     function createSubMenu(parentId, parentName) {
-        $('#menu-form',':input').not(':button, :submit, :reset, :hidden').val('');
-        $('#parent-page').css('display', 'block');
-        $('#blank-tips').css('display', 'block');
-        $('#page-permission').css('block', 'none');
+        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('.root-menu').css('display', 'none');
+        $('.sub-menu').css('display', 'block');
         form.render(); //重新渲染
 
         $('input[name="parentId"]').val(parentId);
+        $('input[name="menuLevel"]').val(2);
         $('#parent-page').find('input').val(parentName);
+
+        $('#menu-form').css('display', 'block');
     }
 
     function choosePage() {

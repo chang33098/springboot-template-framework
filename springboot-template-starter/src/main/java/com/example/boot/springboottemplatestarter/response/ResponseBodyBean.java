@@ -180,6 +180,7 @@ public class ResponseBodyBean<T> implements Serializable {
         return ResponseBodyBean.<T>builder().timestamp(new Date())
                 .status(HttpStatus.OK.value())
                 .data(data)
+                .message(HttpStatus.OK.getReasonPhrase())
                 .build();
     }
 

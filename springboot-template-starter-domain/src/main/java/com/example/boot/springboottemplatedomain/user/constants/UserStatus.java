@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatedomain.user.constants;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Getter;
  * @date 2019/7/21 19:53
  */
 @Getter
+@AllArgsConstructor
 public enum  UserStatus {
 
     ENABLED(1, "启用"),
@@ -16,9 +18,4 @@ public enum  UserStatus {
 
     private Integer status;
     private String desc;
-
-    UserStatus(Integer status, String desc) {
-        this.status = status;
-        this.desc = desc;
-    }
 }

@@ -116,11 +116,19 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
-    @PostMapping(value = "{role_id}/create_role_menu")
+    @PostMapping(value = "{role_id}/create_role_root_menu")
     @ResponseBody
-    public ResponseBodyBean createRoleMenu(@PathVariable(value = "role_id") Long roleId,
-                                           @RequestBody @Valid CreateRoleMenuPLO plo) {
-        roleService.createRoleMenu(roleId, plo);
+    public ResponseBodyBean createRoleRootMenu(@PathVariable(value = "role_id") Long roleId,
+                                               @RequestBody @Valid CreateRoleRootMenuPLO plo) {
+        roleService.createRoleRootMenu(roleId, plo);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @PostMapping(value = "{role_id}/create_role_sub_menu")
+    @ResponseBody
+    public ResponseBodyBean createRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                              @RequestBody @Valid CreateRoleSubMenuPLO plo) {
+        roleService.createRoleSubMenu(roleId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 

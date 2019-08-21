@@ -22,7 +22,9 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
-    void createRoleMenu(Long roleId, CreateRoleMenuPLO plo);
+    void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo);
+
+    void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo);
 
     void modifyRoleMenu(Long roleId, Long menuId, ModifyRoleMenuPLO plo);
 

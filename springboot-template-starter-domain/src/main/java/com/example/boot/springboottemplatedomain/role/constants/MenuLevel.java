@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatedomain.role.constants;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Getter;
  * @date 2019/7/22 21:59
  */
 @Getter
+@AllArgsConstructor
 public enum  MenuLevel {
 
     PARENT_MENU(1, "父页面"),
@@ -16,13 +18,4 @@ public enum  MenuLevel {
 
     private Integer type;
     private String desc;
-
-    public static boolean parentMenu(int type) {
-        return PARENT_MENU.type == type;
-    }
-
-    MenuLevel(Integer type, String desc) {
-        this.type = type;
-        this.desc = desc;
-    }
 }
