@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatestarter.service;
 
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLOAbstract;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface PageService {
 
-    Page<SystemPage> findAllPage(FindAllPagePLO plo);
+    Page<SystemPage> findAllPage(FindAllPagePLOAbstract plo);
 
     SystemPage getPageById(Long pageId);
 

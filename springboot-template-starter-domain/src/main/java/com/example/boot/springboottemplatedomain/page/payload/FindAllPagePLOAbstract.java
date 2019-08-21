@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatedomain.page.payload;
 
-import com.example.boot.springboottemplatedomain.common.payload.PaginationPLO;
+import com.example.boot.springboottemplatedomain.common.payload.AbstractPaginationPLO;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2019/7/29 23:26
  */
 @Data
-public class FindAllPagePLO extends PaginationPLO {
+public class FindAllPagePLOAbstract extends AbstractPaginationPLO {
 
     private String name;
 }

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface RoleService {
 
-    Page<SystemRole> findAllRole(FindAllRolePLO plo);
+    Page<SystemRole> findAllRole(FindAllRolePLOAbstract plo);
 
     SystemRole getRoleById(Long roleId);
 

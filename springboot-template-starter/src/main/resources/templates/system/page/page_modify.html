@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div id="page-permission-div">
+    <div id="page-permission">
         <div id="blank-tips" class="layui-form-item" th:styleappend="${#lists.isEmpty(page.pagePermissions) ? '' : 'display: none;'}">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline">
@@ -142,7 +142,7 @@
 
     function packaging() {
         var permissions = [];
-        $('#page-permission-div').find('.page-permission').each(function () {
+        $('#page-permission').find('.page-permission').each(function () {
             if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
                 var permission = {};
                 permission.permissionId = $(this).find('input[name="permissionId"]').val();
@@ -184,7 +184,7 @@
                         div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
                         div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
 
-                        $('#page-permission-div').append(div);
+                        $('#page-permission').append(div);
                     }
                 });
 

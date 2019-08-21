@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLOAbstract;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
@@ -50,7 +50,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Page<SystemPage> findAllPage(FindAllPagePLO plo) {
+    public Page<SystemPage> findAllPage(FindAllPagePLOAbstract plo) {
         int pageNo = plo.getPageNo();
         int limit = plo.getLimit();
 

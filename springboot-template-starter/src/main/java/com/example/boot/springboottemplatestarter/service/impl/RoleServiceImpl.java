@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<SystemRole> findAllRole(FindAllRolePLO plo) {
+    public Page<SystemRole> findAllRole(FindAllRolePLOAbstract plo) {
         int pageNo = plo.getPageNo();
         int limit = plo.getLimit();
 

@@ -46,7 +46,7 @@ public class RoleController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllRoleRO>> findAllRole(FindAllRolePLO plo) {
+    public ResponseBodyBean<Page<FindAllRoleRO>> findAllRole(FindAllRolePLOAbstract plo) {
         Page<SystemRole> rolePage = roleService.findAllRole(plo);
 
         List<FindAllRoleRO> roleROS = FindAllRoleRO.createFindAllRoleROS(rolePage.getContent());

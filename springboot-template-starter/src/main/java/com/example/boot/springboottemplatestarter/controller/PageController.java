@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLO;
+import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLOAbstract;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
@@ -47,7 +47,7 @@ public class PageController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllPageRO>> findAllPage(FindAllPagePLO plo) {
+    public ResponseBodyBean<Page<FindAllPageRO>> findAllPage(FindAllPagePLOAbstract plo) {
         Page<SystemPage> POPAGE = pageService.findAllPage(plo);
 
         List<FindAllPageRO> pageROS = FindAllPageRO.createFindAllPageROS(POPAGE.getContent());

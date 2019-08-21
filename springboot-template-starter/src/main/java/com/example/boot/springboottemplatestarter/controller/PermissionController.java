@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLO;
+import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLOAbstract;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.permission.response.FindAllPermissionRO;
@@ -44,7 +44,7 @@ public class PermissionController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllPermissionRO>> findAllPermission(FindAllPermissionPLO plo) {
+    public ResponseBodyBean<Page<FindAllPermissionRO>> findAllPermission(FindAllPermissionPLOAbstract plo) {
         Page<SystemPermission> permissionPage = permissionService.findAllPermission(plo);
 
         List<FindAllPermissionRO> permissionROS = FindAllPermissionRO.createFindAllPermissionROS(permissionPage.getContent());

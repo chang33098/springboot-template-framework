@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * @date 2019/7/29 23:25
  */
 @Data
-public class PaginationPLO {
+public abstract class AbstractPaginationPLO {
 
     @NotNull(message = "Invalid parameter")
     @Min(value = 1)

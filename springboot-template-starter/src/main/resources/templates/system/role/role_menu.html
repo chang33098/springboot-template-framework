@@ -14,7 +14,7 @@
 
     <div class="layui-row layui-col-space15">
         <div class="layui-btn-container">
-            <button type="button" onclick="choosePage()" class="layui-btn layui-btn-sm">添加一级菜单</button>
+            <button type="button" onclick="createRootMenu()" class="layui-btn layui-btn-sm">添加一级菜单</button>
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
@@ -24,14 +24,22 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md8">
+        <div id="menu-form" class="layui-col-md8">
             <div class="layui-card">
                 <div class="layui-card-header">页面信息</div>
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
                         <input type="hidden" name="parentId">
-                        <input type="hidden" name="pageId">
+                        <input type="hidden" name="pageId" lay-verify="required" lay-reqText="请选择链接页面">
 
+                        <div id="parent-page" class="layui-form-item" style="display: none;">
+                            <label class="layui-form-label">父页面</label>
+                            <div class="layui-input-block">
+                                <div class="layui-col-md6">
+                                    <input type="text" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">菜单图标</label>
                             <div class="layui-input-block">
@@ -44,7 +52,7 @@
                             <label class="layui-form-label">菜单名称</label>
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
-                                    <input type="text" name="menuName" class="layui-input">
+                                    <input type="text" name="menuName" lay-verify="required" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -182,6 +190,27 @@
         });
     });
 
+    function createRootMenu() {
+        $('#menu-form',':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#parent-page').css('display', 'none');
+        $('#blank-tips').css('display', 'block');
+        $('#page-permission').css('block', 'none');
+        form.render(); //重新渲染
+
+
+    }
+
+    function createSubMenu(parentId, parentName) {
+        $('#menu-form',':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#parent-page').css('display', 'block');
+        $('#blank-tips').css('display', 'block');
+        $('#page-permission').css('block', 'none');
+        form.render(); //重新渲染
+
+        $('input[name="parentId"]').val(parentId);
+        $('#parent-page').find('input').val(parentName);
+    }
+
     function choosePage() {
         page.open_view({
             url: '/system/page/choose_page',
@@ -210,7 +239,6 @@
                                 var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
                                 $('#page-permission').append(checkbox);
                             });
-
                             form.render(); //重新渲染控件
                         } else {
                             layer.msg(result.message, {icon: 5})

@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatedomain.role.payload;
 
-import com.example.boot.springboottemplatedomain.common.payload.PaginationPLO;
+import com.example.boot.springboottemplatedomain.common.payload.AbstractPaginationPLO;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2019/8/17 17:35
  */
 @Data
-public class FindAllRolePLO extends PaginationPLO {
+public class FindAllRolePLOAbstract extends AbstractPaginationPLO {
 
     private String name;
 }
