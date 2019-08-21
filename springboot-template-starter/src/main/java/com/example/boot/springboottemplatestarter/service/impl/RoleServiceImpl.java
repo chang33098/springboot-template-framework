@@ -101,6 +101,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<RoleMenuRef> getAllRoleRootMenu(Long roleId) {
+        return roleMenuRefRepository.findAllByRoleIdAndMenuLevelOrderBySortNo(roleId, MenuLevel.PARENT_MENU.getType());
+    }
+
+    @Override
     public void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo) {
         SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
 

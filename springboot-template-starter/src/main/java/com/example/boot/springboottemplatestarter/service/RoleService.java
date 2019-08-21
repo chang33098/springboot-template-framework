@@ -22,6 +22,8 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
+    List<RoleMenuRef> getAllRoleRootMenu(Long roleId);
+
     void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo);
 
     void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo);

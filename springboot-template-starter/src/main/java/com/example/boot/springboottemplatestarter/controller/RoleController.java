@@ -106,7 +106,7 @@ public class RoleController {
     @GetMapping(value = "{role_id}/menus")
     @ResponseBody
     public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
-        List<RoleMenuRef> menuRefs = roleService.securityGetAllRoleMenuByRoleId(roleId);
+        List<RoleMenuRef> menuRefs = roleService.getAllRoleRootMenu(roleId);
         List<RoleMenuRO> menuROS = menuRefs.stream().map(menuRef -> {
             RoleMenuRO menuRO = new RoleMenuRO();
             menuRO.transferTreeNode(menuRef);

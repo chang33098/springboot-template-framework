@@ -33,19 +33,11 @@
                         <input type="hidden" name="menuLevel">
                         <input type="hidden" name="pageId">
 
-                        <div class="layui-form-item sub-menu">
+                        <div id="parent-page" class="layui-form-item sub-menu">
                             <label class="layui-form-label">父页面</label>
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
-                                    <input type="text" class="layui-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">菜单图标</label>
-                            <div class="layui-input-block">
-                                <div class="layui-col-md6">
-                                    <input type="text" name="icon" class="layui-input">
+                                    <input type="text" class="layui-input" readonly>
                                 </div>
                             </div>
                         </div>
@@ -54,6 +46,14 @@
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
                                     <input type="text" name="menuName" lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">菜单图标</label>
+                            <div class="layui-input-block">
+                                <div class="layui-col-md6">
+                                    <input type="text" name="icon" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             <div id="blank-tips" class="layui-input-block">
                                 <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
                             </div>
-                            <div id="page-permission" class="layui-input-block">
+                            <div id="page-permission" class="layui-input-block" style="display: none;">
                             <!-- page permission checkbox there -->
                             </div>
                         </div>
@@ -157,7 +157,7 @@
             field.permissionIds = permissionIds;
 
             page.async_request({
-                url: '/system/role/' + roleId + '/create_role_menu',
+                url: '/system/role/' + roleId + '/create_role_sub_menu',
                 type: 'post',
                 data: JSON.stringify(field),
                 success: function (result) {
@@ -165,7 +165,7 @@
                         parent.layui.table.reload('data-table');
                         parent.layer.close(index);
                     } else {
-                        layer.msg(result.message, {icon: 5})
+                        layer.msg(result.message, {icon: 5});
                     }
                 }
             })
@@ -178,20 +178,23 @@
                     tree.render({
                         id: 'menu-tree',
                         elem: '#menu-tree',
-                        edit: ['create', 'modify', 'delete'],
+                        edit: ['add', 'update', 'del'],
                         data: result.data,
-                        click: function (obj) {
-
-                        },
+//                        click: function (obj) {
+//                        },
                         operate: function (obj) {
-                            var type = obj.type; //得到操作类型：add、edit、del
+                            var type = obj.type; //得到操作类型
                             var data = obj.data; //得到当前节点的数据
 
-                            if (type === 'create') {
+                            if (type === 'add') {
+                                if (data.menuLevel !== 1) {
+                                    layer.msg('二级菜单无法添加子菜单', {icon: 5});
+                                    return;
+                                }
+                                createSubMenu(data.id, data.title);
+                            } else if (type === 'update') {
 
-                            } else if (type === 'modify') {
-
-                            } else if (type === 'delete') {
+                            } else if (type === 'del') {
 
                             }
                         }

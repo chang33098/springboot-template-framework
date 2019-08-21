@@ -17,4 +17,6 @@ public interface RoleMenuRefRepository extends JpaRepository<RoleMenuRef, Long>,
     List<RoleMenuRef> findAllByRoleIdOrderBySortNoAsc(Long roleId);
 
     Optional<RoleMenuRef> findByIdAndRoleId(Long menuId, Long roleId);
+
+    List<RoleMenuRef> findAllByRoleIdAndMenuLevelOrderBySortNo(Long roleId, Integer menuLevel);
 }
