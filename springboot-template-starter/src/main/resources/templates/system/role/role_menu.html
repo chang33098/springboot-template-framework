@@ -171,8 +171,12 @@
             })
         });
 
+        init(); //初始化页面
+    });
+
+    function init() {
         page.async_request({
-            url: '/system/role/' + roleId + '/menus',
+            url: '/system/role/' + roleId + '/get_role_menu_tree',
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
                     tree.render({
@@ -206,8 +210,8 @@
                 }
             }
         })
-    });
-    
+    }
+
     function packaging() {
         var permissionIds = [];
         $('input[name="permissionId"]').each(function () {
@@ -251,6 +255,17 @@
         $('input[name="menuName"]').val(menu.menuName);
         $('input[name="icon"]').val(menu.icon);
         $('input[name="sortNo"]').val(menu.sortNo);
+
+        page.async_request({
+            url: '/system/role/' + roleId + '/get_role_menu/' + menu.id,
+            success: function (result) {
+                if (result.status === httpstatus.OK.code) {
+                    console.info(menu);
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            }
+        });
 
         $('#menu-form').css('display', 'block');
     }

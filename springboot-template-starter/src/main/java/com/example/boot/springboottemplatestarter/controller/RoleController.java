@@ -4,9 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.role.payload.*;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
-import com.example.boot.springboottemplatedomain.role.response.FindAllRoleRO;
+import com.example.boot.springboottemplatedomain.role.response.FindRoleTableRO;
+import com.example.boot.springboottemplatedomain.role.response.GetRoleMenuRO;
 import com.example.boot.springboottemplatedomain.role.response.ModifyRoleRO;
-import com.example.boot.springboottemplatedomain.role.response.RoleMenuRO;
+import com.example.boot.springboottemplatedomain.role.response.RoleMenuTreeRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,13 +45,13 @@ public class RoleController {
         return "system/role/role_list";
     }
 
-    @GetMapping(value = "list")
+    @GetMapping(value = "table")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllRoleRO>> findAllRole(FindAllRolePLOAbstract plo) {
-        Page<SystemRole> rolePage = roleService.findAllRole(plo);
+    public ResponseBodyBean<Page<FindRoleTableRO>> findRoleTable(FindRoleTablePLO plo) {
+        Page<SystemRole> rolePage = roleService.findRoleTable(plo);
 
-        List<FindAllRoleRO> roleROS = FindAllRoleRO.createFindAllRoleROS(rolePage.getContent());
-        Page<FindAllRoleRO> roleROPage = new PageImpl<>(roleROS,
+        List<FindRoleTableRO> roleROS = FindRoleTableRO.createFindAllRoleROS(rolePage.getContent());
+        Page<FindRoleTableRO> roleROPage = new PageImpl<>(roleROS,
                 rolePage.getPageable(), rolePage.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(roleROPage);
@@ -101,12 +102,12 @@ public class RoleController {
         return "system/role/role_menu";
     }
 
-    @GetMapping(value = "{role_id}/get_role_menu_list")
+    @GetMapping(value = "{role_id}/get_role_menu_tree")
     @ResponseBody
-    public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
+    public ResponseBodyBean<List<RoleMenuTreeRO>> getRoleMenuTree(@PathVariable(value = "role_id") Long roleId) {
         List<RoleMenuRef> menuRefs = roleService.getRoleRootMenuListByRoleId(roleId);
-        List<RoleMenuRO> menuROS = menuRefs.stream().map(menuRef -> {
-            RoleMenuRO menuRO = new RoleMenuRO();
+        List<RoleMenuTreeRO> menuROS = menuRefs.stream().map(menuRef -> {
+            RoleMenuTreeRO menuRO = new RoleMenuTreeRO();
             menuRO.transferTreeNode(menuRef);
             return menuRO;
         }).collect(Collectors.toList());
@@ -116,9 +117,12 @@ public class RoleController {
 
     @RequestMapping(value = "{role_id}/get_role_menu/{menu_id}")
     @ResponseBody
-    public ResponseBodyBean getRoleMenuRef(@PathVariable(value = "role_id") Long roleId,
+    public ResponseBodyBean getRoleMenu(@PathVariable(value = "role_id") Long roleId,
                                            @PathVariable(value = "menu_id") Long menuId) {
         RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
+
+        GetRoleMenuRO menuRO = new GetRoleMenuRO();
+
         return null;
     }
 

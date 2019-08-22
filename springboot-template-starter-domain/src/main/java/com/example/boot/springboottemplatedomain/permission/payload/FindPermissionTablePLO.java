@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.role.payload;
+package com.example.boot.springboottemplatedomain.permission.payload;
 
 import com.example.boot.springboottemplatedomain.common.payload.AbstractPaginationPLO;
 import lombok.Data;
@@ -7,10 +7,11 @@ import lombok.Data;
  * write this class description...
  *
  * @author Chang
- * @date 2019/8/17 17:35
+ * @date 2019/7/29 23:26
  */
 @Data
-public class FindAllRolePLOAbstract extends AbstractPaginationPLO {
+public class FindPermissionTablePLO extends AbstractPaginationPLO {
 
     private String name;
+    private String code;
 }

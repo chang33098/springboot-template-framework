@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    Page<SystemUser> findAllUserPage(int pageNo, int limit);
+    Page<SystemUser> findUserTable(int pageNo, int limit);
 
     /**
      * [spring security] 通过用户(登录账号)获取管理员信息

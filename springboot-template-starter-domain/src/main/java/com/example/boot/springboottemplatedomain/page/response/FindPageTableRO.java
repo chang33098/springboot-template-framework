@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/8/11 0:12
  */
 @Data
-public class FindAllPageRO {
+public class FindPageTableRO {
 
     private Long id;
     private String code;
@@ -29,16 +29,16 @@ public class FindAllPageRO {
     private Timestamp updateTime;
 
     /**
-     * Create FindAllPageRO List. Transfer PO to the RO.
+     * Create FindPageTableRO List. Transfer PO to the RO.
      *
      * @param pages PagePO List
-     * @return FindAllPageRO
+     * @return FindPageTableRO
      */
-    public static List<FindAllPageRO> createFindAllPageROS(List<SystemPage> pages) {
-        List<FindAllPageRO> pageROS = new ArrayList<>(pages.size());
+    public static List<FindPageTableRO> createFindAllPageROS(List<SystemPage> pages) {
+        List<FindPageTableRO> pageROS = new ArrayList<>(pages.size());
 
         pages.forEach(page -> {
-            FindAllPageRO pageRO = new FindAllPageRO();
+            FindPageTableRO pageRO = new FindPageTableRO();
             BeanUtil.copyProperties(page, pageRO);
             pageROS.add(pageRO);
         });

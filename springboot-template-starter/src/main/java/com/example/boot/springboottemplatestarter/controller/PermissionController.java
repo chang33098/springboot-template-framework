@@ -1,10 +1,10 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLOAbstract;
+import com.example.boot.springboottemplatedomain.permission.payload.FindPermissionTablePLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
-import com.example.boot.springboottemplatedomain.permission.response.FindAllPermissionRO;
+import com.example.boot.springboottemplatedomain.permission.response.FindPermissionTableRO;
 import com.example.boot.springboottemplatedomain.permission.response.ModifyPermissionRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
@@ -42,13 +42,13 @@ public class PermissionController {
         return "system/permission/permission_list";
     }
 
-    @GetMapping(value = "list")
+    @GetMapping(value = "table")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllPermissionRO>> findAllPermission(FindAllPermissionPLOAbstract plo) {
-        Page<SystemPermission> permissionPage = permissionService.findAllPermission(plo);
+    public ResponseBodyBean<Page<FindPermissionTableRO>> findPermissionTable(FindPermissionTablePLO plo) {
+        Page<SystemPermission> permissionPage = permissionService.findPermissionTable(plo);
 
-        List<FindAllPermissionRO> permissionROS = FindAllPermissionRO.createFindAllPermissionROS(permissionPage.getContent());
-        Page<FindAllPermissionRO> permissionROPage = new PageImpl<>(permissionROS,
+        List<FindPermissionTableRO> permissionROS = FindPermissionTableRO.createFindAllPermissionROS(permissionPage.getContent());
+        Page<FindPermissionTableRO> permissionROPage = new PageImpl<>(permissionROS,
                 permissionPage.getPageable(), permissionPage.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(permissionROPage);

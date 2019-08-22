@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @date 2019/8/3 15:20
  */
 @Data
-public class PageDetailRO {
+public class GetPageRO {
 
     private Long id;
     private String code;
@@ -40,8 +40,8 @@ public class PageDetailRO {
         private String interceptUrls;
     }
 
-    public static PageDetailRO createPageDetailRO(SystemPage page, List<PagePermissionRef> permissionRefs) {
-        PageDetailRO pageRO = new PageDetailRO();
+    public static GetPageRO createPageDetailRO(SystemPage page, List<PagePermissionRef> permissionRefs) {
+        GetPageRO pageRO = new GetPageRO();
         BeanUtil.copyProperties(page, pageRO);
 
         List<PageDetailPermissionRO> permissionROS = permissionRefs.stream().map(permissionRef -> {

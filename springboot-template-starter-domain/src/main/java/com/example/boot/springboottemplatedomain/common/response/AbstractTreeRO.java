@@ -12,12 +12,12 @@ import java.util.List;
  * @date 2019/8/19 23:22
  */
 @Data
-public abstract class AbstractTreeNodeRO<T> {
+public abstract class AbstractTreeRO<T> {
 
     private Long id;
     private String title;
     private Boolean spread = true;
-    private List<AbstractTreeNodeRO> children = new ArrayList<>();
+    private List<AbstractTreeRO> children = new ArrayList<>();
 
     public abstract void transferTreeNode(T data);
 }

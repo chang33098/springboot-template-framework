@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatestarter.service;
 
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLOAbstract;
+import com.example.boot.springboottemplatedomain.permission.payload.FindPermissionTablePLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
  */
 public interface PermissionService {
 
-    Page<SystemPermission> findAllPermission(FindAllPermissionPLOAbstract plo);
+    Page<SystemPermission> findPermissionTable(FindPermissionTablePLO plo);
 
     SystemPermission getPermissionById(Long permissionId);
 

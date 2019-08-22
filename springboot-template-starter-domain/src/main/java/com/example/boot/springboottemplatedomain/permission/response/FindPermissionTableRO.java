@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/8/11 13:16
  */
 @Data
-public class FindAllPermissionRO {
+public class FindPermissionTableRO {
 
     private Long id;
     private String name;
@@ -27,11 +27,11 @@ public class FindAllPermissionRO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
-    public static List<FindAllPermissionRO> createFindAllPermissionROS(List<SystemPermission> permissions) {
-        List<FindAllPermissionRO> permissionROS = new ArrayList<>(permissions.size());
+    public static List<FindPermissionTableRO> createFindAllPermissionROS(List<SystemPermission> permissions) {
+        List<FindPermissionTableRO> permissionROS = new ArrayList<>(permissions.size());
 
         permissions.forEach(permission -> {
-            FindAllPermissionRO permissionRO = new FindAllPermissionRO();
+            FindPermissionTableRO permissionRO = new FindPermissionTableRO();
             BeanUtil.copyProperties(permission, permissionRO);
 
             permissionROS.add(permissionRO);

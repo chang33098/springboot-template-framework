@@ -25,7 +25,6 @@ import javax.persistence.criteria.Predicate;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * write this class description...
@@ -51,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<SystemRole> findAllRole(FindAllRolePLOAbstract plo) {
+    public Page<SystemRole> findRoleTable(FindRoleTablePLO plo) {
         int pageNo = plo.getPageNo();
         int limit = plo.getLimit();
 

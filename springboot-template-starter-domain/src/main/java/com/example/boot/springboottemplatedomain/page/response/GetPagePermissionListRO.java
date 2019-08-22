@@ -13,17 +13,17 @@ import java.util.List;
  * @date 2019/8/21 1:18
  */
 @Data
-public class PagePermissionRO {
+public class GetPagePermissionListRO {
 
     private Long id;
     private String permissionName;
     private String permissionCode;
 
-    public static List<PagePermissionRO> createPagePermissionROS(List<PagePermissionRef> permissionRefs) {
-        List<PagePermissionRO> permissionROS = new ArrayList<>();
+    public static List<GetPagePermissionListRO> createPagePermissionROS(List<PagePermissionRef> permissionRefs) {
+        List<GetPagePermissionListRO> permissionROS = new ArrayList<>();
 
         permissionRefs.forEach(permissionRef -> {
-            PagePermissionRO permissionRO = new PagePermissionRO();
+            GetPagePermissionListRO permissionRO = new GetPagePermissionListRO();
             permissionRO.setId(permissionRef.getId());
             permissionRO.setPermissionCode(permissionRef.getPermission().getCode());
             permissionRO.setPermissionName(permissionRef.getPermission().getName());

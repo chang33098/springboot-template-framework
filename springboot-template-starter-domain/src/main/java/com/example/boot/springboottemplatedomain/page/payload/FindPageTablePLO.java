@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatedomain.permission.payload;
+package com.example.boot.springboottemplatedomain.page.payload;
 
 import com.example.boot.springboottemplatedomain.common.payload.AbstractPaginationPLO;
 import lombok.Data;
@@ -10,8 +10,7 @@ import lombok.Data;
  * @date 2019/7/29 23:26
  */
 @Data
-public class FindAllPermissionPLOAbstract extends AbstractPaginationPLO {
+public class FindPageTablePLO extends AbstractPaginationPLO {
 
     private String name;
-    private String code;
 }

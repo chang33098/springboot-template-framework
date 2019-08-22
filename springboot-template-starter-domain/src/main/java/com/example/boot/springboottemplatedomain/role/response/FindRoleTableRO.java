@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/8/17 17:33
  */
 @Data
-public class FindAllRoleRO {
+public class FindRoleTableRO {
 
     private Long id;
     private String name;
@@ -26,11 +26,11 @@ public class FindAllRoleRO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")
     private Timestamp updateTime;
 
-    public static List<FindAllRoleRO> createFindAllRoleROS(List<SystemRole> roles) {
-        List<FindAllRoleRO> roleROS = new ArrayList<>();
+    public static List<FindRoleTableRO> createFindAllRoleROS(List<SystemRole> roles) {
+        List<FindRoleTableRO> roleROS = new ArrayList<>();
 
         roles.forEach(role -> {
-            FindAllRoleRO roleRO = new FindAllRoleRO();
+            FindRoleTableRO roleRO = new FindRoleTableRO();
             BeanUtil.copyProperties(role, roleRO);
 
             roleROS.add(roleRO);

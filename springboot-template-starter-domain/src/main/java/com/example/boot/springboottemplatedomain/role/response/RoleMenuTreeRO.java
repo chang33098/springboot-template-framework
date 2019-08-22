@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatedomain.role.response;
 
-import com.example.boot.springboottemplatedomain.common.response.AbstractTreeNodeRO;
+import com.example.boot.springboottemplatedomain.common.response.AbstractTreeRO;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * @date 2019/8/19 23:34
  */
 @Data
-public class RoleMenuRO extends AbstractTreeNodeRO<RoleMenuRef> {
+public class RoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
 
     private String icon;
     private Integer menuLevel;
@@ -28,8 +28,8 @@ public class RoleMenuRO extends AbstractTreeNodeRO<RoleMenuRef> {
         this.setMenuLevel(data.getMenuLevel());
         this.setSortNo(data.getSortNo());
 
-        List<AbstractTreeNodeRO> children = data.getChildMenus().stream().map(childMenu -> {
-            RoleMenuRO menuRO = new RoleMenuRO();
+        List<AbstractTreeRO> children = data.getChildMenus().stream().map(childMenu -> {
+            RoleMenuTreeRO menuRO = new RoleMenuTreeRO();
             menuRO.transferTreeNode(childMenu);
             return menuRO;
         }).collect(Collectors.toList());

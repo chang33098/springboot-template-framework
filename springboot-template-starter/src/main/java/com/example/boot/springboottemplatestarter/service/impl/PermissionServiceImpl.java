@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatedomain.permission.payload.FindAllPermissionPLOAbstract;
+import com.example.boot.springboottemplatedomain.permission.payload.FindPermissionTablePLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
@@ -36,7 +36,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Page<SystemPermission> findAllPermission(FindAllPermissionPLOAbstract plo) {
+    public Page<SystemPermission> findPermissionTable(FindPermissionTablePLO plo) {
         int pageNo = plo.getPageNo();
         int limit = plo.getLimit();
 

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<SystemUser> findAllUserPage(int pageNo, int limit) {
+    public Page<SystemUser> findUserTable(int pageNo, int limit) {
         return null;
     }
 

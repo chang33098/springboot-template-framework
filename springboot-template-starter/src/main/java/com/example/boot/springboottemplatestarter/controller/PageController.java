@@ -1,14 +1,14 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindAllPagePLOAbstract;
+import com.example.boot.springboottemplatedomain.page.payload.FindPageTablePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
-import com.example.boot.springboottemplatedomain.page.response.FindAllPageRO;
+import com.example.boot.springboottemplatedomain.page.response.FindPageTableRO;
 import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
-import com.example.boot.springboottemplatedomain.page.response.PageDetailRO;
-import com.example.boot.springboottemplatedomain.page.response.PagePermissionRO;
+import com.example.boot.springboottemplatedomain.page.response.GetPageRO;
+import com.example.boot.springboottemplatedomain.page.response.GetPagePermissionListRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,24 +45,24 @@ public class PageController {
         return "system/page/page_list";
     }
 
-    @GetMapping(value = "list")
+    @GetMapping(value = "table")
     @ResponseBody
-    public ResponseBodyBean<Page<FindAllPageRO>> findAllPage(FindAllPagePLOAbstract plo) {
-        Page<SystemPage> POPAGE = pageService.findAllPage(plo);
+    public ResponseBodyBean<Page<FindPageTableRO>> findPageTable(FindPageTablePLO plo) {
+        Page<SystemPage> POPAGE = pageService.findPageTable(plo);
 
-        List<FindAllPageRO> pageROS = FindAllPageRO.createFindAllPageROS(POPAGE.getContent());
-        Page<FindAllPageRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
+        List<FindPageTableRO> pageROS = FindPageTableRO.createFindAllPageROS(POPAGE.getContent());
+        Page<FindPageTableRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(ROPAGE);
     }
 
-    @GetMapping(value = "detail/{page_id}")
-    public String pageDetail(@PathVariable(value = "page_id") Long pageId, Model model) {
+    @GetMapping(value = "get/{page_id}")
+    public String getPage(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
-        PageDetailRO detailRO = PageDetailRO.createPageDetailRO(page, permissionRefs);
-        model.addAttribute("page", detailRO);
+        GetPageRO pageRO = GetPageRO.createPageDetailRO(page, permissionRefs);
+        model.addAttribute("page", pageRO);
 
         return "system/page/page_detail";
     }
@@ -112,9 +112,9 @@ public class PageController {
 
     @GetMapping(value = "{page_id}/get_page_permission_list")
     @ResponseBody
-    public ResponseBodyBean<List<PagePermissionRO>> getPagePermissions(@PathVariable(value = "page_id") Long pageId) {
+    public ResponseBodyBean<List<GetPagePermissionListRO>> getPagePermissionList(@PathVariable(value = "page_id") Long pageId) {
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
-        List<PagePermissionRO> permissionROS = PagePermissionRO.createPagePermissionROS(permissionRefs);
+        List<GetPagePermissionListRO> permissionROS = GetPagePermissionListRO.createPagePermissionROS(permissionRefs);
 
         return ResponseBodyBean.ofSuccess(permissionROS);
     }
