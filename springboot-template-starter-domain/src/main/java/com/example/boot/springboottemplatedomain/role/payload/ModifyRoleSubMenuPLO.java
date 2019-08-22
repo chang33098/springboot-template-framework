@@ -9,20 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by EDZ on 2019/8/20.
+ * Created by EDZ on 2019/8/22.
  */
 @Data
-public class ModifyRoleMenuPLO {
+public class ModifyRoleSubMenuPLO {
 
     @NotNull
     private Long pageId;
     private String icon;
     @NotNull
     private String menuName;
-    @NotNull
-    private Integer menuLevel;
     private Integer sortNo = 0;
-    private Long parentId;
     @NotEmpty
     @Size(min = 1)
     private List<Long> permissionIds = new ArrayList<>();

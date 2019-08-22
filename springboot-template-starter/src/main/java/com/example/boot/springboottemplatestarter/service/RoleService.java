@@ -22,13 +22,17 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
-    List<RoleMenuRef> getAllRoleRootMenu(Long roleId);
+    List<RoleMenuRef> getAllRoleRootMenuByRoleId(Long roleId);
+
+    RoleMenuRef getRoleMenuByRoleIdAndMenuId(Long roleId, Long menuId);
 
     void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo);
 
     void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo);
 
-    void modifyRoleMenu(Long roleId, Long menuId, ModifyRoleMenuPLO plo);
+    void modifyRoleRootMenu(Long roleId, Long menuId, ModifyRoleRootMenuPLO plo);
+
+    void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo);
 
     void deleteRoleMenu(Long roleId, Long menuId);
 

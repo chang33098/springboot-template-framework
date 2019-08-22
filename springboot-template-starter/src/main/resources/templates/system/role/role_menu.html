@@ -180,8 +180,6 @@
                         elem: '#menu-tree',
                         edit: ['add', 'update', 'del'],
                         data: result.data,
-//                        click: function (obj) {
-//                        },
                         operate: function (obj) {
                             var type = obj.type; //得到操作类型
                             var data = obj.data; //得到当前节点的数据
@@ -193,7 +191,11 @@
                                 }
                                 createSubMenu(data.id, data.title);
                             } else if (type === 'update') {
-
+                                if (data.menuLevel === 1) {
+                                    modifyRootMenu(data);
+                                } else if (data.menuLevel === 2) {
+                                    modifySubMenu(data);
+                                }
                             } else if (type === 'del') {
 
                             }
@@ -236,6 +238,43 @@
         $('input[name="parentId"]').val(parentId);
         $('input[name="menuLevel"]').val(2);
         $('#parent-page').find('input').val(parentName);
+
+        $('#menu-form').css('display', 'block');
+    }
+
+    function modifyRootMenu(menu) {
+        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('.sub-menu').css('display', 'none');
+        $('.root-menu').css('display', 'block');
+        form.render(); //重新渲染
+
+        $('input[name="menuName"]').val(menu.menuName);
+        $('input[name="icon"]').val(menu.icon);
+        $('input[name="sortNo"]').val(menu.sortNo);
+
+        $('#menu-form').css('display', 'block');
+    }
+
+    function modifySubMenu(menu) {
+        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('.sub-menu').css('display', 'none');
+        $('.root-menu').css('display', 'block');
+        form.render(); //重新渲染
+
+        $('input[name="menuName"]').val(menu.menuName);
+        $('input[name="icon"]').val(menu.icon);
+        $('input[name="sortNo"]').val(menu.sortNo);
+
+        page.async_request({
+            url: '/system/role/xxx',
+            success: function (result) {
+                if (result.status === httpstatus.OK.code) {
+
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            }
+        });
 
         $('#menu-form').css('display', 'block');
     }

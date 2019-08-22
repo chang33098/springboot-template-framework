@@ -101,8 +101,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleMenuRef> getAllRoleRootMenu(Long roleId) {
+    public List<RoleMenuRef> getAllRoleRootMenuByRoleId(Long roleId) {
         return roleMenuRefRepository.findAllByRoleIdAndMenuLevelOrderBySortNo(roleId, MenuLevel.PARENT_MENU.getType());
+    }
+
+    @Override
+    public RoleMenuRef getRoleMenuByRoleIdAndMenuId(Long roleId, Long menuId) {
+        return null;
     }
 
     @Override
@@ -147,10 +152,18 @@ public class RoleServiceImpl implements RoleService {
         });
     }
 
+    @Override
+    public void modifyRoleRootMenu(Long roleId, Long menuId, ModifyRoleRootMenuPLO plo) {
+        RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
+        BeanUtil.copyProperties(plo, menuRef);
+
+        roleMenuRefRepository.save(menuRef);
+    }
+
     // TODO: 2019/8/20 [modifyRoleMenu]功能未完善
     
     @Override
-    public void modifyRoleMenu(Long roleId, Long menuId, ModifyRoleMenuPLO plo) {
+    public void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo) {
         final Long pageId = plo.getPageId();
 
         RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
@@ -158,7 +171,7 @@ public class RoleServiceImpl implements RoleService {
 
         menuRef.setIcon(plo.getIcon());
         menuRef.setMenuName(plo.getMenuName());
-        menuRef.setSortNo(plo.getMenuLevel());
+        menuRef.setSortNo(plo.getSortNo());
         menuRef.setPage(page);
         roleMenuRefRepository.save(menuRef);
 

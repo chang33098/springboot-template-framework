@@ -16,13 +16,17 @@ import java.util.stream.Collectors;
 @Data
 public class RoleMenuRO extends AbstractTreeNodeRO<RoleMenuRef> {
 
+    private String icon;
     private Integer menuLevel;
+    private Integer sortNo;
 
     @Override
     public void transferTreeNode(RoleMenuRef data) {
         this.setId(data.getId());
         this.setTitle(data.getMenuName());
+        this.setIcon(data.getIcon());
         this.setMenuLevel(data.getMenuLevel());
+        this.setSortNo(data.getSortNo());
 
         List<AbstractTreeNodeRO> children = data.getChildMenus().stream().map(childMenu -> {
             RoleMenuRO menuRO = new RoleMenuRO();

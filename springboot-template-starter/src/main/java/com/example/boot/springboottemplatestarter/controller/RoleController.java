@@ -103,10 +103,10 @@ public class RoleController {
         return "system/role/role_menu";
     }
 
-    @GetMapping(value = "{role_id}/menus")
+    @GetMapping(value = "{role_id}/get_role_menu_list")
     @ResponseBody
     public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
-        List<RoleMenuRef> menuRefs = roleService.getAllRoleRootMenu(roleId);
+        List<RoleMenuRef> menuRefs = roleService.getAllRoleRootMenuByRoleId(roleId);
         List<RoleMenuRO> menuROS = menuRefs.stream().map(menuRef -> {
             RoleMenuRO menuRO = new RoleMenuRO();
             menuRO.transferTreeNode(menuRef);
@@ -114,6 +114,13 @@ public class RoleController {
         }).collect(Collectors.toList());
 
         return ResponseBodyBean.ofSuccess(menuROS);
+    }
+
+    @RequestMapping(value = "{role_id}/get_role_menu/{}")
+    @ResponseBody
+    public ResponseBodyBean getRoleMenuRef(@PathVariable(value = "role_id") Long roleId,
+                                           @PathVariable(value = "menu_id") Long menuId) {
+        return null;
     }
 
     @PostMapping(value = "{role_id}/create_role_root_menu")
@@ -132,12 +139,21 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    @PutMapping(value = "{role_id}/modify_role_menu/{menu_id}")
+    @PutMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
     @ResponseBody
-    public ResponseBodyBean modifyRoleMenu(@PathVariable(value = "role_id") Long roleId,
-                                           @PathVariable(value = "menu_id") Long menuId,
-                                           @RequestBody ModifyRoleMenuPLO plo) {
-        roleService.modifyRoleMenu(roleId, menuId, plo);
+    public ResponseBodyBean modifyRoleRootMenu(@PathVariable(value = "role_id") Long roleId,
+                                               @PathVariable(value = "menu_id") Long menuId,
+                                               @RequestBody ModifyRoleRootMenuPLO plo) {
+        roleService.modifyRoleRootMenu(roleId, menuId, plo);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @PutMapping(value = "{role_id}/modify_role_sub_menu/{menu_id}")
+    @ResponseBody
+    public ResponseBodyBean modifyRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                              @PathVariable(value = "menu_id") Long menuId,
+                                              @RequestBody ModifyRoleSubMenuPLO plo) {
+        roleService.modifyRoleSubMenu(roleId, menuId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 }
