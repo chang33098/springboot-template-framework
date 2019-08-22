@@ -59,7 +59,7 @@ public class PageController {
     @GetMapping(value = "detail/{page_id}")
     public String pageDetail(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
         PageDetailRO detailRO = PageDetailRO.createPageDetailRO(page, permissionRefs);
         model.addAttribute("page", detailRO);
@@ -82,7 +82,7 @@ public class PageController {
     @GetMapping(value = "modify/{page_id}")
     public String modifyPage(@PathVariable(value = "page_id") Long pageId, Model model) {
         SystemPage page = pageService.getPageById(pageId);
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
         ModifyPageRO pageRO = ModifyPageRO.createModifyPageRO(page, permissionRefs);
         model.addAttribute("page", pageRO);
@@ -110,10 +110,10 @@ public class PageController {
         return "system/page/choose_page";
     }
 
-    @GetMapping(value = "{page_id}/permissions")
+    @GetMapping(value = "{page_id}/get_page_permission_list")
     @ResponseBody
     public ResponseBodyBean<List<PagePermissionRO>> getPagePermissions(@PathVariable(value = "page_id") Long pageId) {
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionsById(pageId);
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
         List<PagePermissionRO> permissionROS = PagePermissionRO.createPagePermissionROS(permissionRefs);
 
         return ResponseBodyBean.ofSuccess(permissionROS);

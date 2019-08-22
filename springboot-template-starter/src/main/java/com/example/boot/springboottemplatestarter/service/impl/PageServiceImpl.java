@@ -75,7 +75,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public List<PagePermissionRef> getPagePermissionsById(Long pageId) {
+    public List<PagePermissionRef> getPagePermissionListById(Long pageId) {
         return pagePermissionRefRepository.findAllByPageId(pageId);
     }
 
@@ -133,7 +133,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public List<PagePermissionRef> getPagePermissionByIds(List<Long> refIds) {
+    public List<PagePermissionRef> getPagePermissionListByIds(List<Long> refIds) {
         return pagePermissionRefRepository.findAllByIdIsIn(refIds);
     }
 }

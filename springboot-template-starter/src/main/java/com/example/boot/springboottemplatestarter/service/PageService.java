@@ -21,7 +21,7 @@ public interface PageService {
 
     SystemPage getPageById(Long pageId);
 
-    List<PagePermissionRef> getPagePermissionsById(Long pageId);
+    List<PagePermissionRef> getPagePermissionListById(Long pageId);
 
     void createPage(CreatePagePLO plo);
 
@@ -29,5 +29,5 @@ public interface PageService {
 
     void deletePage(Long pageId);
 
-    List<PagePermissionRef> getPagePermissionByIds(List<Long> refIds);
+    List<PagePermissionRef> getPagePermissionListByIds(List<Long> refIds);
 }

@@ -22,7 +22,7 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
-    List<RoleMenuRef> getAllRoleRootMenuByRoleId(Long roleId);
+    List<RoleMenuRef> getRoleRootMenuListByRoleId(Long roleId);
 
     RoleMenuRef getRoleMenuByRoleIdAndMenuId(Long roleId, Long menuId);
 
@@ -42,5 +42,5 @@ public interface RoleService {
      * @param roleId 角色ID
      * @return 角色菜单
      */
-    List<RoleMenuRef> securityGetAllRoleMenuByRoleId(Long roleId);
+    List<RoleMenuRef> securityGetRoleMenuListByRoleId(Long roleId);
 }

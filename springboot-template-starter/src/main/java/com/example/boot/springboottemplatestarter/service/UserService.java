@@ -10,13 +10,6 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    /**
-     * 查询所有后台管理员信息
-     *
-     * @param pageNo
-     * @param limit
-     * @return
-     */
     Page<SystemUser> findAllUserPage(int pageNo, int limit);
 
     /**

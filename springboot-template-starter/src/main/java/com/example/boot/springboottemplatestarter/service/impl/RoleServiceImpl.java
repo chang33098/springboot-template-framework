@@ -101,7 +101,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleMenuRef> getAllRoleRootMenuByRoleId(Long roleId) {
+    public List<RoleMenuRef> getRoleRootMenuListByRoleId(Long roleId) {
         return roleMenuRefRepository.findAllByRoleIdAndMenuLevelOrderBySortNo(roleId, MenuLevel.PARENT_MENU.getType());
     }
 
@@ -143,7 +143,7 @@ public class RoleServiceImpl implements RoleService {
         parent.getChildMenus().add(menuRef);
         roleMenuRefRepository.save(parent);
 
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionByIds(plo.getPermissionIds());
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
         permissionRefs.forEach(permissionRef -> {
             RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
             menuPermissionRef.setPermission(permissionRef);
@@ -177,7 +177,7 @@ public class RoleServiceImpl implements RoleService {
 
         roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
 
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionByIds(plo.getPermissionIds());
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
         permissionRefs.forEach(permissionRef -> {
             RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
             menuPermissionRef.setPermission(permissionRef);
@@ -200,7 +200,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleMenuRef> securityGetAllRoleMenuByRoleId(Long roleId) {
+    public List<RoleMenuRef> securityGetRoleMenuListByRoleId(Long roleId) {
         return roleMenuRefRepository.findAllByRoleIdOrderBySortNoAsc(roleId);
     }
 }

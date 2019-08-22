@@ -95,8 +95,6 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    // TODO: 2019/8/20  下列方法的接口命名方式有待改善
-
     @GetMapping(value = "{role_id}/role_menu")
     public String roleMenu(@PathVariable(value = "role_id") Long roleId, Model model) {
         model.addAttribute("roleId", roleId);
@@ -106,7 +104,7 @@ public class RoleController {
     @GetMapping(value = "{role_id}/get_role_menu_list")
     @ResponseBody
     public ResponseBodyBean<List<RoleMenuRO>> getRoleMenus(@PathVariable(value = "role_id") Long roleId) {
-        List<RoleMenuRef> menuRefs = roleService.getAllRoleRootMenuByRoleId(roleId);
+        List<RoleMenuRef> menuRefs = roleService.getRoleRootMenuListByRoleId(roleId);
         List<RoleMenuRO> menuROS = menuRefs.stream().map(menuRef -> {
             RoleMenuRO menuRO = new RoleMenuRO();
             menuRO.transferTreeNode(menuRef);
@@ -116,10 +114,11 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
-    @RequestMapping(value = "{role_id}/get_role_menu/{}")
+    @RequestMapping(value = "{role_id}/get_role_menu/{menu_id}")
     @ResponseBody
     public ResponseBodyBean getRoleMenuRef(@PathVariable(value = "role_id") Long roleId,
                                            @PathVariable(value = "menu_id") Long menuId) {
+        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
         return null;
     }
 
