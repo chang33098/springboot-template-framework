@@ -50,7 +50,7 @@ public class PageController {
     public ResponseBodyBean<Page<FindPageTableRO>> findPageTable(FindPageTablePLO plo) {
         Page<SystemPage> POPAGE = pageService.findPageTable(plo);
 
-        List<FindPageTableRO> pageROS = FindPageTableRO.createFindAllPageROS(POPAGE.getContent());
+        List<FindPageTableRO> pageROS = FindPageTableRO.create(POPAGE.getContent());
         Page<FindPageTableRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(ROPAGE);
@@ -61,7 +61,7 @@ public class PageController {
         SystemPage page = pageService.getPageById(pageId);
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
-        GetPageRO pageRO = GetPageRO.createPageDetailRO(page, permissionRefs);
+        GetPageRO pageRO = GetPageRO.create(page, permissionRefs);
         model.addAttribute("page", pageRO);
 
         return "system/page/page_detail";
@@ -84,7 +84,7 @@ public class PageController {
         SystemPage page = pageService.getPageById(pageId);
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
-        ModifyPageRO pageRO = ModifyPageRO.createModifyPageRO(page, permissionRefs);
+        ModifyPageRO pageRO = ModifyPageRO.create(page, permissionRefs);
         model.addAttribute("page", pageRO);
 
         return "system/page/page_modify";
@@ -114,7 +114,7 @@ public class PageController {
     @ResponseBody
     public ResponseBodyBean<List<GetPagePermissionListRO>> getPagePermissionList(@PathVariable(value = "page_id") Long pageId) {
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
-        List<GetPagePermissionListRO> permissionROS = GetPagePermissionListRO.createPagePermissionROS(permissionRefs);
+        List<GetPagePermissionListRO> permissionROS = GetPagePermissionListRO.create(permissionRefs);
 
         return ResponseBodyBean.ofSuccess(permissionROS);
     }

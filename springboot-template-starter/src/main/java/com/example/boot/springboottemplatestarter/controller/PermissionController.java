@@ -47,7 +47,7 @@ public class PermissionController {
     public ResponseBodyBean<Page<FindPermissionTableRO>> findPermissionTable(FindPermissionTablePLO plo) {
         Page<SystemPermission> permissionPage = permissionService.findPermissionTable(plo);
 
-        List<FindPermissionTableRO> permissionROS = FindPermissionTableRO.createFindAllPermissionROS(permissionPage.getContent());
+        List<FindPermissionTableRO> permissionROS = FindPermissionTableRO.create(permissionPage.getContent());
         Page<FindPermissionTableRO> permissionROPage = new PageImpl<>(permissionROS,
                 permissionPage.getPageable(), permissionPage.getTotalElements());
 
@@ -70,7 +70,7 @@ public class PermissionController {
     public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId, Model model) {
         SystemPermission permission = permissionService.getPermissionById(permissionId);
 
-        ModifyPermissionRO permissionRO = ModifyPermissionRO.createModifyPermissionRO(permission);
+        ModifyPermissionRO permissionRO = ModifyPermissionRO.create(permission);
         model.addAttribute("permission", permissionRO);
 
         return "system/permission/permission_modify";

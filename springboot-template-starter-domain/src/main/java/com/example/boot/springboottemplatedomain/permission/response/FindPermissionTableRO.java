@@ -27,7 +27,7 @@ public class FindPermissionTableRO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
-    public static List<FindPermissionTableRO> createFindAllPermissionROS(List<SystemPermission> permissions) {
+    public static List<FindPermissionTableRO> create(List<SystemPermission> permissions) {
         List<FindPermissionTableRO> permissionROS = new ArrayList<>(permissions.size());
 
         permissions.forEach(permission -> {

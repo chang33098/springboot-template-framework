@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
  * @date 2019/8/19 23:34
  */
 @Data
-public class RoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
+public class GetRoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
 
     private String icon;
     private Integer menuLevel;
     private Integer sortNo;
 
     @Override
-    public void transferTreeNode(RoleMenuRef data) {
+    public void transferTree(RoleMenuRef data) {
         this.setId(data.getId());
         this.setTitle(data.getMenuName());
         this.setIcon(data.getIcon());
@@ -29,8 +29,8 @@ public class RoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
         this.setSortNo(data.getSortNo());
 
         List<AbstractTreeRO> children = data.getChildMenus().stream().map(childMenu -> {
-            RoleMenuTreeRO menuRO = new RoleMenuTreeRO();
-            menuRO.transferTreeNode(childMenu);
+            GetRoleMenuTreeRO menuRO = new GetRoleMenuTreeRO();
+            menuRO.transferTree(childMenu);
             return menuRO;
         }).collect(Collectors.toList());
 

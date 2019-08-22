@@ -32,7 +32,7 @@ public class ModifyPageRO {
         private String interceptUrls;
     }
 
-    public static ModifyPageRO createModifyPageRO(SystemPage page, List<PagePermissionRef> permissionRefs) {
+    public static ModifyPageRO create(SystemPage page, List<PagePermissionRef> permissionRefs) {
         ModifyPageRO pageRO = new ModifyPageRO();
         BeanUtil.copyProperties(page, pageRO);
 

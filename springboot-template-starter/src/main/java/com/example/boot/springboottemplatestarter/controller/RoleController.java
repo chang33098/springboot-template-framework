@@ -7,7 +7,7 @@ import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.role.response.FindRoleTableRO;
 import com.example.boot.springboottemplatedomain.role.response.GetRoleMenuRO;
 import com.example.boot.springboottemplatedomain.role.response.ModifyRoleRO;
-import com.example.boot.springboottemplatedomain.role.response.RoleMenuTreeRO;
+import com.example.boot.springboottemplatedomain.role.response.GetRoleMenuTreeRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class RoleController {
     public ResponseBodyBean<Page<FindRoleTableRO>> findRoleTable(FindRoleTablePLO plo) {
         Page<SystemRole> rolePage = roleService.findRoleTable(plo);
 
-        List<FindRoleTableRO> roleROS = FindRoleTableRO.createFindAllRoleROS(rolePage.getContent());
+        List<FindRoleTableRO> roleROS = FindRoleTableRO.create(rolePage.getContent());
         Page<FindRoleTableRO> roleROPage = new PageImpl<>(roleROS,
                 rolePage.getPageable(), rolePage.getTotalElements());
 
@@ -104,11 +104,11 @@ public class RoleController {
 
     @GetMapping(value = "{role_id}/get_role_menu_tree")
     @ResponseBody
-    public ResponseBodyBean<List<RoleMenuTreeRO>> getRoleMenuTree(@PathVariable(value = "role_id") Long roleId) {
+    public ResponseBodyBean<List<GetRoleMenuTreeRO>> getRoleMenuTree(@PathVariable(value = "role_id") Long roleId) {
         List<RoleMenuRef> menuRefs = roleService.getRoleRootMenuListByRoleId(roleId);
-        List<RoleMenuTreeRO> menuROS = menuRefs.stream().map(menuRef -> {
-            RoleMenuTreeRO menuRO = new RoleMenuTreeRO();
-            menuRO.transferTreeNode(menuRef);
+        List<GetRoleMenuTreeRO> menuROS = menuRefs.stream().map(menuRef -> {
+            GetRoleMenuTreeRO menuRO = new GetRoleMenuTreeRO();
+            menuRO.transferTree(menuRef);
             return menuRO;
         }).collect(Collectors.toList());
 

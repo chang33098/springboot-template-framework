@@ -19,7 +19,7 @@ public class GetPagePermissionListRO {
     private String permissionName;
     private String permissionCode;
 
-    public static List<GetPagePermissionListRO> createPagePermissionROS(List<PagePermissionRef> permissionRefs) {
+    public static List<GetPagePermissionListRO> create(List<PagePermissionRef> permissionRefs) {
         List<GetPagePermissionListRO> permissionROS = new ArrayList<>();
 
         permissionRefs.forEach(permissionRef -> {

@@ -18,7 +18,7 @@ public class ModifyPermissionRO {
     private String code;
     private String description;
 
-    public static ModifyPermissionRO createModifyPermissionRO(SystemPermission permission) {
+    public static ModifyPermissionRO create(SystemPermission permission) {
         ModifyPermissionRO permissionRO = new ModifyPermissionRO();
         BeanUtil.copyProperties(permission, permissionRO);
 

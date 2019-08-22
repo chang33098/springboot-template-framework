@@ -26,7 +26,7 @@ public class FindRoleTableRO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")
     private Timestamp updateTime;
 
-    public static List<FindRoleTableRO> createFindAllRoleROS(List<SystemRole> roles) {
+    public static List<FindRoleTableRO> create(List<SystemRole> roles) {
         List<FindRoleTableRO> roleROS = new ArrayList<>();
 
         roles.forEach(role -> {

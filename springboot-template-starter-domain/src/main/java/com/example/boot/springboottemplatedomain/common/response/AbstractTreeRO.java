@@ -19,5 +19,5 @@ public abstract class AbstractTreeRO<T> {
     private Boolean spread = true;
     private List<AbstractTreeRO> children = new ArrayList<>();
 
-    public abstract void transferTreeNode(T data);
+    public abstract void transferTree(T data);
 }

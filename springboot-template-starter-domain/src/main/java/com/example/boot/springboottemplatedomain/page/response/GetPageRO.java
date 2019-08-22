@@ -40,7 +40,7 @@ public class GetPageRO {
         private String interceptUrls;
     }
 
-    public static GetPageRO createPageDetailRO(SystemPage page, List<PagePermissionRef> permissionRefs) {
+    public static GetPageRO create(SystemPage page, List<PagePermissionRef> permissionRefs) {
         GetPageRO pageRO = new GetPageRO();
         BeanUtil.copyProperties(page, pageRO);
 

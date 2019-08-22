@@ -34,7 +34,7 @@ public class FindPageTableRO {
      * @param pages PagePO List
      * @return FindPageTableRO
      */
-    public static List<FindPageTableRO> createFindAllPageROS(List<SystemPage> pages) {
+    public static List<FindPageTableRO> create(List<SystemPage> pages) {
         List<FindPageTableRO> pageROS = new ArrayList<>(pages.size());
 
         pages.forEach(page -> {
