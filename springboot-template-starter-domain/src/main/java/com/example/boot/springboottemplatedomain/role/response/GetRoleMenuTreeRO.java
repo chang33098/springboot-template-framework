@@ -28,9 +28,9 @@ public class GetRoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
         this.setMenuLevel(data.getMenuLevel());
         this.setSortNo(data.getSortNo());
 
-        List<AbstractTreeRO> children = data.getChildMenus().stream().map(childMenu -> {
+        List<AbstractTreeRO> children = data.getChildren().stream().map(child -> {
             GetRoleMenuTreeRO menuRO = new GetRoleMenuTreeRO();
-            menuRO.transferTree(childMenu);
+            menuRO.transferTree(child);
             return menuRO;
         }).collect(Collectors.toList());
 

@@ -44,5 +44,5 @@ public class RoleMenuRef {
 
     @OneToMany
     @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
-    private List<RoleMenuRef> childMenus = new ArrayList<>();
+    private List<RoleMenuRef> children = new ArrayList<>();
 }

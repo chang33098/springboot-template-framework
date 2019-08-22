@@ -7,4 +7,15 @@ import lombok.Data;
  */
 @Data
 public class GetRoleMenuRO {
+
+    private Long id;
+    private String icon;
+    private String menuName;
+    private Integer sortNo;
+
+//    private Long id;
+//    private String permissionName;
+//    private String permissionCode;
+
+//    public static class Role
 }

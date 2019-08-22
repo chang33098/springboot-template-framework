@@ -30,10 +30,10 @@ public class GetPageRO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
-    private List<PageDetailPermissionRO> pagePermissions = new ArrayList<>();
+    private List<PagePermission> pagePermissions = new ArrayList<>();
 
     @Data
-    public static class PageDetailPermissionRO {
+    public static class PagePermission {
         private Long permissionId;
         private String permissionName;
         private String permissionCode;
@@ -44,14 +44,14 @@ public class GetPageRO {
         GetPageRO pageRO = new GetPageRO();
         BeanUtil.copyProperties(page, pageRO);
 
-        List<PageDetailPermissionRO> permissionROS = permissionRefs.stream().map(permissionRef -> {
-            PageDetailPermissionRO pagePermissionRO = new PageDetailPermissionRO();
-            pagePermissionRO.setPermissionId(permissionRef.getPermission().getId());
-            pagePermissionRO.setPermissionName(permissionRef.getPermission().getName());
-            pagePermissionRO.setPermissionCode(permissionRef.getPermission().getCode());
-            pagePermissionRO.setInterceptUrls(permissionRef.getInterceptUrls());
+        List<PagePermission> permissionROS = permissionRefs.stream().map(permissionRef -> {
+            PagePermission pagePermission = new PagePermission();
+            pagePermission.setPermissionId(permissionRef.getPermission().getId());
+            pagePermission.setPermissionName(permissionRef.getPermission().getName());
+            pagePermission.setPermissionCode(permissionRef.getPermission().getCode());
+            pagePermission.setInterceptUrls(permissionRef.getInterceptUrls());
 
-            return pagePermissionRO;
+            return pagePermission;
         }).collect(Collectors.toList());
         pageRO.setPagePermissions(permissionROS);
 

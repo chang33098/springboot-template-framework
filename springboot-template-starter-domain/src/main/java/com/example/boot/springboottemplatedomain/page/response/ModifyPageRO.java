@@ -23,10 +23,10 @@ public class ModifyPageRO {
     private String name;
     private String url;
     private String description;
-    private List<ModifyPagePermissionRO> pagePermissions = new ArrayList<>();
+    private List<PagePermission> pagePermissions = new ArrayList<>();
 
     @Data
-    public static class ModifyPagePermissionRO {
+    public static class PagePermission {
         private Long permissionId;
         private String permissionName;
         private String interceptUrls;
@@ -36,13 +36,13 @@ public class ModifyPageRO {
         ModifyPageRO pageRO = new ModifyPageRO();
         BeanUtil.copyProperties(page, pageRO);
 
-        List<ModifyPagePermissionRO> permissionROS = permissionRefs.stream().map(permissionRef -> {
-            ModifyPagePermissionRO pagePermissionRO = new ModifyPagePermissionRO();
-            pagePermissionRO.setPermissionId(permissionRef.getPermission().getId());
-            pagePermissionRO.setPermissionName(permissionRef.getPermission().getName());
-            pagePermissionRO.setInterceptUrls(permissionRef.getInterceptUrls());
+        List<PagePermission> permissionROS = permissionRefs.stream().map(permissionRef -> {
+            PagePermission pagePermission = new PagePermission();
+            pagePermission.setPermissionId(permissionRef.getPermission().getId());
+            pagePermission.setPermissionName(permissionRef.getPermission().getName());
+            pagePermission.setInterceptUrls(permissionRef.getInterceptUrls());
 
-            return pagePermissionRO;
+            return pagePermission;
         }).collect(Collectors.toList());
         pageRO.setPagePermissions(permissionROS);
 

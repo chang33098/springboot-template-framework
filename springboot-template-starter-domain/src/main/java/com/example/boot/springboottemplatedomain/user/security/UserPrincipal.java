@@ -2,14 +2,11 @@ package com.example.boot.springboottemplatedomain.user.security;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
-import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.user.constants.UserStatus;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,31 +45,31 @@ public class UserPrincipal implements UserDetails {
     private Timestamp lastLoginTime;
 
     private String roleName;
-    private List<UserMenuRO> menus;
+    private List<Menu> menus;
     private Collection<? extends GrantedAuthority> authorities;
 
     @Data
-    private static class UserMenuRO {
+    private static class Menu {
         private Long id;
         private String url;
         private String icon;
         private String menuName;
         private Integer menuLevel;
         private Integer sortNo;
-        private List<UserMenuRO> leafNodes = new ArrayList<>();
+        private List<Menu> children = new ArrayList<>();
     }
 
     /**
      * Create user principal
      *
      * @param user        user po
-     * @param userMenus   user platform menus
+     * @param roleMenus   user platform menus
      * @param permissions permission po list
      * @return user principal
      */
-    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> userMenus, List<SystemPermission> permissions) {
-        List<UserMenuRO> menus = userMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
-                .map(UserPrincipal::createMenuRO).collect(Collectors.toList());
+    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<SystemPermission> permissions) {
+        List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
+                .map(UserPrincipal::createMenu).collect(Collectors.toList());
 
         List<GrantedAuthority> authorities = permissions.stream()
                 .filter(permission -> StrUtil.isNotBlank(permission.getCode()))
@@ -91,26 +88,25 @@ public class UserPrincipal implements UserDetails {
     /**
      * create MenuRO
      *
-     * @param menuPO MenuPO
+     * @param roleMenu MenuPO
      * @return MenuRO
      */
-    private static UserMenuRO createMenuRO(RoleMenuRef menuPO) {
-        UserMenuRO menuRO = new UserMenuRO();
-        BeanUtil.copyProperties(menuPO, menuRO);
+    private static Menu createMenu(RoleMenuRef roleMenu) {
+        Menu menu = new Menu();
+        BeanUtil.copyProperties(roleMenu, menu);
 
-        menuRO.setUrl(menuPO.getPage().getUrl());
+        menu.setUrl(roleMenu.getPage().getUrl());
 
-        if (!menuPO.getChildMenus().isEmpty()) {
-            List<UserMenuRO> menuROS = new ArrayList<>();
-            menuPO.getChildMenus().forEach(childNode -> {
-                UserMenuRO childNodeRO = createMenuRO(childNode);
-                menuROS.add(childNodeRO);
+        if (!roleMenu.getChildren().isEmpty()) {
+            List<Menu> menus = new ArrayList<>();
+            roleMenu.getChildren().forEach(childNode -> {
+                Menu child = createMenu(childNode);
+                menus.add(child);
             });
-
-            menuRO.setLeafNodes(menuROS);
+            menu.setChildren(menus);
         }
 
-        return menuRO;
+        return menu;
     }
 
     @Override

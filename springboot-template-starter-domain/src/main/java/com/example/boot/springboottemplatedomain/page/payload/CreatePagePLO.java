@@ -30,10 +30,10 @@ public class CreatePagePLO {
     @Length(max = 500)
     private String description;
     @NotEmpty
-    private List<CreatePagePermissionPLO> pagePermissions = new ArrayList<>();
+    private List<PagePermission> pagePermissions = new ArrayList<>();
 
     @Data
-    public static class CreatePagePermissionPLO {
+    public static class PagePermission {
         @NotNull
         private Long permissionId;
         @NotNull

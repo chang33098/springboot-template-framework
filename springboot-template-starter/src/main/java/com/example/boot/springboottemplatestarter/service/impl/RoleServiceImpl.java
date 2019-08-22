@@ -139,7 +139,7 @@ public class RoleServiceImpl implements RoleService {
         roleMenuRefRepository.save(menuRef);
 
         RoleMenuRef parent = roleMenuRefRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("父菜单ID [" + plo.getParentId() + "] 不存在"));
-        parent.getChildMenus().add(menuRef);
+        parent.getChildren().add(menuRef);
         roleMenuRefRepository.save(parent);
 
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
@@ -191,7 +191,7 @@ public class RoleServiceImpl implements RoleService {
     public void deleteRoleMenu(Long roleId, Long menuId) {
         RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
 
-        menuRef.getChildMenus().forEach(roleMenuRef -> deleteRoleMenu(roleId, roleMenuRef.getId()));
+        menuRef.getChildren().forEach(roleMenuRef -> deleteRoleMenu(roleId, roleMenuRef.getId()));
 
         roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
 
