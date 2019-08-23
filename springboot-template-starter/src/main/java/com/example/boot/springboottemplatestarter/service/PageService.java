@@ -30,4 +30,11 @@ public interface PageService {
     void deletePage(Long pageId);
 
     List<PagePermissionRef> getPagePermissionListByIds(List<Long> refIds);
+
+    /**
+     * [spring security] 获取所有系统页面权限
+     *
+     * @return page permission list
+     */
+    List<PagePermissionRef> securityGetPagePermissionList();
 }

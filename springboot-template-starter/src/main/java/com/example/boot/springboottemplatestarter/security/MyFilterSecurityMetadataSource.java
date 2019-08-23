@@ -1,6 +1,8 @@
 package com.example.boot.springboottemplatestarter.security;
 
-import com.example.boot.springboottemplatestarter.service.PermissionService;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
+import com.example.boot.springboottemplatestarter.service.PageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -9,11 +11,14 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -22,34 +27,56 @@ import java.util.stream.Stream;
  * author: Chang
  * createtime: 2018/10/27
  */
+@Slf4j
 @Component
 public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
-    private final PermissionService permissionService;
+    private final PageService pageService;
 
     @Autowired
-    public MyFilterSecurityMetadataSource(PermissionService permissionService) {
-        this.permissionService = permissionService;
+    public MyFilterSecurityMetadataSource(PageService pageService) {
+        this.pageService = pageService;
     }
 
     // TODO: 2019/8/15 fix it!!!
 
+    @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
 //        List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
-//        if (!permissionUrls.isEmpty()) {
-//
-//            permissionUrls.forEach(permissionUrl -> {
+
+        List<PagePermissionRef> permissionRefs = pageService.securityGetPagePermissionList();
+        if (permissionRefs.isEmpty()) return;
+
+        //            permissionUrls.forEach(permissionUrl -> {
 //                List<ConfigAttribute> configs = (List<ConfigAttribute>) Stream.builder().add(new SecurityConfig(
 //                        permissionUrl.getPermission().getPage().getCode() +
 //                        "_" +
 //                        permissionUrl.getPermission().getCode()));
 //                resourceMap.put(permissionUrl.getMatchUrl(), configs);
 //            });
-//        }
+
+        permissionRefs.forEach(permissionRef -> {
+            List<String> interceptUrls = new ArrayList<>();
+            try {
+                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
+            } catch (Exception e) {
+                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
+            }
+
+            if (!interceptUrls.isEmpty()) {
+//                List<ConfigAttribute> configs = interceptUrls.stream().map(url -> (ConfigAttribute) new SecurityConfig(permissionRef.getPage().getCode()
+//                        + ":"
+//                        + permissionRef.getPermission().getCode())).collect(Collectors.toList());
+                interceptUrls.forEach(url -> {
+                    List<ConfigAttribute> configs = Stream.of(new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode())).collect(Collectors.toList());
+                    resourceMap.put(url, configs);
+                });
+            }
+        });
     }
 
     @Override

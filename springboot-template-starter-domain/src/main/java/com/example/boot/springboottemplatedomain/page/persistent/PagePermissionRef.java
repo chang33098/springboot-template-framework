@@ -20,7 +20,7 @@ public class PagePermissionRef {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "varchar(500) comment '权限所拦截的URL'")
+    @Column(columnDefinition = "varchar(500) comment '权限所拦截的URL(使用逗号进行分割`,`)'")
     private String interceptUrls;
 
     @OneToOne

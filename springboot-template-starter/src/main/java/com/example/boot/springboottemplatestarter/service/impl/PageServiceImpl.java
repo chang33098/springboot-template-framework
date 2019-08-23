@@ -136,4 +136,9 @@ public class PageServiceImpl implements PageService {
     public List<PagePermissionRef> getPagePermissionListByIds(List<Long> refIds) {
         return pagePermissionRefRepository.findAllByIdIsIn(refIds);
     }
+
+    @Override
+    public List<PagePermissionRef> securityGetPagePermissionList() {
+        return pagePermissionRefRepository.findAll();
+    }
 }
