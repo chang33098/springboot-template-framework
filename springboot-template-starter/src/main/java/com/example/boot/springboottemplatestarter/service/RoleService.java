@@ -37,6 +37,8 @@ public interface RoleService {
 
     void deleteRoleMenu(Long roleId, Long menuId);
 
+    void deleteRoleMenuPermissionByPagePermissionId(Long pagePermissionId);
+
     /**
      * [spring security] 通过角色ID获取对应的系统菜单
      *

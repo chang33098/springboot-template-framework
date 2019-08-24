@@ -33,7 +33,8 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
-    private final PageService pageService;
+    @Autowired
+    private PageService pageService;
 
     @Autowired
     public MyFilterSecurityMetadataSource(PageService pageService) {
@@ -43,24 +44,27 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
-        List<PagePermissionRef> permissionRefs = pageService.securityGetPagePermissionList();
-        if (permissionRefs.isEmpty()) return;
 
-        permissionRefs.forEach(permissionRef -> {
-            List<String> interceptUrls = new ArrayList<>();
-            try {
-                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
-            } catch (Exception e) {
-                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
-            }
-
-            if (!interceptUrls.isEmpty()) {
-                interceptUrls.forEach(url -> {
-                    List<ConfigAttribute> configs = Stream.of(new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode())).collect(Collectors.toList());
-                    resourceMap.put(url, configs);
-                });
-            }
-        });
+        // TODO: 2019/8/24 暂时关闭对于URL的访问权限限制
+        
+//        List<PagePermissionRef> permissionRefs = pageService.securityGetPagePermissionList();
+//        if (permissionRefs.isEmpty()) return;
+//
+//        permissionRefs.forEach(permissionRef -> {
+//            List<String> interceptUrls = new ArrayList<>();
+//            try {
+//                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
+//            } catch (Exception e) {
+//                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
+//            }
+//
+//            if (!interceptUrls.isEmpty()) {
+//                interceptUrls.forEach(url -> {
+//                    List<ConfigAttribute> configs = Stream.of(new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode())).collect(Collectors.toList());
+//                    resourceMap.put(url, configs);
+//                });
+//            }
+//        });
     }
 
     @Override

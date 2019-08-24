@@ -12,6 +12,7 @@ import com.example.boot.springboottemplatestarter.repository.PagePermissionRefRe
 import com.example.boot.springboottemplatestarter.repository.PageRepository;
 import com.example.boot.springboottemplatestarter.service.PageService;
 import com.example.boot.springboottemplatestarter.service.PermissionService;
+import com.example.boot.springboottemplatestarter.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,13 +41,15 @@ public class PageServiceImpl implements PageService {
     private final PageRepository pageRepository;
     private final PagePermissionRefRepository pagePermissionRefRepository;
 
-    private final PermissionService permissionService;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
-    public PageServiceImpl(PageRepository pageRepository, PagePermissionRefRepository pagePermissionRefRepository, PermissionService permissionService) {
+    public PageServiceImpl(PageRepository pageRepository, PagePermissionRefRepository pagePermissionRefRepository) {
         this.pageRepository = pageRepository;
         this.pagePermissionRefRepository = pagePermissionRefRepository;
-        this.permissionService = permissionService;
     }
 
     @Override
@@ -107,7 +110,12 @@ public class PageServiceImpl implements PageService {
         page.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         pageRepository.save(page);
 
-        pagePermissionRefRepository.deleteAllByPageId(pageId); //删除旧关联
+        // TODO: 2019/8/24 后期想办法优化`修改页面权限时, 关联的角色权限会重置`的问题
+
+        List<PagePermissionRef> pagePermissionRefs = pagePermissionRefRepository.findAllByPageId(pageId);
+        pagePermissionRefs.forEach(pagePermissionRef -> roleService.deleteRoleMenuPermissionByPagePermissionId(pagePermissionRef.getId()));
+
+        pagePermissionRefRepository.deleteAllByPageId(pageId);
 
         plo.getPagePermissions().forEach(pagePermission -> {
             PagePermissionRef ref = new PagePermissionRef();

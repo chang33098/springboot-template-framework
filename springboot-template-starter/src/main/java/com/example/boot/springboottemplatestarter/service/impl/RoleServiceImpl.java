@@ -39,14 +39,14 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMenuRefRepository roleMenuRefRepository;
     private final RoleMenuPermissionRefRepository roleMenuPermissionRefRepository;
 
-    private final PageService pageService;
+    @Autowired
+    private PageService pageService;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository, RoleMenuPermissionRefRepository roleMenuPermissionRefRepository, PageService pageService) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRefRepository roleMenuRefRepository, RoleMenuPermissionRefRepository roleMenuPermissionRefRepository) {
         this.roleRepository = roleRepository;
         this.roleMenuRefRepository = roleMenuRefRepository;
         this.roleMenuPermissionRefRepository = roleMenuPermissionRefRepository;
-        this.pageService = pageService;
     }
 
     @Override
@@ -196,6 +196,11 @@ public class RoleServiceImpl implements RoleService {
         roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
 
         roleMenuRefRepository.delete(menuRef);
+    }
+
+    @Override
+    public void deleteRoleMenuPermissionByPagePermissionId(Long pagePermissionId) {
+        roleMenuPermissionRefRepository.deleteAllByPermissionId(pagePermissionId);
     }
 
     @Override
