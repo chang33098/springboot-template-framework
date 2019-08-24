@@ -2,6 +2,9 @@ package com.example.boot.springboottemplatedomain.role.response;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by EDZ on 2019/8/22.
  */
@@ -12,10 +15,12 @@ public class GetRoleMenuRO {
     private String icon;
     private String menuName;
     private Integer sortNo;
+    private List<PagePermission> pagePermissions = new ArrayList<>();
 
-//    private Long id;
-//    private String permissionName;
-//    private String permissionCode;
-
-//    public static class Role
+    @Data
+    public static class PagePermission {
+        private Long permissionId;
+        private String permissionName;
+        private Boolean checked;
+    }
 }

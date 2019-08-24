@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatestarter.service;
 
 import com.example.boot.springboottemplatedomain.role.payload.*;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import org.springframework.data.domain.Page;
@@ -43,4 +44,12 @@ public interface RoleService {
      * @return 角色菜单
      */
     List<RoleMenuRef> securityGetRoleMenuListByRoleId(Long roleId);
+
+    /**
+     * [spring security] 通过角色的菜单ID获取对应的菜单权限
+     *
+     * @param menuIds 菜单ID集合
+     * @return 角色菜单权限
+     */
+    List<RoleMenuPermissionRef> securityGetRoleMenuPermissionListByMenuIds(List<Long> menuIds);
 }

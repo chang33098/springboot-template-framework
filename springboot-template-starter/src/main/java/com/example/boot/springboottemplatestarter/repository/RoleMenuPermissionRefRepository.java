@@ -4,6 +4,8 @@ import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermiss
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by EDZ on 2019/8/20.
  */
@@ -11,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface RoleMenuPermissionRefRepository extends JpaRepository<RoleMenuPermissionRef, Long> {
 
     void deleteAllByMenuId(Long menuId);
+
+    List<RoleMenuPermissionRef> findAllByMenuIdIn(List<Long> menuId);
 }

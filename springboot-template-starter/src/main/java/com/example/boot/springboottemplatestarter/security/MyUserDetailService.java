@@ -2,6 +2,7 @@ package com.example.boot.springboottemplatestarter.security;
 
 import cn.hutool.core.lang.Assert;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
@@ -36,6 +37,8 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private RoleService roleService;
 
+    // TODO: 2019/8/24 统一[spring security]的日志输出格式
+
     /**
      * 初始化security登录用户的信息(通过username获取)
      *
@@ -52,19 +55,15 @@ public class MyUserDetailService implements UserDetailsService {
             return new UsernameNotFoundException("User's account not found: " + username);
         });
 
-        // TODO: 2019/8/20 先屏蔽, 待后期数据结构完善后再做调整
+        SystemRole role = user.getRole();
+        Assert.notNull(role, "账号[{}]的系统角色为空", username);
 
-//        SystemRole role = user.getRole();
-//        Assert.notNull(role, "账号[{}]的系统角色为空", username);
-//
-//        List<RoleMenuRef> roleMenus = roleService.securityGetAllRoleMenuByRoleId(role.getId());
-//        List<SystemPermission> permissions = roleMenus.stream()
-//                .map(RoleMenuRef::getPermissions)
-//                .flatMap(Collection::stream).collect(Collectors.toList()); //获取角色对应的权限信息
-//
-//        return UserPrincipal.create(user, roleMenus, permissions);
+        List<RoleMenuRef> roleMenus = roleService.securityGetRoleMenuListByRoleId(role.getId()); //加载角色所对应的菜单
 
-        return null;
+        List<Long> menuIds = roleMenus.stream().map(RoleMenuRef::getId).collect(Collectors.toList());
+        List<RoleMenuPermissionRef> rolePermissions = roleService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
+
+        return UserPrincipal.create(user, roleMenus, rolePermissions);
     }
 
     /**

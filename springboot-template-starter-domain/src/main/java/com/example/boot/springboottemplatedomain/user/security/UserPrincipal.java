@@ -2,8 +2,10 @@ package com.example.boot.springboottemplatedomain.user.security;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.user.constants.UserStatus;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
@@ -62,18 +64,20 @@ public class UserPrincipal implements UserDetails {
     /**
      * Create user principal
      *
-     * @param user        user po
-     * @param roleMenus   user platform menus
-     * @param permissions permission po list
+     * @param user            user po
+     * @param roleMenus       user platform menus
+     * @param rolePermissions role permission po list
      * @return user principal
      */
-    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<SystemPermission> permissions) {
+    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
         List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
                 .map(UserPrincipal::createMenu).collect(Collectors.toList());
 
-        List<GrantedAuthority> authorities = permissions.stream()
-                .filter(permission -> StrUtil.isNotBlank(permission.getCode()))
-                .map(permission -> new SimpleGrantedAuthority(permission.getCode()))
+        List<GrantedAuthority> authorities = rolePermissions.stream()
+                .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermission().getPermission().getCode()))
+                .map(rolePermission -> new SimpleGrantedAuthority(
+                        rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
+                ))
                 .collect(Collectors.toList());
 
         return new UserPrincipal(user.getId(),

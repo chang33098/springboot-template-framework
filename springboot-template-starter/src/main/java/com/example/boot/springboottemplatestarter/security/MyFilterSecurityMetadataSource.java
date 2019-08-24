@@ -40,24 +40,11 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
         this.pageService = pageService;
     }
 
-    // TODO: 2019/8/15 fix it!!!
-
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
-
-//        List<SystemPermissionUrl> permissionUrls = permissionService.securityGetAllPermissionUrl();
-
         List<PagePermissionRef> permissionRefs = pageService.securityGetPagePermissionList();
         if (permissionRefs.isEmpty()) return;
-
-        //            permissionUrls.forEach(permissionUrl -> {
-//                List<ConfigAttribute> configs = (List<ConfigAttribute>) Stream.builder().add(new SecurityConfig(
-//                        permissionUrl.getPermission().getPage().getCode() +
-//                        "_" +
-//                        permissionUrl.getPermission().getCode()));
-//                resourceMap.put(permissionUrl.getMatchUrl(), configs);
-//            });
 
         permissionRefs.forEach(permissionRef -> {
             List<String> interceptUrls = new ArrayList<>();
@@ -68,9 +55,6 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
             }
 
             if (!interceptUrls.isEmpty()) {
-//                List<ConfigAttribute> configs = interceptUrls.stream().map(url -> (ConfigAttribute) new SecurityConfig(permissionRef.getPage().getCode()
-//                        + ":"
-//                        + permissionRef.getPermission().getCode())).collect(Collectors.toList());
                 interceptUrls.forEach(url -> {
                     List<ConfigAttribute> configs = Stream.of(new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode())).collect(Collectors.toList());
                     resourceMap.put(url, configs);
