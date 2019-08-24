@@ -1,7 +1,9 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.role.payload.*;
+import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.role.response.FindRoleTableRO;
@@ -9,6 +11,7 @@ import com.example.boot.springboottemplatedomain.role.response.GetRoleMenuRO;
 import com.example.boot.springboottemplatedomain.role.response.ModifyRoleRO;
 import com.example.boot.springboottemplatedomain.role.response.GetRoleMenuTreeRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
+import com.example.boot.springboottemplatestarter.service.PageService;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +37,12 @@ import java.util.stream.Collectors;
 public class RoleController {
 
     private final RoleService roleService;
+    private final PageService pageService;
 
     @Autowired
-    public RoleController(RoleService roleService) {
+    public RoleController(RoleService roleService, PageService pageService) {
         this.roleService = roleService;
+        this.pageService = pageService;
     }
 
     @GetMapping
@@ -115,6 +120,8 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
+    // TODO: 2019/8/25 此处应分为两个方法 1:修改根节点菜单; 2:修改子菜单信息 
+
     @RequestMapping(value = "{role_id}/get_role_menu/{menu_id}")
     @ResponseBody
     public ResponseBodyBean getRoleMenu(@PathVariable(value = "role_id") Long roleId,
@@ -122,8 +129,15 @@ public class RoleController {
         RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
 
         GetRoleMenuRO menuRO = new GetRoleMenuRO();
+        BeanUtil.copyProperties(menuRef, menuRO);
 
-        return null;
+        //获取页面的权限
+        final Long pageId = menuRef.getPage().getId();
+        
+        List<PagePermissionRef> pagePermissions = pageService.getPagePermissionListById(pageId);
+        List<RoleMenuPermissionRef> menuPermissions = roleService.getRoleMenuPermissionListByMenuId(menuId);
+
+        return ResponseBodyBean.ofSuccess(menuRO);
     }
 
     @PostMapping(value = "{role_id}/create_role_root_menu")

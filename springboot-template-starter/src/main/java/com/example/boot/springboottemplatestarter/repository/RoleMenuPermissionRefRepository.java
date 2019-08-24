@@ -16,5 +16,7 @@ public interface RoleMenuPermissionRefRepository extends JpaRepository<RoleMenuP
 
     void deleteAllByPermissionId(Long pagePermissionId);
 
+    List<RoleMenuPermissionRef> findAllByMenuId(Long menuId);
+
     List<RoleMenuPermissionRef> findAllByMenuIdIn(List<Long> menuId);
 }

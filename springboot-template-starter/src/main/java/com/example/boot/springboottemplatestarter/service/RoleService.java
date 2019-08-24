@@ -27,6 +27,8 @@ public interface RoleService {
 
     RoleMenuRef getRoleMenuByRoleIdAndMenuId(Long roleId, Long menuId);
 
+    List<RoleMenuPermissionRef> getRoleMenuPermissionListByMenuId(Long menuId);
+
     void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo);
 
     void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo);
