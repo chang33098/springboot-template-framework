@@ -30,6 +30,7 @@
                 <div class="layui-card-body">
                     <form class="layui-form" action="" lay-filter="component-form-element">
                         <input type="hidden" name="parentId">
+                        <input type="hidden" name="menuId">
                         <input type="hidden" name="menuLevel">
                         <input type="hidden" name="pageId">
 
@@ -104,10 +105,16 @@
                             </div>
                         </div>
 
-                        <div class="layui-form-item">
+                        <div id="create-menu" class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn root-menu" lay-submit lay-filter="create-root-menu">添加一级菜单</button>
                                 <button class="layui-btn sub-menu" lay-submit lay-filter="create-sub-menu">添加菜单</button>
+                            </div>
+                        </div>
+                        <div id="modify-menu" class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn root-menu" lay-submit lay-filter="modify-root-menu">修改一级菜单</button>
+                                <button class="layui-btn sub-menu" lay-submit lay-filter="modify-sub-menu">修改菜单</button>
                             </div>
                         </div>
                     </form>
@@ -171,12 +178,61 @@
             })
         });
 
+        form.on('submit(modify-root-menu)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field; //表单参数
+
+            var menuId = $('input[name="menuId"]').val();
+
+            page.async_request({
+                url: '/system/role/' + roleId + '/modify_role_root_menu/' + menuId,
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+        form.on('submit(modify-sub-menu)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field; //表单参数
+
+            var permissionIds = packaging();
+            if (permissionIds.length < 1) {
+                layer.msg('至少选择勾选一个权限', {icon: 5});
+                return;
+            }
+
+            field.permissionIds = permissionIds;
+
+            var menuId = $('input[name="menuId"]').val();
+
+            page.async_request({
+                url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menuId,
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5});
+                    }
+                }
+            })
+        });
+
         init(); //初始化页面
     });
 
     function init() {
         page.async_request({
-            url: '/system/role/' + roleId + '/get_role_menu_tree',
+            url: '/system/role/' + roleId + '/get_role_menu',
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
                     tree.render({
@@ -221,61 +277,66 @@
 
         return permissionIds;
     }
-    
+
     function createRootMenu() {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#page-permission').html('');
+        $('#create-menu').css('display', 'block');
+        $('#modify-menu').css('display', 'none');
         $('.sub-menu').css('display', 'none');
         $('.root-menu').css('display', 'block');
-        form.render(); //重新渲染
 
         $('input[name="menuLevel"]').val(1);
+
+        form.render(); //重新渲染
 
         $('#menu-form').css('display', 'block');
     }
 
     function createSubMenu(parentId, parentName) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#page-permission').html('');
+        $('#create-menu').css('display', 'block');
+        $('#modify-menu').css('display', 'none');
         $('.root-menu').css('display', 'none');
         $('.sub-menu').css('display', 'block');
-        form.render(); //重新渲染
 
         $('input[name="parentId"]').val(parentId);
         $('input[name="menuLevel"]').val(2);
         $('#parent-page').find('input').val(parentName);
+
+        form.render(); //重新渲染
 
         $('#menu-form').css('display', 'block');
     }
 
     function modifyRootMenu(menu) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#page-permission').html('');
+        $('#modify-menu').css('display', 'block');
+        $('#create-menu').css('display', 'none');
         $('.sub-menu').css('display', 'none');
         $('.root-menu').css('display', 'block');
-        form.render(); //重新渲染
 
+        $('input[name="menuId"]').val(menu.id);
         $('input[name="menuName"]').val(menu.menuName);
         $('input[name="icon"]').val(menu.icon);
         $('input[name="sortNo"]').val(menu.sortNo);
 
-        page.async_request({
-            url: '/system/role/' + roleId + '/get_role_menu/' + menu.id,
-            success: function (result) {
-                if (result.status === httpstatus.OK.code) {
-                    console.info(menu);
-                } else {
-                    layer.msg(result.message, {icon: 5})
-                }
-            }
-        });
+        form.render(); //重新渲染
 
         $('#menu-form').css('display', 'block');
     }
 
     function modifySubMenu(menu) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+        $('#page-permission').html('');
+        $('#modify-menu').css('display', 'block');
+        $('#create-menu').css('display', 'none');
         $('.sub-menu').css('display', 'none');
         $('.root-menu').css('display', 'block');
-        form.render(); //重新渲染
 
+        $('input[name="menuId"]').val(menu.id);
         $('input[name="menuName"]').val(menu.menuName);
         $('input[name="icon"]').val(menu.icon);
         $('input[name="sortNo"]').val(menu.sortNo);
@@ -284,14 +345,18 @@
             url: '/system/role/xxx',
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
+                    result.pagePermissions.forEach(function (value) {
+                        var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
+                        $('#page-permission').append(checkbox);
+                    });
 
+                    form.render(); //重新渲染
+                    $('#menu-form').css('display', 'block');
                 } else {
                     layer.msg(result.message, {icon: 5})
                 }
             }
         });
-
-        $('#menu-form').css('display', 'block');
     }
 
     function choosePage() {

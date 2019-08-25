@@ -29,6 +29,9 @@ var page = {
 
         table.on('tool(data-table)', option.event);
     },
+    init_tree: function (option) {
+
+    },
     open_view: function (option) {
         layer.open({
             type: 2,
