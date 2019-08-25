@@ -62,7 +62,8 @@
                             <label class="layui-form-label">排序编号</label>
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
-                                    <input type="number" name="sortNo" value="0" lay-verify="required" class="layui-input">
+                                    <input type="number" name="sortNo" value="0" lay-verify="required"
+                                           class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -79,29 +80,32 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">页面名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="page-name" class="layui-input" placeholder="请选择链接页面" readonly>
+                                    <input type="text" id="page-name" class="layui-input" placeholder="请选择链接页面"
+                                           readonly>
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">页面代码</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="page-code" class="layui-input" style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
+                                    <input type="text" id="page-code" class="layui-input"
+                                           style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">访问链接</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="page-url" class="layui-input" style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
+                                    <input type="text" id="page-url" class="layui-input"
+                                           style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="layui-form-item sub-menu">
                             <label class="layui-form-label">菜单权限</label>
-                            <div id="blank-tips" class="layui-input-block">
+                            <div id="blank-tips" class="layui-input-block sub-menu" style="display: none;">
                                 <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
                             </div>
                             <div id="page-permission" class="layui-input-block" style="display: none;">
-                            <!-- page permission checkbox there -->
+                                <!-- page permission checkbox there -->
                             </div>
                         </div>
 
@@ -251,13 +255,15 @@
                                 }
                                 createSubMenu(data.id, data.title);
                             } else if (type === 'update') {
+                                console.info(data.menuLevel);
+
                                 if (data.menuLevel === 1) {
                                     modifyRootMenu(data);
                                 } else if (data.menuLevel === 2) {
                                     modifySubMenu(data);
                                 }
                             } else if (type === 'del') {
-
+                                deleteMenu(data);
                             }
                         }
                     });
@@ -283,8 +289,8 @@
         $('#page-permission').html('');
         $('#create-menu').css('display', 'block');
         $('#modify-menu').css('display', 'none');
-        $('.sub-menu').css('display', 'none');
         $('.root-menu').css('display', 'block');
+        $('.sub-menu').css('display', 'none');
 
         $('input[name="menuLevel"]').val(1);
 
@@ -296,10 +302,11 @@
     function createSubMenu(parentId, parentName) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
         $('#page-permission').html('');
+        $('#blank-tips').css('display', 'block');
         $('#create-menu').css('display', 'block');
         $('#modify-menu').css('display', 'none');
-        $('.root-menu').css('display', 'none');
         $('.sub-menu').css('display', 'block');
+        $('.root-menu').css('display', 'none');
 
         $('input[name="parentId"]').val(parentId);
         $('input[name="menuLevel"]').val(2);
@@ -313,13 +320,14 @@
     function modifyRootMenu(menu) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
         $('#page-permission').html('');
+        $('#page-permission').css('display', 'block');
         $('#modify-menu').css('display', 'block');
         $('#create-menu').css('display', 'none');
-        $('.sub-menu').css('display', 'none');
         $('.root-menu').css('display', 'block');
+        $('.sub-menu').css('display', 'none');
 
         $('input[name="menuId"]').val(menu.id);
-        $('input[name="menuName"]').val(menu.menuName);
+        $('input[name="menuName"]').val(menu.title);
         $('input[name="icon"]').val(menu.icon);
         $('input[name="sortNo"]').val(menu.sortNo);
 
@@ -331,13 +339,15 @@
     function modifySubMenu(menu) {
         $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
         $('#page-permission').html('');
+        $('#page-permission').css('display', 'block');
         $('#modify-menu').css('display', 'block');
         $('#create-menu').css('display', 'none');
-        $('.sub-menu').css('display', 'none');
-        $('.root-menu').css('display', 'block');
+        $('.sub-menu').css('display', 'block');
+        $('.root-menu').css('display', 'none');
+        $('#blank-tips').css('display', 'none');
 
         $('input[name="menuId"]').val(menu.id);
-        $('input[name="menuName"]').val(menu.menuName);
+        $('input[name="menuName"]').val(menu.title);
         $('input[name="icon"]').val(menu.icon);
         $('input[name="sortNo"]').val(menu.sortNo);
 
@@ -345,7 +355,9 @@
             url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menu.id,
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
-                    result.pagePermissions.forEach(function (value) {
+                    var pagePermissions = result.data.pagePermissions;
+
+                    pagePermissions.forEach(function (value) {
                         var checkbox = '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
                         $('#page-permission').append(checkbox);
                     });
@@ -357,6 +369,12 @@
                 }
             }
         });
+    }
+
+    function deleteMenu(menu) {
+        layer.confirm('确认删除' + menu.title + '菜单?', function (index) {
+            console.info('出发删除菜单事件...');
+        })
     }
 
     function choosePage() {
@@ -379,7 +397,7 @@
                 $('#page-permission').html('');
 
                 page.async_request({
-                    url: '/system/page/' + pageInfo.id + '/permissions',
+                    url: '/system/page/' + pageInfo.id + '/get_page_permission_list',
                     success: function (result) {
                         if (result.status === httpstatus.OK.code) {
                             var data = result.data;

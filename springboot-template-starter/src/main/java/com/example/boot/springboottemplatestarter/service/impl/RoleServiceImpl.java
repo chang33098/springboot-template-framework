@@ -106,7 +106,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleMenuRef getRoleMenuByRoleIdAndMenuId(Long roleId, Long menuId) {
-        return roleMenuRefRepository.findByIdAndRoleId(roleId, menuId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "]不存在, 或者菜单ID [" + menuId + "] 不存在"));
+        return roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "]不存在, 或者菜单ID [" + menuId + "] 不存在"));
     }
 
     @Override

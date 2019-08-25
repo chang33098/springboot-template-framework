@@ -19,6 +19,7 @@ public class ModifyRoleSubMenuRO {
     private Long id;
     private String icon;
     private String menuName;
+    private String parentName;
     private Integer sortNo;
     private List<PagePermission> pagePermissions = new ArrayList<>();
 
@@ -32,6 +33,8 @@ public class ModifyRoleSubMenuRO {
     public static ModifyRoleSubMenuRO create(RoleMenuRef menuRef, List<PagePermissionRef> pagePermissions, List<RoleMenuPermissionRef> menuPermissions) {
         ModifyRoleSubMenuRO menuRO = new ModifyRoleSubMenuRO();
         BeanUtil.copyProperties(menuRef, menuRO);
+
+        menuRO.setParentName("父页面名称");
 
         List<Long> menuPermissionId = menuPermissions.stream().map(menuPermission -> menuPermission.getPermission().getId()).collect(Collectors.toList());
 
