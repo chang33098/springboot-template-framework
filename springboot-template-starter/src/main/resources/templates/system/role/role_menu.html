@@ -239,7 +239,7 @@
                         id: 'menu-tree',
                         elem: '#menu-tree',
                         edit: ['add', 'update', 'del'],
-                        data: result.data,
+                        data: result.data
                         operate: function (obj) {
                             var type = obj.type; //得到操作类型
                             var data = obj.data; //得到当前节点的数据
@@ -342,11 +342,11 @@
         $('input[name="sortNo"]').val(menu.sortNo);
 
         page.async_request({
-            url: '/system/role/xxx',
+            url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menu.id,
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
                     result.pagePermissions.forEach(function (value) {
-                        var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
+                        var checkbox = '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
                         $('#page-permission').append(checkbox);
                     });
 
