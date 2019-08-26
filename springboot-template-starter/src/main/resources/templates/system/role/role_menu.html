@@ -34,11 +34,11 @@
                         <input type="hidden" name="menuLevel">
                         <input type="hidden" name="pageId">
 
-                        <div id="parent-page" class="layui-form-item sub-menu">
+                        <div class="layui-form-item sub-menu">
                             <label class="layui-form-label">父页面</label>
                             <div class="layui-input-block">
                                 <div class="layui-col-md6">
-                                    <input type="text" class="layui-input" readonly>
+                                    <input type="text" id="parent-page" class="layui-input" readonly>
                                 </div>
                             </div>
                         </div>
@@ -111,14 +111,16 @@
 
                         <div id="create-menu" class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn root-menu" lay-submit lay-filter="create-root-menu">添加一级菜单</button>
-                                <button class="layui-btn sub-menu" lay-submit lay-filter="create-sub-menu">添加菜单</button>
+                                <button type="button" class="layui-btn root-menu" lay-submit lay-filter="create-root-menu">添加一级菜单
+                                </button>
+                                <button type="button" class="layui-btn sub-menu" lay-submit lay-filter="create-sub-menu">添加菜单</button>
                             </div>
                         </div>
                         <div id="modify-menu" class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn root-menu" lay-submit lay-filter="modify-root-menu">修改一级菜单</button>
-                                <button class="layui-btn sub-menu" lay-submit lay-filter="modify-sub-menu">修改菜单</button>
+                                <button type="button" class="layui-btn root-menu" lay-submit lay-filter="modify-root-menu">修改一级菜单
+                                </button>
+                                <button type="button" class="layui-btn sub-menu" lay-submit lay-filter="modify-sub-menu">修改菜单</button>
                             </div>
                         </div>
                     </form>
@@ -147,8 +149,8 @@
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        layer.msg(result.message, {icon: 1});
+                        refreshTree();
                     } else {
                         layer.msg(result.message, {icon: 5})
                     }
@@ -173,8 +175,8 @@
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        layer.msg(result.message, {icon: 1});
+                        refreshTree();
                     } else {
                         layer.msg(result.message, {icon: 5});
                     }
@@ -190,12 +192,12 @@
 
             page.async_request({
                 url: '/system/role/' + roleId + '/modify_role_root_menu/' + menuId,
-                type: 'post',
+                type: 'put',
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        layer.msg(result.message, {icon: 1});
+                        refreshTree();
                     } else {
                         layer.msg(result.message, {icon: 5})
                     }
@@ -218,12 +220,12 @@
 
             page.async_request({
                 url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menuId,
-                type: 'post',
+                type: 'put',
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        layer.msg(result.message, {icon: 1});
+                        refreshTree();
                     } else {
                         layer.msg(result.message, {icon: 5});
                     }
@@ -274,9 +276,25 @@
         })
     }
 
+    function refreshTree() {
+        page.async_request({
+            url: '/system/role/' + roleId + '/get_role_menu',
+            success: function (result) {
+                if (result.status === httpstatus.OK.code) {
+                    tree.reload('menu-tree', {
+                        data: result.data
+                    });
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            }
+        });
+    }
+
     function packaging() {
+//        form.render(); //重新渲染
         var permissionIds = [];
-        $('input[name="permissionId"]').each(function () {
+        $('input[name="permissionId"]:checked').each(function () {
             var permissionId = $(this).val();
             permissionIds.push(permissionId);
         });
@@ -310,7 +328,7 @@
 
         $('input[name="parentId"]').val(parentId);
         $('input[name="menuLevel"]').val(2);
-        $('#parent-page').find('input').val(parentName);
+        $('#parent-page').val(parentName);
 
         form.render(); //重新渲染
 
@@ -346,6 +364,7 @@
         $('.root-menu').css('display', 'none');
         $('#blank-tips').css('display', 'none');
 
+        $('input[name="pageId"]').val(menu.pageId);
         $('input[name="menuId"]').val(menu.id);
         $('input[name="menuName"]').val(menu.title);
         $('input[name="icon"]').val(menu.icon);
@@ -355,10 +374,20 @@
             url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menu.id,
             success: function (result) {
                 if (result.status === httpstatus.OK.code) {
-                    var pagePermissions = result.data.pagePermissions;
+                    $('#parent-page').val(result.data.parentName);
+                    $('#page-name').val(result.data.pageName);
+                    $('#page-code').val(result.data.pageCode);
+                    $('#page-url').val(result.data.pageUrl);
 
+                    var pagePermissions = result.data.pagePermissions;
                     pagePermissions.forEach(function (value) {
-                        var checkbox = '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
+                        var checkbox = '';
+                        if (value.checked) {
+                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '" checked>';
+                        } else {
+                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
+                        }
+
                         $('#page-permission').append(checkbox);
                     });
 

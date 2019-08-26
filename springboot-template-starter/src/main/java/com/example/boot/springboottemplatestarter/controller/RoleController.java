@@ -128,6 +128,8 @@ public class RoleController {
         ModifyRoleRootMenuRO menuRO = new ModifyRoleRootMenuRO();
         BeanUtil.copyProperties(menuRef, menuRO);
 
+        menuRO.setPageId(menuRef.getPage().getId());
+
         return ResponseBodyBean.ofSuccess(menuRO);
     }
 

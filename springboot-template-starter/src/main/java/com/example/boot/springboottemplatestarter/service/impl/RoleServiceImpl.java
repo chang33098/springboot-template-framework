@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.List;
  * @date 2019/7/28 15:05
  */
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
@@ -169,6 +171,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo) {
         final Long pageId = plo.getPageId();
+        final List<Long> permissionIds = plo.getPermissionIds();
 
         RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
         SystemPage page = pageService.getPageById(pageId);
@@ -181,7 +184,7 @@ public class RoleServiceImpl implements RoleService {
 
         roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
 
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
+        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(permissionIds);
         permissionRefs.forEach(permissionRef -> {
             RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
             menuPermissionRef.setPermission(permissionRef);

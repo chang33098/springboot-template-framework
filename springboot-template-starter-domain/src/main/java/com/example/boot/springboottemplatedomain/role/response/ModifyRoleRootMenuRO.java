@@ -15,4 +15,5 @@ public class ModifyRoleRootMenuRO {
     private String icon;
     private String menuName;
     private Integer sortNo;
+    private Long pageId;
 }

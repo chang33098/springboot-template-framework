@@ -1,10 +1,12 @@
 package com.example.boot.springboottemplatedomain.role.response;
 
 import com.example.boot.springboottemplatedomain.common.response.AbstractTreeRO;
+import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Data
 public class GetRoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
 
+    private Long pageId;
     private String icon;
     private Integer menuLevel;
     private Integer sortNo;
@@ -24,6 +27,10 @@ public class GetRoleMenuTreeRO extends AbstractTreeRO<RoleMenuRef> {
     public void transferTree(RoleMenuRef data) {
         this.setId(data.getId());
         this.setTitle(data.getMenuName());
+
+        if (Objects.equals(data.getMenuLevel(), MenuLevel.CHILD_MENU.getType()))
+            this.setPageId(data.getPage().getId());
+
         this.setIcon(data.getIcon());
         this.setMenuLevel(data.getMenuLevel());
         this.setSortNo(data.getSortNo());
