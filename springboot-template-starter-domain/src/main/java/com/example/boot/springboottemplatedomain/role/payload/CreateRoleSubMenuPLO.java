@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -20,13 +20,12 @@ public class CreateRoleSubMenuPLO {
     @NotNull
     private Long pageId;
     private String icon;
-    @NotNull
+    @NotBlank
     private String menuName;
     @NotNull
     private Integer menuLevel;
     private Integer sortNo = 0;
     private Long parentId;
-    @NotEmpty
     @Size(min = 1)
     private List<Long> permissionIds = new ArrayList<>();
 }

@@ -3,8 +3,9 @@ package com.example.boot.springboottemplatedomain.page.payload;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,23 +21,23 @@ public class CreatePagePLO {
     // TODO: 2019/8/13 添加[code]的正则校验
     // TODO: 2019/8/13 添加[url]的正则校验
 
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String code;
-    @NotNull
+    @NotBlank
     private String url;
-    @NotNull
+    @NotBlank
     @Length(max = 500)
     private String description;
-    @NotEmpty
+    @Size(min = 1)
     private List<PagePermission> pagePermissions = new ArrayList<>();
 
     @Data
     public static class PagePermission {
         @NotNull
         private Long permissionId;
-        @NotNull
+        @NotBlank
         private String interceptUrls;
     }
 }

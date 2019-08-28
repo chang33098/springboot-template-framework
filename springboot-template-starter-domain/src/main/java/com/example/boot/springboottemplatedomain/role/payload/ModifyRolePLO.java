@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * write this class description...
@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ModifyRolePLO {
 
-    @NotNull
+    @NotEmpty
     private String name;
-    @NotNull
+    @NotEmpty
     private String description;
 }

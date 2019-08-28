@@ -1,7 +1,8 @@
 package com.example.boot.springboottemplatedomain.permission.payload;
 
 import lombok.Data;
-import javax.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 修改系统权限PLO
@@ -12,9 +13,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ModifyPermissionPLO {
 
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String code;
     private String description;
 }

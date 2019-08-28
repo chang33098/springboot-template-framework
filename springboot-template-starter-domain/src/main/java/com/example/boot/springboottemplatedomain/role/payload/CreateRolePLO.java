@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 创建系统角色PLO
@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class CreateRolePLO {
 
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String description;
 }

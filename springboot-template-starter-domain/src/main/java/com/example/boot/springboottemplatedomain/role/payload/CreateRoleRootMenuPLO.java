@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * write this class description...
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class CreateRoleRootMenuPLO {
 
     private String icon;
-    @NotNull
+    @NotBlank
     private String menuName;
     private Integer sortNo = 0;
 }
