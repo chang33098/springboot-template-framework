@@ -1,6 +1,8 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import com.example.boot.springboottemplatedomain.user.payload.CreateUserPLO;
 import com.example.boot.springboottemplatedomain.user.payload.FindUserTablePLO;
+import com.example.boot.springboottemplatedomain.user.payload.ModifyUserPLO;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import com.example.boot.springboottemplatedomain.user.response.FindUserTableRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
@@ -10,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -45,5 +47,41 @@ public class UserController {
         Page<FindUserTableRO> userROPage = new PageImpl<>(userROS, userPage.getPageable(), userPage.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(userROPage);
+    }
+
+    @GetMapping(value = "get/{user_id}")
+    public String getUser(@PathVariable(value = "user_id") Long userId) {
+
+        return "system/user/user_detail";
+    }
+
+    @GetMapping(value = "create")
+    public String createUser(Model model) {
+        return "system/user/user_create";
+    }
+
+    @RequestMapping(value = "create")
+    @ResponseBody
+    public ResponseBodyBean createUser(@RequestBody @Valid CreateUserPLO plo) {
+
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "modify/{user_id}")
+    public String modifyUser(@PathVariable(value = "user_id") Long userId, Model model) {
+        return "system/user/user_modify";
+    }
+
+    @PutMapping(value = "modify/{user_id}")
+    @ResponseBody
+    public ResponseBodyBean modifyUser(@PathVariable(value = "user_id") Long userId,
+                                       @RequestBody @Valid ModifyUserPLO plo) {
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @DeleteMapping(value = "delete/{id}")
+    public ResponseBodyBean delete(@PathVariable(value = "user_id") Long userId) {
+
+        return ResponseBodyBean.ofSuccess();
     }
 }

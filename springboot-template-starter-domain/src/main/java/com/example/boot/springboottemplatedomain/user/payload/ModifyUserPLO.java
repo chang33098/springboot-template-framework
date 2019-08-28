@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatedomain.user.payload;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * write this class description...
@@ -21,4 +22,6 @@ public class ModifyUserPLO {
     private String nickname;
     private String avatar;
     private String description;
+    @NotNull
+    private Long roleId;
 }

@@ -44,6 +44,9 @@ public class SystemUser {
     @Column(columnDefinition = "tinyint comment '用户状态 1:正常, 2:已禁用'")
     private Integer status;
 
+    @Column(columnDefinition = "tinyint comment '删除标记 0:未删除, 1:已删除'")
+    private Boolean deleted;
+
     @Column(columnDefinition = "datetime comment '创建时间'")
     private Timestamp createTime;
 
