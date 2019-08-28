@@ -29,7 +29,6 @@ public class FindPermissionTableRO {
 
     public static List<FindPermissionTableRO> create(List<SystemPermission> permissions) {
         List<FindPermissionTableRO> permissionROS = new ArrayList<>(permissions.size());
-
         permissions.forEach(permission -> {
             FindPermissionTableRO permissionRO = new FindPermissionTableRO();
             BeanUtil.copyProperties(permission, permissionRO);

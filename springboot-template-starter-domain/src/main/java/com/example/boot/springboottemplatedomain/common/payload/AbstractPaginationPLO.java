@@ -18,7 +18,6 @@ public abstract class AbstractPaginationPLO {
     @NotNull(message = "Invalid parameter")
     @Min(value = 1)
     private Integer pageNo;
-
     @NotNull(message = "Invalid parameter")
     @Range(min = 10, max = 100)
     private Integer limit;

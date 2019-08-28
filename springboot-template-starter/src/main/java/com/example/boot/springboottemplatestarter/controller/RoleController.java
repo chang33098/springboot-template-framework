@@ -117,8 +117,6 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
-    // TODO: 2019/8/25 此处应分为两个方法 1:修改根节点菜单; 2:修改子菜单信息 
-
     @GetMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
     @ResponseBody
     public ResponseBodyBean<ModifyRoleRootMenuRO> modifyRoleRootMenu(@PathVariable(value = "role_id") Long roleId,

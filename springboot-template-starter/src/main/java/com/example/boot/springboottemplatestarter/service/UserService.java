@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.service;
 
+import com.example.boot.springboottemplatedomain.user.payload.FindUserTablePLO;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import org.springframework.data.domain.Page;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    Page<SystemUser> findUserTable(int pageNo, int limit);
+    Page<SystemUser> findUserTable(FindUserTablePLO plo);
 
     /**
      * [spring security] 通过用户(登录账号)获取管理员信息

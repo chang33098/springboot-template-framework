@@ -28,7 +28,6 @@ public class FindRoleTableRO {
 
     public static List<FindRoleTableRO> create(List<SystemRole> roles) {
         List<FindRoleTableRO> roleROS = new ArrayList<>();
-
         roles.forEach(role -> {
             FindRoleTableRO roleRO = new FindRoleTableRO();
             BeanUtil.copyProperties(role, roleRO);

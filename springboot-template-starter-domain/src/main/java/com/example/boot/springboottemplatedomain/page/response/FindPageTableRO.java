@@ -36,7 +36,6 @@ public class FindPageTableRO {
      */
     public static List<FindPageTableRO> create(List<SystemPage> pages) {
         List<FindPageTableRO> pageROS = new ArrayList<>(pages.size());
-
         pages.forEach(page -> {
             FindPageTableRO pageRO = new FindPageTableRO();
             BeanUtil.copyProperties(page, pageRO);

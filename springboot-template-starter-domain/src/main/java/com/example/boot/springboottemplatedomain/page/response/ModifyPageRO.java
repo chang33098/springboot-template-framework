@@ -44,6 +44,7 @@ public class ModifyPageRO {
 
             return pagePermission;
         }).collect(Collectors.toList());
+
         pageRO.setPagePermissions(permissionROS);
 
         return pageRO;

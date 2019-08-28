@@ -21,7 +21,6 @@ public class GetPagePermissionListRO {
 
     public static List<GetPagePermissionListRO> create(List<PagePermissionRef> permissionRefs) {
         List<GetPagePermissionListRO> permissionROS = new ArrayList<>();
-
         permissionRefs.forEach(permissionRef -> {
             GetPagePermissionListRO permissionRO = new GetPagePermissionListRO();
             permissionRO.setId(permissionRef.getId());

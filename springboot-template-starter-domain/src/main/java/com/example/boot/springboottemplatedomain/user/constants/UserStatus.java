@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum  UserStatus {
+public enum UserStatus {
 
     ENABLED(1, "启用"),
     DISABLED(2, "禁用");

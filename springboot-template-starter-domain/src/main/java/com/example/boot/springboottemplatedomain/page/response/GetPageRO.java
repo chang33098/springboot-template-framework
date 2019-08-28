@@ -53,6 +53,7 @@ public class GetPageRO {
 
             return pagePermission;
         }).collect(Collectors.toList());
+
         pageRO.setPagePermissions(permissionROS);
 
         return pageRO;
