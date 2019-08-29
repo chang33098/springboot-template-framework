@@ -4,6 +4,7 @@ import com.example.boot.springboottemplatedomain.role.payload.*;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
+import com.example.boot.springboottemplatedomain.role.response.GetRoleListRO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public interface RoleService {
     void deleteRoleMenu(Long roleId, Long menuId);
 
     void deleteRoleMenuPermissionByPagePermissionId(Long pagePermissionId);
+
+    List<GetRoleListRO> getRoleList();
 
     /**
      * [spring security] 通过角色ID获取对应的系统菜单

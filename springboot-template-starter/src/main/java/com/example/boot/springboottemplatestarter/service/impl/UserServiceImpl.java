@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(pageNo - 1, limit);
         Page<SystemUser> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
-            if (plo.getRoleId() != 0) {
+            if (plo.getRoleId() != null) {
                 list.add(criteriaBuilder.equal(root.get("role_id").as(Long.class), plo.getRoleId()));
             }
             if (!StringUtils.isEmpty(plo.getUsername())) {

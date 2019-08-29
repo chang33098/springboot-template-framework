@@ -1,11 +1,14 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
+import com.example.boot.springboottemplatedomain.role.response.GetRoleListRO;
 import com.example.boot.springboottemplatedomain.user.payload.CreateUserPLO;
 import com.example.boot.springboottemplatedomain.user.payload.FindUserTablePLO;
 import com.example.boot.springboottemplatedomain.user.payload.ModifyUserPLO;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import com.example.boot.springboottemplatedomain.user.response.FindUserTableRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
+import com.example.boot.springboottemplatestarter.service.RoleService;
 import com.example.boot.springboottemplatestarter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +30,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping
@@ -57,6 +62,9 @@ public class UserController {
 
     @GetMapping(value = "create")
     public String createUser(Model model) {
+        List<GetRoleListRO> roles = roleService.getRoleList();
+        model.addAttribute("roles", roles);
+
         return "system/user/user_create";
     }
 

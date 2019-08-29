@@ -8,6 +8,7 @@ import com.example.boot.springboottemplatedomain.role.payload.*;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
+import com.example.boot.springboottemplatedomain.role.response.GetRoleListRO;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuPermissionRefRepository;
 import com.example.boot.springboottemplatestarter.repository.RoleMenuRefRepository;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -209,6 +211,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteRoleMenuPermissionByPagePermissionId(Long pagePermissionId) {
         roleMenuPermissionRefRepository.deleteAllByPermissionId(pagePermissionId);
+    }
+
+    @Override
+    public List<GetRoleListRO> getRoleList() {
+        List<SystemRole> roles = roleRepository.findAll(Sort.by("createTime").descending());
+        return GetRoleListRO.create(roles);
     }
 
     @Override

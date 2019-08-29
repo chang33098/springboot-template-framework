@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/common_header::header(~{::title})">
+    <meta charset="utf-8">
+    <title>springboot-template-framework</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+<form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录账号</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="username" lay-verify="required" placeholder="登录账号" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">系统用户的登录账号，只允许驶入英文和数字</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录密码</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="password" name="password" lay-verify="required" placeholder="登录密码" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">登录密码，长度至少6位</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分配角色</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户昵称</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="nickname" lay-verify="required" placeholder="用户昵称" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">用户昵称，</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="password" lay-verify="required|phone" placeholder="手机号码" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">系统管理员的手机号码</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户描述</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+                <textarea name="description" class="layui-textarea" placeholder="账号的作用简述"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="submit" id="submit"
+               value="添加">
+    </div>
+</form>
+<footer th:replace="common/common_footer::footer"></footer>
+<script type="text/javascript" th:inline="javascript">
+    var form;
+
+    layui.use(['form', 'laydate', 'upload'], function () {
+        form = layui.form;
+
+        form.on('submit(submit)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field;
+
+            page.async_request({
+                url: '/system/user/create',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>
