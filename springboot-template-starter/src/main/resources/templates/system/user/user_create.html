@@ -31,9 +31,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">分配角色</label>
         <div class="layui-input-block">
-            <div class="layui-col-md6">
-
-            </div>
+            <input type="radio" name="roleId" th:value="${role.id}" th:title="${role.name}" th:each="role : ${roles}">
         </div>
     </div>
     <div class="layui-form-item">
