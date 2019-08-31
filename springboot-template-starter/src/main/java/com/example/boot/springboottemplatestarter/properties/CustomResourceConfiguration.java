@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @ToString
-@ConfigurationProperties(prefix = "custom-configuration")
+@ConfigurationProperties(prefix = "custom-configuration.static")
 public class CustomResourceConfiguration {
 
     private List<ResourceHandler> resources = new ArrayList<>();
