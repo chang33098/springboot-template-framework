@@ -36,8 +36,7 @@ public class UploadController {
     }
 
     @PostMapping(value = "image")
-    public ResponseBodyBean image(@RequestParam(value = "file") MultipartFile file,
-                                  HttpServletRequest request) {
+    public ResponseBodyBean image(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
         final String originalName = file.getOriginalFilename();
         assert originalName != null;
 
