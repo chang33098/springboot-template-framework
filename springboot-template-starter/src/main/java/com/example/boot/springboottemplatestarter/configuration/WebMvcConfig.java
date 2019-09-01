@@ -1,6 +1,8 @@
 package com.example.boot.springboottemplatestarter.configuration;
 
+import cn.hutool.core.lang.Dict;
 import com.example.boot.springboottemplatestarter.properties.CustomResourceConfiguration;
+import com.example.boot.springboottemplatestarter.properties.CustomUploadConfiguration;
 import com.example.boot.springboottemplatestarter.properties.CustomViewConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Created by chang .
@@ -24,16 +30,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({CustomViewConfiguration.class, CustomResourceConfiguration.class})
+@EnableConfigurationProperties({
+        CustomViewConfiguration.class,
+        CustomResourceConfiguration.class,
+        CustomUploadConfiguration.class
+})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final CustomViewConfiguration viewConfiguration;
     private final CustomResourceConfiguration resourceConfiguration;
+    private final CustomUploadConfiguration uploadConfiguration;
 
     @Autowired
-    public WebMvcConfig(CustomViewConfiguration viewConfiguration, CustomResourceConfiguration resourceConfiguration) {
+    public WebMvcConfig(CustomViewConfiguration viewConfiguration,
+                        CustomResourceConfiguration resourceConfiguration,
+                        CustomUploadConfiguration uploadConfiguration) {
         this.viewConfiguration = viewConfiguration;
         this.resourceConfiguration = resourceConfiguration;
+        this.uploadConfiguration = uploadConfiguration;
     }
 
     @Bean
@@ -48,6 +62,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         };
     }
 
+    @Resource
+    public void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
+        Map<String, Object> domain = Dict.create()
+                .set("IMAGE_DOMAIN", uploadConfiguration.getImage().getDomain());
+
+        viewResolver.setStaticVariables(domain);
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         viewConfiguration.getCommonViews().forEach(view -> registry.addViewController(view.getPath()).setViewName(view.getName()));
@@ -59,7 +81,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         resourceConfiguration.getResources().forEach(
                 resourceHandler ->
-                registry.addResourceHandler(resourceHandler.getPathPattern()).addResourceLocations(resourceHandler.getLocation())
+                        registry.addResourceHandler(resourceHandler.getPathPattern()).addResourceLocations(resourceHandler.getLocation())
         );
     }
 
