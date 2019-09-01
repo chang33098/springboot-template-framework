@@ -90,10 +90,10 @@
         });
 
         page.init_table({
-            table: table,
             title: '系统权限',
             url: '/system/permission/table',
             elem: '#data-table',
+            component: table,
             cols: [
                 {type: 'checkbox', fixed: 'left', field: 'id', title: 'id'},
                 {title: '权限名称', field: 'name'},

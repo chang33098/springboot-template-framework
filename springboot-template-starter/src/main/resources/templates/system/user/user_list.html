@@ -109,10 +109,10 @@
         });
 
         page.init_table({
-            table: table,
             title: '系统用户',
             url: '/system/user/table',
             elem: '#data-table',
+            component: table,
             cols: [
                 {type: 'checkbox', fixed: 'left', field: 'id', title: 'id'},
                 {title: '登录账号', field: 'username'},

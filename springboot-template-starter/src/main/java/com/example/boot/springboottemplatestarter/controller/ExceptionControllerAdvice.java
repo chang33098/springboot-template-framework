@@ -188,12 +188,15 @@ public class ExceptionControllerAdvice {
      * @return ResponseBodyBean
      */
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
+    @ResponseBody
     public ResponseBodyBean maxUploadSizeExceeded(HttpServletRequest request,
                                                   HttpServletResponse response,
                                                   MaxUploadSizeExceededException exception) {
-        log.error("[GlobalExceptionCapture] MaxUploadSizeExceededException: MaxUploadSize: {}", exception.getMaxUploadSize());
-        response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
-        return ResponseBodyBean.ofStatus(HttpStatus.METHOD_NOT_ALLOWED);
+        // TODO: 2019/9/1 后期改为读取配文件中的信息 
+        
+        log.error("[GlobalExceptionCapture] MaxUploadSizeExceededException: MaxUploadSize: {}", exception.getMaxUploadSize(), exception);
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseBodyBean.ofStatus(HttpStatus.INTERNAL_SERVER_ERROR, "上传的文件大小超出了限制 最大容量: " + exception.getMaxUploadSize());
     }
 
     /**
@@ -256,9 +259,7 @@ public class ExceptionControllerAdvice {
             String firstErrorFieldMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
             return firstErrorFieldName + " " + firstErrorFieldMessage;
         } catch (Exception e) {
-            log.error("Exception occurred when get field error message from exception. Exception message: {}",
-                    e.getMessage(),
-                    e);
+            log.error("Exception occurred when get field error message from exception. Exception message: {}", e.getMessage(), e);
             return HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         }
     }

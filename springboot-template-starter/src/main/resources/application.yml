@@ -35,8 +35,8 @@ spring:
       request-timeout: 5S
   servlet:
     multipart:
-      max-file-size: 1M
       enabled: true
+      max-file-size: 10MB
 
 logging:
   config: classpath:logback/logback-@env@.xml

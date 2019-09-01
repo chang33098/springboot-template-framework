@@ -56,8 +56,6 @@ public class UploadController {
             uploadRO.setOriginalName(originalName);
             uploadRO.setResourceLink(customUploadConfiguration.getImage().getDomain() + File.separator + fileName);
 
-//             MaxUploadSizeExceededException 处理文件过大的异常
-
             log.info("图片上传成功 filepath: {}", image.getPath());
             return ResponseBodyBean.ofSuccess(uploadRO, "上传成功");
         } catch (IllegalArgumentException e) {
@@ -66,9 +64,6 @@ public class UploadController {
         } catch (IOException | IllegalStateException e) {
             log.error(e.getMessage(), e);
             return ResponseBodyBean.ofFailure("上传图片出错 " + e.getMessage());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return ResponseBodyBean.ofFailure("上传图片异常");
         }
     }
 }

@@ -1,6 +1,6 @@
 var page = {
     init_table: function (option) {
-        option.table.render({
+        option.component.render({
             id: option.id || 'data-table',
             elem: option.elem,
             url: domain + option.url,
@@ -29,8 +29,38 @@ var page = {
 
         table.on('tool(data-table)', option.event);
     },
-    init_tree: function (option) {
-
+    file_upload: function (option) {
+        option.component.render({
+            url: domain + option.url,
+            data: option.data || {},
+            headers: option.headers || {},
+            elem: option.elem || '#upload-button',
+            field: option.field || 'file',
+            multiple: option.multiple || false,
+            number: option.number || 0,
+            accept: option.accept || 'images',
+            acceptMime: option.acceptMime || 'image/*',
+            exts: option.exts || 'jpg|png|gif|bmp|jpeg',
+            before: option.before || function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#file-src').attr('src', result); //图片base64
+                });
+            },
+            done: option.done || function (result) {
+                console.info('file upload done!');
+                if (result.status === httpstatus.OK.code) {
+                    $('#file-path').val(result.data.fileName);
+                    $('#file-src').css('display', 'block').attr('src', result.data.resourceLink);
+                    return layer.msg(result.message, {icon: '1'});
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            },
+            error: option.error || function (index, upload) {
+                console.info('file upload error!');
+                layer.closeAll('loading');
+            }
+        })
     },
     open_view: function (option) {
         layer.open({
