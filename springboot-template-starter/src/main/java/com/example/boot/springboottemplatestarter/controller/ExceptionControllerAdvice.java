@@ -19,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.thymeleaf.exceptions.TemplateInputException;
@@ -105,8 +106,8 @@ public class ExceptionControllerAdvice {
     /**
      * 处理thymeleaf模板抛出的[TemplateInputException]异常
      *
-     * @param request HttpRequest
-     * @param response HttpResponse
+     * @param request   HttpRequest
+     * @param response  HttpResponse
      * @param exception TemplateInputException
      * @return ModelAndView
      */
@@ -148,8 +149,8 @@ public class ExceptionControllerAdvice {
      * @param exception ResourceNotFoundException
      * @return ResponseBodyBean
      */
-    @ResponseBody
     @ExceptionHandler(value = ResourceNotFoundException.class)
+    @ResponseBody
     public ResponseBodyBean resourceNotFound(HttpServletRequest request,
                                              HttpServletResponse response,
                                              ResourceNotFoundException exception) {
@@ -166,15 +167,31 @@ public class ExceptionControllerAdvice {
      * @param exception HttpRequestMethodNotSupportedException
      * @return ResponseBodyBean
      */
-    @ResponseBody
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    @ResponseBody
     public ResponseBodyBean methodNotAllowed(HttpServletRequest request,
                                              HttpServletResponse response,
                                              HttpRequestMethodNotSupportedException exception) {
-        log.error("[GlobalExceptionCapture] HttpRequestMethodNotSupportedException: " +
-                        "Current method is {}, Support HTTP method = {}",
+        log.error("[GlobalExceptionCapture] HttpRequestMethodNotSupportedException: Current method is {}, Support HTTP method = {}",
                 exception.getMethod(),
                 JSONUtil.toJsonStr(exception.getSupportedHttpMethods()));
+        response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
+        return ResponseBodyBean.ofStatus(HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * 处理Spring Boot文件上传超出限制的异常
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception MaxUploadSizeExceededException
+     * @return ResponseBodyBean
+     */
+    @ExceptionHandler(value = MaxUploadSizeExceededException.class)
+    public ResponseBodyBean maxUploadSizeExceeded(HttpServletRequest request,
+                                                  HttpServletResponse response,
+                                                  MaxUploadSizeExceededException exception) {
+        log.error("[GlobalExceptionCapture] MaxUploadSizeExceededException: MaxUploadSize: {}", exception.getMaxUploadSize());
         response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
         return ResponseBodyBean.ofStatus(HttpStatus.METHOD_NOT_ALLOWED);
     }
@@ -187,21 +204,11 @@ public class ExceptionControllerAdvice {
      * @param exception any kinds of exception occurred in controller
      * @return custom exception info
      */
-    @ResponseBody
     @ExceptionHandler(value = Exception.class)
+    @ResponseBody
     public ResponseBodyBean globalHandle(HttpServletRequest request,
                                          HttpServletResponse response,
                                          Exception exception) {
-
-//        if (exception instanceof NoHandlerFoundException) {
-//            log.error("[GlobalExceptionCapture] NoHandlerFoundException: Request URL = {}, HTTP method = {}",
-//                    ((NoHandlerFoundException) exception).getRequestURL(),
-//                    ((NoHandlerFoundException) exception).getHttpMethod(),
-//                    exception);
-//            response.setStatus(HttpStatus.NOT_FOUND.value());
-//            return ResponseBodyBean.ofStatus(HttpStatus.NOT_FOUND);
-//        } else
-
         if (exception instanceof MethodArgumentNotValidException) {
             log.error("[GlobalExceptionCapture] MethodArgumentNotValidException: {}", exception.getMessage());
             response.setStatus(HttpStatus.BAD_REQUEST.value());
