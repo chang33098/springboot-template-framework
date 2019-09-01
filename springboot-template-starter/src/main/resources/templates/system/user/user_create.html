@@ -40,7 +40,18 @@
             <div class="layui-input-inline" style="width: 60%;">
                 <input type="text" name="nickname" lay-verify="required" placeholder="用户昵称" class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">用户昵称，</div>
+            <div class="layui-form-mid layui-word-aux">用户昵称，只允许输入中英文和下划线</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户头像</label>
+        <div class="layui-input-block">
+            <button type="button" id="upload-button" class="layui-btn">上传图片</button>
+            <div class="layui-upload-list">
+                <input type="hidden" id="image-path" name="avatar">
+                <img class="layui-upload-img" id="image-src" height="150px;">
+                <p id="image-text"></p>
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -68,10 +79,11 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form;
+    var form, upload;
 
-    layui.use(['form', 'laydate', 'upload'], function () {
+    layui.use(['form', 'upload'], function () {
         form = layui.form;
+        upload = layui.upload;
 
         form.on('submit(submit)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
@@ -90,6 +102,36 @@
                     }
                 }
             })
+        });
+
+        var uploadInst = upload.render({
+            url: domain + '/system/upload/image',
+            elem: '#upload-button',
+            field: 'file',
+            accept: 'image',
+            exts: 'jpg|png|jpeg',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#image-src').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (result) {
+                if (result.status === httpstatus.OK.code) {
+                    $('#image-path').val(result.data.fileName);
+                    return layer.msg(result.message, {icon: '1'});
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#image-text');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
         });
     });
 </script>

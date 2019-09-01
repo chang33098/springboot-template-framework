@@ -180,4 +180,9 @@ public class RoleController {
         roleService.modifyRoleSubMenu(roleId, menuId, plo);
         return ResponseBodyBean.ofSuccess();
     }
+
+    @GetMapping(value = "choose_menu_icon")
+    public String chooseIcon() {
+        return "system/role/choose_menu_icon";
+    }
 }
