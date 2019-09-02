@@ -216,7 +216,15 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<GetRoleListRO> getRoleList() {
         List<SystemRole> roles = roleRepository.findAll(Sort.by("createTime").descending());
-        return GetRoleListRO.create(roles);
+
+        List<GetRoleListRO> roleROS = new ArrayList<>(roles.size());
+        roles.forEach(role -> {
+            GetRoleListRO roleRO = new GetRoleListRO();
+            BeanUtil.copyProperties(role, roleRO);
+            roleROS.add(roleRO);
+        });
+
+        return roleROS;
     }
 
     @Override
