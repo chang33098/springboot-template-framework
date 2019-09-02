@@ -15,8 +15,6 @@ import javax.validation.constraints.NotNull;
 public class ModifyUserPLO {
 
     @NotBlank
-    private String username;
-    @NotBlank
     private String phone;
     @NotBlank
     private String nickname;

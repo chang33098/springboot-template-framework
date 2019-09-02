@@ -168,7 +168,6 @@
                 layer.msg('至少选择勾选一个权限', {icon: 5});
                 return;
             }
-
             field.permissionIds = permissionIds;
 
             page.async_request({
@@ -189,7 +188,6 @@
         form.on('submit(modify-root-menu)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
-
             var menuId = $('input[name="menuId"]').val();
 
             page.async_request({
@@ -209,16 +207,14 @@
         form.on('submit(modify-sub-menu)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
+            var menuId = $('input[name="menuId"]').val();
 
             var permissionIds = packaging();
             if (permissionIds.length < 1) {
                 layer.msg('至少选择勾选一个权限', {icon: 5});
                 return;
             }
-
             field.permissionIds = permissionIds;
-
-            var menuId = $('input[name="menuId"]').val();
 
             page.async_request({
                 url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menuId,

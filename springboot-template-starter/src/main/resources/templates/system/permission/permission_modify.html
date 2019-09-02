@@ -42,8 +42,7 @@
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="submit" id="submit"
-               value="编辑">
+        <input type="button" lay-submit lay-filter="submit" id="submit" value="提交">
     </div>
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
@@ -56,7 +55,6 @@
         form.on('submit(submit)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
-
             var permissionId = $('#permissionId').val();
 
             page.async_request({

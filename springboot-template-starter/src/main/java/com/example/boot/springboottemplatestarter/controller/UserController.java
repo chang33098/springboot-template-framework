@@ -8,6 +8,7 @@ import com.example.boot.springboottemplatedomain.user.payload.FindUserTablePLO;
 import com.example.boot.springboottemplatedomain.user.payload.ModifyUserPLO;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import com.example.boot.springboottemplatedomain.user.response.FindUserTableRO;
+import com.example.boot.springboottemplatedomain.user.response.GetUserRO;
 import com.example.boot.springboottemplatedomain.user.response.ModifyUserRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.RoleService;
@@ -64,6 +65,11 @@ public class UserController {
 
     @GetMapping(value = "get/{user_id}")
     public String getUser(@PathVariable(value = "user_id") Long userId, Model model) {
+        SystemUser user = userService.getUserById(userId);
+        GetUserRO userRO = new GetUserRO();
+        BeanUtil.copyProperties(user, userRO);
+
+        model.addAttribute("user", userRO);
 
         return "system/user/user_detail";
     }

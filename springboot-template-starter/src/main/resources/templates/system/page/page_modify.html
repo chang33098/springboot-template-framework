@@ -104,8 +104,7 @@
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="submit" id="submit"
-               value="添加">
+        <input type="button" lay-submit lay-filter="submit" id="submit" value="提交">
     </div>
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
@@ -118,11 +117,9 @@
 
         form.on('submit(submit)', function (data) {
             var index = parent.layer.getFrameIndex(window.name);
-
             var field = data.field;
-            field.pagePermissions = packaging();
-
             var pageId = $('#page-id').val();
+            field.pagePermissions = packaging();
 
             page.async_request({
                 url: '/system/page/modify/' + pageId,
@@ -173,7 +170,6 @@
 
                 var permissionData = $('#permission-data').val();
                 var permissions = JSON.parse(permissionData);
-
                 permissions.forEach(function (val) {
                     if (filter.indexOf(val.code) === -1) {
                         filter.push(val.code);

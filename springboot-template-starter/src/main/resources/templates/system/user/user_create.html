@@ -58,7 +58,7 @@
         <label class="layui-form-label">手机号码</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="password" lay-verify="required|phone" placeholder="手机号码" class="layui-input">
+                <input type="text" name="phone" lay-verify="required|phone" placeholder="手机号码" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">系统管理员的手机号码</div>
         </div>
@@ -73,8 +73,7 @@
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="submit" id="submit"
-               value="添加">
+        <input type="button" lay-submit lay-filter="submit" id="submit" value="提交">
     </div>
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
