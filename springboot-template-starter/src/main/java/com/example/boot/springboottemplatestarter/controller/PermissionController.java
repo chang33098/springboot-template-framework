@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.permission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatedomain.permission.payload.FindPermissionTablePLO;
 import com.example.boot.springboottemplatedomain.permission.payload.ModifyPermissionPLO;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +49,12 @@ public class PermissionController {
     public ResponseBodyBean<Page<FindPermissionTableRO>> findPermissionTable(FindPermissionTablePLO plo) {
         Page<SystemPermission> permissionPage = permissionService.findPermissionTable(plo);
 
-        List<FindPermissionTableRO> permissionROS = FindPermissionTableRO.create(permissionPage.getContent());
+        List<FindPermissionTableRO> permissionROS = new ArrayList<>(permissionPage.getContent().size());
+        permissionPage.getContent().forEach(permission -> {
+            FindPermissionTableRO permissionRO = new FindPermissionTableRO();
+            BeanUtil.copyProperties(permission, permissionRO);
+            permissionROS.add(permissionRO);
+        });
         Page<FindPermissionTableRO> permissionROPage = new PageImpl<>(permissionROS,
                 permissionPage.getPageable(), permissionPage.getTotalElements());
 
@@ -70,7 +77,9 @@ public class PermissionController {
     public String modifyPermission(@PathVariable(value = "permission_id") Long permissionId, Model model) {
         SystemPermission permission = permissionService.getPermissionById(permissionId);
 
-        ModifyPermissionRO permissionRO = ModifyPermissionRO.create(permission);
+        ModifyPermissionRO permissionRO = new ModifyPermissionRO();
+        BeanUtil.copyProperties(permission, permissionRO);
+
         model.addAttribute("permission", permissionRO);
 
         return "system/permission/permission_modify";

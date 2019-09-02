@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
 import com.example.boot.springboottemplatedomain.role.response.GetRoleListRO;
 import com.example.boot.springboottemplatedomain.user.payload.CreateUserPLO;
@@ -7,6 +8,7 @@ import com.example.boot.springboottemplatedomain.user.payload.FindUserTablePLO;
 import com.example.boot.springboottemplatedomain.user.payload.ModifyUserPLO;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import com.example.boot.springboottemplatedomain.user.response.FindUserTableRO;
+import com.example.boot.springboottemplatedomain.user.response.ModifyUserRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.RoleService;
 import com.example.boot.springboottemplatestarter.service.UserService;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,14 +51,19 @@ public class UserController {
     public ResponseBodyBean<Page<FindUserTableRO>> findUserTable(FindUserTablePLO plo) {
         Page<SystemUser> userPage = userService.findUserTable(plo);
 
-        List<FindUserTableRO> userROS = FindUserTableRO.create(userPage.getContent());
+        List<FindUserTableRO> userROS = new ArrayList<>(userPage.getContent().size());
+        userPage.getContent().forEach(user -> {
+            FindUserTableRO userRO = new FindUserTableRO();
+            BeanUtil.copyProperties(user, userRO);
+            userROS.add(userRO);
+        });
         Page<FindUserTableRO> userROPage = new PageImpl<>(userROS, userPage.getPageable(), userPage.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(userROPage);
     }
 
     @GetMapping(value = "get/{user_id}")
-    public String getUser(@PathVariable(value = "user_id") Long userId) {
+    public String getUser(@PathVariable(value = "user_id") Long userId, Model model) {
 
         return "system/user/user_detail";
     }
@@ -71,12 +79,31 @@ public class UserController {
     @RequestMapping(value = "create")
     @ResponseBody
     public ResponseBodyBean createUser(@RequestBody @Valid CreateUserPLO plo) {
-
+        userService.createUser(plo);
         return ResponseBodyBean.ofSuccess();
     }
 
     @GetMapping(value = "modify/{user_id}")
     public String modifyUser(@PathVariable(value = "user_id") Long userId, Model model) {
+        SystemUser user = userService.getUserById(userId);
+        List<GetRoleListRO> roles = roleService.getRoleList();
+
+        ModifyUserRO userRO = new ModifyUserRO();
+        BeanUtil.copyProperties(user, userRO);
+        userRO.setRoleId(user.getRole().getId());
+
+        List<ModifyUserRO.UserRole> userRoles = new ArrayList<>();
+        roles.forEach(role -> {
+            ModifyUserRO.UserRole userRole = new ModifyUserRO.UserRole();
+            userRole.setRoleId(role.getId());
+            userRole.setRoleName(role.getName());
+            userRole.setChecked(userRO.getRoleId().equals(role.getId()));
+            userRoles.add(userRole);
+        });
+        userRO.setUserRoles(userRoles);
+
+        model.addAttribute("user");
+
         return "system/user/user_modify";
     }
 
@@ -84,12 +111,13 @@ public class UserController {
     @ResponseBody
     public ResponseBodyBean modifyUser(@PathVariable(value = "user_id") Long userId,
                                        @RequestBody @Valid ModifyUserPLO plo) {
+        userService.modifyUser(userId, plo);
         return ResponseBodyBean.ofSuccess();
     }
 
-    @DeleteMapping(value = "delete/{id}")
+    @DeleteMapping(value = "delete/{user_id}")
     public ResponseBodyBean delete(@PathVariable(value = "user_id") Long userId) {
-
+        userService.deleteUser(userId);
         return ResponseBodyBean.ofSuccess();
     }
 }

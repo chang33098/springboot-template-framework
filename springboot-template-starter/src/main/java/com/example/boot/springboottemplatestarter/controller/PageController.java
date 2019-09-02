@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatestarter.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
 import com.example.boot.springboottemplatedomain.page.payload.FindPageTablePLO;
 import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
@@ -20,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * write this class description...
@@ -50,7 +53,12 @@ public class PageController {
     public ResponseBodyBean<Page<FindPageTableRO>> findPageTable(FindPageTablePLO plo) {
         Page<SystemPage> POPAGE = pageService.findPageTable(plo);
 
-        List<FindPageTableRO> pageROS = FindPageTableRO.create(POPAGE.getContent());
+        List<FindPageTableRO> pageROS = new ArrayList<>(POPAGE.getContent().size());
+        POPAGE.getContent().forEach(page -> {
+            FindPageTableRO pageRO = new FindPageTableRO();
+            BeanUtil.copyProperties(page, pageRO);
+            pageROS.add(pageRO);
+        });
         Page<FindPageTableRO> ROPAGE = new PageImpl<>(pageROS, POPAGE.getPageable(), POPAGE.getTotalElements());
 
         return ResponseBodyBean.ofSuccess(ROPAGE);
@@ -61,7 +69,18 @@ public class PageController {
         SystemPage page = pageService.getPageById(pageId);
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
-        GetPageRO pageRO = GetPageRO.create(page, permissionRefs);
+        GetPageRO pageRO = new GetPageRO();
+        BeanUtil.copyProperties(page, pageRO);
+        List<GetPageRO.PagePermission> permissionROS = permissionRefs.stream().map(permissionRef -> {
+            GetPageRO.PagePermission pagePermission = new GetPageRO.PagePermission();
+            pagePermission.setPermissionId(permissionRef.getPermission().getId());
+            pagePermission.setPermissionName(permissionRef.getPermission().getName());
+            pagePermission.setPermissionCode(permissionRef.getPermission().getCode());
+            pagePermission.setInterceptUrls(permissionRef.getInterceptUrls());
+            return pagePermission;
+        }).collect(Collectors.toList());
+        pageRO.setPagePermissions(permissionROS);
+
         model.addAttribute("page", pageRO);
 
         return "system/page/page_detail";
@@ -84,7 +103,17 @@ public class PageController {
         SystemPage page = pageService.getPageById(pageId);
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
 
-        ModifyPageRO pageRO = ModifyPageRO.create(page, permissionRefs);
+        ModifyPageRO pageRO = new ModifyPageRO();
+        BeanUtil.copyProperties(page, pageRO);
+        List<ModifyPageRO.PagePermission> permissionROS = permissionRefs.stream().map(permissionRef -> {
+            ModifyPageRO.PagePermission pagePermission = new ModifyPageRO.PagePermission();
+            pagePermission.setPermissionId(permissionRef.getPermission().getId());
+            pagePermission.setPermissionName(permissionRef.getPermission().getName());
+            pagePermission.setInterceptUrls(permissionRef.getInterceptUrls());
+            return pagePermission;
+        }).collect(Collectors.toList());
+        pageRO.setPagePermissions(permissionROS);
+
         model.addAttribute("page", pageRO);
 
         return "system/page/page_modify";
@@ -114,7 +143,14 @@ public class PageController {
     @ResponseBody
     public ResponseBodyBean<List<GetPagePermissionListRO>> getPagePermissionList(@PathVariable(value = "page_id") Long pageId) {
         List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListById(pageId);
-        List<GetPagePermissionListRO> permissionROS = GetPagePermissionListRO.create(permissionRefs);
+        List<GetPagePermissionListRO> permissionROS = new ArrayList<>();
+        permissionRefs.forEach(permissionRef -> {
+            GetPagePermissionListRO permissionRO = new GetPagePermissionListRO();
+            permissionRO.setId(permissionRef.getId());
+            permissionRO.setPermissionCode(permissionRef.getPermission().getCode());
+            permissionRO.setPermissionName(permissionRef.getPermission().getName());
+            permissionROS.add(permissionRO);
+        });
 
         return ResponseBodyBean.ofSuccess(permissionROS);
     }
