@@ -66,8 +66,10 @@ public class UserController {
     @GetMapping(value = "get/{user_id}")
     public String getUser(@PathVariable(value = "user_id") Long userId, Model model) {
         SystemUser user = userService.getUserById(userId);
+
         GetUserRO userRO = new GetUserRO();
         BeanUtil.copyProperties(user, userRO);
+        userRO.setRoleName(user.getRole().getName());
 
         model.addAttribute("user", userRO);
 

@@ -37,9 +37,9 @@ public class UploadController {
 
     @PostMapping(value = "image")
     public ResponseBodyBean image(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
-        final String originalName = file.getOriginalFilename();
-        assert originalName != null;
+        assert file != null;
 
+        final String originalName = file.getOriginalFilename();
         final String suffix = originalName.substring(originalName.lastIndexOf("."));
         final String fileName = System.currentTimeMillis() + suffix; //自定义文件名
 
