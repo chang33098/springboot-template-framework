@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+    <style type="text/css">
+        .layui-form-label {width: 100px;}
+    </style>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <div class="layui-form-item">
