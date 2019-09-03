@@ -15,7 +15,7 @@ spring:
 custom-configuration:
   upload:
     image:
-      domain: http://localhost/springboottemplate/image
+      domain: http://localhost/springboottemplate/image/
       path: G:/STATIC/springboot-template/image
   security:
     enabled: false

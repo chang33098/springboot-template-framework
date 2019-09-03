@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="header(title)">
+<head th:fragment="header">
     <meta charset="utf-8">
-    <title th:replace="${title}">Thymeleaf_common_header</title>
+    <title>springboot_template</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -11,4 +11,3 @@
     <link th:href="@{/static/layuiadmin/style/admin.css}" rel="stylesheet" media="all">
     <script type="text/javascript" th:replace="common/common_global::global_var"></script>
 </head>
-</html>

@@ -110,7 +110,7 @@ public class UserController {
         });
         userRO.setUserRoles(userRoles);
 
-        model.addAttribute("user");
+        model.addAttribute("user", userRO);
 
         return "system/user/user_modify";
     }

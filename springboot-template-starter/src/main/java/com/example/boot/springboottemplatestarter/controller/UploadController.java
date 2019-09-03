@@ -37,9 +37,8 @@ public class UploadController {
 
     @PostMapping(value = "image")
     public ResponseBodyBean image(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
-        assert file != null;
-
         final String originalName = file.getOriginalFilename();
+        assert originalName != null;
         final String suffix = originalName.substring(originalName.lastIndexOf("."));
         final String fileName = System.currentTimeMillis() + suffix; //自定义文件名
 
@@ -54,7 +53,7 @@ public class UploadController {
             UploadRO uploadRO = new UploadRO();
             uploadRO.setFileName(fileName);
             uploadRO.setOriginalName(originalName);
-            uploadRO.setResourceLink(customUploadConfiguration.getImage().getDomain() + File.separator + fileName);
+            uploadRO.setResourceLink(customUploadConfiguration.getImage().getDomain() + fileName);
 
             log.info("图片上传成功 filepath: {}", image.getPath());
             return ResponseBodyBean.ofSuccess(uploadRO, "上传成功");
