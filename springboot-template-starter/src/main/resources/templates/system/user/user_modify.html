@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/common_header::header(~{::title})">
-    <meta charset="utf-8">
-    <title>springboot-template-framework</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-</head>
+<head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="user-id" th:value="${user.id}">
@@ -42,7 +35,7 @@
             <button type="button" id="upload-button" class="layui-btn">上传图片</button>
             <div class="layui-upload-list">
                 <input type="hidden" id="file-path" name="avatar" th:value="${user.avatar}">
-                <img class="layui-upload-img" id="file-src" height="100px;" th:src="${IMAGE_DOMAIN}/${user.avatar}">
+                <img class="layui-upload-img" id="file-src" height="100px;" th:src="${IMAGE_DOMAIN + user.avatar}">
                 <p id="file-text"></p>
             </div>
         </div>

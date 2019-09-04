@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 public class ModifyUserRO {
 
+    private Long id;
     private String username;
     private String phone;
     private String nickname;

@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/common_header::header(~{::title})">
-    <meta charset="utf-8">
-    <title>springboot-template-framework</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="../../../static/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../../static/layuiadmin/style/admin.css" media="all">
-</head>
+<head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -116,7 +107,7 @@
             cols: [
                 {type: 'checkbox', fixed: 'left', field: 'id', title: 'id'},
                 {title: '登录账号', field: 'username'},
-                {title: '用户昵称', field: 'description'},
+                {title: '用户昵称', field: 'nickname'},
                 {title: '手机号码', field: 'createTime'},
                 {title: '状态', field: 'status'},
                 {title: '描述', field: 'description'},
@@ -134,7 +125,7 @@
                     });
                 } else if (obj.event === 'detail') {
                     page.open_view({
-                        url: '/system/user/detail/' + data.id,
+                        url: '/system/user/get/' + data.id,
                         title: '详情',
                         btn: ['返回'],
                         yes: function (index) {
