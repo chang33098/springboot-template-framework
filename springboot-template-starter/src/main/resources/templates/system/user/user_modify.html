@@ -17,7 +17,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">分配角色</label>
         <div class="layui-input-block">
-            <input type="radio" name="roleId" th:value="${role.id}" th:title="${role.name}" th:each="role : ${roles}">
+            <input type="radio" name="roleId" th:value="${role.roleId}" th:title="${role.roleName}" th:checked="${role.checked}" th:each="role : ${user.userRoles}">
         </div>
     </div>
     <div class="layui-form-item">
