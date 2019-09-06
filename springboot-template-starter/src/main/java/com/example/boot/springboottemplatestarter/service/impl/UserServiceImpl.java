@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
             if (plo.getStatus() != null) {
                 list.add(criteriaBuilder.equal(root.get("status").as(Integer.class), plo.getStatus()));
             }
+            list.add(criteriaBuilder.equal(root.get("deleted").as(Boolean.class), false));
 
             Predicate[] predicates = new Predicate[list.size()];
             return criteriaQuery.where(list.toArray(predicates)).getRestriction();
