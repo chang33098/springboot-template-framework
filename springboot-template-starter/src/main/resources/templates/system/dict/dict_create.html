@@ -1,10 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><th:block th:replace="common/common_header::header"/></head>
 <body>
+<form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>字典信息</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">字典名称</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="name" lay-verify="required" placeholder="字典名称"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">字典名称描述</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">字典类型</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="code" lay-verify="required" placeholder="字典类型"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">字典的英文代码</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块代码</label>
+        <div class="layui-col-md6">
+            <textarea name="description" class="layui-textarea" placeholder="该字典的用途描述"></textarea>
+        </div>
+    </div>
 
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>KEY-VALUE</legend>
+    </fieldset>
+    <div class="layui-form-item dict-option template">
+        <label class="layui-form-label">字典代码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="option-code" lay-verify="required" class="layui-input" placeholder="字典代码">
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" name="option-value" lay-verify="required" class="layui-input" placeholder="字典值">
+        </div>
+        <div class="layui-input-inline">
+            <button type="button" onclick="addOption()" class="layui-btn layui-btn-primary">添加</button>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="submit" id="submit" value="提交">
+    </div>
+</form>
+<footer th:replace="common/common_footer::footer"></footer>
+<script type="text/javascript" th:inline="javascript">
+    var filter = [];
+    var form;
+
+    layui.use(['form', 'laydate', 'upload'], function () {
+        form = layui.form;
+
+        form.on('submit(submit)', function (data) {
+            var index = parent.layer.getFrameIndex(window.name);
+            var field = data.field;
+            var options = packagingOption();
+            if (options.length < 1) {
+                layer.msg('请输入字典项', {icon: '5'})
+            }
+            field.options = options;
+
+            page.async_request({
+                url: '/system/page/create',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        parent.layui.table.reload('data-table');
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+    });
+    
+    function packagingOption() {
+        var options = []; //字典选项
+        $('.dict-option').each(function () {
+
+        });
+        return options;
+    }
+    
+    function addOption() {
+        var optionId = new Date().getTime();
+        var div = $('.template').clone();
+        div.attr('id', 'option-' + optionId); //设置optionID
+        div.find('label').html(''); //清空label
+        div.find('input').val(''); //重置输入框
+        div.find('layui-input-inline:last').html('<button type="button" onclick="delOption("' + optionId + '")" class="layui-btn layui-btn-dange"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+        $('.dict-option:last').after(div);
+    }
+
+    function delOption(optionId) {
+        $('#option-' + optionId).remove();
+    }
+</script>
 </body>
 </html>

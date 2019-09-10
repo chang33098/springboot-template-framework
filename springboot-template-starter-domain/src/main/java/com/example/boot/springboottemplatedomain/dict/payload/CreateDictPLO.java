@@ -20,6 +20,8 @@ public class CreateDictPLO {
 
     @NotBlank
     private String type;
+    @NotBlank
+    private String name;
     @Max(255)
     private String description;
     @Size(min = 1)

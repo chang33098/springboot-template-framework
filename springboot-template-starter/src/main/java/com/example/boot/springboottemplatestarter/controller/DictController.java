@@ -1,10 +1,12 @@
 package com.example.boot.springboottemplatestarter.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
 import com.example.boot.springboottemplatedomain.dict.response.FindDictTableRO;
 import com.example.boot.springboottemplatedomain.dict.response.GetParentDictListRO;
+import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.DictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class DictController {
         this.dictService = dictService;
     }
 
-    @GetMapping(value = "dict")
+    @GetMapping
     public String dict(Model model) {
         List<GetParentDictListRO> dictROS = dictService.getParentDictList();
         model.addAttribute("dictTypes", dictROS);
@@ -47,7 +48,7 @@ public class DictController {
 
     @GetMapping(value = "table")
     @ResponseBody
-    public Page<FindDictTableRO> findDictTable(FindDictTablePLO plo) {
+    public ResponseBodyBean<Page<FindDictTableRO>> findDictTable(FindDictTablePLO plo) {
         Page<SystemDict> dictPage = dictService.findDictTable(plo);
 
         List<FindDictTableRO> dictROS = new ArrayList<>();
@@ -58,11 +59,18 @@ public class DictController {
         });
         Page<FindDictTableRO> dictROPage = new PageImpl<>(dictROS, dictPage.getPageable(), dictPage.getTotalElements());
 
-        return dictROPage;
+        return ResponseBodyBean.ofSuccess(dictROPage);
     }
 
     @GetMapping(value = "create")
     public String createDict() {
-        return "system/dict/create";
+        return "system/dict/dict_create";
+    }
+
+    @PostMapping(value = "create")
+    @ResponseBody
+    public ResponseBodyBean createDict(@RequestBody @Valid CreateDictPLO plo) {
+        dictService.createDict(plo);
+        return ResponseBodyBean.ofSuccess();
     }
 }

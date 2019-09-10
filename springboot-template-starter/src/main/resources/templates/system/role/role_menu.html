@@ -135,9 +135,7 @@
         util = layui.util;
 
         form.on('submit(create-root-menu)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
-
             page.async_request({
                 url: '/system/role/' + roleId + '/create_role_root_menu',
                 type: 'post',
@@ -153,9 +151,7 @@
             })
         });
         form.on('submit(create-sub-menu)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
-
             var permissionIds = packaging();
             if (permissionIds.length < 1) {
                 layer.msg('至少选择勾选一个权限', {icon: 5});
@@ -179,7 +175,6 @@
         });
 
         form.on('submit(modify-root-menu)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
             var menuId = $('input[name="menuId"]').val();
 
@@ -198,7 +193,6 @@
             })
         });
         form.on('submit(modify-sub-menu)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
             var menuId = $('input[name="menuId"]').val();
 
@@ -288,7 +282,6 @@
             var permissionId = $(this).val();
             permissionIds.push(permissionId);
         });
-
         return permissionIds;
     }
 
@@ -383,7 +376,6 @@
                         } else {
                             checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
                         }
-
                         $('#page-permission').append(checkbox);
                     });
 

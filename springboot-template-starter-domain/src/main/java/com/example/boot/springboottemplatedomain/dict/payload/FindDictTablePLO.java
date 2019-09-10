@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class FindDictTablePLO extends AbstractPaginationPLO {
 
-    private Integer type;
+    private Long parentId;
 }

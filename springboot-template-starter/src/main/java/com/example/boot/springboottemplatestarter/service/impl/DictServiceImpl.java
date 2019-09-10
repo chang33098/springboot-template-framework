@@ -17,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,43 @@ public class DictServiceImpl implements DictService {
         this.dictRepository = dictRepository;
     }
 
+
+//    public Page<Order> getLicenseList(Order order, Pageable pageable) {
+//        Specification<License> specification = new Specification<Order>() {
+//            @Override
+//            public Predicate toPredicate(Root<License> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+//                List<Predicate> list = new ArrayList<Predicate>();
+//                Join<Order, Express> expressJoin = root.join("express", JoinType.LEFT);
+//                Join<Order, Product> proJoin = root.join("product", JoinType.LEFT);
+//                Join<Order, Customer> customerJoin = root.join("customer", JoinType.LEFT);
+//                if (null != order.getCustomer() && !StringUtils.isEmpty(order.getCustomer().getCode())) {
+//                    list.add(criteriaBuilder.like(customerJoin.get("code").as(String.class), "%" + order.getCustomer().getCode() + "%"));
+//                }
+//                if (null != order.getCustomer() && !StringUtils.isEmpty(order.getCustomer().getName())) {
+//                    list.add(criteriaBuilder.like(customerJoin.get("name").as(String.class), "%" + order.getCustomer().getName() + "%"));
+//                }
+//                if (null != order.getProduct() && !StringUtils.isEmpty(order.getProduct().getCode())) {
+//                    list.add(criteriaBuilder.like(proJoin.get("code").as(String.class), "%" + order.getProduct().getCode() + "%"));
+//                }
+//                if (null != order.getProduct() && !StringUtils.isEmpty(order.getProduct().getName())) {
+//                    list.add(criteriaBuilder.like(proJoin.get("name").as(String.class), "%" + order.getProduct().getName() + "%"));
+//                }
+//                if (null != order.getExpress() && !StringUtils.isEmpty(order.getExpress().getCode())) {
+//                    list.add(criteriaBuilder.like(expressJoin.get("code").as(String.class), "%" + order.getExpress().getCode() + "%"));
+//                }
+//                if (!StringUtils.isEmpty(order.getCode())) {
+//                    list.add(criteriaBuilder.like(root.get("code").as(String.class), "%" + order.getCode() + "%"));
+//                }
+//                if (null != order.getCreateDate()) {
+//                    list.add(criteriaBuilder.lessThan(root.get("createDate").as(Date.class), order.getCreateDate()));
+//                }
+//                Predicate[] p = new Predicate[list.size()];
+//                return criteriaBuilder.and(list.toArray(p));
+//            }
+//        };
+//        return orderDao.findAll(specification, pageable);
+//    }
+
     @Override
     public Page<SystemDict> findDictTable(FindDictTablePLO plo) {
         int pageNo = plo.getPageNo();
@@ -47,7 +86,9 @@ public class DictServiceImpl implements DictService {
 
         Page<SystemDict> page = dictRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
-            list.add(criteriaBuilder.equal(root.get("type").as(Integer.class), plo.getType()));
+
+            Join<SystemDict, SystemDict> parentJoin = root.join("parent", JoinType.LEFT);
+            list.add(criteriaBuilder.equal(parentJoin.get("id").as(Long.class), plo.getParentId()));
             list.add(criteriaBuilder.equal(root.get("deleted").as(Boolean.class), false));
 
             Predicate[] predicates = new Predicate[list.size()];

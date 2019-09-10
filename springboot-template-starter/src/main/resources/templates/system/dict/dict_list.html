@@ -20,8 +20,8 @@
                         <div class="layui-col-md3">
                             <label class="layui-form-label">字典类型</label>
                             <div class="layui-input-block">
-                                <select name="" lay-filter="dict-type">
-                                    <option th:value="${type.id}" th:text="${type.name}" th:each="type : ${dictTypes}"></option>
+                                <select name="parentId" lay-filter="parentId">
+                                    <option th:value="${type.id}" th:text="${type.name}" th:each="type : ${dictTypes}" th:selected="${typeStat.first}"></option>
                                 </select>
                             </div>
                         </div>
