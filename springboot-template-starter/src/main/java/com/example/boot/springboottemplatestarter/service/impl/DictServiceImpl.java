@@ -1,13 +1,13 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.springboottemplatedomain.dict.constants.DictLevel;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictOptionPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
 import com.example.boot.springboottemplatedomain.dict.payload.ModifyDictOptionPLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
 import com.example.boot.springboottemplatedomain.dict.response.GetParentDictListRO;
-import com.example.boot.springboottemplatedomain.page.constants.DictLevel;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatestarter.repository.DictRepository;
 import com.example.boot.springboottemplatestarter.service.DictService;
@@ -88,7 +88,7 @@ public class DictServiceImpl implements DictService {
             List<Predicate> list = new ArrayList<>();
 
             Join<SystemDict, SystemDict> parentJoin = root.join("parent", JoinType.LEFT);
-            list.add(criteriaBuilder.equal(parentJoin.get("id").as(Long.class), plo.getParentId()));
+//            list.add(criteriaBuilder.equal(parentJoin.get("id").as(Long.class), plo.getParentId()));
             list.add(criteriaBuilder.equal(root.get("deleted").as(Boolean.class), false));
 
             Predicate[] predicates = new Predicate[list.size()];
@@ -100,33 +100,39 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public void createDict(CreateDictPLO plo) {
-        SystemDict dict = new SystemDict();
-        dict.setType(plo.getType());
-        dict.setDescription(plo.getDescription());
-        dictRepository.save(dict);
-
-        plo.getOptions().forEach(option -> {
-            SystemDict dictOption = new SystemDict();
-            dictOption.setCode(option.getCode());
-            dictOption.setValue(option.getValue());
-            dictOption.setParent(dictOption);
-            dictRepository.save(dictOption);
-        });
+//        SystemDict dict = new SystemDict();
+//        dict.setDictLevel(DictLevel.PARENT.getLevel());
+//        dict.setName(plo.getName());
+//        dict.setType(plo.getType());
+//        dict.setDescription(plo.getDescription());
+//        dict.setDeleted(false);
+//        dictRepository.save(dict);
+//
+//        plo.getOptions().forEach(option -> {
+//            SystemDict dictOption = new SystemDict();
+//            dictOption.setCode(option.getCode());
+//            dictOption.setValue(option.getValue());
+//            dictOption.setDeleted(false);
+//            dictOption.setParent(dictOption);
+//            dictRepository.save(dictOption);
+//        });
     }
 
     @Override
     public void createDictOption(CreateDictOptionPLO plo) {
-        SystemDict dict = dictRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + plo.getParentId() + "] 不存在"));
-        plo.getDictOptions().forEach(option -> {
-            SystemDict dictOption = dictRepository.findByParentIdAndCode(dict.getId(), option.getCode());
-            if (dictOption == null) {
-                dictOption = new SystemDict();
-            }
-            dictOption.setCode(option.getCode());
-            dictOption.setValue(option.getValue());
-            dictOption.setParent(dict);
-            dictRepository.save(dictOption);
-        });
+//        SystemDict dict = dictRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + plo.getParentId() + "] 不存在"));
+//        plo.getDictOptions().forEach(option -> {
+//            SystemDict dictOption = dictRepository.findByParentIdAndCode(dict.getId(), option.getCode());
+//            if (dictOption == null) {
+//                dictOption = new SystemDict();
+//            }
+//            dict.setDictLevel(DictLevel.OPTION.getLevel());
+//            dictOption.setCode(option.getCode());
+//            dictOption.setValue(option.getValue());
+//            dictOption.setDeleted(false);
+//            dictOption.setParent(dict);
+//            dictRepository.save(dictOption);
+//        });
     }
 
     @Override
@@ -143,7 +149,7 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public List<GetParentDictListRO> getParentDictList() {
-        List<SystemDict> dictList = dictRepository.findAllByDictLevelAndDeletedIsFalse(DictLevel.PARENT.getType());
+        List<SystemDict> dictList = dictRepository.findAllByDictLevelAndDeletedIsFalse(DictLevel.PARENT.getLevel());
         List<GetParentDictListRO> dictROS = dictList.stream().map(dict -> {
             GetParentDictListRO dictRO = new GetParentDictListRO();
             dictRO.setId(dict.getId());

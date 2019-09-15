@@ -20,10 +20,10 @@
         <label class="layui-form-label">字典类型</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="code" lay-verify="required" placeholder="字典类型"
+                <input type="text" name="type" lay-verify="required" placeholder="字典类型"
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">字典的英文代码</div>
+            <div class="layui-form-mid layui-word-aux">字典的英文代码(由大写英文和下划线组成)</div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -71,7 +71,7 @@
             field.options = options;
 
             page.async_request({
-                url: '/system/page/create',
+                url: '/system/dict/create',
                 type: 'post',
                 data: JSON.stringify(field),
                 success: function (result) {
@@ -89,7 +89,10 @@
     function packagingOption() {
         var options = []; //字典选项
         $('.dict-option').each(function () {
-
+            var option = {};
+            option.code = $(this).find('input[name="option-code"]').val(); //字典代码
+            option.value = $(this).find('input[name="option-value"]').val(); //字典值
+            options.push(option);
         });
         return options;
     }
@@ -98,9 +101,10 @@
         var optionId = new Date().getTime();
         var div = $('.template').clone();
         div.attr('id', 'option-' + optionId); //设置optionID
+        div.removeClass('template');
         div.find('label').html(''); //清空label
         div.find('input').val(''); //重置输入框
-        div.find('layui-input-inline:last').html('<button type="button" onclick="delOption("' + optionId + '")" class="layui-btn layui-btn-dange"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+        div.find('.layui-input-inline:last').html('<button type="button" onclick="delOption(' + optionId + ')" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
         $('.dict-option:last').after(div);
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class CreateDictOptionPLO {
 
     @NotNull
-    private Long parentId;
+    private Long dictId;
     @Size(min = 1)
     private List<DictOption> dictOptions = new ArrayList<>();
 

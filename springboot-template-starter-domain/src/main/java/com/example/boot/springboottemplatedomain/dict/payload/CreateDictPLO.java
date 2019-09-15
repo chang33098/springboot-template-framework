@@ -18,11 +18,13 @@ import java.util.List;
 @Data
 public class CreateDictPLO {
 
+    // TODO: 2019/9/15 添加正则表达式的校验 
+
     @NotBlank
     private String type;
     @NotBlank
     private String name;
-    @Max(255)
+//    @Max(255)
     private String description;
     @Size(min = 1)
     private List<DictOption> options = new ArrayList<>();
