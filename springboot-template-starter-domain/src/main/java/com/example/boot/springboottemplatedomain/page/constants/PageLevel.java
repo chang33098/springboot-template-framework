@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum DictLevel {
+public enum PageLevel {
 
     PARENT(1, "父页面"),
     OPTION(2, "子页面");
