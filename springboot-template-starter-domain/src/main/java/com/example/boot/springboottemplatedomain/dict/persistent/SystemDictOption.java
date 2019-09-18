@@ -11,6 +11,8 @@ import javax.persistence.*;
  * @date 2019/9/15 22:43
  */
 @Data
+@Entity
+@Table(name = "system_dict_option")
 public class SystemDictOption {
 
     @Id
@@ -25,5 +27,5 @@ public class SystemDictOption {
 
     @ManyToOne
     @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '字典ID'")
-    private SystemDict parent;
+    private SystemDict dict;
 }

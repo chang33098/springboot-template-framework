@@ -1,6 +1,9 @@
 package com.example.boot.springboottemplatedomain.dict.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.sql.Timestamp;
 
 /**
  * write this class description...
@@ -15,4 +18,8 @@ public class FindDictTableRO {
     private String type;
     private String name;
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp updateTime;
 }

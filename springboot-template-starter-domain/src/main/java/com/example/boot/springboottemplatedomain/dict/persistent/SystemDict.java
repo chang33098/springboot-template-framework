@@ -4,6 +4,7 @@ import lombok.Data;
 import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * write this class description...
@@ -34,5 +35,9 @@ public class SystemDict {
     @Column(columnDefinition = "tinyint default '0' comment '删除标记(0:未删除, 1:已删除)'")
     private Boolean deleted;
 
+    @Column(columnDefinition = "datetime comment '创建时间'")
+    private Timestamp createTime;
 
+    @Column(columnDefinition = "datetime comment '修改时间'")
+    private Timestamp updateTime;
 }

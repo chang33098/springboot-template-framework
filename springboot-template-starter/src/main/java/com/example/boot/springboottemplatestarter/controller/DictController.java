@@ -4,8 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
+import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
 import com.example.boot.springboottemplatedomain.dict.response.FindDictTableRO;
-import com.example.boot.springboottemplatedomain.dict.response.GetParentDictListRO;
+import com.example.boot.springboottemplatedomain.dict.response.ModifyDictRO;
 import com.example.boot.springboottemplatestarter.response.ResponseBodyBean;
 import com.example.boot.springboottemplatestarter.service.DictService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * write this class description...
@@ -39,10 +41,7 @@ public class DictController {
     }
 
     @GetMapping
-    public String dict(Model model) {
-        List<GetParentDictListRO> dictROS = dictService.getParentDictList();
-        model.addAttribute("dictTypes", dictROS);
-
+    public String dict() {
         return "system/dict/dict_list";
     }
 
@@ -72,5 +71,25 @@ public class DictController {
     public ResponseBodyBean createDict(@RequestBody @Valid CreateDictPLO plo) {
         dictService.createDict(plo);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "modify/{dict_id}")
+    public String modifyDict(@PathVariable(value = "dict_id") Long dictId, Model model) {
+        SystemDict dict = dictService.getDictById(dictId);
+        List<SystemDictOption> options = dictService.getOptionListByDictId(dictId);
+
+        ModifyDictRO dictRO = new ModifyDictRO();
+        BeanUtil.copyProperties(dict, dictRO);
+        List<ModifyDictRO.DictOption> optionROS = options.stream().map(option -> {
+            ModifyDictRO.DictOption optionRO = new ModifyDictRO.DictOption();
+            optionRO.setCode(option.getCode());
+            optionRO.setValue(option.getValue());
+            return optionRO;
+        }).collect(Collectors.toList());
+        dictRO.setOptions(optionROS);
+
+        model.addAttribute("dict", dictRO);
+
+        return "system/dict/dict_modify";
     }
 }

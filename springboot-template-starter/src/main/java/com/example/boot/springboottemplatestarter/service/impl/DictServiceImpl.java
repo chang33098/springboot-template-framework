@@ -1,14 +1,13 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.example.boot.springboottemplatedomain.dict.constants.DictLevel;
-import com.example.boot.springboottemplatedomain.dict.payload.CreateDictOptionPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
 import com.example.boot.springboottemplatedomain.dict.payload.ModifyDictOptionPLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
-import com.example.boot.springboottemplatedomain.dict.response.GetParentDictListRO;
+import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
+import com.example.boot.springboottemplatestarter.repository.DictOptionRepository;
 import com.example.boot.springboottemplatestarter.repository.DictRepository;
 import com.example.boot.springboottemplatestarter.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * write this class description...
@@ -34,10 +31,12 @@ import java.util.stream.Collectors;
 public class DictServiceImpl implements DictService {
 
     private final DictRepository dictRepository;
+    private final DictOptionRepository dictOptionRepository;
 
     @Autowired
-    public DictServiceImpl(DictRepository dictRepository) {
+    public DictServiceImpl(DictRepository dictRepository, DictOptionRepository dictOptionRepository) {
         this.dictRepository = dictRepository;
+        this.dictOptionRepository = dictOptionRepository;
     }
 
 
@@ -86,9 +85,6 @@ public class DictServiceImpl implements DictService {
 
         Page<SystemDict> page = dictRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
-
-            Join<SystemDict, SystemDict> parentJoin = root.join("parent", JoinType.LEFT);
-//            list.add(criteriaBuilder.equal(parentJoin.get("id").as(Long.class), plo.getParentId()));
             list.add(criteriaBuilder.equal(root.get("deleted").as(Boolean.class), false));
 
             Predicate[] predicates = new Predicate[list.size()];
@@ -99,64 +95,36 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    public SystemDict getDictById(Long dictId) {
+        return dictRepository.findById(dictId).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + dictId + "] 不存在"));
+    }
+
+    @Override
+    public List<SystemDictOption> getOptionListByDictId(Long dictId) {
+        return dictOptionRepository.findAllByDictId(dictId);
+    }
+
+    @Override
     public void createDict(CreateDictPLO plo) {
-//        SystemDict dict = new SystemDict();
-//        dict.setDictLevel(DictLevel.PARENT.getLevel());
-//        dict.setName(plo.getName());
-//        dict.setType(plo.getType());
-//        dict.setDescription(plo.getDescription());
-//        dict.setDeleted(false);
-//        dictRepository.save(dict);
-//
-//        plo.getOptions().forEach(option -> {
-//            SystemDict dictOption = new SystemDict();
-//            dictOption.setCode(option.getCode());
-//            dictOption.setValue(option.getValue());
-//            dictOption.setDeleted(false);
-//            dictOption.setParent(dictOption);
-//            dictRepository.save(dictOption);
-//        });
-    }
+        SystemDict dict = new SystemDict();
+        dict.setType(plo.getType());
+        dict.setName(plo.getName());
+        dict.setDescription(plo.getDescription());
+        dict.setDeleted(false);
+        dict.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        dictRepository.save(dict);
 
-    @Override
-    public void createDictOption(CreateDictOptionPLO plo) {
-//        SystemDict dict = dictRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + plo.getParentId() + "] 不存在"));
-//        plo.getDictOptions().forEach(option -> {
-//            SystemDict dictOption = dictRepository.findByParentIdAndCode(dict.getId(), option.getCode());
-//            if (dictOption == null) {
-//                dictOption = new SystemDict();
-//            }
-//            dict.setDictLevel(DictLevel.OPTION.getLevel());
-//            dictOption.setCode(option.getCode());
-//            dictOption.setValue(option.getValue());
-//            dictOption.setDeleted(false);
-//            dictOption.setParent(dict);
-//            dictRepository.save(dictOption);
-//        });
-    }
-
-    @Override
-    public void modifyDictOption(Long optionId, ModifyDictOptionPLO plo) {
-        SystemDict option = dictRepository.findById(optionId).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + optionId + "] 不存在"));
-        BeanUtil.copyProperties(plo, option);
-        dictRepository.save(option);
+        plo.getOptions().forEach(option -> {
+            SystemDictOption dictOption = new SystemDictOption();
+            dictOption.setCode(option.getCode());
+            dictOption.setValue(option.getValue());
+            dictOption.setDict(dict);
+            dictOptionRepository.save(dictOption);
+        });
     }
 
     @Override
     public void deleteDict(Long optionId) {
 
-    }
-
-    @Override
-    public List<GetParentDictListRO> getParentDictList() {
-        List<SystemDict> dictList = dictRepository.findAllByDictLevelAndDeletedIsFalse(DictLevel.PARENT.getLevel());
-        List<GetParentDictListRO> dictROS = dictList.stream().map(dict -> {
-            GetParentDictListRO dictRO = new GetParentDictListRO();
-            dictRO.setId(dict.getId());
-            dictRO.setName(dict.getName());
-            return dictRO;
-        }).collect(Collectors.toList());
-
-        return dictROS;
     }
 }

@@ -18,11 +18,15 @@
                     <div class="layui-card-header">查询条件</div>
                     <div class="layui-card-body layui-row layui-col-space10">
                         <div class="layui-col-md3">
-                            <label class="layui-form-label">字典类型</label>
+                            <label class="layui-form-label">字典代码</label>
                             <div class="layui-input-block">
-                                <select name="parentId" lay-filter="parentId">
-                                    <option th:value="${type.id}" th:text="${type.name}" th:each="type : ${dictTypes}" th:selected="${typeStat.first}"></option>
-                                </select>
+                                <input type="text" name="type" placeholder="字典代码" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <label class="layui-form-label">字典名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" placeholder="字典名称" class="layui-input">
                             </div>
                         </div>
 
@@ -82,7 +86,10 @@
             cols: [
                 {type: 'checkbox', fixed: 'left', field: 'id', title: 'id'},
                 {title: '字典名称', field: 'name'},
-                {title: '字典代码', field: 'code', style: 'font-family: Consolas,serif;'},
+                {title: '字典代码', field: 'type', style: 'font-family: Consolas,serif;'},
+                {title: '作用描述', field: 'description'},
+                {title: '创建时间', field: 'createTime'},
+                {title: '修改时间', field: 'updateTime'},
                 {title: '操作', toolbar: '#table-toolbar'}
             ],
             event: function (obj) {
