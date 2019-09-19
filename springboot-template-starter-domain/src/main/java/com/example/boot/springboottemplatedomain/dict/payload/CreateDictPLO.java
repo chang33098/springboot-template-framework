@@ -1,11 +1,10 @@
 package com.example.boot.springboottemplatedomain.dict.payload;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +20,11 @@ public class CreateDictPLO {
     // TODO: 2019/9/15 添加正则表达式的校验 
 
     @NotBlank
+    @Pattern(regexp = "^([A-Z][A-Z_]+)$")
     private String type;
     @NotBlank
     private String name;
-//    @Max(255)
+    @Length(max = 255)
     private String description;
     @Size(min = 1)
     private List<DictOption> options = new ArrayList<>();
