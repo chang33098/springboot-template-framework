@@ -45,7 +45,6 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 };
 
-
 /**
  * 将表达元素转换成JSON数据
  * @returns {{}}

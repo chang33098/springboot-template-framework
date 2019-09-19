@@ -64,7 +64,7 @@
         form = layui.form;
 
         form.on('submit(submit)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
+            var dictId = $('#dict-id').val();
             var field = data.field;
             var options = packagingOption();
             if (options.length < 1) {
@@ -73,13 +73,13 @@
             field.options = options;
 
             page.async_request({
-                url: '/system/dict/create',
-                type: 'post',
+                url: '/system/dict/modify/' + dictId,
+                type: 'put',
                 data: JSON.stringify(field),
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
                         parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
                     } else {
                         layer.msg(result.message, {icon: 5})
                     }

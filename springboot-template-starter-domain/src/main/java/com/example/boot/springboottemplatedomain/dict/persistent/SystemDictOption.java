@@ -26,6 +26,6 @@ public class SystemDictOption {
     private String value;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '字典ID'")
+    @JoinColumn(name = "dict_id", columnDefinition = "bigint comment '字典ID'")
     private SystemDict dict;
 }

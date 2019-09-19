@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatestarter.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
+import com.example.boot.springboottemplatedomain.dict.payload.ModifyDictPLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
 import com.example.boot.springboottemplatedomain.dict.response.FindDictTableRO;
@@ -91,5 +92,20 @@ public class DictController {
         model.addAttribute("dict", dictRO);
 
         return "system/dict/dict_modify";
+    }
+
+    @PutMapping(value = "modify/{dict_id}")
+    @ResponseBody
+    public ResponseBodyBean modifyDict(@PathVariable(value = "dict_id") Long dictId,
+                                       @RequestBody @Valid ModifyDictPLO plo) {
+        dictService.modifyDict(dictId, plo);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @DeleteMapping(value = "delete/{dict_id}")
+    @ResponseBody
+    public ResponseBodyBean deleteDict(@PathVariable(value = "dict_id") Long dictId) {
+        dictService.deleteDict(dictId);
+        return ResponseBodyBean.ofSuccess();
     }
 }

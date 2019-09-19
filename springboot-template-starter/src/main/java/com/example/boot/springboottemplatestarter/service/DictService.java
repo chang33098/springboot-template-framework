@@ -17,5 +17,7 @@ public interface DictService {
 
     void createDict(CreateDictPLO plo);
 
-    void deleteDict(Long optionId);
+    void modifyDict(Long dictId, ModifyDictPLO plo);
+
+    void deleteDict(Long dictId);
 }

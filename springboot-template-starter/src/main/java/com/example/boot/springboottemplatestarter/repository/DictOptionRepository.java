@@ -10,4 +10,6 @@ import java.util.List;
 public interface DictOptionRepository extends JpaRepository<SystemDictOption, Long> {
 
     List<SystemDictOption> findAllByDictId(Long dictId);
+
+    void deleteAllByDictId(Long dictId);
 }

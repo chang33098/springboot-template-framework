@@ -1,9 +1,8 @@
 package com.example.boot.springboottemplatestarter.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.springboottemplatedomain.dict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatedomain.dict.payload.FindDictTablePLO;
-import com.example.boot.springboottemplatedomain.dict.payload.ModifyDictOptionPLO;
+import com.example.boot.springboottemplatedomain.dict.payload.ModifyDictPLO;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
 import com.example.boot.springboottemplatestarter.exception.ResourceNotFoundException;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.List;
  * @date 2019/9/4 21:58
  */
 @Service
+@Transactional
 public class DictServiceImpl implements DictService {
 
     private final DictRepository dictRepository;
@@ -124,7 +125,28 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public void deleteDict(Long optionId) {
+    public void modifyDict(Long dictId, ModifyDictPLO plo) {
+        SystemDict dict = dictRepository.findById(dictId).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + dictId + "] 不存在"));
+        dict.setName(plo.getName());
+        dict.setDescription(plo.getDescription());
+        dict.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        dictRepository.save(dict);
 
+        dictOptionRepository.deleteAllByDictId(dictId);
+
+        plo.getOptions().forEach(option -> {
+            SystemDictOption dictOption = new SystemDictOption();
+            dictOption.setCode(option.getCode());
+            dictOption.setValue(option.getValue());
+            dictOption.setDict(dict);
+            dictOptionRepository.save(dictOption);
+        });
+    }
+
+    @Override
+    public void deleteDict(Long dictId) {
+        SystemDict dict = dictRepository.findById(dictId).orElseThrow(() -> new ResourceNotFoundException("字典ID [" + dictId + "] 不存在"));
+        dict.setDeleted(true);
+        dictRepository.save(dict);
     }
 }

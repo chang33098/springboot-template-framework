@@ -43,7 +43,7 @@
             <input type="text" name="option-value" lay-verify="required" class="layui-input" placeholder="字典值">
         </div>
         <div class="layui-input-inline">
-            <button type="button" onclick="addOption()" class="layui-btn layui-btn-primary">添加</button>
+            <button type="button" class="layui-btn layui-btn-primary add-option">添加</button>
         </div>
     </div>
 
@@ -60,7 +60,6 @@
         form = layui.form;
 
         form.on('submit(submit)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field;
             var options = packagingOption();
             if (options.length < 1) {
@@ -75,13 +74,27 @@
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
                         parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
                     } else {
                         layer.msg(result.message, {icon: 5})
                     }
                 }
             })
         });
+    });
+
+    $('.layui-form').on('click', '.dict-option .add-option', function () {
+        var div = $('.template').clone();
+        div.removeClass('template');
+        div.find('label').html(''); //清空label
+        div.find('input').val(''); //重置输入框
+        div.find('.layui-input-inline:last').html('<button type="button" class="layui-btn layui-btn-danger del-option"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+        $('.dict-option:last').after(div);
+        form.render();
+    });
+    $('.layui-form').on('click', '.dict-option .del-option', function () {
+        $(this).parent().parent().remove();
+        form.render();
     });
     
     function packagingOption() {
@@ -95,20 +108,20 @@
         return options;
     }
     
-    function addOption() {
-        var optionId = new Date().getTime();
-        var div = $('.template').clone();
-        div.attr('id', 'option-' + optionId); //设置optionID
-        div.removeClass('template');
-        div.find('label').html(''); //清空label
-        div.find('input').val(''); //重置输入框
-        div.find('.layui-input-inline:last').html('<button type="button" onclick="delOption(' + optionId + ')" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
-        $('.dict-option:last').after(div);
-    }
-
-    function delOption(optionId) {
-        $('#option-' + optionId).remove();
-    }
+    // function addOption() {
+    //     var optionId = new Date().getTime();
+    //     var div = $('.template').clone();
+    //     div.attr('id', 'option-' + optionId); //设置optionID
+    //     div.removeClass('template');
+    //     div.find('label').html(''); //清空label
+    //     div.find('input').val(''); //重置输入框
+    //     div.find('.layui-input-inline:last').html('<button type="button" onclick="delOption(' + optionId + ')" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+    //     $('.dict-option:last').after(div);
+    // }
+    //
+    // function delOption(optionId) {
+    //     $('#option-' + optionId).remove();
+    // }
 </script>
 </body>
 </html>

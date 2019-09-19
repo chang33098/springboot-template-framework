@@ -36,7 +36,6 @@
         form = layui.form;
 
         form.on('submit(submit)', function (data) {
-            var index = parent.layer.getFrameIndex(window.name);
             var field = data.field; //表单参数
             var roleId = $('#role-id').val();
 
@@ -47,7 +46,7 @@
                 success: function (result) {
                     if (result.status === httpstatus.OK.code) {
                         parent.layui.table.reload('data-table');
-                        parent.layer.close(index);
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
                     } else {
                         layer.msg(result.message, {icon: 5})
                     }
