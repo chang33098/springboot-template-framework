@@ -1,10 +1,7 @@
 package com.example.boot.springboottemplatedomain.dict.payload;
 
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +16,9 @@ public class ModifyDictPLO {
 
     @NotBlank
     private String name;
-    //    @Max(255)
+    @Size(max = 255)
     private String description;
-    @Size(min = 1)
+    @Size(min = 1, max = 50)
     private List<DictOption> options = new ArrayList<>();
 
     @Data

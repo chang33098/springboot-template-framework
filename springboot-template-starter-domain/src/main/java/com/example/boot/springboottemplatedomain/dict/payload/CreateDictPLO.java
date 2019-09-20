@@ -1,8 +1,6 @@
 package com.example.boot.springboottemplatedomain.dict.payload;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.*;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -17,21 +15,20 @@ import java.util.List;
 @Data
 public class CreateDictPLO {
 
-    // TODO: 2019/9/15 添加正则表达式的校验 
-
     @NotBlank
     @Pattern(regexp = "^([A-Z][A-Z_]+)$")
     private String type;
     @NotBlank
     private String name;
-    @Length(max = 255)
+    @Size(max = 255)
     private String description;
-    @Size(min = 1)
+    @Size(min = 1, max = 50)
     private List<DictOption> options = new ArrayList<>();
 
     @Data
     public static class DictOption {
         @NotNull
+        @Digits (integer = 0, fraction = 127)
         private Integer code;
         @NotBlank
         private String value;
