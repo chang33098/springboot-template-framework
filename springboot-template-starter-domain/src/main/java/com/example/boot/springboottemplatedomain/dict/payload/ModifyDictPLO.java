@@ -1,6 +1,9 @@
 package com.example.boot.springboottemplatedomain.dict.payload;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +19,7 @@ public class ModifyDictPLO {
 
     @NotBlank
     private String name;
-    @Size(max = 255)
+    @Length(max = 255)
     private String description;
     @Size(min = 1, max = 50)
     private List<DictOption> options = new ArrayList<>();
@@ -24,8 +27,10 @@ public class ModifyDictPLO {
     @Data
     public static class DictOption {
         @NotNull
+        @Range(min = 0, max = 127)
         private Integer code;
         @NotBlank
+        @Length(max = 255)
         private String value;
     }
 }

@@ -1,7 +1,8 @@
 package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
-
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,12 +20,16 @@ public class CreateRoleSubMenuPLO {
 
     @NotNull
     private Long pageId;
+    @Length(max = 50)
     private String icon;
     @NotBlank
+    @Length(max = 50)
     private String menuName;
     @NotNull
     private Integer menuLevel;
+    @Range(min = 0, max = 127)
     private Integer sortNo = 0;
+    @NotNull
     private Long parentId;
     @Size(min = 1)
     private List<Long> permissionIds = new ArrayList<>();

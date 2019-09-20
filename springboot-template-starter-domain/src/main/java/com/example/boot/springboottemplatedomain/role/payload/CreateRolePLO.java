@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatedomain.role.payload;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,7 +13,9 @@ import javax.validation.constraints.NotBlank;
 public class CreateRolePLO {
 
     @NotBlank
+    @Length(max = 50)
     private String name;
     @NotBlank
+    @Length(max = 500)
     private String description;
 }
