@@ -54,7 +54,7 @@
         <label class="layui-form-label">页面权限</label>
         <div class="layui-input-block">
             <input type="hidden" id="permission-data">
-            <button type="button" onclick="choosePermission()" class="layui-btn layui-btn-primary">添加</button>
+            <button type="button" class="layui-btn layui-btn-primary choose-permission-btn">添加</button>
         </div>
     </div>
     <!-- 设置拦截的url -->
@@ -129,20 +129,7 @@
         });
     });
 
-    function packaging() {
-        var permissions = [];
-        $('#page-permission').find('.page-permission').each(function () {
-            if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
-                var permission = {};
-                permission.permissionId = $(this).find('input[name="permissionId"]').val();
-                permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
-                permissions.push(permission);
-            }
-        });
-        return permissions;
-    }
-
-    function choosePermission() {
+    $('.choose-permission-btn').click(function () {
         var url = $('input[name="url"]').val();
         if (url === '') {
             layer.msg('请添加页面的访问url');
@@ -156,28 +143,37 @@
             btn: ['添加勾选的权限', '取消'],
             yes: function (index, layero) {
                 layero.find('iframe').contents().find('.check-data-btn').click();
-
                 $('#blank-tips').css('display', 'none');
 
                 var permissionData = $('#permission-data').val();
                 var permissions = JSON.parse(permissionData);
                 permissions.forEach(function (val) {
                     if (filter.indexOf(val.code) === -1) {
-                        filter.push(val.code);
-
                         var div = $('#template').clone();
                         div.attr('id', '');
                         div.css('display', 'block');
                         div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
                         div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
-
                         $('#page-permission').append(div);
+                        filter.push(val.code);
                     }
                 });
-
                 form.render(); //重新渲染控件
             }
         });
+    });
+
+    function packaging() {
+        var permissions = [];
+        $('#page-permission').find('.page-permission').each(function () {
+            if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
+                var permission = {};
+                permission.permissionId = $(this).find('input[name="permissionId"]').val();
+                permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
+                permissions.push(permission);
+            }
+        });
+        return permissions;
     }
 </script>
 </body>
