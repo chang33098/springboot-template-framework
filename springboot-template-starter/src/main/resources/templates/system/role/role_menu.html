@@ -103,19 +103,20 @@
                                 <!-- page permission checkbox there -->
                             </div>
                         </div>
-
                         <div id="create-menu" class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="button" class="layui-btn root-menu" lay-submit lay-filter="create-root-menu">添加一级菜单
-                                </button>
-                                <button type="button" class="layui-btn sub-menu" lay-submit lay-filter="create-sub-menu">添加菜单</button>
+                                <button type="button" class="layui-btn root-menu"
+                                        lay-submit lay-filter="create-root-menu">添加一级菜单</button>
+                                <button type="button" class="layui-btn sub-menu"
+                                        lay-submit lay-filter="create-sub-menu">添加菜单</button>
                             </div>
                         </div>
                         <div id="modify-menu" class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="button" class="layui-btn root-menu" lay-submit lay-filter="modify-root-menu">修改一级菜单
-                                </button>
-                                <button type="button" class="layui-btn sub-menu" lay-submit lay-filter="modify-sub-menu">修改菜单</button>
+                                <button type="button" class="layui-btn root-menu"
+                                        lay-submit lay-filter="modify-root-menu">修改一级菜单</button>
+                                <button type="button" class="layui-btn sub-menu"
+                                        lay-submit lay-filter="modify-sub-menu">修改菜单</button>
                             </div>
                         </div>
                     </form>
@@ -295,10 +296,8 @@
         $('.sub-menu').css('display', 'none');
 
         $('input[name="menuLevel"]').val(1);
-
-        form.render(); //重新渲染
-
         $('#menu-form').css('display', 'block');
+        form.render(); //重新渲染
     }
 
     function createSubMenu(parentId, parentName) {
@@ -315,9 +314,8 @@
         $('input[name="menuLevel"]').val(2);
         $('#parent-page').val(parentName);
 
-        form.render(); //重新渲染
-
         $('#menu-form').css('display', 'block');
+        form.render(); //重新渲染
     }
 
     function modifyRootMenu(menu) {
@@ -336,9 +334,8 @@
         $('input[name="sortNo"]').val(menu.sortNo);
         $('#icon-btn').html('<i class="layui-icon ' + menu.icon + '"></i>');
 
-        form.render(); //重新渲染
-
         $('#menu-form').css('display', 'block');
+        form.render(); //重新渲染
     }
 
     function modifySubMenu(menu) {
@@ -379,8 +376,8 @@
                         $('#page-permission').append(checkbox);
                     });
 
-                    form.render(); //重新渲染
                     $('#menu-form').css('display', 'block');
+                    form.render(); //重新渲染
                 } else {
                     layer.msg(result.message, {icon: 5})
                 }
@@ -421,7 +418,6 @@
                 $('#page-name').val(pageInfo.name);
                 $('#page-code').val(pageInfo.code);
                 $('#page-url').val(pageInfo.url);
-
                 $('#page-permission').html('');
 
                 page.async_request({
