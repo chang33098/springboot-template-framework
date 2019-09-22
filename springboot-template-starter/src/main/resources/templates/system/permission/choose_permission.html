@@ -50,7 +50,7 @@
                 <div class="layui-card-body">
                     <div style="padding-bottom: 10px;">
                         <button type="button" class="layui-btn layuiadmin-btn-list check-data-btn"
-                                onclick="getCheckData()" style="display: none;">隐藏按钮
+                                style="display: none;">隐藏按钮
                         </button>
                     </div>
                     <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
@@ -90,21 +90,19 @@
                 {title: '更新时间', field: 'updateTime'}
             ]
         });
-
     });
 
-    function getCheckData() {
+    $('.check-data-btn').click(function () {
         var checkStatus = table.checkStatus('permission-table'), data = checkStatus.data;
         if (data.length < 1) {
             layer.msg('请勾选对应的权限信息', {icon: 5});
             return;
         }
-
         parent.$('#permission-data').val(JSON.stringify(data));
 
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
-    }
+    });
 </script>
 </body>
 </html>

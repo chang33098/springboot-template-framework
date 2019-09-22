@@ -98,7 +98,16 @@
                 var data = obj.data;
                 if (obj.event === 'delete') {
                     layer.confirm('真的删除行么', function (index) {
-                        deletePage(data.id);
+                        // deletePage(data.id);
+
+                        page.async_request({
+                            url: '/system/permission/delete/' + id,
+                            type: 'delete',
+                            success: function (result) {
+                                layer.msg(result.message, {icon: 1});
+                                $('#form-search').click();
+                            }
+                        });
                     });
                 } else if (obj.event === 'modify') {
                     page.open_view({
