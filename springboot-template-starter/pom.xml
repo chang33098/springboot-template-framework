@@ -19,9 +19,23 @@
     <dependencies>
         <dependency>
             <groupId>com.example.boot</groupId>
-            <artifactId>springboot-template-starter-domain</artifactId>
+            <artifactId>springboot-template-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example.boot</groupId>
+            <artifactId>springboot-template-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

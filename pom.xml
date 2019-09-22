@@ -18,9 +18,9 @@
 	<description>Demo project for Spring Boot</description>
 
 	<modules>
-		<module>springboot-template-application</module>
 		<module>springboot-template-starter</module>
-		<module>springboot-template-starter-domain</module>
+		<module>springboot-template-security</module>
+		<module>springboot-template-domain</module>
 	</modules>
 
 	<properties>
@@ -55,17 +55,17 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-application</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.example.boot</groupId>
 				<artifactId>springboot-template-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-starter-domain</artifactId>
+				<artifactId>springboot-template-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.example.boot</groupId>
+				<artifactId>springboot-template-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
