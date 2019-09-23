@@ -18,7 +18,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<modules>
-		<module>springboot-template-starter</module>
+		<module>springboot-template-admin</module>
 		<module>springboot-template-security</module>
 		<module>springboot-template-repository</module>
 		<module>springboot-template-domain</module>
@@ -56,7 +56,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-starter</artifactId>
+				<artifactId>springboot-template-admin</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
