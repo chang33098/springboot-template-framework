@@ -1,17 +1,17 @@
 package com.example.boot.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.boot.model.page.payload.CreatePagePLO;
+import com.example.boot.model.page.payload.FindPageTablePLO;
+import com.example.boot.model.page.payload.ModifyPagePLO;
+import com.example.boot.model.page.response.FindPageTableRO;
+import com.example.boot.model.page.response.GetPagePermissionListRO;
+import com.example.boot.model.page.response.GetPageRO;
+import com.example.boot.model.page.response.ModifyPageRO;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.service.PageService;
-import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindPageTablePLO;
-import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
-import com.example.boot.springboottemplatedomain.page.response.FindPageTableRO;
-import com.example.boot.springboottemplatedomain.page.response.ModifyPageRO;
-import com.example.boot.springboottemplatedomain.page.response.GetPageRO;
-import com.example.boot.springboottemplatedomain.page.response.GetPagePermissionListRO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

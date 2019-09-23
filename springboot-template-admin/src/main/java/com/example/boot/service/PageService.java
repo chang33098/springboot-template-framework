@@ -1,8 +1,8 @@
 package com.example.boot.service;
 
-import com.example.boot.springboottemplatedomain.page.payload.CreatePagePLO;
-import com.example.boot.springboottemplatedomain.page.payload.FindPageTablePLO;
-import com.example.boot.springboottemplatedomain.page.payload.ModifyPagePLO;
+import com.example.boot.model.page.payload.CreatePagePLO;
+import com.example.boot.model.page.payload.FindPageTablePLO;
+import com.example.boot.model.page.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import org.springframework.data.domain.Page;
