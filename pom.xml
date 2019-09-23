@@ -20,6 +20,7 @@
 	<modules>
 		<module>springboot-template-starter</module>
 		<module>springboot-template-security</module>
+		<module>springboot-template-repository</module>
 		<module>springboot-template-domain</module>
 	</modules>
 
