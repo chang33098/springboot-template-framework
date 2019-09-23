@@ -1,4 +1,4 @@
-package com.example.boot.repository;
+package com.example.boot.springboottemplaterepository;
 
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
 import org.springframework.data.jpa.repository.JpaRepository;

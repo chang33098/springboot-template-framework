@@ -1,4 +1,4 @@
-package com.example.boot.repository;
+package com.example.boot.springboottemplaterepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;

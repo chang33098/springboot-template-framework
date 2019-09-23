@@ -24,6 +24,11 @@
         </dependency>
         <dependency>
             <groupId>com.example.boot</groupId>
+            <artifactId>springboot-template-repository</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
