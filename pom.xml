@@ -20,6 +20,7 @@
 	<modules>
 		<module>springboot-template-admin</module>
 		<module>springboot-template-security</module>
+		<module>springboot-template-cache</module>
 		<module>springboot-template-repository</module>
 		<module>springboot-template-domain</module>
 	</modules>
@@ -62,6 +63,16 @@
 			<dependency>
 				<groupId>com.example.boot</groupId>
 				<artifactId>springboot-template-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.example.boot</groupId>
+				<artifactId>springboot-template-cache</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.example.boot</groupId>
+				<artifactId>springboot-template-repository</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
