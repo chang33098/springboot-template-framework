@@ -7,6 +7,8 @@ spring:
     name: @parent.name@
   profiles:
       active: @env@
+      include:
+        - security-@env@
   messages:
     basename: i18n/messages
     encoding: UTF-8

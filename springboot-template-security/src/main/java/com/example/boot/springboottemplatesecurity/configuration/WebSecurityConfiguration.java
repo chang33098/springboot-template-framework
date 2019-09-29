@@ -1,6 +1,6 @@
-package com.example.boot.configuration;
+package com.example.boot.springboottemplatesecurity.configuration;
 
-import com.example.boot.properties.CustomSecurityConfiguration;
+import com.example.boot.springboottemplatesecurity.properties.CustomSecurityConfiguration;
 import com.example.boot.springboottemplatesecurity.security.MyFilterSecurityInterceptor;
 import com.example.boot.springboottemplatesecurity.security.MyUserDetailService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +22,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(CustomSecurityConfiguration.class)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final CustomSecurityConfiguration securityConfiguration;
 
     @Autowired
-    public WebSecurityConfig(CustomSecurityConfiguration securityConfiguration) {
+    public WebSecurityConfiguration(CustomSecurityConfiguration securityConfiguration) {
         this.securityConfiguration = securityConfiguration;
     }
 

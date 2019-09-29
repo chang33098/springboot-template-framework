@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.example.boot.exception.ResourceNotFoundException;
 import com.example.boot.exception.base.BaseException;
 import com.example.boot.response.ResponseBodyBean;
-import com.example.boot.properties.CustomSecurityConfiguration;
+import com.example.boot.springboottemplatesecurity.properties.CustomSecurityConfiguration;
 import com.google.common.collect.ImmutableBiMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

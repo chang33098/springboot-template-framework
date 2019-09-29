@@ -35,16 +35,16 @@ import java.util.Map;
         CustomResourceConfiguration.class,
         CustomUploadConfiguration.class
 })
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
     private final CustomViewConfiguration viewConfiguration;
     private final CustomResourceConfiguration resourceConfiguration;
     private final CustomUploadConfiguration uploadConfiguration;
 
     @Autowired
-    public WebMvcConfig(CustomViewConfiguration viewConfiguration,
-                        CustomResourceConfiguration resourceConfiguration,
-                        CustomUploadConfiguration uploadConfiguration) {
+    public WebMvcConfiguration(CustomViewConfiguration viewConfiguration,
+                               CustomResourceConfiguration resourceConfiguration,
+                               CustomUploadConfiguration uploadConfiguration) {
         this.viewConfiguration = viewConfiguration;
         this.resourceConfiguration = resourceConfiguration;
         this.uploadConfiguration = uploadConfiguration;

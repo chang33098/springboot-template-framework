@@ -1,4 +1,4 @@
-package com.example.boot.properties;
+package com.example.boot.springboottemplatesecurity.properties;
 
 import lombok.Data;
 import lombok.ToString;

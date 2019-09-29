@@ -1,0 +1,28 @@
+custom-configuration:
+  security:
+    enabled: false
+    super-admin:
+      username: admin
+      password: admin
+    form-login:
+      username-param: username
+      password-param: password
+      login-page: /login
+      login-processing-url: /j_spring_secutity_check
+      default-success-url: /index
+      failure-url: /login
+    logout:
+      logout-url: /logout
+      logout-success-url: /login
+      invalidate-session: true
+    remember-me:
+      remember-me-param: remember-me
+      token-validity-seconds: 3600
+    permit-match-urls:
+      - "/static/**"
+      - "/login/**"
+      - "/logout/**"
+      - "/error/**"
+      - "/swagger-ui.html"
+      - "/swagger-resources/**"
+      - "/swagger/**"
