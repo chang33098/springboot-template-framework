@@ -22,7 +22,7 @@
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username"
                        for="login-username"></label>
-                <input type="text" name="account" id="login-username" lay-verify="required" placeholder="用户名"
+                <input type="text" name="username" id="login-username" lay-verify="required" placeholder="用户名"
                        class="layui-input">
             </div>
             <div class="layui-form-item">
@@ -67,10 +67,11 @@
         </p>
     </div>
 </div>
-<script src="../../layuiadmin/layui/layui.js" th:src="@{/static/layuiadmin/layui/layui.js}"></script>
+<script th:src="@{/static/layuiadmin/layui/layui.js}"></script>
+<script th:replace="common/common_global::global_var"></script>
 <script>
     layui.config({
-        base: '/static/layuiadmin/' //静态资源所在路径
+        base: domain + '/static/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function () {

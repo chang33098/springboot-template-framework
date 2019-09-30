@@ -101,6 +101,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String BCryptpassword = encoder.encode("123456");
+        System.out.println(BCryptpassword);
+    }
+
     @Override
     public void modifyUser(Long userId, ModifyUserPLO plo) {
         SystemUser user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("用户ID [" + userId + "] 不存在"));

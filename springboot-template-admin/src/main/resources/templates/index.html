@@ -88,10 +88,8 @@
                 <div class="layui-logo" lay-href="home/console.html">
                     <h3>控制台</h3>
                 </div>
-
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
-
                     <li data-name="home" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">
                             <i class="layui-icon layui-icon-set"></i>
@@ -118,7 +116,6 @@
                             </dd>
                         </dl>
                     </li>
-
                     <li data-name="home" class="layui-nav-item">
                         <a href="javascript: void(0);" lay-tips="案例页面" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
@@ -136,7 +133,6 @@
                             </dd>
                         </dl>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -177,9 +173,10 @@
     </div>
 </div>
 <script th:src="@{/static/layuiadmin/layui/layui.js}"></script>
-<script>
+<script type="text/javascript" th:replace="common/common_global::global_var"></script>
+<script type="text/javascript" th:inline="javascript">
     layui.config({
-        base: '/static/layuiadmin/' //对应MyMvcConfig中配置的静态资源文件
+        base: domain + '/static/layuiadmin/' //对应MyMvcConfig中配置的静态资源文件
     }).extend({
         index: 'lib/index' //主入口模块
     }).use('index', function () {

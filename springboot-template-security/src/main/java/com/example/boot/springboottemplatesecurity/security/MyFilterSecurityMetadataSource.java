@@ -1,9 +1,11 @@
 package com.example.boot.springboottemplatesecurity.security;
 
+import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatesecurity.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -11,9 +13,13 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * description: 系统启动时, 配置各访问资源所需的权限信息(即url)
@@ -36,24 +42,26 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
         // TODO: 2019/8/24 暂时关闭对于URL的访问权限限制
         
-//        List<PagePermissionRef> permissionRefs = pageService.securityGetPagePermissionList();
-//        if (permissionRefs.isEmpty()) return;
-//
-//        permissionRefs.forEach(permissionRef -> {
-//            List<String> interceptUrls = new ArrayList<>();
-//            try {
-//                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
-//            } catch (Exception e) {
-//                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
-//            }
-//
-//            if (!interceptUrls.isEmpty()) {
-//                interceptUrls.forEach(url -> {
-//                    List<ConfigAttribute> configs = Stream.of(new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode())).collect(Collectors.toList());
-//                    resourceMap.put(url, configs);
-//                });
-//            }
-//        });
+        List<PagePermissionRef> permissionRefs = securityService.securityGetPagePermissionList();
+        if (permissionRefs.isEmpty()) return;
+
+        permissionRefs.forEach(permissionRef -> {
+            List<String> interceptUrls = new ArrayList<>();
+            try {
+                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
+            } catch (Exception e) {
+                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
+            }
+
+            if (!interceptUrls.isEmpty()) {
+                interceptUrls.forEach(url -> {
+                    List<ConfigAttribute> configs = Stream.of(
+                            new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode()))
+                            .collect(Collectors.toList());
+                    resourceMap.put(url, configs);
+                });
+            }
+        });
     }
 
     @Override

@@ -90,7 +90,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     /**
-     * create MenuRO
+     * Create MenuRO
      *
      * @param roleMenu MenuPO
      * @return MenuRO
@@ -98,7 +98,6 @@ public class UserPrincipal implements UserDetails {
     private static Menu createMenu(RoleMenuRef roleMenu) {
         Menu menu = new Menu();
         BeanUtil.copyProperties(roleMenu, menu);
-
         menu.setUrl(roleMenu.getPage().getUrl());
 
         if (!roleMenu.getChildren().isEmpty()) {
@@ -109,7 +108,6 @@ public class UserPrincipal implements UserDetails {
             });
             menu.setChildren(menus);
         }
-
         return menu;
     }
 
