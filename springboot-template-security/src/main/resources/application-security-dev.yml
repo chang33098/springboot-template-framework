@@ -1,3 +1,6 @@
+logging:
+  config: classpath:logback/logback-security-@env@.xml
+
 custom-configuration:
   security:
     enabled: false

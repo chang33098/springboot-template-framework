@@ -68,7 +68,7 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
      * @throws IOException
      * @throws ServletException
      */
-    public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
+    private void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
         InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
         try {
             filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());

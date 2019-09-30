@@ -5,6 +5,63 @@
     <title>Title</title>
 </head>
 <body>
+<!-- todo 未完成 -->
+<div class="layui-side layui-side-menu">
+    <div class="layui-side-scroll">
+        <div class="layui-logo" lay-href="home/console.html">
+            <h3>控制台</h3>
+        </div>
 
+        <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
+            lay-filter="layadmin-system-side-menu">
+
+            <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">
+                    <i class="layui-icon layui-icon-set"></i>
+                    <cite>系统设置</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="console">
+                        <a lay-href="/sysuser/go_sysuser_list">用户管理</a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd data-name="console">
+                        <a lay-href="/sysrole/go_sysrole_list">角色管理</a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd data-name="console">
+                        <a lay-href="/sysmenu/go_sysmenu_list">菜单管理</a>
+                    </dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd data-name="console">
+                        <a lay-href="/sysres/go_sysres_list">权限管理</a>
+                    </dd>
+                </dl>
+            </li>
+
+            <li data-name="home" class="layui-nav-item">
+                <a href="javascript: void(0);" lay-tips="案例页面" lay-direction="2">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <cite>案例页面</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="console">
+                        <a lay-href="/template/go_template_list">模板案例</a>
+                    </dd>
+                    <dd data-name="console">
+                        <a lay-href="/menu/homepage1">主页1</a>
+                    </dd>
+                    <dd data-name="console">
+                        <a lay-href="/menu/homepage2">主页2</a>
+                    </dd>
+                </dl>
+            </li>
+
+        </ul>
+    </div>
+</div>
 </body>
 </html>

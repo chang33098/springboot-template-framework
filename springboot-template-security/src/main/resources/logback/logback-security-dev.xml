@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
-    <include resource="logback/logback-base.xml"/>
+    <include resource="logback/logback-security-base.xml"/>
 
     <!-- Log Level -->
     <root level="info">
@@ -12,11 +12,8 @@
     </root>
 
     <!--  -->
-    <logger name="com.example.boot" level="info" additivity="true"/>
-    <logger name="org.springframework.web" level="debug" additivity="false">
-        <appender-ref ref="console"/>
-    </logger>
-    <logger name="org.hibernate" level="debug" additivity="false">
+    <logger name="com.example.boot.springboottemplatesecurity" level="info" additivity="true"/>
+    <logger name="org.springframework.security" level="debug" additivity="false">
         <appender-ref ref="console"/>
     </logger>
 </configuration>

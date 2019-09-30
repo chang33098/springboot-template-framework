@@ -53,6 +53,7 @@
 		</profile>
 	</profiles>
 
+	<!-- global statement -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -83,6 +84,7 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- global independent -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

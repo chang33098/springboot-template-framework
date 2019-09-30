@@ -35,6 +35,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
      * @throws InsufficientAuthenticationException
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) throws AccessDeniedException, InsufficientAuthenticationException {
         if (CollectionUtils.isEmpty(attributes)) {
             throw new AccessDeniedException("无访问权限.");

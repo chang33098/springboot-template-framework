@@ -9,11 +9,12 @@ import org.springframework.http.HttpStatus;
  * Description: SecurityException, change description here.
  *
  * @author Johnny Miller (鍾俊), email: johnnysviva@outlook.com
+ * @changeby Chang__
  * @date 2019-03-23 16:26
  **/
 @SuppressWarnings("unused")
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SecurityException extends BaseException {
     private static final long serialVersionUID = -767157443094687237L;
 
