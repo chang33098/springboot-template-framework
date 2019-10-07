@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><th:block th:replace="common/common_header::header"/></head>
+<body>
+<form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
+    <input type="hidden" id="role-id" th:value="${roleId}">
+    <input type="hidden" id="parent-id" th:value="${parentId}">
+    <input type="hidden" name="pageId">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">父页面</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+                <input type="text" th:value="${parentMenuName}" class="layui-input" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+                <input type="text" name="menuName" lay-verify="required" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单图标</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="icon">
+            <button type="button" class="layui-btn layui-btn-primary" onclick="chooseIcon()">选择图标</button>
+            <button type="button" id="icon-btn" class="layui-btn layui-btn-primary" style="display: none;">
+                <i class="layui-icon layui-icon-face-smile"></i>
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序编号</label>
+        <div class="layui-input-block">
+            <div class="layui-col-md6">
+                <input type="number" name="sortNo" value="0" lay-verify="required"
+                       class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接页面</label>
+        <div class="layui-input-block">
+            <input type="hidden" id="page-data">
+            <button type="button" onclick="choosePage()" class="layui-btn layui-btn-primary">
+                选择页面
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">页面名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="page-name" class="layui-input" placeholder="请选择链接页面"
+                       readonly>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">页面代码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="page-code" class="layui-input"
+                       style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">访问链接</label>
+            <div class="layui-input-inline">
+                <input type="text" id="page-url" class="layui-input"
+                       style="font-family: Consolas,serif;" placeholder="请选择链接页面" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单权限</label>
+        <div id="blank-tips" class="layui-input-block" style="display: none;">
+            <div class="layui-form-mid layui-word-aux">设置页面的相对路径</div>
+        </div>
+        <div id="page-permission" class="layui-input-block" style="display: none;">
+            <!-- page permission checkbox there -->
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="submit" id="submit" value="添加父菜单">
+    </div>
+</form>
+<footer th:replace="common/common_footer::footer"></footer>
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['form'], function () {
+        var form = layui.form;
+
+        form.on('submit(submit)', function (data) {
+            var roleId = $('#role-id').val(); //角色ID
+            var field = data.field; //表单参数
+            page.async_request({
+                url: '/system/role/' + roleId + '/create_role_root_menu',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        layer.msg(result.message, {icon: 1});
+                        refreshTree(); //刷新树状菜单
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

@@ -124,50 +124,56 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess(menuROS);
     }
 
-    @GetMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
-    @ResponseBody
-    public ResponseBodyBean<ModifyRoleRootMenuRO> modifyRoleRootMenu(@PathVariable(value = "role_id") Long roleId,
-                                                                     @PathVariable(value = "menu_id") Long menuId) {
-        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
+//    @GetMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
+//    @ResponseBody
+//    public ResponseBodyBean<ModifyRoleRootMenuRO> modifyRoleRootMenu(@PathVariable(value = "role_id") Long roleId,
+//                                                                     @PathVariable(value = "menu_id") Long menuId) {
+//        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
+//
+//        ModifyRoleRootMenuRO menuRO = new ModifyRoleRootMenuRO();
+//        BeanUtil.copyProperties(menuRef, menuRO);
+//
+//        menuRO.setPageId(menuRef.getPage().getId());
+//
+//        return ResponseBodyBean.ofSuccess(menuRO);
+//    }
+//
+//    @RequestMapping(value = "{role_id}/modify_role_sub_menu/{menu_id}")
+//    @ResponseBody
+//    public ResponseBodyBean<ModifyRoleSubMenuRO> modifyRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+//                                                                   @PathVariable(value = "menu_id") Long menuId) {
+//        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
+//        final Long pageId = menuRef.getPage().getId();
+//
+//        List<PagePermissionRef> pagePermissions = pageService.getPagePermissionListById(pageId);
+//        List<RoleMenuPermissionRef> menuPermissions = roleService.getRoleMenuPermissionListByMenuId(menuId);
+//
+//        ModifyRoleSubMenuRO menuRO = new ModifyRoleSubMenuRO();
+//        BeanUtil.copyProperties(menuRef, menuRO);
+//        menuRO.setParentName("父页面名称");
+//        menuRO.setPageId(menuRef.getPage().getId());
+//        menuRO.setPageName(menuRef.getPage().getName());
+//        menuRO.setPageCode(menuRef.getPage().getCode());
+//        menuRO.setPageUrl(menuRef.getPage().getUrl());
+//
+//        List<Long> menuPermissionId = menuPermissions.stream().map(menuPermission -> menuPermission.getPermission().getId()).collect(Collectors.toList());
+//        List<ModifyRoleSubMenuRO.PagePermission> pagePermissionsROS = pagePermissions.stream().map(pagePermission -> {
+//            ModifyRoleSubMenuRO.PagePermission pagePermissionRO = new ModifyRoleSubMenuRO.PagePermission();
+//            pagePermissionRO.setPermissionId(pagePermission.getId());
+//            pagePermissionRO.setPermissionName(pagePermission.getPermission().getName());
+//            pagePermissionRO.setChecked(menuPermissionId.contains(pagePermission.getId()));
+//            return pagePermissionRO;
+//        }).collect(Collectors.toList());
+//
+//        menuRO.setPagePermissions(pagePermissionsROS);
+//
+//        return ResponseBodyBean.ofSuccess(menuRO);
+//    }
 
-        ModifyRoleRootMenuRO menuRO = new ModifyRoleRootMenuRO();
-        BeanUtil.copyProperties(menuRef, menuRO);
-
-        menuRO.setPageId(menuRef.getPage().getId());
-
-        return ResponseBodyBean.ofSuccess(menuRO);
-    }
-
-    @RequestMapping(value = "{role_id}/modify_role_sub_menu/{menu_id}")
-    @ResponseBody
-    public ResponseBodyBean<ModifyRoleSubMenuRO> modifyRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
-                                                                   @PathVariable(value = "menu_id") Long menuId) {
-        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
-        final Long pageId = menuRef.getPage().getId();
-
-        List<PagePermissionRef> pagePermissions = pageService.getPagePermissionListById(pageId);
-        List<RoleMenuPermissionRef> menuPermissions = roleService.getRoleMenuPermissionListByMenuId(menuId);
-
-        ModifyRoleSubMenuRO menuRO = new ModifyRoleSubMenuRO();
-        BeanUtil.copyProperties(menuRef, menuRO);
-        menuRO.setParentName("父页面名称");
-        menuRO.setPageId(menuRef.getPage().getId());
-        menuRO.setPageName(menuRef.getPage().getName());
-        menuRO.setPageCode(menuRef.getPage().getCode());
-        menuRO.setPageUrl(menuRef.getPage().getUrl());
-
-        List<Long> menuPermissionId = menuPermissions.stream().map(menuPermission -> menuPermission.getPermission().getId()).collect(Collectors.toList());
-        List<ModifyRoleSubMenuRO.PagePermission> pagePermissionsROS = pagePermissions.stream().map(pagePermission -> {
-            ModifyRoleSubMenuRO.PagePermission pagePermissionRO = new ModifyRoleSubMenuRO.PagePermission();
-            pagePermissionRO.setPermissionId(pagePermission.getId());
-            pagePermissionRO.setPermissionName(pagePermission.getPermission().getName());
-            pagePermissionRO.setChecked(menuPermissionId.contains(pagePermission.getId()));
-            return pagePermissionRO;
-        }).collect(Collectors.toList());
-
-        menuRO.setPagePermissions(pagePermissionsROS);
-
-        return ResponseBodyBean.ofSuccess(menuRO);
+    @GetMapping(value = "{role_id}/create_role_root_menu")
+    public String createRoleRootMenu(@PathVariable(value = "role_id") Long roleId, Model model) {
+        model.addAttribute("roleId", roleId);
+        return "system/role/rolemenu/create_parent_menu";
     }
 
     @PostMapping(value = "{role_id}/create_role_root_menu")
@@ -176,6 +182,19 @@ public class RoleController {
                                                @RequestBody @Valid CreateRoleRootMenuPLO plo) {
         roleService.createRoleRootMenu(roleId, plo);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "{role_id}/role_menu/{parent_id}/create_role_sub_menu")
+    public String createRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                    @PathVariable(value = "parent_id") Long parentId,
+                                    Model model) {
+        RoleMenuRef parentMenu = roleService.getRoleMenuByRoleIdAndMenuId(roleId, parentId);
+
+        model.addAttribute("roleId", roleId);
+        model.addAttribute("parentId", parentId);
+        model.addAttribute("parentMenuName", parentMenu.getMenuName());
+
+        return "system/role/rolemenu/create_sub_menu";
     }
 
     @PostMapping(value = "{role_id}/create_role_sub_menu")

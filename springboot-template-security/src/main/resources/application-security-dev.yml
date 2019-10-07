@@ -3,7 +3,7 @@ logging:
 
 custom-configuration:
   security:
-    enabled: true
+    enabled: false
     super-admin:
       username: admin
       password: admin
@@ -23,7 +23,6 @@ custom-configuration:
       token-validity-seconds: 3600
     permit-match-urls:
       - "/static/**"
-      - "/menu"
       - "/login/**"
       - "/logout/**"
       - "/error/**"

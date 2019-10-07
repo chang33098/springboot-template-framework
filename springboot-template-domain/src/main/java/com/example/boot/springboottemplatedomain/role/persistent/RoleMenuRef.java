@@ -39,10 +39,12 @@ public class RoleMenuRef {
     @Column(columnDefinition = "tinyint comment '排序编号(默认为0)'")
     private Integer sortNo;
 
+    @Column(columnDefinition = "tinyint default '0' comment '是否展开菜单 0:不展开, 1:展开'")
+    private Boolean opened;
+
     @ManyToOne
     @JoinColumn(name = "role_id", columnDefinition = "bigint comment '系统角色ID'")
     private SystemRole role;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "page_id", columnDefinition = "bigint comment '系统页面ID'")

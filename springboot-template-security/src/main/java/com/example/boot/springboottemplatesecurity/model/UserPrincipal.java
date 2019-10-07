@@ -45,7 +45,7 @@ public class UserPrincipal implements UserDetails {
     private Timestamp lastLoginTime;
 
     private String roleName;
-    private List<Menu> menus;
+    private List<Menu> menus = new ArrayList<>();
     private Collection<? extends GrantedAuthority> authorities;
 
     /**
