@@ -2,8 +2,6 @@ package com.example.boot.springboottemplatesecurity.model;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
 import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
@@ -50,17 +48,6 @@ public class UserPrincipal implements UserDetails {
     private List<Menu> menus;
     private Collection<? extends GrantedAuthority> authorities;
 
-    @Data
-    private static class Menu {
-        private Long id;
-        private String url;
-        private String icon;
-        private String menuName;
-        private Integer menuLevel;
-        private Integer sortNo;
-        private List<Menu> children = new ArrayList<>();
-    }
-
     /**
      * Create user principal
      *
@@ -77,8 +64,7 @@ public class UserPrincipal implements UserDetails {
                 .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermission().getPermission().getCode()))
                 .map(rolePermission -> new SimpleGrantedAuthority(
                         rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
-                ))
-                .collect(Collectors.toList());
+                )).collect(Collectors.toList());
 
         return new UserPrincipal(user.getId(),
                 user.getUsername(), user.getPassword(),
@@ -98,9 +84,11 @@ public class UserPrincipal implements UserDetails {
     private static Menu createMenu(RoleMenuRef roleMenu) {
         Menu menu = new Menu();
         BeanUtil.copyProperties(roleMenu, menu);
-        menu.setUrl(roleMenu.getPage().getUrl());
+        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
+            menu.setUrl(roleMenu.getPage().getUrl());
+        }
 
-        if (!roleMenu.getChildren().isEmpty()) {
+        if (!roleMenu.getChildren().isEmpty()) { //空指针异常
             List<Menu> menus = new ArrayList<>();
             roleMenu.getChildren().forEach(childNode -> {
                 Menu child = createMenu(childNode);
@@ -109,6 +97,18 @@ public class UserPrincipal implements UserDetails {
             menu.setChildren(menus);
         }
         return menu;
+    }
+
+    @Data
+    private static class Menu {
+        private Long id;
+        private String url;
+        private String icon;
+        private String menuCode;
+        private String menuName;
+        private Integer menuLevel;
+        private Integer sortNo;
+        private List<Menu> children = new ArrayList<>();
     }
 
     @Override

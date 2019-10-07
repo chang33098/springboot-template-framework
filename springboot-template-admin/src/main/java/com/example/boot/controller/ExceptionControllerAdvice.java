@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -57,11 +58,35 @@ public class ExceptionControllerAdvice {
      * @return ModelAndView
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    public ModelAndView notFoundHandle(HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       UsernameNotFoundException exception) {
+    public ModelAndView usernameNotFound(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         UsernameNotFoundException exception) {
 
-        log.error("[GlobalExceptionCapture] UsernameNotFoundException: {}", exception.getMessage());
+        log.error("[GlobalExceptionCapture]-[Spring Security] UsernameNotFoundException: error msg = {}", exception.getMessage(), exception);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setStatus(HttpStatus.UNAUTHORIZED);
+        modelAndView.setViewName(securityConfiguration.getFormLogin().getLoginPage());
+
+        modelAndView.getModelMap().addAttribute(ResponseBodyBean.ofStatus(HttpStatus.UNAUTHORIZED, exception.getMessage()));
+
+        return modelAndView;
+    }
+
+    /**
+     * 处理spring security中的BadCredentialsException异常(username不存在)
+     *
+     * @param request   HttpRequest
+     * @param response  HttpResponse
+     * @param exception BadCredentialsException
+     * @return ModelAndView
+     */
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ModelAndView badCredentials(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       BadCredentialsException exception) {
+        log.error("[GlobalExceptionCapture]-[Spring Security] BadCredentialsException: error msg = {}", exception.getMessage(), exception);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         ModelAndView modelAndView = new ModelAndView();
@@ -112,9 +137,9 @@ public class ExceptionControllerAdvice {
      * @return ModelAndView
      */
     @ExceptionHandler(value = TemplateInputException.class)
-    public ModelAndView templateInputHandle(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            TemplateInputException exception) {
+    public ModelAndView templateInput(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      TemplateInputException exception) {
 
         log.error("[GlobalExceptionCapture] NoHandlerFoundException: Template name = {}, Col = {}, Line = {}",
                 exception.getTemplateName(),
@@ -193,7 +218,7 @@ public class ExceptionControllerAdvice {
                                                   HttpServletResponse response,
                                                   MaxUploadSizeExceededException exception) {
         // TODO: 2019/9/1 后期改为读取配文件中的信息 
-        
+
         log.error("[GlobalExceptionCapture] MaxUploadSizeExceededException: MaxUploadSize: {}", exception.getMaxUploadSize(), exception);
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseBodyBean.ofStatus(HttpStatus.INTERNAL_SERVER_ERROR, "上传的文件大小超出了限制 最大容量: " + exception.getMaxUploadSize());

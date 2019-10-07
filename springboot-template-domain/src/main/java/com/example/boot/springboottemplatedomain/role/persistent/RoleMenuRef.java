@@ -15,7 +15,9 @@ import java.util.List;
  */
 @Data
 @Entity
-@Table(name = "system_role_menu_ref")
+@Table(name = "system_role_menu_ref", indexes = {
+        @Index(name = "menuCode_index", columnList = "menuCode", unique = true)
+})
 public class RoleMenuRef {
 
     @Id
@@ -24,6 +26,9 @@ public class RoleMenuRef {
 
     @Column(columnDefinition = "varchar(50) comment '菜单图标(使用layui的图标class)'")
     private String icon;
+
+    @Column(columnDefinition = "varchar(50) comment '菜单代码(由菜单名称的拼音组成)'")
+    private String menuCode;
 
     @Column(columnDefinition = "varchar(50) comment '菜单名称'")
     private String menuName;
@@ -38,11 +43,12 @@ public class RoleMenuRef {
     @JoinColumn(name = "role_id", columnDefinition = "bigint comment '系统角色ID'")
     private SystemRole role;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "page_id", columnDefinition = "bigint comment '系统页面ID'")
     private SystemPage page;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_id", columnDefinition = "bigint comment '父菜单ID'")
     private List<RoleMenuRef> children = new ArrayList<>();
 }

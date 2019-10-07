@@ -48,6 +48,7 @@ custom-configuration:
     common-views:
       - {path: /index, name: index}
       - {path: /login, name: login}
+      - {path: /menu, name: menu}
     biz-views:
       - {path: /console, name: home/console}
       - {path: /homepage1, name: home/homepage1}

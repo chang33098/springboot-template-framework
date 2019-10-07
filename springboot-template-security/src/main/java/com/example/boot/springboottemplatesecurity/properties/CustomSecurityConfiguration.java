@@ -38,7 +38,7 @@ public class CustomSecurityConfiguration {
         private String usernameParam = "username";
         private String passwordParam = "password";
         private String loginPage = "/login";
-        private String loginProcessingUrl;
+        private String loginProcessingUrl = "/j_spring_secutity_check";
         private String defaultSuccessUrl;
         private String failureUrl;
     }

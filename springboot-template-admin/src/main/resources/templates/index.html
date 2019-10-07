@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Boomin Platform</title>
@@ -37,7 +37,6 @@
                 </li>
             </ul>
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-
                 <li class="layui-nav-item" lay-unselect>
                     <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
                         <i class="layui-icon layui-icon-notice"></i>
@@ -63,15 +62,15 @@
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript: void(0);">
                         <cite sec:authentication="principal.nickname">管理员</cite>
+
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
                         <dd><a lay-href="set/user/password.html">修改密码</a></dd>
                         <hr>
-                        <dd style="text-align: center;"><a th:href="@{/logout}">退出</a></dd>
+                        <dd style="text-align: center;"><a th:href="@{/j_spring_security_logout}">退出</a></dd>
                     </dl>
                 </li>
-
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <a href="javascript: void(0);" layadmin-event="about"><i
                             class="layui-icon layui-icon-more-vertical"></i></a>

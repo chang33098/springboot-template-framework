@@ -15,7 +15,7 @@ custom-configuration:
       default-success-url: /index
       failure-url: /login
     logout:
-      logout-url: /logout
+      logout-url: /j_spring_security_logout
       logout-success-url: /login
       invalidate-session: true
     remember-me:
@@ -23,6 +23,7 @@ custom-configuration:
       token-validity-seconds: 3600
     permit-match-urls:
       - "/static/**"
+      - "/menu"
       - "/login/**"
       - "/logout/**"
       - "/error/**"

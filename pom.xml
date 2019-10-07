@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>springboot-template-admin</module>
+		<module>springboot-template-common</module>
 		<module>springboot-template-security</module>
 		<module>springboot-template-cache</module>
 		<module>springboot-template-repository</module>
@@ -27,6 +28,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<thymeleaf-extras-springsecurity.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity.version>
 	</properties>
 
 	<profiles>
@@ -63,6 +65,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.example.boot</groupId>
+				<artifactId>springboot-template-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.example.boot</groupId>
 				<artifactId>springboot-template-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -80,6 +87,18 @@
 				<groupId>com.example.boot</groupId>
 				<artifactId>springboot-template-domain</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
+			<dependency>
+				<groupId>org.thymeleaf.extras</groupId>
+				<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+				<version>${thymeleaf-extras-springsecurity.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
+			<dependency>
+				<groupId>com.belerweb</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>2.5.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -141,7 +160,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
 		<dependency>
 			<groupId>cn.hutool</groupId>

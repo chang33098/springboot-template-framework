@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatesecurity.configuration;
 import com.example.boot.springboottemplatesecurity.properties.CustomSecurityConfiguration;
 import com.example.boot.springboottemplatesecurity.security.MyFilterSecurityInterceptor;
 import com.example.boot.springboottemplatesecurity.security.MyUserDetailService;
+import com.example.boot.springboottemplatesecurity.security.MyUsernamePasswordAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -56,6 +57,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl(securityConfiguration.getLogout().getLogoutSuccessUrl())
                 .invalidateHttpSession(securityConfiguration.getLogout().getInvalidateSession());
 
+        http.addFilterBefore(usernamePasswordAuthenticationFilter(), MyUsernamePasswordAuthenticationFilter.class); //添加过滤器
+
         http.sessionManagement().maximumSessions(1); //同一帐号好的session只能存在一个
 
         http.rememberMe().rememberMeParameter(securityConfiguration.getRememberMe().getRememberMeParam())
@@ -75,6 +78,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public MyUserDetailService userDetailService() {
         return new MyUserDetailService();
+    }
+
+    @Bean
+    public MyUsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
+        return new MyUsernamePasswordAuthenticationFilter(securityConfiguration, super.authenticationManager());
     }
 
     @Bean

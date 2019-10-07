@@ -3,6 +3,7 @@ package com.example.boot.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.model.role.payload.*;
 import com.example.boot.model.role.response.GetRoleListRO;
+import com.example.boot.springboottemplatecommon.PinYinUtils;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
 import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
@@ -125,13 +126,12 @@ public class RoleServiceImpl implements RoleService {
         RoleMenuRef menuRef = new RoleMenuRef();
         menuRef.setIcon(plo.getIcon());
         menuRef.setMenuName(plo.getMenuName());
+        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
         menuRef.setMenuLevel(MenuLevel.PARENT_MENU.getType());
         menuRef.setRole(role);
 
         roleMenuRefRepository.save(menuRef);
     }
-
-    // TODO: 2019/8/20 [createRoleMenu]功能未完善
 
     @Override
     public void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo) {
@@ -142,6 +142,7 @@ public class RoleServiceImpl implements RoleService {
 
         RoleMenuRef menuRef = new RoleMenuRef();
         BeanUtil.copyProperties(plo, menuRef);
+        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
 
         menuRef.setRole(role);
         menuRef.setPage(page);
@@ -164,11 +165,10 @@ public class RoleServiceImpl implements RoleService {
     public void modifyRoleRootMenu(Long roleId, Long menuId, ModifyRoleRootMenuPLO plo) {
         RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
         BeanUtil.copyProperties(plo, menuRef);
+        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
 
         roleMenuRefRepository.save(menuRef);
     }
-
-    // TODO: 2019/8/20 [modifyRoleMenu]功能未完善
     
     @Override
     public void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo) {
@@ -180,6 +180,7 @@ public class RoleServiceImpl implements RoleService {
 
         menuRef.setIcon(plo.getIcon());
         menuRef.setMenuName(plo.getMenuName());
+        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
         menuRef.setSortNo(plo.getSortNo());
         menuRef.setPage(page);
         roleMenuRefRepository.save(menuRef);

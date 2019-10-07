@@ -19,6 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>com.example.boot</groupId>
+            <artifactId>springboot-template-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-security</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -31,6 +36,11 @@
             <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-domain</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
     </dependencies>
 
