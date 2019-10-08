@@ -1,52 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
-<form class="layui-form" th:fragment="create-parent-menu" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
-    <input type="hidden" id="role-id" th:value="${roleId}">
-    <input type="hidden" name="pageId">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form" th:fragment="create-parent-menu" id="form" lay-filter="form"
+              style="padding: 20px 30px 0 0;">
+            <input type="hidden" id="role-id" th:value="${roleId}">
+            <input type="hidden" name="pageId">
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单名称</label>
-        <div class="layui-col-md6">
-            <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="menuName" th:value="${}" lay-verify="required" placeholder="角色名称"
-                       class="layui-input">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单名称</label>
+                <div class="layui-col-md6">
+                    <div class="layui-input-inline" style="width: 60%;">
+                        <input type="text" name="menuName" lay-verify="required" placeholder="角色名称"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">角色的中文名称</div>
+                </div>
             </div>
-            <div class="layui-form-mid layui-word-aux">角色的中文名称</div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单图标</label>
-        <div class="layui-input-block">
-            <input type="hidden" name="icon">
-            <button type="button" class="layui-btn layui-btn-primary" onclick="chooseIcon()">选择图标</button>
-            <button type="button" id="icon-btn" class="layui-btn layui-btn-primary" style="display: none;">
-                <i class="layui-icon layui-icon-face-smile"></i>
-            </button>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">是否默认展开</label>
-        <div class="layui-input-block">
-            <input type="radio" name="opened" value="false" title="关闭" checked>
-            <input type="radio" name="opened" value="true" title="展开">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">排序编号</label>
-        <div class="layui-input-block">
-            <div class="layui-col-md6">
-                <input type="number" name="sortNo" value="0" lay-verify="required"
-                       class="layui-input">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单图标</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="icon">
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="chooseIcon()">选择图标</button>
+                    <button type="button" id="icon-btn" class="layui-btn layui-btn-primary" style="display: none;">
+                        <i class="layui-icon layui-icon-face-smile"></i>
+                    </button>
+                </div>
             </div>
-        </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否展开</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="opened" value="false" title="关闭" checked>
+                    <input type="radio" name="opened" value="true" title="展开">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序编号</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md2">
+                        <input type="number" name="sortNo" value="0" lay-verify="required"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="submit">添加父菜单
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-
-    <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="submit" id="submit" value="添加父菜单">
-    </div>
-</form>
+</div>
+</body>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
     layui.use(['form'], function () {
@@ -55,21 +66,23 @@
         form.on('submit(submit)', function (data) {
             var roleId = $('#role-id').val(); //角色ID
             var field = data.field; //表单参数
-            page.async_request({
-                url: '/system/role/' + roleId + '/create_role_root_menu',
-                type: 'post',
-                data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
-                        refreshTree(); //刷新树状菜单
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
-                }
-            })
+
+            console.info(field);
+
+//            page.async_request({
+//                url: '/system/role/' + roleId + '/create_role_root_menu',
+//                type: 'post',
+//                data: JSON.stringify(field),
+//                success: function (result) {
+//                    if (result.status === httpstatus.OK.code) {
+//                        layer.msg(result.message, {icon: 1});
+//                        refreshTree(); //刷新树状菜单
+//                    } else {
+//                        layer.msg(result.message, {icon: 5})
+//                    }
+//                }
+//            })
         });
     });
 </script>
-</body>
 </html>

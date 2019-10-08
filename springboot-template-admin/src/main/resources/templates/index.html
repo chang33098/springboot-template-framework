@@ -61,7 +61,7 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript: void(0);">
-                        <cite sec:authentication="principal.nickname">管理员</cite>
+                        <!--<cite sec:authentication="principal.nickname">管理员</cite>-->
                         <!--<cite th:text="{#authentication.principal.nickname}">管理员</cite>-->
                     </a>
                     <dl class="layui-nav-child">
@@ -90,17 +90,17 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
 
-                    <li data-th-name="${menu.menuCode}" class="layui-nav-item" th:each="menu : ${#authentication.principal.menus}">
-                        <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">
-                            <i class="layui-icon" th:classappend="${menu.icon}"></i>
-                            <cite th:text="${menu.menuName}">父菜单名称</cite>
-                        </a>
-                        <dl class="layui-nav-child" th:each="submenu : ${menu.children}">
-                            <dd data-th-name="${submenu.menuCode}">
-                                <a lay-href="/sysuser/go_sysuser_list" th:text="${submenu.menuName}">子菜单名称</a>
-                            </dd>
-                        </dl>
-                    </li>
+                    <!--<li data-th-name="${menu.menuCode}" class="layui-nav-item" th:each="menu : ${#authentication.principal.menus}">-->
+                        <!--<a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">-->
+                            <!--<i class="layui-icon" th:classappend="${menu.icon}"></i>-->
+                            <!--<cite th:text="${menu.menuName}">父菜单名称</cite>-->
+                        <!--</a>-->
+                        <!--<dl class="layui-nav-child" th:each="submenu : ${menu.children}">-->
+                            <!--<dd data-th-name="${submenu.menuCode}">-->
+                                <!--<a lay-href="/sysuser/go_sysuser_list" th:text="${submenu.menuName}">子菜单名称</a>-->
+                            <!--</dd>-->
+                        <!--</dl>-->
+                    <!--</li>-->
 
                     <!--<li data-name="home" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px;">
     <input type="hidden" id="role-id" th:value="${roleId}">
@@ -17,15 +19,11 @@
                 </div>
             </div>
         </div>
-        <div id="menu-form" class="layui-col-md8" style="display: none;">
+        <div class="layui-col-md8">
             <div class="layui-card">
-                <div class="layui-card-header">页面信息</div>
-                <div class="layui-card-body">
-
-                    <iframe id="create-menu-form"></iframe>
-                    <!--<form class="layui-form" action="" lay-filter="component-form-element">-->
-
-                    <!--</form>-->
+                <div class="layui-card-header">菜单</div>
+                <div id="iframepage-body" class="layui-card-body" style="display: none;">
+                    <iframe id="iframepage" frameborder="0" scrolling="auto" class="layadmin-iframe"></iframe>
                 </div>
             </div>
         </div>
@@ -41,91 +39,23 @@
         tree = layui.tree;
         util = layui.util;
 
-        form.on('submit(create-root-menu)', function (data) {
-            var field = data.field; //表单参数
-            page.async_request({
-                url: '/system/role/' + roleId + '/create_role_root_menu',
-                type: 'post',
-                data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
-                        refreshTree();
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
-                }
-            })
-        });
-        form.on('submit(create-sub-menu)', function (data) {
-            var field = data.field; //表单参数
-            var permissionIds = packaging();
-            if (permissionIds.length < 1) {
-                layer.msg('至少选择勾选一个权限', {icon: 5});
-                return;
-            }
-            field.permissionIds = permissionIds;
-
-            page.async_request({
-                url: '/system/role/' + roleId + '/create_role_sub_menu',
-                type: 'post',
-                data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
-                        refreshTree();
-                    } else {
-                        layer.msg(result.message, {icon: 5});
-                    }
-                }
-            })
-        });
-        form.on('submit(modify-root-menu)', function (data) {
-            var field = data.field; //表单参数
-            var menuId = $('input[name="menuId"]').val();
-
-            page.async_request({
-                url: '/system/role/' + roleId + '/modify_role_root_menu/' + menuId,
-                type: 'put',
-                data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
-                        refreshTree();
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
-                }
-            })
-        });
-        form.on('submit(modify-sub-menu)', function (data) {
-            var field = data.field; //表单参数
-            var menuId = $('input[name="menuId"]').val();
-
-            var permissionIds = packaging();
-            if (permissionIds.length < 1) {
-                layer.msg('至少选择勾选一个权限', {icon: 5});
-                return;
-            }
-            field.permissionIds = permissionIds;
-
-            page.async_request({
-                url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menuId,
-                type: 'put',
-                data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
-                        refreshTree();
-                    } else {
-                        layer.msg(result.message, {icon: 5});
-                    }
-                }
-            })
-        });
-
         init(); //初始化页面
     });
+
+    $(function () {
+        changeFrameHeight();
+    });
+
+    /*iframe自适应*/
+    function changeFrameHeight() {
+        var ifm = document.getElementById('iframepage');
+        ifm.height = document.documentElement.clientHeight;
+        $('#iframepage-body').css('height', ifm.height);
+        console.info(ifm.height);
+    }
+    window.onresize = function () {
+        changeFrameHeight();
+    };
 
     function init() {
         page.async_request({
@@ -192,20 +122,8 @@
     }
 
     function createRootMenu() {
-//        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
-//        $('#page-permission').html('');
-//        $('#create-menu').css('display', 'block');
-//        $('#modify-menu').css('display', 'none');
-//        $('#icon-btn').css('display', 'none');
-//        $('.root-menu').css('display', 'block');
-//        $('.sub-menu').css('display', 'none');
-//
-//        $('input[name="menuLevel"]').val(1);
-        $('#menu-form').css('display', 'block');
-//        form.render(); //重新渲染
-
-//        http://localhost:8080/template-framework/system/role/1/role_menu
-        $('#create-menu-form').src(domain + '/system/role/' + roleId + 'create_role_root_menu');
+        $('#iframepage-body').css('display', 'block');
+        $('#iframepage').attr('src', domain + '/system/role/' + roleId + '/create_role_root_menu');
     }
 
     function createSubMenu(parentId, parentName) {
