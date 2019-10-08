@@ -134,31 +134,34 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo) {
-        final Long pageId = plo.getPageId();
+    public void createRoleSubMenu(Long roleId, Long parentId, CreateRoleSubMenuPLO plo) {
 
-        SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
-        SystemPage page = pageService.getPageById(pageId);
-
-        RoleMenuRef menuRef = new RoleMenuRef();
-        BeanUtil.copyProperties(plo, menuRef);
-        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
-
-        menuRef.setRole(role);
-        menuRef.setPage(page);
-        roleMenuRefRepository.save(menuRef);
-
-        RoleMenuRef parent = roleMenuRefRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("父菜单ID [" + plo.getParentId() + "] 不存在"));
-        parent.getChildren().add(menuRef);
-        roleMenuRefRepository.save(parent);
-
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
-        permissionRefs.forEach(permissionRef -> {
-            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
-            menuPermissionRef.setPermission(permissionRef);
-            menuPermissionRef.setMenu(menuRef);
-            roleMenuPermissionRefRepository.save(menuPermissionRef);
-        });
+        // TODO: 2019/10/8 改造中 
+        
+//        final Long pageId = plo.getPageId();
+//
+//        SystemRole role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("角色ID [" + roleId + "] 不存在"));
+//        SystemPage page = pageService.getPageById(pageId);
+//
+//        RoleMenuRef menuRef = new RoleMenuRef();
+//        BeanUtil.copyProperties(plo, menuRef);
+//        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
+//
+//        menuRef.setRole(role);
+//        menuRef.setPage(page);
+//        roleMenuRefRepository.save(menuRef);
+//
+//        RoleMenuRef parent = roleMenuRefRepository.findById(plo.getParentId()).orElseThrow(() -> new ResourceNotFoundException("父菜单ID [" + plo.getParentId() + "] 不存在"));
+//        parent.getChildren().add(menuRef);
+//        roleMenuRefRepository.save(parent);
+//
+//        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(plo.getPermissionIds());
+//        permissionRefs.forEach(permissionRef -> {
+//            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
+//            menuPermissionRef.setPermission(permissionRef);
+//            menuPermissionRef.setMenu(menuRef);
+//            roleMenuPermissionRefRepository.save(menuPermissionRef);
+//        });
     }
 
     @Override
@@ -171,29 +174,32 @@ public class RoleServiceImpl implements RoleService {
     }
     
     @Override
-    public void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo) {
-        final Long pageId = plo.getPageId();
-        final List<Long> permissionIds = plo.getPermissionIds();
+    public void modifyRoleSubMenu(Long roleId, Long parentId, Long menuId, ModifyRoleSubMenuPLO plo) {
 
-        RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
-        SystemPage page = pageService.getPageById(pageId);
-
-        menuRef.setIcon(plo.getIcon());
-        menuRef.setMenuName(plo.getMenuName());
-        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
-        menuRef.setSortNo(plo.getSortNo());
-        menuRef.setPage(page);
-        roleMenuRefRepository.save(menuRef);
-
-        roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
-
-        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(permissionIds);
-        permissionRefs.forEach(permissionRef -> {
-            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
-            menuPermissionRef.setPermission(permissionRef);
-            menuPermissionRef.setMenu(menuRef);
-            roleMenuPermissionRefRepository.save(menuPermissionRef);
-        });
+        // TODO: 2019/10/8 改造中
+        
+//        final Long pageId = plo.getPageId();
+//        final List<Long> permissionIds = plo.getPermissionIds();
+//
+//        RoleMenuRef menuRef = roleMenuRefRepository.findByIdAndRoleId(menuId, roleId).orElseThrow(() -> new ResourceNotFoundException("菜单ID [" + menuId + "] 不存在"));
+//        SystemPage page = pageService.getPageById(pageId);
+//
+//        menuRef.setIcon(plo.getIcon());
+//        menuRef.setMenuName(plo.getMenuName());
+//        menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
+//        menuRef.setSortNo(plo.getSortNo());
+//        menuRef.setPage(page);
+//        roleMenuRefRepository.save(menuRef);
+//
+//        roleMenuPermissionRefRepository.deleteAllByMenuId(menuId);
+//
+//        List<PagePermissionRef> permissionRefs = pageService.getPagePermissionListByIds(permissionIds);
+//        permissionRefs.forEach(permissionRef -> {
+//            RoleMenuPermissionRef menuPermissionRef = new RoleMenuPermissionRef();
+//            menuPermissionRef.setPermission(permissionRef);
+//            menuPermissionRef.setMenu(menuRef);
+//            roleMenuPermissionRefRepository.save(menuPermissionRef);
+//        });
     }
 
     // TODO: 2019/8/20 [deleteRoleMenu] 功能有待完善

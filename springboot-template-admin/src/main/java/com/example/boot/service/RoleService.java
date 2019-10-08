@@ -32,11 +32,11 @@ public interface RoleService {
 
     void createRoleRootMenu(Long roleId, CreateRoleRootMenuPLO plo);
 
-    void createRoleSubMenu(Long roleId, CreateRoleSubMenuPLO plo);
+    void createRoleSubMenu(Long roleId, Long parentId, CreateRoleSubMenuPLO plo);
 
     void modifyRoleRootMenu(Long roleId, Long menuId, ModifyRoleRootMenuPLO plo);
 
-    void modifyRoleSubMenu(Long roleId, Long menuId, ModifyRoleSubMenuPLO plo);
+    void modifyRoleSubMenu(Long roleId, Long parentId, Long menuId, ModifyRoleSubMenuPLO plo);
 
     void deleteRoleMenu(Long roleId, Long menuId);
 

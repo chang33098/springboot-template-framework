@@ -15,7 +15,6 @@ public class ModifyRoleSubMenuRO {
     private String icon;
     private String menuName;
     private Integer sortNo;
-    private String parentName;
     private Long pageId;
     private String pageName;
     private String pageCode;
