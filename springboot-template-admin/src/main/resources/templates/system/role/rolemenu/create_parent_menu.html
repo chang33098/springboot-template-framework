@@ -10,7 +10,7 @@
         <label class="layui-form-label">菜单名称</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="name" lay-verify="required" placeholder="角色名称"
+                <input type="text" name="menuName" th:value="${}" lay-verify="required" placeholder="角色名称"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">角色的中文名称</div>
@@ -24,6 +24,13 @@
             <button type="button" id="icon-btn" class="layui-btn layui-btn-primary" style="display: none;">
                 <i class="layui-icon layui-icon-face-smile"></i>
             </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否默认展开</label>
+        <div class="layui-input-block">
+            <input type="radio" name="opened" value="false" title="关闭" checked>
+            <input type="radio" name="opened" value="true" title="展开">
         </div>
     </div>
     <div class="layui-form-item">

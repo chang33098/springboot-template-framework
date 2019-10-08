@@ -186,8 +186,7 @@ public class RoleController {
 
     @GetMapping(value = "{role_id}/role_menu/{parent_id}/create_role_sub_menu")
     public String createRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
-                                    @PathVariable(value = "parent_id") Long parentId,
-                                    Model model) {
+                                    @PathVariable(value = "parent_id") Long parentId, Model model) {
         RoleMenuRef parentMenu = roleService.getRoleMenuByRoleIdAndMenuId(roleId, parentId);
 
         model.addAttribute("roleId", roleId);
@@ -197,12 +196,27 @@ public class RoleController {
         return "system/role/rolemenu/create_sub_menu";
     }
 
-    @PostMapping(value = "{role_id}/create_role_sub_menu")
+    @PostMapping(value = "{role_id}/role_menu/{parent_id}/create_role_sub_menu")
     @ResponseBody
     public ResponseBodyBean createRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                              @PathVariable(value = "parent_id") Long parentId,
                                               @RequestBody @Valid CreateRoleSubMenuPLO plo) {
         roleService.createRoleSubMenu(roleId, plo);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    @GetMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
+    public String modifyRoleRootMenu(@PathVariable(value = "role_id") Long roleId,
+                                     @PathVariable(value = "menu_id") Long menuId, Model model) {
+        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId);
+
+        ModifyRoleRootMenuRO menuRO = new ModifyRoleRootMenuRO();
+        BeanUtil.copyProperties(menuRef, menuRO);
+        menuRO.setPageId(menuRef.getPage().getId());
+
+        model.addAttribute("menu", menuRO);
+
+        return "system/role/rolemenu/modify_role_root_menu";
     }
 
     @PutMapping(value = "{role_id}/modify_role_root_menu/{menu_id}")
@@ -214,11 +228,32 @@ public class RoleController {
         return ResponseBodyBean.ofSuccess();
     }
 
-    @PutMapping(value = "{role_id}/modify_role_sub_menu/{menu_id}")
+    @GetMapping(value = "{role_id}/role_menu/{parent_id}/modify_role_sub_menu/{menu_id}")
+    public String modifyRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                    @PathVariable(value = "parent_id") Long parentId,
+                                    @PathVariable(value = "menu_id") Long menuId, Model model) {
+        model.addAttribute("roleId", roleId);
+        model.addAttribute("parentId", parentId);
+        model.addAttribute("menuId", menuId);
+
+        RoleMenuRef parentMenu = roleService.getRoleMenuByRoleIdAndMenuId(roleId, parentId);
+        model.addAttribute("parentMenuName", parentMenu.getMenuName());
+
+        RoleMenuRef menuRef = roleService.getRoleMenuByRoleIdAndMenuId(roleId, menuId); //获取菜单信息
+        ModifyRoleSubMenuRO menuRO = new ModifyRoleSubMenuRO();
+        BeanUtil.copyProperties(menuRef, menuRO);
+
+        model.addAttribute("menu", menuRO);
+
+        return "modify_role_sub_menu";
+    }
+
+    @PutMapping(value = "{role_id}/role_menu/{parent_id}/modify_role_sub_menu/{menu_id}")
     @ResponseBody
     public ResponseBodyBean modifyRoleSubMenu(@PathVariable(value = "role_id") Long roleId,
+                                              @PathVariable(value = "parent_id") Long parentId,
                                               @PathVariable(value = "menu_id") Long menuId,
-                                              @RequestBody ModifyRoleSubMenuPLO plo) {
+                                              @RequestBody @Valid ModifyRoleSubMenuPLO plo) {
         roleService.modifyRoleSubMenu(roleId, menuId, plo);
         return ResponseBodyBean.ofSuccess();
     }

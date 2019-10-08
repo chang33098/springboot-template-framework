@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * write this class description...
@@ -20,6 +21,8 @@ public class CreateRoleRootMenuPLO {
     @NotBlank
     @Length(max = 50)
     private String menuName;
+    @NotNull
+    private Boolean opened = false;
     @Range(min = 0, max = 127)
     private Integer sortNo = 0;
 }

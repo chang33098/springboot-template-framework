@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by EDZ on 2019/8/22.
@@ -17,6 +18,8 @@ public class ModifyRoleRootMenuPLO {
     @NotBlank
     @Length(max = 50)
     private String menuName;
+    @NotNull
+    private Boolean opened = false;
     @Range(min = 0, max = 127)
     private Integer sortNo = 0;
 }
