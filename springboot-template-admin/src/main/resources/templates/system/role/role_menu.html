@@ -9,7 +9,9 @@
 
     <div class="layui-row layui-col-space15">
         <div class="layui-btn-container">
-            <button type="button" onclick="createRootMenu()" class="layui-btn layui-btn-sm">添加一级菜单</button>
+            <button type="button" class="layui-btn layui-btn-sm create-root-menu">添加一级菜单</button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm refresh-menu">
+                <i class="layui-icon layui-icon-refresh-3"></i>刷新菜单</button>
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
@@ -40,6 +42,27 @@
         util = layui.util;
 
         init(); //初始化页面
+    });
+
+    /*创建一级菜单*/
+    $('.create-root-menu').click(function () {
+        $('#iframepage-body').css('display', 'block');
+        $('#iframepage').attr('src', domain + '/system/role/' + roleId + '/create_role_root_menu');
+    });
+    /*刷新树状菜单*/
+    $('.refresh-menu').click(function () {
+        page.async_request({
+            url: '/system/role/' + roleId + '/get_role_menu',
+            success: function (result) {
+                if (result.status === httpstatus.OK.code) {
+                    tree.reload('menu-tree', {
+                        data: result.data
+                    });
+                } else {
+                    layer.msg(result.message, {icon: 5})
+                }
+            }
+        });
     });
 
     $(function () {
@@ -97,21 +120,6 @@
         })
     }
 
-    function refreshTree() {
-        page.async_request({
-            url: '/system/role/' + roleId + '/get_role_menu',
-            success: function (result) {
-                if (result.status === httpstatus.OK.code) {
-                    tree.reload('menu-tree', {
-                        data: result.data
-                    });
-                } else {
-                    layer.msg(result.message, {icon: 5})
-                }
-            }
-        });
-    }
-
     function packaging() {
         var permissionIds = [];
         $('input[name="permissionId"]:checked').each(function () {
@@ -119,11 +127,6 @@
             permissionIds.push(permissionId);
         });
         return permissionIds;
-    }
-
-    function createRootMenu() {
-        $('#iframepage-body').css('display', 'block');
-        $('#iframepage').attr('src', domain + '/system/role/' + roleId + '/create_role_root_menu');
     }
 
     function createSubMenu(parentId, parentName) {
@@ -214,17 +217,6 @@
     function deleteMenu(menu) {
         layer.confirm('确认删除' + menu.title + '菜单?', function (index) {
             console.info('触发删除菜单事件...');
-        })
-    }
-
-    function chooseIcon() {
-        page.open_view({
-            url: '/system/role/choose_menu_icon',
-            title: '选择图标',
-            btn: ['取消'],
-            yes: function (index) {
-                layer.close(index);
-            }
         })
     }
 

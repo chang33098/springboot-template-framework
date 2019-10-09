@@ -22,7 +22,7 @@ public class CreateRoleRootMenuPLO {
     @Length(max = 50)
     private String menuName;
     @NotNull
-    private Boolean opened = false;
+    private Boolean opened;
     @Range(min = 0, max = 127)
-    private Integer sortNo = 0;
+    private Integer sortNo;
 }

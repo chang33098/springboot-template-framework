@@ -24,7 +24,7 @@ public class ModifyRoleSubMenuPLO {
     @Length(max = 50)
     private String menuName;
     @Range(min = 0, max = 127)
-    private Integer sortNo = 0;
+    private Integer sortNo;
     @Size(min = 1)
     private List<Long> permissionIds = new ArrayList<>();
 }

@@ -15,10 +15,9 @@
                 <label class="layui-form-label">菜单名称</label>
                 <div class="layui-col-md6">
                     <div class="layui-input-inline" style="width: 60%;">
-                        <input type="text" name="menuName" lay-verify="required" placeholder="角色名称"
+                        <input type="text" name="menuName" lay-verify="required" placeholder="菜单名称"
                                class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">角色的中文名称</div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -50,7 +49,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
-                    <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="submit">添加父菜单
+                    <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="submit">添加一级菜单
                     </button>
                 </div>
             </div>
@@ -66,23 +65,33 @@
         form.on('submit(submit)', function (data) {
             var roleId = $('#role-id').val(); //角色ID
             var field = data.field; //表单参数
-
-            console.info(field);
-
-//            page.async_request({
-//                url: '/system/role/' + roleId + '/create_role_root_menu',
-//                type: 'post',
-//                data: JSON.stringify(field),
-//                success: function (result) {
-//                    if (result.status === httpstatus.OK.code) {
-//                        layer.msg(result.message, {icon: 1});
-//                        refreshTree(); //刷新树状菜单
-//                    } else {
-//                        layer.msg(result.message, {icon: 5})
-//                    }
-//                }
-//            })
+            page.async_request({
+                url: '/system/role/' + roleId + '/create_role_root_menu',
+                type: 'post',
+                data: JSON.stringify(field),
+                success: function (result) {
+                    if (result.status === httpstatus.OK.code) {
+                        layer.msg(result.message, {icon: 1});
+                        parent.$('#iframepage-body').css('display', 'none'); //关闭
+                        parent.$('#iframepage').attr('src', ''); //关闭菜单
+                        parent.$('.refresh-menu').click(); //刷新菜单
+                    } else {
+                        layer.msg(result.message, {icon: 5})
+                    }
+                }
+            })
         });
     });
+
+    function chooseIcon() {
+        page.open_view({
+            url: '/system/role/choose_menu_icon',
+            title: '选择图标',
+            btn: ['取消'],
+            yes: function (index) {
+                layer.close(index);
+            }
+        })
+    }
 </script>
 </html>

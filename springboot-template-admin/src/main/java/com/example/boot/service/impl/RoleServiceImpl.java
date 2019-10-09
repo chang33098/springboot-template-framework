@@ -128,6 +128,8 @@ public class RoleServiceImpl implements RoleService {
         menuRef.setMenuName(plo.getMenuName());
         menuRef.setMenuCode(PinYinUtils.getChinesePinYin(menuRef.getMenuName()));
         menuRef.setMenuLevel(MenuLevel.PARENT_MENU.getType());
+        menuRef.setSortNo(plo.getSortNo());
+        menuRef.setOpened(plo.getOpened());
         menuRef.setRole(role);
 
         roleMenuRefRepository.save(menuRef);

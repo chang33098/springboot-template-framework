@@ -29,7 +29,7 @@ public class CreateRoleSubMenuPLO {
     @NotNull
     private Integer menuLevel;
     @Range(min = 0, max = 127)
-    private Integer sortNo = 0;
+    private Integer sortNo;
     @NotNull
     private Long parentId;
     @Size(min = 1)
