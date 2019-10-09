@@ -13,9 +13,18 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">菜单名称</label>
-                <div class="layui-col-md6">
-                    <div class="layui-input-inline" style="width: 60%;">
+                <div class="layui-input-block">
+                    <div class="layui-col-md6">
                         <input type="text" name="menuName" lay-verify="required" placeholder="菜单名称"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序编号</label>
+                <div class="layui-input-block">
+                    <div class="layui-col-md6">
+                        <input type="number" name="sortNo" value="0" lay-verify="required"
                                class="layui-input">
                     </div>
                 </div>
@@ -24,7 +33,7 @@
                 <label class="layui-form-label">菜单图标</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="icon">
-                    <button type="button" class="layui-btn layui-btn-primary" onclick="chooseIcon()">选择图标</button>
+                    <button type="button" class="layui-btn layui-btn-primary choose-icon">选择图标</button>
                     <button type="button" id="icon-btn" class="layui-btn layui-btn-primary" style="display: none;">
                         <i class="layui-icon layui-icon-face-smile"></i>
                     </button>
@@ -37,19 +46,11 @@
                     <input type="radio" name="opened" value="true" title="展开">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">排序编号</label>
-                <div class="layui-input-block">
-                    <div class="layui-col-md2">
-                        <input type="number" name="sortNo" value="0" lay-verify="required"
-                               class="layui-input">
-                    </div>
-                </div>
-            </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
-                    <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="submit">添加一级菜单
+                    <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="submit">创建一级菜单
                     </button>
                 </div>
             </div>
@@ -83,7 +84,8 @@
         });
     });
 
-    function chooseIcon() {
+    /*选择菜单图标*/
+    $('.choose-icon').click(function () {
         page.open_view({
             url: '/system/role/choose_menu_icon',
             title: '选择图标',
@@ -92,6 +94,6 @@
                 layer.close(index);
             }
         })
-    }
+    });
 </script>
 </html>
