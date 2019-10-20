@@ -22,8 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+//    new AntPathRequestMatcher(filterProcessesUrl)
+
+//    protected AbstractAuthenticationProcessingFilter(String defaultFilterProcessesUrl) {
+//    setFilterProcessesUrl
+//        this.setFilterProcessesUrl(defaultFilterProcessesUrl);
+//    }
+
     public MyUsernamePasswordAuthenticationFilter(CustomSecurityConfiguration securityConfiguration, AuthenticationManager authenticationManager) {
-//        this.setFilterProcessesUrl(securityConfiguration.getFormLogin().getLoginProcessingUrl()); //配置loginProcessingUrl, 即拦截的URL. 若不配置, 则默认执行父类中的attemptAuthentication()
+        this.setUsernameParameter(securityConfiguration.getFormLogin().getUsernameParam());
+        this.setPasswordParameter(securityConfiguration.getFormLogin().getPasswordParam());
+//        this.setFilterProcessesUrl("/login"); //配置loginProcessingUrl, 即拦截的URL. 若不配置, 则默认执行父类中的attemptAuthentication()
         this.setAuthenticationManager(authenticationManager); //配置AuthenticationManager
     }
 

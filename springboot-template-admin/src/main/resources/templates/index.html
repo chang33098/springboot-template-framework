@@ -61,8 +61,7 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript: void(0);">
-                        <!--<cite sec:authentication="principal.nickname">管理员</cite>-->
-                        <!--<cite th:text="{#authentication.principal.nickname}">管理员</cite>-->
+                        <cite sec:authentication="principal.nickname">管理员</cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
@@ -80,7 +79,6 @@
                 </li>
             </ul>
         </div>
-
         <!-- 侧边菜单 -->
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
@@ -88,51 +86,10 @@
                     <h3>控制台</h3>
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
-                    lay-filter="layadmin-system-side-menu">
-
-                    <!--<li data-th-name="${menu.menuCode}" class="layui-nav-item" th:each="menu : ${#authentication.principal.menus}">-->
-                        <!--<a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">-->
-                            <!--<i class="layui-icon" th:classappend="${menu.icon}"></i>-->
-                            <!--<cite th:text="${menu.menuName}">父菜单名称</cite>-->
-                        <!--</a>-->
-                        <!--<dl class="layui-nav-child" th:each="submenu : ${menu.children}">-->
-                            <!--<dd data-th-name="${submenu.menuCode}">-->
-                                <!--<a lay-href="/sysuser/go_sysuser_list" th:text="${submenu.menuName}">子菜单名称</a>-->
-                            <!--</dd>-->
-                        <!--</dl>-->
-                    <!--</li>-->
-
-                    <!--<li data-name="home" class="layui-nav-item layui-nav-itemed">
-                        <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">
-                            <i class="layui-icon layui-icon-set"></i>
-                            <cite>系统设置</cite>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd data-name="console">
-                                <a lay-href="/sysuser/go_sysuser_list">用户管理</a>
-                            </dd>
-                        </dl>
-                        <dl class="layui-nav-child">
-                            <dd data-name="console">
-                                <a lay-href="/sysrole/go_sysrole_list">角色管理</a>
-                            </dd>
-                        </dl>
-                        <dl class="layui-nav-child">
-                            <dd data-name="console">
-                                <a lay-href="/sysmenu/go_sysmenu_list">菜单管理</a>
-                            </dd>
-                        </dl>
-                        <dl class="layui-nav-child">
-                            <dd data-name="console">
-                                <a lay-href="/sysres/go_sysres_list">权限管理</a>
-                            </dd>
-                        </dl>
-                    </li>-->
-
+                    lay-filter="layadmin-system-side-menu" th:replace="menu::menu">
                 </ul>
             </div>
         </div>
-
         <!-- 页面标签 -->
         <div class="layadmin-pagetabs" id="LAY_app_tabs">
             <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -156,14 +113,12 @@
                 </ul>
             </div>
         </div>
-
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
                 <iframe src="console" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
-
         <!-- 辅助元素，一般用于移动设备下遮罩 -->
         <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>

@@ -3,7 +3,7 @@ logging:
 
 custom-configuration:
   security:
-    enabled: false
+    enabled: true
     super-admin:
       username: admin
       password: admin
