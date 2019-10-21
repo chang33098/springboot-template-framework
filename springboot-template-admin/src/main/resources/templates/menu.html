@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layui="http://thymeleafexamples">
 <head>
     <meta charset="utf-8">
     <title>Platform Menu</title>
@@ -28,8 +28,7 @@
                         <dl class="layui-nav-child" th:each="submenu : ${menu.children}">
                             <dd data-th-name="${submenu.menuCode}">
                                 <!--<a lay-href="/sysuser/go_sysuser_list" th:text="${submenu.menuName}">子菜单名称</a>-->
-
-                                <a th:href="@{${submenu.url}}" th:text="${submenu.menuName}">子菜单名称</a>
+                                <a layui:href="@{${submenu.url}}" th:text="${submenu.menuName}">子菜单名称</a>
                             </dd>
                         </dl>
                     </li>

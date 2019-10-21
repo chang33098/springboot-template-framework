@@ -13,7 +13,7 @@
 
     <!--  -->
     <logger name="com.example.boot" level="info" additivity="true"/>
-    <logger name="org.springframework.web" level="debug" additivity="false">
+    <logger name="org.springframework.web" level="info" additivity="false">
         <appender-ref ref="console"/>
     </logger>
     <logger name="org.hibernate" level="debug" additivity="false">
