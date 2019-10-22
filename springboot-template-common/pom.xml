@@ -21,6 +21,11 @@
 			<groupId>com.belerweb</groupId>
 			<artifactId>pinyin4j</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.jhlabs/filters -->
+		<dependency>
+			<groupId>com.jhlabs</groupId>
+			<artifactId>filters</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

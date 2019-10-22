@@ -12,31 +12,30 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.templatemode.TemplateMode;
 
 /**
- * Thymeleaf自定义标签th-layui:href
+ * Thymeleaf自定义标签th-layui:direction
  * <p>
  * thymeleaf official doc: https://www.thymeleaf.org/doc/tutorials/3.0/extendingthymeleaf.html#changing-the-css-class-by-team-position
- *
- * @author Chang
- * @date 2019/10/20 23:33
+ * <p>
+ * Created by EDZ on 2019/10/22.
  */
-public class LayUIHrefTagProcessor extends AbstractAttributeTagProcessor {
+public class LayUIDirectionProcessor extends AbstractAttributeTagProcessor {
 
-    private static final String ATTRIBUTE = "href";
+    private static final String ATTRIBUTE = "direction";
     private static final int PRECEDENCE = 10000;
 
     /**
      * templateMode: 模板模式，这里使用HTML模板。
-     * dialectPrefix: 标签前缀。即xxx:text中的xxx。在此例子中prefix为[th-layui:href]。
+     * dialectPrefix: 标签前缀。即xxx:text中的xxx。在此例子中prefix为[layui:direction]。
      * elementName：匹配标签元素名。举例来说如果是div，则我们的自定义标签只能用在div标签中。为null能够匹配所有的标签。
      * prefixElementName: 标签名是否要求前缀。
      * attributeName: 自定义标签属性名。这里为text。
-     * prefixAttributeName：属性名是否要求前缀，如果为true，Thymeeleaf会要求使用href属性时必须加上前缀，即layui:href。
+     * prefixAttributeName：属性名是否要求前缀，如果为true，Thymeeleaf会要求使用href属性时必须加上前缀，即layui:direction。
      * precedence：标签处理的优先级，此处使用和Thymeleaf标准方言相同的优先级。
      * removeAttribute：标签处理后是否移除自定义属性。
      *
      * @param dialectPrefix 自定义标签的前缀
      */
-    protected LayUIHrefTagProcessor(String dialectPrefix) {
+    protected LayUIDirectionProcessor(String dialectPrefix) {
         super(TemplateMode.HTML, dialectPrefix, null, false,
                 ATTRIBUTE, true, PRECEDENCE, true);
     }
@@ -58,6 +57,6 @@ public class LayUIHrefTagProcessor extends AbstractAttributeTagProcessor {
         final IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
         final IStandardExpression expression = parser.parseExpression(templateContext, attributeValue);
         final String href = (String) expression.execute(templateContext);
-        structureHandler.replaceAttribute(attributeName, "lay-href", href);
+        structureHandler.replaceAttribute(attributeName, "lay-direction", href);
     }
 }

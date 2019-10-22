@@ -28,7 +28,9 @@ public class LayUITagDialect extends AbstractProcessorDialect {
      * 这里将定义好的标签处理器进行统一处理
      * <p>
      * Processor List
-     * 1.LayUIHrefTagProcessor：LayUI菜单组件的属性lay-href='xxx'
+     * 1.LayUIHrefTagProcessor：LayUI菜单组件的属性layui:href='xxx'
+     * 2.LayUIDirectionProcessor: LayUI菜单组件的属性layui:direction='xxx'
+     * 3.LayUITipsProcessor: LayUI菜单组件的属性layui:tips='xxx'
      *
      * @param dialectPrefix 方言前缀
      * @return Set<IProcessor>
@@ -37,6 +39,8 @@ public class LayUITagDialect extends AbstractProcessorDialect {
     public Set<IProcessor> getProcessors(final String dialectPrefix) {
         final Set<IProcessor> processors = new HashSet<>();
         processors.add(new LayUIHrefTagProcessor(dialectPrefix));
+        processors.add(new LayUIDirectionProcessor(dialectPrefix));
+        processors.add(new LayUITipsProcessor(dialectPrefix));
         return processors;
     }
 }

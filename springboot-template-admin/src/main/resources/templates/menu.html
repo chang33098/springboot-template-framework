@@ -27,7 +27,6 @@
                         </a>
                         <dl class="layui-nav-child" th:each="submenu : ${menu.children}">
                             <dd data-th-name="${submenu.menuCode}">
-                                <!--<a lay-href="/sysuser/go_sysuser_list" th:text="${submenu.menuName}">子菜单名称</a>-->
                                 <a layui:href="@{${submenu.url}}" th:text="${submenu.menuName}">子菜单名称</a>
                             </dd>
                         </dl>
