@@ -8,7 +8,7 @@ import com.example.boot.model.page.response.FindPageTableRO;
 import com.example.boot.model.page.response.GetPagePermissionListRO;
 import com.example.boot.model.page.response.GetPageRO;
 import com.example.boot.model.page.response.ModifyPageRO;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.model.ResponseBodyBean;
 import com.example.boot.service.PageService;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;

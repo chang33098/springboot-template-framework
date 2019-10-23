@@ -8,7 +8,7 @@ import com.example.boot.model.user.payload.ModifyUserPLO;
 import com.example.boot.model.user.response.FindUserTableRO;
 import com.example.boot.model.user.response.GetUserRO;
 import com.example.boot.model.user.response.ModifyUserRO;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.model.ResponseBodyBean;
 import com.example.boot.service.RoleService;
 import com.example.boot.service.UserService;
 import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;

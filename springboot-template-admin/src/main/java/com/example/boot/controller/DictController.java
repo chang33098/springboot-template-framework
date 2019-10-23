@@ -6,7 +6,7 @@ import com.example.boot.model.dict.payload.FindDictTablePLO;
 import com.example.boot.model.dict.payload.ModifyDictPLO;
 import com.example.boot.model.dict.response.FindDictTableRO;
 import com.example.boot.model.dict.response.ModifyDictRO;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.model.ResponseBodyBean;
 import com.example.boot.service.DictService;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
 import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;

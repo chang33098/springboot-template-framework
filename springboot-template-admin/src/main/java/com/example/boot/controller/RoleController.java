@@ -3,7 +3,7 @@ package com.example.boot.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.example.boot.model.role.payload.*;
 import com.example.boot.model.role.response.*;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.model.ResponseBodyBean;
 import com.example.boot.service.PageService;
 import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;

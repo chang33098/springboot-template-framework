@@ -56,7 +56,7 @@ public class LayUIDirectionProcessor extends AbstractAttributeTagProcessor {
         final IEngineConfiguration configuration = templateContext.getConfiguration();
         final IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
         final IStandardExpression expression = parser.parseExpression(templateContext, attributeValue);
-        final String href = (String) expression.execute(templateContext);
-        structureHandler.replaceAttribute(attributeName, "lay-direction", href);
+        final Integer direction = (Integer) expression.execute(templateContext);
+        structureHandler.replaceAttribute(attributeName, "lay-direction", direction.toString());
     }
 }

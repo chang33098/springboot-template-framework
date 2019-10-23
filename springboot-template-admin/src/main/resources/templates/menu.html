@@ -21,7 +21,7 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu" th:fragment="menu">
                     <li data-th-name="${menu.menuCode}" class="layui-nav-item" th:each="menu : ${#authentication.principal.menus}">
-                        <a href="javascript: void(0);" lay-tips="系统设置" lay-direction="1">
+                        <a href="javascript: void(0);" layui:tips="${menu.menuName}" layui:direction="${menuStat.count}">
                             <i class="layui-icon" th:classappend="${menu.icon}"></i>
                             <cite th:text="${menu.menuName}">父菜单名称</cite>
                         </a>

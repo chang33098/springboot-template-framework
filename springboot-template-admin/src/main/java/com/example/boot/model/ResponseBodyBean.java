@@ -1,4 +1,4 @@
-package com.example.boot.response;
+package com.example.boot.model;
 
 import com.example.boot.exception.BizException;
 import com.example.boot.exception.base.BaseException;

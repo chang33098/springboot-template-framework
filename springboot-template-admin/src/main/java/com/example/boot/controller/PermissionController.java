@@ -7,7 +7,7 @@ import com.example.boot.model.permission.payload.ModifyPermissionPLO;
 import com.example.boot.model.permission.response.FindPermissionTableRO;
 import com.example.boot.model.permission.response.ModifyPermissionRO;
 import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.model.ResponseBodyBean;
 import com.example.boot.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
