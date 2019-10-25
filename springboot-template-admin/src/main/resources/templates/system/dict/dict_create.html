@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -25,7 +27,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">模块代码</label>
+        <label class="layui-form-label">用途描述</label>
         <div class="layui-col-md6">
             <textarea name="description" class="layui-textarea" placeholder="该字典的用途描述"></textarea>
         </div>
@@ -71,13 +73,9 @@
                 url: '/system/dict/create',
                 type: 'post',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });
@@ -96,7 +94,7 @@
         $(this).parent().parent().remove();
         form.render();
     });
-    
+
     function packagingOption() {
         var options = []; //字典选项
         $('.dict-option').each(function () {
@@ -107,21 +105,6 @@
         });
         return options;
     }
-    
-    // function addOption() {
-    //     var optionId = new Date().getTime();
-    //     var div = $('.template').clone();
-    //     div.attr('id', 'option-' + optionId); //设置optionID
-    //     div.removeClass('template');
-    //     div.find('label').html(''); //清空label
-    //     div.find('input').val(''); //重置输入框
-    //     div.find('.layui-input-inline:last').html('<button type="button" onclick="delOption(' + optionId + ')" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
-    //     $('.dict-option:last').after(div);
-    // }
-    //
-    // function delOption(optionId) {
-    //     $('#option-' + optionId).remove();
-    // }
 </script>
 </body>
 </html>

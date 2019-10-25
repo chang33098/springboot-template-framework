@@ -95,12 +95,11 @@
             event: function (obj) {
                 var data = obj.data;
                 if (obj.event === 'delete') {
-                    layer.confirm('真的删除行么', function (index) {
+                    layer.confirm('真的删除行么', function () {
                         page.async_request({
-                            url: '/system/dict/delete/' + id,
+                            url: '/system/dict/delete/' + data.id,
                             type: 'delete',
-                            success: function (result) {
-                                layer.msg(result.message, {icon: 1});
+                            callback: function () {
                                 $('#form-search').click();
                             }
                         });
@@ -118,7 +117,8 @@
             create: function () {
                 page.open_view({
                     url: '/system/dict/create',
-                    title: '添加'
+                    title: '添加',
+                    area: ['70%', '70%']
                 });
             }
         };

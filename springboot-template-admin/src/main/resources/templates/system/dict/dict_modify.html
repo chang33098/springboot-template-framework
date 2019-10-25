@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">模块代码</label>
+        <label class="layui-form-label">用途描述</label>
         <div class="layui-col-md6">
             <textarea name="description" th:text="${dict.description}" class="layui-textarea" placeholder="该字典的用途描述"></textarea>
         </div>
@@ -76,13 +76,9 @@
                 url: '/system/dict/modify/' + dictId,
                 type: 'put',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });
