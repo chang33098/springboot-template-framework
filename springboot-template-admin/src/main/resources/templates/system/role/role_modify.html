@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+    <style>
+        html {
+            background: #fff;
+        }
+    </style>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="role-id" th:value="${role.id}">
