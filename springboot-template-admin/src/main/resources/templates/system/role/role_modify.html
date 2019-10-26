@@ -30,10 +30,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form;
-
     layui.use(['form'], function () {
-        form = layui.form;
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var field = data.field; //表单参数
@@ -43,13 +41,9 @@
                 url: '/system/role/modify/' + roleId,
                 type: 'put',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });

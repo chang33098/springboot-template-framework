@@ -55,11 +55,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var filter = [];
-    var form;
-
-    layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+    layui.use(['form'], function () {
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var field = data.field;
@@ -79,32 +76,32 @@
                 }
             })
         });
-    });
 
-    $('.layui-form').on('click', '.dict-option .add-option', function () {
-        var div = $('.template').clone();
-        div.removeClass('template');
-        div.find('label').html(''); //清空label
-        div.find('input').val(''); //重置输入框
-        div.find('.layui-input-inline:last').html('<button type="button" class="layui-btn layui-btn-danger del-option"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
-        $('.dict-option:last').after(div);
-        form.render();
-    });
-    $('.layui-form').on('click', '.dict-option .del-option', function () {
-        $(this).parent().parent().remove();
-        form.render();
-    });
-
-    function packagingOption() {
-        var options = []; //字典选项
-        $('.dict-option').each(function () {
-            var option = {};
-            option.code = $(this).find('input[name="option-code"]').val(); //字典代码
-            option.value = $(this).find('input[name="option-value"]').val(); //字典值
-            options.push(option);
+        $('.layui-form').on('click', '.dict-option .add-option', function () {
+            var div = $('.template').clone();
+            div.removeClass('template');
+            div.find('label').html(''); //清空label
+            div.find('input').val(''); //重置输入框
+            div.find('.layui-input-inline:last').html('<button type="button" class="layui-btn layui-btn-danger del-option"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+            $('.dict-option:last').after(div);
+            form.render();
         });
-        return options;
-    }
+        $('.layui-form').on('click', '.dict-option .del-option', function () {
+            $(this).parent().parent().remove();
+            form.render();
+        });
+
+        function packagingOption() {
+            var options = []; //字典选项
+            $('.dict-option').each(function () {
+                var option = {};
+                option.code = $(this).find('input[name="option-code"]').val(); //字典代码
+                option.value = $(this).find('input[name="option-value"]').val(); //字典值
+                options.push(option);
+            });
+            return options;
+        }
+    });
 </script>
 </body>
 </html>

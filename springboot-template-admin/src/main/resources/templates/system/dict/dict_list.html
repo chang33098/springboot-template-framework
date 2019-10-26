@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -32,10 +34,12 @@
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-submit lay-filter="form-search">
                                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
                                 </button>
-                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
+                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-filter="form-reset">
                                     <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i> 重置
                                 </button>
                             </div>
@@ -64,12 +68,9 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
-
-    layui.use(['form', 'table', 'laydate'], function () {
-        form = layui.form;
-        table = layui.table;
-        laydate = layui.laydate;
+    layui.use(['form', 'table'], function () {
+        var form = layui.form;
+        var table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -105,7 +106,7 @@
                         });
                     });
                 } else if (obj.event === 'modify') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/dict/modify/' + data.id,
                         title: '编辑'
                     });
@@ -113,16 +114,16 @@
             }
         });
 
-        var active = {
-            create: function () {
-                page.open_view({
-                    url: '/system/dict/create',
-                    title: '添加',
-                    area: ['70%', '70%']
-                });
-            }
-        };
         $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var active = {
+                create: function () {
+                    page.open_dialog({
+                        url: '/system/dict/create',
+                        title: '添加',
+                        area: ['70%', '70%']
+                    });
+                }
+            };
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });

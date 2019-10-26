@@ -67,137 +67,130 @@
 
     $(function () {
         changeFrameHeight();
-    });
 
-    /*iframe自适应*/
-    function changeFrameHeight() {
-        var ifm = document.getElementById('iframepage');
-        ifm.height = document.documentElement.clientHeight;
-        $('#iframepage-body').css('height', ifm.height);
-        console.info(ifm.height);
-    }
-    window.onresize = function () {
-        changeFrameHeight();
-    };
+        /*iframe自适应*/
+        function changeFrameHeight() {
+            var ifm = document.getElementById('iframepage');
+            ifm.height = document.documentElement.clientHeight;
+            $('#iframepage-body').css('height', ifm.height);
+            console.info(ifm.height);
+        }
+        window.onresize = function () {
+            changeFrameHeight();
+        };
+    });
 
     function init() {
         page.async_request({
             url: '/system/role/' + roleId + '/get_role_menu',
-            success: function (result) {
-                if (result.status === httpstatus.OK.code) {
-                    tree.render({
-                        id: 'menu-tree',
-                        elem: '#menu-tree',
-                        edit: ['add', 'update', 'del'],
-                        data: result.data,
-                        operate: function (obj) {
-                            var type = obj.type; //得到操作类型
-                            var data = obj.data; //得到当前节点的数据
-                            if (type === 'add') {
-                                if (data.menuLevel !== 1) {
-                                    layer.msg('二级菜单无法添加子菜单', {icon: 5});
-                                    return;
-                                }
-                                createSubMenu(data.id, data.title);
-                            } else if (type === 'update') {
-                                if (data.menuLevel === 1) {
-                                    modifyRootMenu(data);
-                                } else if (data.menuLevel === 2) {
-                                    modifySubMenu(data);
-                                }
-                            } else if (type === 'del') {
-                                deleteMenu(data);
+            callback: function (response) {
+                tree.render({
+                    id: 'menu-tree',
+                    elem: '#menu-tree',
+                    edit: ['add', 'update', 'del'],
+                    data: response.data,
+                    operate: function (obj) {
+                        var type = obj.type; //得到操作类型
+                        var data = obj.data; //得到当前节点的数据
+                        if (type === 'add') {
+                            if (data.menuLevel !== 1) {
+                                layer.msg('二级菜单无法添加子菜单', {icon: 5});
+                                return;
                             }
+                            createSubMenu(data.id, data.title);
+                        } else if (type === 'update') {
+//                                if (data.menuLevel === 1) {
+//                                    modifyRootMenu(data);
+//                                } else if (data.menuLevel === 2) {
+//                                    modifySubMenu(data);
+//                                }
+                        } else if (type === 'del') {
+                            deleteMenu(data);
                         }
-                    });
-                } else {
-                    layer.msg(result.message, {icon: 5})
-                }
+                    }
+                });
             }
         })
     }
-
 
     function createSubMenu(parentId) {
         $('#iframepage-body').css('display', 'block');
         $('#iframepage').attr('src', domain + '/system/role/' + roleId + '/role_menu/' + parentId + '/create_role_sub_menu');
     }
 
-    function modifyRootMenu(menu) {
-        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
-        $('#page-permission').html('');
-        $('#page-permission').css('display', 'block');
-        $('#modify-menu').css('display', 'block');
-        $('#create-menu').css('display', 'none');
-        $('#icon-btn').css('display', 'inline-block');
-        $('.root-menu').css('display', 'block');
-        $('.sub-menu').css('display', 'none');
+    //TODO 需完成改造的工作
 
-        $('input[name="menuId"]').val(menu.id);
-        $('input[name="menuName"]').val(menu.title);
-        $('input[name="icon"]').val(menu.icon);
-        $('input[name="sortNo"]').val(menu.sortNo);
-        $('#icon-btn').html('<i class="layui-icon ' + menu.icon + '"></i>');
-
-        $('#menu-form').css('display', 'block');
-        form.render(); //重新渲染
-    }
-
-    function modifySubMenu(menu) {
-        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
-        $('#page-permission').html('');
-        $('#page-permission').css('display', 'block');
-        $('#modify-menu').css('display', 'block');
-        $('#create-menu').css('display', 'none');
-        $('#icon-btn').css('display', 'inline-block');
-        $('.sub-menu').css('display', 'block');
-        $('.root-menu').css('display', 'none');
-        $('#blank-tips').css('display', 'none');
-
-        $('input[name="pageId"]').val(menu.pageId);
-        $('input[name="menuId"]').val(menu.id);
-        $('input[name="menuName"]').val(menu.title);
-        $('input[name="icon"]').val(menu.icon);
-        $('input[name="sortNo"]').val(menu.sortNo);
-        $('#icon-btn').html('<i class="layui-icon ' + menu.icon + '"></i>');
-
-        page.async_request({
-            url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menu.id,
-            success: function (result) {
-                if (result.status === httpstatus.OK.code) {
-                    $('#parent-page').val(result.data.parentName);
-                    $('#page-name').val(result.data.pageName);
-                    $('#page-code').val(result.data.pageCode);
-                    $('#page-url').val(result.data.pageUrl);
-
-                    var pagePermissions = result.data.pagePermissions;
-                    pagePermissions.forEach(function (value) {
-                        var checkbox = '';
-                        if (value.checked) {
-                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '" checked>';
-                        } else {
-                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
-                        }
-                        $('#page-permission').append(checkbox);
-                    });
-
-                    $('#menu-form').css('display', 'block');
-                    form.render(); //重新渲染
-                } else {
-                    layer.msg(result.message, {icon: 5})
-                }
-            }
-        });
-    }
+//    function modifyRootMenu(menu) {
+//        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+//        $('#page-permission').html('');
+//        $('#page-permission').css('display', 'block');
+//        $('#modify-menu').css('display', 'block');
+//        $('#create-menu').css('display', 'none');
+//        $('#icon-btn').css('display', 'inline-block');
+//        $('.root-menu').css('display', 'block');
+//        $('.sub-menu').css('display', 'none');
+//
+//        $('input[name="menuId"]').val(menu.id);
+//        $('input[name="menuName"]').val(menu.title);
+//        $('input[name="icon"]').val(menu.icon);
+//        $('input[name="sortNo"]').val(menu.sortNo);
+//        $('#icon-btn').html('<i class="layui-icon ' + menu.icon + '"></i>');
+//
+//        $('#menu-form').css('display', 'block');
+//        form.render(); //重新渲染
+//    }
+//
+//    function modifySubMenu(menu) {
+//        $('#menu-form', ':input').not(':button, :submit, :reset, :hidden').val('');
+//        $('#page-permission').html('');
+//        $('#page-permission').css('display', 'block');
+//        $('#modify-menu').css('display', 'block');
+//        $('#create-menu').css('display', 'none');
+//        $('#icon-btn').css('display', 'inline-block');
+//        $('.sub-menu').css('display', 'block');
+//        $('.root-menu').css('display', 'none');
+//        $('#blank-tips').css('display', 'none');
+//
+//        $('input[name="pageId"]').val(menu.pageId);
+//        $('input[name="menuId"]').val(menu.id);
+//        $('input[name="menuName"]').val(menu.title);
+//        $('input[name="icon"]').val(menu.icon);
+//        $('input[name="sortNo"]').val(menu.sortNo);
+//        $('#icon-btn').html('<i class="layui-icon ' + menu.icon + '"></i>');
+//
+//        page.async_request({
+//            url: '/system/role/' + roleId + '/modify_role_sub_menu/' + menu.id,
+//            success: function (result) {
+//                if (result.status === httpstatus.OK.code) {
+//                    $('#parent-page').val(result.data.parentName);
+//                    $('#page-name').val(result.data.pageName);
+//                    $('#page-code').val(result.data.pageCode);
+//                    $('#page-url').val(result.data.pageUrl);
+//
+//                    var pagePermissions = result.data.pagePermissions;
+//                    pagePermissions.forEach(function (value) {
+//                        var checkbox = '';
+//                        if (value.checked) {
+//                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '" checked>';
+//                        } else {
+//                            checkbox += '<input type="checkbox" name="permissionId" value="' + value.permissionId + '" title="' + value.permissionName + '">';
+//                        }
+//                        $('#page-permission').append(checkbox);
+//                    });
+//
+//                    $('#menu-form').css('display', 'block');
+//                    form.render(); //重新渲染
+//                } else {
+//                    layer.msg(result.message, {icon: 5})
+//                }
+//            }
+//        });
+//    }
 
     function deleteMenu(menu) {
         layer.confirm('确认删除' + menu.title + '菜单?', function (index) {
             console.info('触发删除菜单事件...');
         })
-    }
-
-    function choosePage() {
-
     }
 </script>
 </body>

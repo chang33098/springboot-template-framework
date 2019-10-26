@@ -70,14 +70,14 @@
                 url: '/system/role/' + roleId + '/create_role_root_menu',
                 type: 'post',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        layer.msg(result.message, {icon: 1});
+                success: function (response) {
+                    if (response.status === httpstatus.OK.code) {
+                        layer.msg(response.message, {icon: 1});
                         parent.$('#iframepage-body').css('display', 'none'); //关闭
                         parent.$('#iframepage').attr('src', ''); //关闭菜单
                         parent.$('.refresh-menu').click(); //刷新菜单
                     } else {
-                        layer.msg(result.message, {icon: 5})
+                        layer.msg(response.message, {icon: 5})
                     }
                 }
             })
@@ -86,7 +86,7 @@
 
     /*选择菜单图标*/
     $('.choose-icon').click(function () {
-        page.open_view({
+        page.open_dialog({
             url: '/system/role/choose_menu_icon',
             title: '选择图标',
             btn: ['取消'],

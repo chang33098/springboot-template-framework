@@ -65,12 +65,9 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
-
-    layui.use(['form', 'table', 'laydate'], function () {
-        form = layui.form;
-        table = layui.table;
-        laydate = layui.laydate;
+    layui.use(['form', 'table'], function () {
+        var form = layui.form;
+        var table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -95,17 +92,17 @@
             event: function (obj) {
                 var data = obj.data;
                 if (obj.event === 'role-menu') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/role/' + data.id + '/role_menu',
                         title: '角色菜单'
                     });
                 } else if (obj.event === 'modify') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/role/modify/' + data.id,
                         title: '编辑'
                     });
                 } else if (obj.event === 'detail') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/role/detail/' + data.id,
                         title: '详情',
                         btn: ['返回'],
@@ -118,8 +115,7 @@
                         page.async_request({
                             url: '/system/role/delete/' + id,
                             type: 'delete',
-                            success: function (result) {
-                                layer.msg(result.message, {icon: 1});
+                            callback: function () {
                                 $('#form-search').click();
                             }
                         });
@@ -128,15 +124,15 @@
             }
         });
 
-        var active = {
-            create: function () {
-                page.open_view({
-                    url: '/system/role/create',
-                    title: '添加'
-                });
-            }
-        };
         $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var active = {
+                create: function () {
+                    page.open_dialog({
+                        url: '/system/role/create',
+                        title: '添加'
+                    });
+                }
+            };
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });

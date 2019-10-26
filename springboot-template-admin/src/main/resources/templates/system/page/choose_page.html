@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -26,10 +28,12 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-submit lay-filter="form-search">
                                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
                                 </button>
-                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
+                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-filter="form-reset">
                                     <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i> 重置
                                 </button>
                             </div>
@@ -41,7 +45,8 @@
                 <div class="layui-card-body">
                     <div style="padding-bottom: 10px;">
                         <button type="button" class="layui-btn layuiadmin-btn-list check-data-btn"
-                                style="display: none;">隐藏按钮</button>
+                                style="display: none;">隐藏按钮
+                        </button>
                     </div>
                     <table class="layui-hide" id="data-table" lay-filter="data-table"></table>
                 </div>
@@ -51,12 +56,9 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
-
-    layui.use(['form', 'table', 'laydate'], function () {
-        form = layui.form;
-        table = layui.table;
-        laydate = layui.laydate;
+    layui.use(['form', 'table'], function () {
+        var form = layui.form;
+        var table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;

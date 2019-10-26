@@ -71,11 +71,9 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, upload;
-
     layui.use(['form', 'upload'], function () {
-        form = layui.form;
-        upload = layui.upload;
+        var form = layui.form;
+        var upload = layui.upload;
 
         form.on('submit(submit)', function (data) {
             var field = data.field;
@@ -83,13 +81,9 @@
                 url: '/system/user/create',
                 type: 'post',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });

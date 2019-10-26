@@ -40,10 +40,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form;
-
     layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var permissionId = $('#permissionId').val();
@@ -53,13 +51,9 @@
                 url: '/system/permission/modify/' + permissionId,
                 type: 'put',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });

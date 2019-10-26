@@ -62,7 +62,7 @@ var page = {
             }
         })
     },
-    open_view: function (option) {
+    open_dialog: function (option) {
         layer.open({
             type: 2,
             title: option.title || 'title',
@@ -84,9 +84,9 @@ var page = {
             data: option.data || {},
             dataType: option.dataType || 'json',
             contentType: option.contentType || 'application/json; charset=utf-8',
-            success: function (response) {
+            success: option.success || function (response) {
                 if (response.status === httpstatus.OK.code) {
-                    layer.msg(response.message, {icon: 1, time: 1000}, function () {
+                    layer.msg(response.message, {icon: 1, time: option.time || 1000}, function () {
                         option.callback.call(response);
                     });
                 } else {
