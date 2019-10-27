@@ -66,10 +66,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    layui.use(['form', 'table', 'laydate'], function () {
-        var form = layui.form;
-        var table = layui.table;
-        var laydate = layui.laydate;
+    var form, table;
+
+    layui.use(['form', 'table'], function () {
+        form = layui.form;
+        table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -107,7 +108,8 @@
                 } else if (obj.event === 'modify') {
                     page.open_dialog({
                         url: '/system/permission/modify/' + data.id,
-                        title: '编辑'
+                        title: '编辑',
+                        area: ['50%', '45%']
                     });
                 }
             }
@@ -118,7 +120,8 @@
                 create: function () {
                     page.open_dialog({
                         url: '/system/permission/create',
-                        title: '添加'
+                        title: '添加',
+                        area: ['50%', '45%']
                     });
                 }
             };

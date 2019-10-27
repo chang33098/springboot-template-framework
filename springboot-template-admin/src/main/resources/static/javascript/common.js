@@ -26,7 +26,6 @@ var page = {
                 limitName: 'limit'
             }
         });
-
         table.on('tool(data-table)', option.event);
     },
     file_upload: function (option) {

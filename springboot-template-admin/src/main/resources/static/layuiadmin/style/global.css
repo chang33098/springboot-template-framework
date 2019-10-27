@@ -333,7 +333,6 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
 #tip-arrow-bottom,
 #tip-arrow-top{display: none !important;}
 
-
 /* 独立组件 与 主页 */
 .alone{text-align: center; background-color: #009688; color: #fff; font-weight: 300; transition: all .3s; -webkit-transition: all .3s;}
 .alone:hover{background-color: #5FB878;}

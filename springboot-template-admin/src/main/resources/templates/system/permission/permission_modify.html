@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="permissionId" th:value="${permission.id}">
@@ -12,17 +14,17 @@
                 <input type="text" name="name" th:value="${permission.name}" lay-verify="required" placeholder="权限名称"
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">命名方式：模块名称_功能名称</div>
+            <div class="layui-form-mid layui-word-aux">命名方式：权限的名称</div>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">权限代码</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="code" th:value="${permission.code}" lay-verify="required" placeholder="权限代码(由英文和下划线组成)"
+                <input type="text" name="code" th:value="${permission.code}" lay-verify="required" placeholder="权限代码"
                        class="layui-input" style="font-family: Consolas,serif;">
             </div>
-            <div class="layui-form-mid layui-word-aux">命名方式：模块代码_功能代码</div>
+            <div class="layui-form-mid layui-word-aux">命名方式：由英文和下划线组成</div>
         </div>
     </div>
     <div class="layui-form-item">

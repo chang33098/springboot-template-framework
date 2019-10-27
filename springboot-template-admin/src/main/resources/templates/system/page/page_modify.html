@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head>
     <th:block th:replace="common/common_header::header"/>
 </head>
@@ -112,10 +112,9 @@
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
     var filter = [];
-    var form;
 
     layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var pageId = $('#page-id').val();

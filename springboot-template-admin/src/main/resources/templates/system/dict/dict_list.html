@@ -68,9 +68,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
+    var form, table;
+
     layui.use(['form', 'table'], function () {
-        var form = layui.form;
-        var table = layui.table;
+        form = layui.form;
+        table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -108,7 +110,8 @@
                 } else if (obj.event === 'modify') {
                     page.open_dialog({
                         url: '/system/dict/modify/' + data.id,
-                        title: '编辑'
+                        title: '编辑',
+                        area: ['70%', '70%']
                     });
                 }
             }

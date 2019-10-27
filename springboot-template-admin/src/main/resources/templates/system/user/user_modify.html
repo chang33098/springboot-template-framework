@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
@@ -12,6 +12,15 @@
                 <input type="text" th:value="${user.username}" lay-verify="required" placeholder="登录账号" class="layui-input" disabled>
             </div>
             <div class="layui-form-mid layui-word-aux">系统用户的登录账号，只允许驶入英文和数字</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码</label>
+        <div class="layui-col-md6">
+            <div class="layui-input-inline" style="width: 60%;">
+                <input type="text" name="phone" th:value="${user.phone}" lay-verify="required|phone" placeholder="手机号码" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">系统管理员的手机号码</div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -32,21 +41,12 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户头像</label>
         <div class="layui-input-block">
-            <button type="button" id="upload-button" class="layui-btn">上传图片</button>
+            <button type="button" id="upload-button" class="layui-btn layui-btn-primary">上传图片</button>
             <div class="layui-upload-list">
                 <input type="hidden" id="file-path" name="avatar" th:value="${user.avatar}">
                 <img class="layui-upload-img" id="file-src" height="100px;" th:src="${IMAGE_DOMAIN + user.avatar}">
                 <p id="file-text"></p>
             </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">手机号码</label>
-        <div class="layui-col-md6">
-            <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="phone" th:value="${user.phone}" lay-verify="required|phone" placeholder="手机号码" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">系统管理员的手机号码</div>
         </div>
     </div>
     <div class="layui-form-item">

@@ -62,9 +62,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
+    var form, table;
+
     layui.use(['form', 'table'], function () {
-        var form = layui.form;
-        var table = layui.table;
+        form = layui.form;
+        table = layui.table;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -93,12 +95,14 @@
                 if (obj.event === 'modify') {
                     page.open_dialog({
                         url: '/system/page/modify/' + data.id,
-                        title: '编辑'
+                        title: '编辑',
+                        area: ['65%', '75%']
                     });
                 } else if (obj.event === 'detail') {
                     page.open_dialog({
                         url: '/system/page/get/' + data.id,
                         title: '详情',
+                        area: ['65%', '75%'],
                         btn: ['返回'],
                         yes: function (index) {
                             layer.close(index);
@@ -123,7 +127,8 @@
                 create: function () {
                     page.open_dialog({
                         url: '/system/page/create',
-                        title: '添加'
+                        title: '添加',
+                        area: ['65%', '75%']
                     });
                 }
             };
