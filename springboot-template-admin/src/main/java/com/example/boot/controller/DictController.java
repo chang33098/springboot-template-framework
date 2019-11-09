@@ -1,6 +1,7 @@
 package com.example.boot.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.example.boot.model.dict.payload.CreateDictPLO;
 import com.example.boot.model.dict.payload.FindDictTablePLO;
 import com.example.boot.model.dict.payload.ModifyDictPLO;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -107,5 +110,13 @@ public class DictController {
     public ResponseBodyBean deleteDict(@PathVariable(value = "dict_id") Long dictId) {
         dictService.deleteDict(dictId);
         return ResponseBodyBean.ofSuccess();
+    }
+
+    public static void main(String[] args) {
+        Map<Integer, Object> data = new HashMap<>();
+        for (int i = 0; i < 100; i ++) {
+            data.put(i, RandomUtil.randomString(6));
+        }
+        data.forEach((key, value) -> log.info("key: {}, value: {}", key, value));
     }
 }
