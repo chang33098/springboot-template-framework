@@ -42,26 +42,26 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
         // TODO: 2019/8/24 暂时关闭对于URL的访问权限限制
         
-        List<PagePermissionRef> permissionRefs = securityService.securityGetPagePermissionList();
-        if (permissionRefs.isEmpty()) return;
-
-        permissionRefs.forEach(permissionRef -> {
-            List<String> interceptUrls = new ArrayList<>();
-            try {
-                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
-            } catch (Exception e) {
-                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
-            }
-
-            if (!interceptUrls.isEmpty()) {
-                interceptUrls.forEach(url -> {
-                    List<ConfigAttribute> configs = Stream.of(
-                            new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode()))
-                            .collect(Collectors.toList());
-                    resourceMap.put(url, configs);
-                });
-            }
-        });
+//        List<PagePermissionRef> permissionRefs = securityService.securityGetPagePermissionList();
+//        if (permissionRefs.isEmpty()) return;
+//
+//        permissionRefs.forEach(permissionRef -> {
+//            List<String> interceptUrls = new ArrayList<>();
+//            try {
+//                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
+//            } catch (Exception e) {
+//                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
+//            }
+//
+//            if (!interceptUrls.isEmpty()) {
+//                interceptUrls.forEach(url -> {
+//                    List<ConfigAttribute> configs = Stream.of(
+//                            new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode()))
+//                            .collect(Collectors.toList());
+//                    resourceMap.put(url, configs);
+//                });
+//            }
+//        });
     }
 
     @Override

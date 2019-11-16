@@ -8,3 +8,4 @@
 - [ ] 后端添加登录验证码的校验
 - [ ] 开发数据字典的功能
 - [ ] 将Hibernate改成MyBatis
+- [ ] 定制MyBatisPlus的代码生成模板(freemarker)

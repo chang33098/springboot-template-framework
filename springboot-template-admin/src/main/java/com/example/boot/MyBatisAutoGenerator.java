@@ -19,7 +19,7 @@ public class MyBatisAutoGenerator {
     private static final String url = "jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";
     private static final String user = "root"; //数据库账号
     private static final String password = "root"; //数据库密码
-    private static final String[] tableName = {"mybatis_test1"};
+    private static final String[] tableName = {"system_permission"};
     private static final String packageName = "com.example.boot";
     private static final String author = "chang_";
     private static final String outputPath = "G:\\WORKSPACE\\AutoGeneratorOutPut";
@@ -36,6 +36,8 @@ public class MyBatisAutoGenerator {
             }; //定义通过字段
 
     public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+
         //数据源的配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL).setUrl(url);
@@ -45,16 +47,18 @@ public class MyBatisAutoGenerator {
 
         //策略配置
         StrategyConfig strategyConfig = new StrategyConfig();
-        strategyConfig.setSuperEntityClass(entitySuperPackageName);
-        strategyConfig.setSuperEntityColumns(entityColumns);
-        strategyConfig.setSuperEntityClass("com.baomidou.ant.common.BaseEntity"); //设置父类
         strategyConfig.setCapitalMode(true); //是否大写命名
         strategyConfig.setEntityLombokModel(true); //是否为lombok模型(默认为false)
         strategyConfig.setNaming(NamingStrategy.underline_to_camel); //下划线的命名
         strategyConfig.setLogicDeleteFieldName("deleted"); //设置逻辑删除的字段名称
         strategyConfig.setInclude(tableName);//修改替换成你需要的表名，多个表名传数组
         strategyConfig.setEntityTableFieldAnnotationEnable(true); //生成字段注解
-        strategyConfig.setSuperControllerClass("com.baomidou.ant.common.BaseController"); //设置父类controller
+//        strategyConfig.setSuperEntityClass(entitySuperPackageName); //设置model
+//        strategyConfig.setSuperEntityColumns(entityColumns); //设置类的公共字段
+        // strategyConfig.setSuperEntityClass(""); //设置父类
+        //strategyConfig.setSuperServiceClass(""); //设置service接口的父类
+        //strategyConfig.setSuperServiceImplClass(""); //设置serviceImpl的父类
+        //strategyConfig.setSuperMapperClass(""); //设置mapper的父类
 
         //全局配置
         GlobalConfig globalConfig = new GlobalConfig();
@@ -63,9 +67,9 @@ public class MyBatisAutoGenerator {
         globalConfig.setIdType(IdType.AUTO);
         globalConfig.setAuthor(author);
         globalConfig.setOutputDir(outputPath);
-        globalConfig.setFileOverride(true);
+        globalConfig.setFileOverride(true); //是否复写文件
         globalConfig.setBaseResultMap(true);
-        globalConfig.setServiceName("I%sService");//user -> IUserService, 设置成true: user -> IUserService
+        globalConfig.setServiceName("%sService");//user -> IUserService, 设置成true: user -> IUserService
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
@@ -74,15 +78,25 @@ public class MyBatisAutoGenerator {
         // templateConfig.setEntity("templates/entity2.java");
         // templateConfig.setService();
         // templateConfig.setController();
-        templateConfig.setXml(null);
+        // templateConfig.setXml();
+
+        PackageConfig packageConfig = new PackageConfig();
+        packageConfig.setParent(packageName); //设置包名
+        packageConfig.setController("controller");
+        packageConfig.setService("service"); //设置service接口的包名
+        packageConfig.setServiceImpl("service.impl"); //设置serviceImpl接口实现类的包名
+        packageConfig.setMapper("mapper"); //设置mapper文件夹
+        packageConfig.setXml("mapper.xml"); //设置mybatis xml文件的包名
+        packageConfig.setEntity("entity");
 
         //代码生成器配置
         AutoGenerator autoGenerator = new AutoGenerator();
-        autoGenerator.setGlobalConfig(globalConfig);
         autoGenerator.setDataSource(dataSourceConfig);
         autoGenerator.setStrategy(strategyConfig);
+        autoGenerator.setGlobalConfig(globalConfig);
         autoGenerator.setTemplate(templateConfig);
-        autoGenerator.setTemplateEngine(new FreemarkerTemplateEngine());
-        autoGenerator.setPackageInfo(new PackageConfig().setParent(packageName).setController("controller").setEntity("entity")).execute();
+        autoGenerator.setTemplateEngine(new FreemarkerTemplateEngine()); //设置模板引擎
+        autoGenerator.setPackageInfo(packageConfig);
+        autoGenerator.execute(); //执行代码生成器
     }
 }

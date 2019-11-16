@@ -1,31 +1,77 @@
 package com.example.boot.springboottemplatedomain.dict.persistent;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.annotation.*;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
- * write this class description...
+ * <p>
+ * 
+ * </p>
  *
- * @author Chang
- * @date 2019/9/15 22:43
+ * @author chang_
+ * @since 2019-11-13
  */
 @Data
-@Entity
-@Table(name = "system_dict_option")
-public class SystemDictOption {
+@Accessors(chain = true)
+@TableName("system_dict_option")
+public class SystemDictOption implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "tinyint comment '选项代码'")
+    /**
+     * 选项代码
+     */
+    @TableField("code")
     private Integer code;
 
-    @Column(columnDefinition = "varchar(255) comment '选线值'")
+    /**
+     * 选线值
+     */
+    @TableField("value")
     private String value;
 
-    @ManyToOne
-    @JoinColumn(name = "dict_id", columnDefinition = "bigint comment '字典ID'")
-    private SystemDict dict;
+    /**
+     * 字典ID
+     */
+    @TableField("dict_id")
+    private Long dictId;
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private Long createBy;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Timestamp createTime;
+
+    /**
+     * 修改人
+     */
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
+    private Long updateBy;
+
+    /**
+     * 修改时间
+     */
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    private Timestamp updateTime;
+
+    /**
+     * 删除标记(0:未删除,1:已删除)
+     */
+    @TableField("deleted")
+    @TableLogic
+    private String deleted;
 }

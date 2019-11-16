@@ -22,7 +22,7 @@ public class CreateDictPLO {
 
     @NotBlank
     @Pattern(regexp = "^([A-Z][A-Z_]+)$")
-    private String type;
+    private String dictCode;
     @NotBlank
     private String name;
     @Length(max = 255)

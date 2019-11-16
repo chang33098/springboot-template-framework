@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -15,6 +16,8 @@ import javax.validation.constraints.Pattern;
 @Data
 public class ModifyPermissionPLO {
 
+    @NotNull
+    private Long permissionId;
     @NotBlank
     @Length(max = 50)
     private String name;

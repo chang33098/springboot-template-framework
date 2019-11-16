@@ -1,44 +1,73 @@
 package com.example.boot.springboottemplatedomain.permission.persistent;
 
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
-import lombok.Data;
+import com.baomidou.mybatisplus.annotation.*;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
- * description write this class description...
- *
- * @author ANdady
- * @date 2019/7/21 20:32
+ * @author chang_
+ * @since 2019-11-16
  */
 @Data
-@Entity
-@Table(name = "system_permission", indexes = {
-        @Index(name = "code_index", columnList = "code", unique = true)
-})
-public class SystemPermission {
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class SystemPermission implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "varchar(50) comment '权限名称'")
-    private String name;
-
-    @Column(columnDefinition = "varchar(50) comment '权限代码(由英文和下划线组成)'")
+    /**
+     * 权限代码(由英文和下划线组成)
+     */
+    @TableField("code")
     private String code;
 
-    @Column(columnDefinition = "varchar(255) comment '作用描述'")
+    /**
+     * 作用描述
+     */
+    @TableField("description")
     private String description;
 
-    @Column(columnDefinition = "datetime comment '创建时间'")
+    /**
+     * 权限名称
+     */
+    @TableField("name")
+    private String name;
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private Long createBy;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Timestamp createTime;
 
-    @Column(columnDefinition = "datetime comment '更新时间'")
+    /**
+     * 修改人
+     */
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
+    private Long updateBy;
+
+    /**
+     * 修改时间
+     */
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private Timestamp updateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "page_id", columnDefinition = "bigint comment '关联的页面ID'")
-    private SystemPage page;
+    /**
+     * 删除标记(0:未删除,1:已删除)
+     */
+    @TableField("deleted")
+    @TableLogic
+    private String deleted;
 }

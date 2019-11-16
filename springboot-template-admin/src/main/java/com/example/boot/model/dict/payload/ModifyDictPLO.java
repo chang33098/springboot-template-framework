@@ -19,6 +19,8 @@ import java.util.List;
 @Data
 public class ModifyDictPLO {
 
+    @NotNull
+    private Long dictId;
     @NotBlank
     private String name;
     @Length(max = 255)

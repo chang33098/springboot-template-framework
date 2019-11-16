@@ -1,22 +1,12 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import cn.hutool.core.lang.Assert;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
-import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
-import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
-import com.example.boot.springboottemplatesecurity.model.UserPrincipal;
 import com.example.boot.springboottemplatesecurity.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * description: 根据登陆账号加载系统用户的信息
@@ -43,21 +33,23 @@ public class MyUserDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(final String credentials) throws UsernameNotFoundException, IllegalArgumentException {
-        final String username = credentials.trim(); //去除两边的空格
-        SystemUser user = securityService.securityGetUserByUsername(username).orElseThrow(() -> {
-            log.error("User's account not found: {}", username);
-            return new UsernameNotFoundException("User's account not found: " + username);
-        });
+//        final String username = credentials.trim(); //去除两边的空格
+//        SystemUser user = securityService.securityGetUserByUsername(username).orElseThrow(() -> {
+//            log.error("User's account not found: {}", username);
+//            return new UsernameNotFoundException("User's account not found: " + username);
+//        });
+//
+//        SystemRole role = user.getRole();
+//        Assert.notNull(role, "账号[{}]的系统角色为空", username);
+//
+//        List<RoleMenuRef> roleMenus = securityService.securityGetRoleMenuListByRoleId(role.getId()); //加载角色所对应的菜单
+//
+//        List<Long> menuIds = roleMenus.stream().map(RoleMenuRef::getId).collect(Collectors.toList());
+//        List<RoleMenuPermissionRef> rolePermissions = securityService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
+//
+//        return UserPrincipal.create(user, roleMenus, rolePermissions);
 
-        SystemRole role = user.getRole();
-        Assert.notNull(role, "账号[{}]的系统角色为空", username);
-
-        List<RoleMenuRef> roleMenus = securityService.securityGetRoleMenuListByRoleId(role.getId()); //加载角色所对应的菜单
-
-        List<Long> menuIds = roleMenus.stream().map(RoleMenuRef::getId).collect(Collectors.toList());
-        List<RoleMenuPermissionRef> rolePermissions = securityService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
-
-        return UserPrincipal.create(user, roleMenus, rolePermissions);
+        return null;
     }
 
     /**

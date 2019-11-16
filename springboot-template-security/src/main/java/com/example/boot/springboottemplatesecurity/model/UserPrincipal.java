@@ -1,22 +1,14 @@
 package com.example.boot.springboottemplatesecurity.model;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
-import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
 import com.example.boot.springboottemplatedomain.user.constants.UserStatus;
-import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <h1>UserPrincipal</h1>
@@ -48,56 +40,56 @@ public class UserPrincipal implements UserDetails {
     private List<Menu> menus = new ArrayList<>();
     private Collection<? extends GrantedAuthority> authorities;
 
-    /**
-     * Create user principal
-     *
-     * @param user            user po
-     * @param roleMenus       user platform menus
-     * @param rolePermissions role permission po list
-     * @return user principal
-     */
-    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
-        List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
-                .map(UserPrincipal::createMenu).collect(Collectors.toList());
-
-        List<GrantedAuthority> authorities = rolePermissions.stream()
-                .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermission().getPermission().getCode()))
-                .map(rolePermission -> new SimpleGrantedAuthority(
-                        rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
-                )).collect(Collectors.toList());
-
-        return new UserPrincipal(user.getId(),
-                user.getUsername(), user.getPassword(),
-                user.getPhone(), user.getNickname(), user.getAvatar(), user.getDescription(),
-                user.getStatus(),
-                user.getCreateTime(),
-                user.getUpdateTime(), user.getLastLoginTime(), user.getRole().getName(),
-                menus, authorities);
-    }
-
-    /**
-     * Create MenuRO
-     *
-     * @param roleMenu MenuPO
-     * @return MenuRO
-     */
-    private static Menu createMenu(RoleMenuRef roleMenu) {
-        Menu menu = new Menu();
-        BeanUtil.copyProperties(roleMenu, menu);
-        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
-            menu.setUrl(roleMenu.getPage().getUrl());
-        }
-
-        if (!roleMenu.getChildren().isEmpty()) { //空指针异常
-            List<Menu> menus = new ArrayList<>();
-            roleMenu.getChildren().forEach(childNode -> {
-                Menu child = createMenu(childNode);
-                menus.add(child);
-            });
-            menu.setChildren(menus);
-        }
-        return menu;
-    }
+//    /**
+//     * Create user principal
+//     *
+//     * @param user            user po
+//     * @param roleMenus       user platform menus
+//     * @param rolePermissions role permission po list
+//     * @return user principal
+//     */
+//    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
+//        List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
+//                .map(UserPrincipal::createMenu).collect(Collectors.toList());
+//
+//        List<GrantedAuthority> authorities = rolePermissions.stream()
+//                .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermission().getPermission().getCode()))
+//                .map(rolePermission -> new SimpleGrantedAuthority(
+//                        rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
+//                )).collect(Collectors.toList());
+//
+//        return new UserPrincipal(user.getId(),
+//                user.getUsername(), user.getPassword(),
+//                user.getPhone(), user.getNickname(), user.getAvatar(), user.getDescription(),
+//                user.getStatus(),
+//                user.getCreateTime(),
+//                user.getUpdateTime(), user.getLastLoginTime(), user.getRole().getName(),
+//                menus, authorities);
+//    }
+//
+//    /**
+//     * Create MenuRO
+//     *
+//     * @param roleMenu MenuPO
+//     * @return MenuRO
+//     */
+//    private static Menu createMenu(RoleMenuRef roleMenu) {
+//        Menu menu = new Menu();
+//        BeanUtil.copyProperties(roleMenu, menu);
+//        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
+//            menu.setUrl(roleMenu.getPage().getUrl());
+//        }
+//
+//        if (!roleMenu.getChildren().isEmpty()) { //空指针异常
+//            List<Menu> menus = new ArrayList<>();
+//            roleMenu.getChildren().forEach(childNode -> {
+//                Menu child = createMenu(childNode);
+//                menus.add(child);
+//            });
+//            menu.setChildren(menus);
+//        }
+//        return menu;
+//    }
 
     @Data
     private static class Menu {

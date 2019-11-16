@@ -1,43 +1,77 @@
 package com.example.boot.springboottemplatedomain.dict.persistent;
 
-import lombok.Data;
-import org.checkerframework.checker.units.qual.C;
+import com.baomidou.mybatisplus.annotation.*;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
- * write this class description...
+ * <p>
+ * 
+ * </p>
  *
- * @author Chang
- * @date 2019/9/4 0:13
+ * @author chang_
+ * @since 2019-11-13
  */
 @Data
-@Entity
-@Table(name = "system_dict", indexes = {
-        @Index(name = "type_index", columnList = "type", unique = true)
-})
-public class SystemDict {
+@Accessors(chain = true)
+@TableName("system_dict")
+public class SystemDict implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "varchar(50) comment '字典类型(由大写英文和下划线组成)'")
-    private String type;
-
-    @Column(columnDefinition = "varchar(100) comment '字典类型名称'")
-    private String name;
-
-    @Column(columnDefinition = "varchar(255) comment '字典描述'")
+    /**
+     * 字典描述
+     */
+    @TableField("description")
     private String description;
 
-    @Column(columnDefinition = "tinyint default '0' comment '删除标记(0:未删除, 1:已删除)'")
-    private Boolean deleted;
+    /**
+     * 字典类型名称
+     */
+    @TableField("name")
+    private String name;
 
-    @Column(columnDefinition = "datetime comment '创建时间'")
+    /**
+     * 字典类型(由大写英文和下划线组成)
+     */
+    @TableField("dict_code")
+    private String dictCode;
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private Long createBy;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Timestamp createTime;
 
-    @Column(columnDefinition = "datetime comment '修改时间'")
+    /**
+     * 修改人
+     */
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
+    private Long updateBy;
+
+    /**
+     * 修改时间
+     */
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private Timestamp updateTime;
+
+    /**
+     * 删除标记(0:未删除, 1:已删除)
+     */
+    @TableField("deleted")
+    @TableLogic
+    private Integer deleted;
 }
