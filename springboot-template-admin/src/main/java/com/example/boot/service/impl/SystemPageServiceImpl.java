@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.boot.mapper.SystemPageMapper;
+import com.example.boot.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.model.page.payload.CreatePagePLO;
 import com.example.boot.model.page.payload.ModifyPagePLO;
 import com.example.boot.service.SystemPagePermissionRefService;
@@ -29,10 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemPage> implements SystemPageService {
 
     private final SystemPagePermissionRefService pagePermissionRefService;
+    private final SystemPagePermissionRefMapper pagePermissionRefMapper;
 
     @Autowired
-    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService) {
+    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService, SystemPagePermissionRefMapper pagePermissionRefMapper) {
         this.pagePermissionRefService = pagePermissionRefService;
+        this.pagePermissionRefMapper = pagePermissionRefMapper;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
         SystemPage page = this.getById(plo.getPageId());
         Assert.notNull(page, "不存在ID[{}]的数据", plo.getPageId());
 
-        pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda().eq(SystemPagePermissionRef::getPageId, plo.getPageId())); //删除旧关联
+        pagePermissionRefMapper.deleteRefByPageId(plo.getPageId()); //删除旧关联
         plo.getPagePermissions().forEach(pagePermission -> {
             SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
             pagePermissionRef.setPageId(page.getId());
@@ -73,7 +76,7 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
         int count = this.count(new QueryWrapper<SystemPage>().lambda().eq(SystemPage::getId, pageId));
         Assert.isTrue(count > 0, "不存在ID[{}]的数据", pageId);
 
-        pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda().eq(SystemPagePermissionRef::getPageId, pageId)); //删除旧关联
+        pagePermissionRefMapper.deleteRefByPageId(pageId); //删除旧关联
         this.removeById(pageId); //删除系统页面
     }
 }

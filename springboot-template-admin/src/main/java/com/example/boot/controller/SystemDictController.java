@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author chang_
@@ -40,8 +40,8 @@ public class SystemDictController {
     @ResponseBody
     public ResponseBodyBean<IPage<SystemDict>> table(GetDictTablePLO plo) {
         LambdaQueryWrapper<SystemDict> wrapper = new QueryWrapper<SystemDict>().lambda()
-                .eq(true, SystemDict::getDictCode, plo.getDictCode())
-                .eq(true, SystemDict::getName, plo.getName()); //查询条件
+                .eq(false, SystemDict::getDictCode, plo.getDictCode())
+                .eq(false, SystemDict::getName, plo.getName()); //查询条件
         Page<SystemDict> page = new Page<>(plo.getPageNo(), plo.getPageSize());
         IPage<SystemDict> table = dictService.page(page, wrapper);
 

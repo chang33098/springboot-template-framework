@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.boot.mapper.SystemPagePermissionRefMapper">
+<mapper namespace="com.example.boot.mapper.SystemRoleMenuPermissionRefMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatedomain.page.persistent.SystemPagePermissionRef">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatedomain.role.persistent.SystemRoleMenuPermissionRef">
         <id column="id" property="id" />
-        <result column="intercept_urls" property="interceptUrls" />
-        <result column="page_id" property="pageId" />
-        <result column="permission_id" property="permissionId" />
+        <result column="role_menu_id" property="roleMenuId" />
+        <result column="page_permission_id" property="pagePermissionId" />
         <result column="create_by" property="createBy" />
         <result column="create_time" property="createTime" />
         <result column="update_by" property="updateBy" />
         <result column="update_time" property="updateTime" />
         <result column="deleted" property="deleted" />
     </resultMap>
-
-    <delete id="deleteRefByPageId">
-        delete from system_page_permission_ref where page_id = #{pageId}
-    </delete>
 
 </mapper>

@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.boot.mapper.SystemDictMapper;
+import com.example.boot.mapper.SystemDictOptionMapper;
 import com.example.boot.model.dict.payload.CreateDictPLO;
 import com.example.boot.model.dict.payload.ModifyDictPLO;
 import com.example.boot.service.SystemDictOptionService;
@@ -20,10 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- *  服务实现类
- * </p>
- *
  * @author chang_
  * @since 2019-11-13
  */
@@ -32,17 +29,18 @@ import java.util.stream.Collectors;
 public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemDict> implements SystemDictService {
 
     private final SystemDictOptionService dictOptionService;
+    private final SystemDictOptionMapper dictOptionMapper;
 
     @Autowired
-    public SystemDictServiceImpl(SystemDictOptionService dictOptionService) {
+    public SystemDictServiceImpl(SystemDictOptionService dictOptionService, SystemDictOptionMapper dictOptionMapper) {
         this.dictOptionService = dictOptionService;
+        this.dictOptionMapper = dictOptionMapper;
     }
 
     @Override
     public void createDict(CreateDictPLO plo) {
         int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getName, plo.getName()));
         Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", plo.getName());
-
         int uniqueCode = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictCode, plo.getDictCode()));
         Assert.isTrue(uniqueCode < 1, "字典代码[{}]已存在，请不要重复添加", plo.getDictCode());
 
@@ -68,7 +66,7 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
         Assert.notNull(dict, "不存在ID[{}]的数据", plo.getDictId());
         BeanUtil.copyProperties(plo, dict);
 
-        dictOptionService.remove(new UpdateWrapper<SystemDictOption>().lambda().eq(SystemDictOption::getDictId, plo.getDictId())); //删除数据字典项
+        dictOptionMapper.deleteAllByDictId(plo.getDictId()); //删除数据字典项
 
         List<SystemDictOption> dictOptions = plo.getOptions().stream().map(option -> {
             SystemDictOption dictOption = new SystemDictOption();
@@ -78,12 +76,12 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
         }).collect(Collectors.toList());
         dictOptionService.saveBatch(dictOptions);
 
-        this.save(dict);
+        this.saveOrUpdate(dict);
     }
 
     @Override
     public void deleteDict(Long dictId) {
-        dictOptionService.remove(new UpdateWrapper<SystemDictOption>().lambda().eq(SystemDictOption::getDictId, dictId)); //删除数据字典项
+        dictOptionMapper.deleteAllByDictId(dictId); //删除数据字典项
         this.removeById(dictId);
     }
 }

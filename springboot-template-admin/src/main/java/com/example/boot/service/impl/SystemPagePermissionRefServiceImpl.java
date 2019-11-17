@@ -18,6 +18,4 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class SystemPagePermissionRefServiceImpl extends ServiceImpl<SystemPagePermissionRefMapper, SystemPagePermissionRef> implements SystemPagePermissionRefService {
-
-
 }

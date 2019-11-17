@@ -37,8 +37,8 @@ public class SystemPermissionController {
     @ResponseBody
     public ResponseBodyBean<IPage<SystemPermission>> table(GetPermissionTablePLO plo) {
         Wrapper<SystemPermission> wrapper = new QueryWrapper<SystemPermission>().lambda()
-                .like(true, SystemPermission::getName, plo.getName())
-                .eq(true, SystemPermission::getCode, plo.getCode());
+                .like(false, SystemPermission::getName, plo.getName())
+                .eq(false, SystemPermission::getCode, plo.getCode());
 
         Page<SystemPermission> page = new Page<>(plo.getPageNo(), plo.getPageSize());
         IPage<SystemPermission> table = permissionService.page(page, wrapper);

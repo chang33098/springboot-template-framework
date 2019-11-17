@@ -15,4 +15,8 @@
         <result column="deleted" property="deleted" />
     </resultMap>
 
+    <delete id="deleteAllByDictId">
+        delete from system_dict_option where dict_id = #{dictId}
+    </delete>
+
 </mapper>

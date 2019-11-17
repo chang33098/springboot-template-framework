@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,9 +21,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,6 +37,8 @@ import java.util.stream.Stream;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Rollback
+@Transactional
 @WebAppConfiguration
 public class SystemDictControllerTest {
 
@@ -51,22 +54,39 @@ public class SystemDictControllerTest {
     }
 
     @Test
-    public void tableTest() {
+    public void tableTest() throws Exception {
         GetDictTablePLO tablePLO = new GetDictTablePLO();
         tablePLO.setPageNo(1);
         tablePLO.setPageSize(10);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}&dictCode={dictCode}&name={name}",
+                tablePLO.getPageNo(),
+                tablePLO.getPageSize(),
+                tablePLO.getDictCode(),
+                tablePLO.getName()
+        ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        log.info("************[http status  :   {}]**************", response.getStatus());
+        log.info("************[response body:   {}]**************", result.getResponse().getContentAsString());
+        log.info(result.getResponse().getContentAsString());
     }
 
     @Test
     public void createTest() throws Exception {
         CreateDictPLO dictPLO = new CreateDictPLO();
         dictPLO.setName("create-dict-name-" + RandomUtil.randomString(8));
-        dictPLO.setDictCode("create-dict-code-" + RandomUtil.randomString(8));
-        dictPLO.setDescription("create-description-" + RandomUtil.randomString(50));
+        dictPLO.setDictCode("dict-code-" + RandomUtil.randomString(8));
+        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
 
         CreateDictPLO.DictOption option1 = new CreateDictPLO.DictOption();
+        option1.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
         CreateDictPLO.DictOption option2 = new CreateDictPLO.DictOption();
+        option2.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
         CreateDictPLO.DictOption option3 = new CreateDictPLO.DictOption();
+        option3.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
 
         List<CreateDictPLO.DictOption> dictOptions = Stream.of(option1, option2, option3).collect(Collectors.toList());
         dictPLO.setOptions(dictOptions);
@@ -87,15 +107,16 @@ public class SystemDictControllerTest {
     @Test
     public void modifyTest() throws Exception {
         ModifyDictPLO dictPLO = new ModifyDictPLO();
-        dictPLO.setDictId(1L);
+        dictPLO.setDictId(10L);
         dictPLO.setName("modify-dict-name-" + RandomUtil.randomString(8));
-        dictPLO.setDescription("modify-description-" + RandomUtil.randomString(50));
+        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
 
         ModifyDictPLO.DictOption option1 = new ModifyDictPLO.DictOption();
+        option1.setCode(RandomUtil.randomInt(2)).setValue("modify-" + RandomUtil.randomStringUpper(8));
         ModifyDictPLO.DictOption option2 = new ModifyDictPLO.DictOption();
-        ModifyDictPLO.DictOption option3 = new ModifyDictPLO.DictOption();
+        option2.setCode(RandomUtil.randomInt(2)).setValue("modify-" + RandomUtil.randomStringUpper(8));
 
-        List<ModifyDictPLO.DictOption> dictOptions = Stream.of(option1, option2, option3).collect(Collectors.toList());
+        List<ModifyDictPLO.DictOption> dictOptions = Stream.of(option1, option2).collect(Collectors.toList());
         dictPLO.setOptions(dictOptions);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/dict/modify")
@@ -113,9 +134,9 @@ public class SystemDictControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        final Long dictId = 1L;
+        final Long dictId = 16L;
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?dict_id={}", dictId)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?dict_id={dictId}", dictId)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);

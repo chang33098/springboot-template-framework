@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ import java.util.stream.Stream;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Rollback
+@Transactional
 @WebAppConfiguration
 public class SystemPageControllerTest {
 
@@ -56,9 +60,12 @@ public class SystemPageControllerTest {
         plo.setPageNo(1);
         plo.setPageSize(10);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/system/page/table?pageNo={}&pageSize={}&name={}", plo.getPageNo(), plo.getPageSize(), plo.getName())
-                .characterEncoding("UTF-8")
-                .contentType(MediaType.APPLICATION_JSON_UTF8);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+                "/system/page/table?pageNo={pageNo}&pageSize={pageSize}&name={name}",
+                plo.getPageNo(),
+                plo.getPageSize(),
+                plo.getName()
+        ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
 
@@ -133,7 +140,7 @@ public class SystemPageControllerTest {
     @Test
     public void deleteTest() throws Exception {
         final Long pageId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/page/delete?page_id={}", pageId)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/page/delete?page_id={pageId}", pageId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

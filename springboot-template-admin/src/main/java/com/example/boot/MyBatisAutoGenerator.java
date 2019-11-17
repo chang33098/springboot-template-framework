@@ -19,7 +19,7 @@ public class MyBatisAutoGenerator {
     private static final String url = "jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";
     private static final String user = "root"; //数据库账号
     private static final String password = "root"; //数据库密码
-    private static final String[] tableName = {"system_permission"};
+    private static final String[] tableName = {"system_role", "system_role_menu_permission_ref", "system_role_menu_ref"};
     private static final String packageName = "com.example.boot";
     private static final String author = "chang_";
     private static final String outputPath = "G:\\WORKSPACE\\AutoGeneratorOutPut";

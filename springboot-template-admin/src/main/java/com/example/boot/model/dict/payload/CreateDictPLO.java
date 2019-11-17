@@ -1,6 +1,7 @@
 package com.example.boot.model.dict.payload;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -31,6 +32,7 @@ public class CreateDictPLO {
     private List<DictOption> options = new ArrayList<>();
 
     @Data
+    @Accessors(chain = true)
     public static class DictOption {
         @NotNull
         @Range(min = 0, max = 127)

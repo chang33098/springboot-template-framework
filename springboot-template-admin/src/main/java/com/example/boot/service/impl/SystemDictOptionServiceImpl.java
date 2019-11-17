@@ -16,5 +16,4 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SystemDictOptionServiceImpl extends ServiceImpl<SystemDictOptionMapper, SystemDictOption> implements SystemDictOptionService {
-
 }
