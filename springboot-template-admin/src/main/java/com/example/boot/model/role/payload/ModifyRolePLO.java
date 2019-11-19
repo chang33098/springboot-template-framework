@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * write this class description...
@@ -14,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ModifyRolePLO {
 
+    @NotNull
+    private Long roleId;
     @NotBlank
     @Length(max = 50)
     private String name;
