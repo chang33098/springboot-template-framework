@@ -58,7 +58,8 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
         SystemPage page = this.getById(plo.getPageId());
         Assert.notNull(page, "不存在ID[{}]的数据", plo.getPageId());
 
-        pagePermissionRefMapper.deleteRefByPageId(plo.getPageId()); //删除旧关联
+        pagePermissionRefMapper.deleteRefByPageId(plo.getPageId()); //删除旧关联(硬性删除)
+
         plo.getPagePermissions().forEach(pagePermission -> {
             SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
             pagePermissionRef.setPageId(page.getId());
@@ -75,8 +76,8 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
     public void delete(Long pageId) {
         int count = this.count(new QueryWrapper<SystemPage>().lambda().eq(SystemPage::getId, pageId));
         Assert.isTrue(count > 0, "不存在ID[{}]的数据", pageId);
-
-        pagePermissionRefMapper.deleteRefByPageId(pageId); //删除旧关联
+        pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda()
+                .eq(SystemPagePermissionRef::getPageId, pageId)); //调用SystemPagePermissionRef的逻辑删除方法
         this.removeById(pageId); //删除系统页面
     }
 }

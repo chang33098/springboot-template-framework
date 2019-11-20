@@ -66,7 +66,7 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
         Assert.notNull(dict, "不存在ID[{}]的数据", plo.getDictId());
         BeanUtil.copyProperties(plo, dict);
 
-        dictOptionMapper.deleteAllByDictId(plo.getDictId()); //删除数据字典项
+        dictOptionMapper.deleteAllByDictId(plo.getDictId()); //删除数据字典项(硬删除)
 
         List<SystemDictOption> dictOptions = plo.getOptions().stream().map(option -> {
             SystemDictOption dictOption = new SystemDictOption();
@@ -81,7 +81,8 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
 
     @Override
     public void deleteDict(Long dictId) {
-        dictOptionMapper.deleteAllByDictId(dictId); //删除数据字典项
+        dictOptionService.remove(new UpdateWrapper<SystemDictOption>().lambda().
+                eq(SystemDictOption::getDictId, dictId)); //采用逻辑删除的方式
         this.removeById(dictId);
     }
 }

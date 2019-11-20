@@ -12,10 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SystemDictOptionMapper extends BaseMapper<SystemDictOption> {
 
-    /**
-     * 通过字段ID删除option
-     *
-     * @param dictId 字典ID
-     */
     void deleteAllByDictId(@Param(value = "dictId") Long dictId);
 }
