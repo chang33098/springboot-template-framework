@@ -14,4 +14,8 @@
         <result column="deleted" property="deleted" />
     </resultMap>
 
+    <delete id="deleteAllByRoleId">
+        delete from
+    </delete>
+
 </mapper>

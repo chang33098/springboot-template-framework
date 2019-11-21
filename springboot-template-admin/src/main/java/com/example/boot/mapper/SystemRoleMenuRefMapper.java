@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SystemRoleMenuRefMapper extends BaseMapper<SystemRoleMenuRef> {
 
+    void deleteAllByRoleId(@Param(value = "roleId") Long roleId);
 }

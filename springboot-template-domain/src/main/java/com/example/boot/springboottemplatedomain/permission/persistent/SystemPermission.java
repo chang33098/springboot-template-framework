@@ -12,9 +12,10 @@ import lombok.experimental.Accessors;
  * @author chang_
  * @since 2019-11-16
  */
+
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@TableName("system_permission")
 public class SystemPermission implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,14 +1,10 @@
 package com.example.boot.springboottemplatedomain.role.persistent;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.sql.Timestamp;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -18,8 +14,8 @@ import lombok.experimental.Accessors;
  * @since 2019-11-17
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@TableName("system_role")
 public class SystemRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
