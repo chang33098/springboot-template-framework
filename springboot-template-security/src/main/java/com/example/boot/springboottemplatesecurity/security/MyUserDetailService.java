@@ -27,27 +27,27 @@ public class MyUserDetailService implements UserDetailsService {
      * 初始化security登录用户的信息(通过username获取)
      *
      * @param credentials 登录账号
-     * @return spring-security user details
+     * @return spring-security systemuser details
      * @throws UsernameNotFoundException
      * @throws IllegalArgumentException
      */
     @Override
     public UserDetails loadUserByUsername(final String credentials) throws UsernameNotFoundException, IllegalArgumentException {
 //        final String username = credentials.trim(); //去除两边的空格
-//        SystemUser user = securityService.securityGetUserByUsername(username).orElseThrow(() -> {
+//        SystemUser systemuser = securityService.securityGetUserByUsername(username).orElseThrow(() -> {
 //            log.error("User's account not found: {}", username);
 //            return new UsernameNotFoundException("User's account not found: " + username);
 //        });
 //
-//        SystemRole role = user.getRole();
-//        Assert.notNull(role, "账号[{}]的系统角色为空", username);
+//        SystemRole systemrole = systemuser.getRole();
+//        Assert.notNull(systemrole, "账号[{}]的系统角色为空", username);
 //
-//        List<RoleMenuRef> roleMenus = securityService.securityGetRoleMenuListByRoleId(role.getId()); //加载角色所对应的菜单
+//        List<RoleMenuRef> roleMenus = securityService.securityGetRoleMenuListByRoleId(systemrole.getId()); //加载角色所对应的菜单
 //
 //        List<Long> menuIds = roleMenus.stream().map(RoleMenuRef::getId).collect(Collectors.toList());
 //        List<RoleMenuPermissionRef> rolePermissions = securityService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
 //
-//        return UserPrincipal.create(user, roleMenus, rolePermissions);
+//        return UserPrincipal.create(systemuser, roleMenus, rolePermissions);
 
         return null;
     }

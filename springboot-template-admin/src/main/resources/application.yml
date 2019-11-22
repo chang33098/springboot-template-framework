@@ -40,6 +40,19 @@ spring:
       enabled: true
       max-file-size: 10MB
 
+mybatis-plus:
+  global-config:
+    banner: true
+    db-config:
+      tableUnderline: true
+      logicDeleteValue: 1
+      logicNotDeleteValue: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    log-prefix: mybatisplus_
+  check-config-location: true
+  mapper-locations: classpath*:/mapper/**/*.xml
+
 logging:
   config: classpath:logback/logback-@env@.xml
 
@@ -63,16 +76,3 @@ custom-configuration:
   static:
     resources:
       - {pathPattern: /static/**, location: classpath:/static/}
-
-mybatis-plus:
-  global-config:
-    banner: true
-    db-config:
-      tableUnderline: true
-      logicDeleteValue: 1
-      logicNotDeleteValue: 0
-  configuration:
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-    log-prefix: mybatisplus_
-  check-config-location: true
-  mapper-locations: classpath*:/mapper/**/*.xml

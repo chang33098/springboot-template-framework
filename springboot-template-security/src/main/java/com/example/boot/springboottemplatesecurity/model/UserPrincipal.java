@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * <h1>UserPrincipal</h1>
- * <p>Custom user details.</p>
+ * <p>Custom systemuser details.</p>
  *
  * @author Chang
  * @date 2019-03-23 20:52
@@ -41,14 +41,14 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
 //    /**
-//     * Create user principal
+//     * Create systemuser principal
 //     *
-//     * @param user            user po
-//     * @param roleMenus       user platform menus
-//     * @param rolePermissions role permission po list
-//     * @return user principal
+//     * @param systemuser            systemuser po
+//     * @param roleMenus       systemuser platform menus
+//     * @param rolePermissions systemrole systempermission po list
+//     * @return systemuser principal
 //     */
-//    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
+//    public static UserPrincipal create(SystemUser systemuser, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
 //        List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
 //                .map(UserPrincipal::createMenu).collect(Collectors.toList());
 //
@@ -58,12 +58,12 @@ public class UserPrincipal implements UserDetails {
 //                        rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
 //                )).collect(Collectors.toList());
 //
-//        return new UserPrincipal(user.getId(),
-//                user.getUsername(), user.getPassword(),
-//                user.getPhone(), user.getNickname(), user.getAvatar(), user.getDescription(),
-//                user.getStatus(),
-//                user.getCreateTime(),
-//                user.getUpdateTime(), user.getLastLoginTime(), user.getRole().getName(),
+//        return new UserPrincipal(systemuser.getId(),
+//                systemuser.getUsername(), systemuser.getPassword(),
+//                systemuser.getPhone(), systemuser.getNickname(), systemuser.getAvatar(), systemuser.getDescription(),
+//                systemuser.getStatus(),
+//                systemuser.getCreateTime(),
+//                systemuser.getUpdateTime(), systemuser.getLastLoginTime(), systemuser.getRole().getName(),
 //                menus, authorities);
 //    }
 //

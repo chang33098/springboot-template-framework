@@ -19,10 +19,16 @@ public class MyBatisAutoGenerator {
     private static final String url = "jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";
     private static final String user = "root"; //数据库账号
     private static final String password = "root"; //数据库密码
-    private static final String[] tableName = {"system_role", "system_role_menu_permission_ref", "system_role_menu_ref"};
+
+//    private static final String driverName = "com.mysql.jdbc.Driver";
+//    private static final String url = "jdbc:mysql://47.107.32.119:3306/hospital_20191119?characterEncoding=UTF-8&useUnicode=true&useSSL=false";
+//    private static final String systemuser = "admin"; //数据库账号
+//    private static final String password = "ssjxbeginning@mysql2019YS#admin"; //数据库密码
+
+    private static final String[] tableName = {"system_user"};
     private static final String packageName = "com.example.boot";
     private static final String author = "chang_";
-    private static final String outputPath = "G:\\WORKSPACE\\AutoGeneratorOutPut";
+    private static final String outputPath = "G:\\WORKSPACE\\AutoGeneratorOutPut\\springboot-template-framework";
 
     private static final String entitySuperPackageName = "com.example.boot.springboottemplatedomain";
     private static final String[] entityColumns =
@@ -69,7 +75,7 @@ public class MyBatisAutoGenerator {
         globalConfig.setOutputDir(outputPath);
         globalConfig.setFileOverride(true); //是否复写文件
         globalConfig.setBaseResultMap(true);
-        globalConfig.setServiceName("%sService");//user -> IUserService, 设置成true: user -> IUserService
+        globalConfig.setServiceName("%sService");//systemuser -> IUserService, 设置成true: systemuser -> IUserService
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();

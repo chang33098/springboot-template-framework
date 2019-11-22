@@ -2,9 +2,9 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.model.page.payload.CreatePagePLO;
-import com.example.boot.model.page.payload.GetPageTablePLO;
-import com.example.boot.model.page.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.GetPageTablePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,7 +60,7 @@ public class SystemPageControllerTest {
         plo.setPageSize(10);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/page/table?pageNo={pageNo}&pageSize={pageSize}&name={name}",
+                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}&name={name}",
                 plo.getPageNo(),
                 plo.getPageSize(),
                 plo.getName()
@@ -94,7 +93,7 @@ public class SystemPageControllerTest {
         List<CreatePagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2, pagePermission3, pagePermission4).collect(Collectors.toList());
         plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/page/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempage/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(plo))
@@ -124,7 +123,7 @@ public class SystemPageControllerTest {
         List<ModifyPagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2).collect(Collectors.toList());
         plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/page/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/systempage/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(plo))
@@ -140,7 +139,7 @@ public class SystemPageControllerTest {
     @Test
     public void deleteTest() throws Exception {
         final Long pageId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/page/delete?page_id={pageId}", pageId)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempage/delete?page_id={pageId}", pageId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

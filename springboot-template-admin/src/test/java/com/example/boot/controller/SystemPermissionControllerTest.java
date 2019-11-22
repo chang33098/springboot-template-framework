@@ -2,9 +2,9 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.model.permission.payload.CreatePermissionPLO;
-import com.example.boot.model.permission.payload.GetPermissionTablePLO;
-import com.example.boot.model.permission.payload.ModifyPermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.GetPermissionTablePLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class SystemPermissionControllerTest {
         permissionTablePLO.setCode("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/permission/table?pageNo={pageNo}&pageSize={pageSize}&code={code}&name={name}",
+                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}&code={code}&name={name}",
                 permissionTablePLO.getPageNo(),
                 permissionTablePLO.getPageSize(),
                 permissionTablePLO.getCode(),
@@ -79,7 +79,7 @@ public class SystemPermissionControllerTest {
         permissionPLO.setName("create-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/permission/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(permissionPLO))
@@ -100,7 +100,7 @@ public class SystemPermissionControllerTest {
         permissionPLO.setName("modify-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/permission/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(permissionPLO))
@@ -116,7 +116,7 @@ public class SystemPermissionControllerTest {
     @Test
     public void delete() throws Exception {
         final Long permissionId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/permission/delete?permission_id={permissionId}", permissionId)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempermission/delete?permission_id={permissionId}", permissionId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

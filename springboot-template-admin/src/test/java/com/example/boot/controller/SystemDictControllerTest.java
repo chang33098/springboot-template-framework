@@ -2,9 +2,9 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.model.dict.payload.CreateDictPLO;
-import com.example.boot.model.dict.payload.GetDictTablePLO;
-import com.example.boot.model.dict.payload.ModifyDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.GetDictTablePLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

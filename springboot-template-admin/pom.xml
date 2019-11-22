@@ -19,17 +19,12 @@
     <dependencies>
         <dependency>
             <groupId>com.example.boot</groupId>
-            <artifactId>springboot-template-common</artifactId>
+            <artifactId>springboot-template-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.boot</groupId>
             <artifactId>springboot-template-security</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.example.boot</groupId>
-            <artifactId>springboot-template-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-freemarker -->

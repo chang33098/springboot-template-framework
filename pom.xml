@@ -19,10 +19,8 @@
 
 	<modules>
 		<module>springboot-template-admin</module>
-		<module>springboot-template-common</module>
 		<module>springboot-template-security</module>
-		<!--<module>springboot-template-cache</module>-->
-		<module>springboot-template-domain</module>
+		<module>springboot-template-base</module>
 	</modules>
 
 	<properties>
@@ -65,22 +63,12 @@
 			</dependency>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-common</artifactId>
+				<artifactId>springboot-template-base</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.example.boot</groupId>
 				<artifactId>springboot-template-security</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!--<dependency>-->
-				<!--<groupId>com.example.boot</groupId>-->
-				<!--<artifactId>springboot-template-cache</artifactId>-->
-				<!--<version>${project.version}</version>-->
-			<!--</dependency>-->
-			<dependency>
-				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-freemarker -->
@@ -105,7 +93,7 @@
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-generator</artifactId>
-				<version>3.2.0</version>
+				<version>${mybatis-plus-version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
 			<dependency>

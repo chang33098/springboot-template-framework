@@ -1,6 +1,6 @@
 package com.example.boot.controller;
 
-import com.example.boot.service.SystemRoleService;
+import com.example.boot.springboottemplatebase.service.SystemRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

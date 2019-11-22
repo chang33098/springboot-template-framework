@@ -32,7 +32,7 @@ public interface SecurityService {
 //    /**
 //     * [spring security] 获取所有系统页面权限
 //     *
-//     * @return page permission list
+//     * @return systempage systempermission list
 //     */
 //    List<PagePermissionRef> securityGetPagePermissionList();
 }
