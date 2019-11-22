@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemDictOptionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemdict.SystemDictOption">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDictOption">
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="value" property="value" />

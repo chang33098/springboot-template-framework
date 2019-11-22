@@ -1,6 +1,7 @@
-package com.example.boot.springboottemplatebase.domain.systempage;
+package com.example.boot.springboottemplatebase.domain.systempage.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
+
 import java.sql.Timestamp;
 import java.io.Serializable;
 import lombok.Data;
@@ -16,8 +17,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@TableName("system_page_permission_ref")
-public class SystemPagePermissionRef implements Serializable {
+@TableName("system_page")
+public class SystemPage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,22 +26,28 @@ public class SystemPagePermissionRef implements Serializable {
     private Long id;
 
     /**
-     * 权限所拦截的URL
+     * 模块代码(由英文和下划线组成)
      */
-    @TableField("intercept_urls")
-    private String interceptUrls;
+    @TableField("code")
+    private String code;
 
     /**
-     * 系统页面ID
+     * 页面作用描述
      */
-    @TableField("page_id")
-    private Long pageId;
+    @TableField("description")
+    private String description;
 
     /**
-     * 系统权限ID
+     * 页面名称
      */
-    @TableField("permission_id")
-    private Long permissionId;
+    @TableField("name")
+    private String name;
+
+    /**
+     * 页面访问链接
+     */
+    @TableField("url")
+    private String url;
 
     /**
      * 创建人

@@ -1,9 +1,9 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.response.dict.payload.CreateDictPLO;
-import com.example.boot.response.dict.payload.ModifyDictPLO;
-import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
 
 /**
  * <p>
@@ -15,9 +15,9 @@ import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
  */
 public interface SystemDictService extends IService<SystemDict> {
 
-    void createDict(CreateDictPLO plo);
+    void createDict(CreateDictPLO dictPLO);
 
-    void modifyDict(ModifyDictPLO plo);
+    void modifyDict(ModifyDictPLO dictPLO);
 
     void deleteDict(Long dictId);
 }

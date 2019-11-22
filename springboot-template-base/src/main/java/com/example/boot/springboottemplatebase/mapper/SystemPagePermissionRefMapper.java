@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

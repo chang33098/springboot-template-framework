@@ -1,9 +1,10 @@
-package com.example.boot.springboottemplatebase.domain.systempage;
+package com.example.boot.springboottemplatebase.domain.systemdict.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.sql.Timestamp;
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,12 +14,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author chang_
- * @since 2019-11-16
+ * @since 2019-11-13
  */
 @Data
 @Accessors(chain = true)
-@TableName("system_page")
-public class SystemPage implements Serializable {
+@TableName("system_dict")
+public class SystemDict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,28 +27,22 @@ public class SystemPage implements Serializable {
     private Long id;
 
     /**
-     * 模块代码(由英文和下划线组成)
-     */
-    @TableField("code")
-    private String code;
-
-    /**
-     * 页面作用描述
+     * 字典描述
      */
     @TableField("description")
     private String description;
 
     /**
-     * 页面名称
+     * 字典类型名称
      */
     @TableField("name")
     private String name;
 
     /**
-     * 页面访问链接
+     * 字典类型(由大写英文和下划线组成)
      */
-    @TableField("url")
-    private String url;
+    @TableField("dict_code")
+    private String dictCode;
 
     /**
      * 创建人
@@ -74,9 +69,9 @@ public class SystemPage implements Serializable {
     private Timestamp updateTime;
 
     /**
-     * 删除标记(0:未删除,1:已删除)
+     * 删除标记(0:未删除, 1:已删除)
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

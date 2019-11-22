@@ -9,7 +9,7 @@ import com.example.boot.springboottemplatebase.domain.systempage.payload.CreateP
 import com.example.boot.springboottemplatebase.domain.systempage.payload.GetPageTablePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

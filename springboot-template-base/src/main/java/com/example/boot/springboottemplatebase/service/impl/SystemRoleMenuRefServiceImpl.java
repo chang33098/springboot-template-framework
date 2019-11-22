@@ -3,9 +3,11 @@ package com.example.boot.springboottemplatebase.service.impl;
 import com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemRoleMenuRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatedomain.role.persistent.SystemRoleMenuRef;
+import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author chang_
@@ -19,5 +21,10 @@ public class SystemRoleMenuRefServiceImpl extends ServiceImpl<SystemRoleMenuRefM
     @Autowired
     public SystemRoleMenuRefServiceImpl(SystemRoleMenuRefMapper roleMenuRefMapper) {
         this.roleMenuRefMapper = roleMenuRefMapper;
+    }
+
+    @Override
+    public List<SystemRoleMenuRef> securityGetRoleMenuListByRoleId(Long roleId) {
+        return null;
     }
 }

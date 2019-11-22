@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemPageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempage.SystemPage">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage">
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="create_time" property="createTime" />

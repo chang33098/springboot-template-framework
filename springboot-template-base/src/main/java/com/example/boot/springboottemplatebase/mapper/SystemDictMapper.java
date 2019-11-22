@@ -1,10 +1,10 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatebase.domain.systemdict.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
 import org.springframework.stereotype.Repository;
 
-//com.example.boot.springboottemplatedomain
+//com.example.boot.springboottemplatebase.domain
 
 /**
  * @author chang_

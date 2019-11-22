@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systempermission;
+package com.example.boot.springboottemplatebase.domain.systempermission.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 import java.sql.Timestamp;

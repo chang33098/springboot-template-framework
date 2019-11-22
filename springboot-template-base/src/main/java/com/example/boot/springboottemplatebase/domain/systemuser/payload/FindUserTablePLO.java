@@ -2,6 +2,7 @@ package com.example.boot.springboottemplatebase.domain.systemuser.payload;
 
 import com.example.boot.springboottemplatebase.common.AbstractPaginationPLO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * write this class description...
@@ -10,6 +11,7 @@ import lombok.Data;
  * @date 2019/8/28 7:07
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FindUserTablePLO extends AbstractPaginationPLO {
 
     private Integer roleId;

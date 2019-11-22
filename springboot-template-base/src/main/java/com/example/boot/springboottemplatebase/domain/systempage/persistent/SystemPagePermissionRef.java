@@ -1,22 +1,23 @@
-package com.example.boot.springboottemplatebase.domain.systemrole;
+package com.example.boot.springboottemplatebase.domain.systempage.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
-
 import java.sql.Timestamp;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * write this class description...
+ * <p>
+ * 
+ * </p>
  *
  * @author chang_
- * @since 2019-11-17
+ * @since 2019-11-16
  */
 @Data
 @Accessors(chain = true)
-@TableName("system_role_menu_permission_ref")
-public class SystemRoleMenuPermissionRef implements Serializable {
+@TableName("system_page_permission_ref")
+public class SystemPagePermissionRef implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,45 +25,45 @@ public class SystemRoleMenuPermissionRef implements Serializable {
     private Long id;
 
     /**
-     * 关联的角色ID
+     * 权限所拦截的URL
      */
-    @TableField("role_id")
-    private Long roleId;
+    @TableField("intercept_urls")
+    private String interceptUrls;
 
     /**
-     * 角色页面ID
+     * 系统页面ID
      */
-    @TableField("role_menu_id")
-    private Long roleMenuId;
+    @TableField("page_id")
+    private Long pageId;
 
     /**
-     * 页面权限ID
+     * 系统权限ID
      */
-    @TableField("page_permission_id")
-    private Long pagePermissionId;
+    @TableField("permission_id")
+    private Long permissionId;
 
     /**
      * 创建人
      */
-    @TableField("create_by")
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private Long createBy;
 
     /**
      * 创建时间
      */
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Timestamp createTime;
 
     /**
      * 修改人
      */
-    @TableField("update_by")
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
     private Long updateBy;
 
     /**
      * 修改时间
      */
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private Timestamp updateTime;
 
     /**

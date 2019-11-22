@@ -1,9 +1,9 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.response.page.payload.CreatePagePLO;
-import com.example.boot.response.page.payload.ModifyPagePLO;
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
 
 /**
  * @author chang_
@@ -11,9 +11,9 @@ import com.example.boot.springboottemplatedomain.page.persistent.SystemPage;
  */
 public interface SystemPageService extends IService<SystemPage> {
 
-    void create(CreatePagePLO plo);
+    void create(CreatePagePLO pagePLO);
 
-    void modify(ModifyPagePLO plo);
+    void modify(ModifyPagePLO pagePLO);
 
     void delete(Long pageId);
 }

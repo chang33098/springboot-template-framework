@@ -9,7 +9,7 @@ import com.example.boot.springboottemplatebase.domain.systempermission.payload.C
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.GetPermissionTablePLO;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
 import org.springframework.stereotype.Repository;
 
 /**

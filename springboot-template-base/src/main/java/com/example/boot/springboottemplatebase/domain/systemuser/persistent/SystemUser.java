@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemuser;
+package com.example.boot.springboottemplatebase.domain.systemuser.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 import java.sql.Timestamp;

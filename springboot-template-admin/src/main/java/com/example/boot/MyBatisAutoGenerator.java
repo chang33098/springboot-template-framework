@@ -30,7 +30,7 @@ public class MyBatisAutoGenerator {
     private static final String author = "chang_";
     private static final String outputPath = "G:\\WORKSPACE\\AutoGeneratorOutPut\\springboot-template-framework";
 
-    private static final String entitySuperPackageName = "com.example.boot.springboottemplatedomain";
+    private static final String entitySuperPackageName = "com.example.boot.springboottemplatebase.domain";
     private static final String[] entityColumns =
             {
                     "id",

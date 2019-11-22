@@ -3,9 +3,11 @@ package com.example.boot.springboottemplatebase.service.impl;
 import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatedomain.page.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,4 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class SystemPagePermissionRefServiceImpl extends ServiceImpl<SystemPagePermissionRefMapper, SystemPagePermissionRef> implements SystemPagePermissionRefService {
+    @Override
+    public List<SystemPagePermissionRef> securityGetPagePermissionList() {
+        return null;
+    }
 }

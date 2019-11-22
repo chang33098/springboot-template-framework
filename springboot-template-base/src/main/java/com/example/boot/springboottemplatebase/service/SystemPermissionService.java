@@ -1,9 +1,9 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.response.permission.payload.CreatePermissionPLO;
-import com.example.boot.response.permission.payload.ModifyPermissionPLO;
-import com.example.boot.springboottemplatedomain.permission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
 
 /**
  * <p>

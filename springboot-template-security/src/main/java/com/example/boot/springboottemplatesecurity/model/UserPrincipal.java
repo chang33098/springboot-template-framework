@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatesecurity.model;
 
-import com.example.boot.springboottemplatedomain.user.constants.UserStatus;
+import com.example.boot.springboottemplatebase.enumerate.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemrole.SystemRole">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole">
         <id column="id" property="id" />
         <result column="create_time" property="createTime" />
         <result column="description" property="description" />

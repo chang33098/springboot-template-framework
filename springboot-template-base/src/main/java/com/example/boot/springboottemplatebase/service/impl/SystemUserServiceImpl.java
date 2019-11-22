@@ -3,16 +3,14 @@ package com.example.boot.springboottemplatebase.service.impl;
 import com.example.boot.springboottemplatebase.mapper.SystemUserMapper;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
- * <p>
- *  服务实现类
- * </p>
- *
  * @author chang_
  * @since 2019-11-22
  */
@@ -25,5 +23,10 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     @Autowired
     public SystemUserServiceImpl(SystemUserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    @Override
+    public Optional<SystemUser> securityGetUserByUsername(String username) {
+        return null;
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemrole.SystemRoleMenuRef">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuRef">
         <id column="id" property="id" />
         <result column="icon" property="icon" />
         <result column="menu_level" property="menuLevel" />

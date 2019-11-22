@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemrole;
+package com.example.boot.springboottemplatebase.domain.systemrole.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 

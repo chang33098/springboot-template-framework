@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemrole;
+package com.example.boot.springboottemplatebase.domain.systemrole.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 
@@ -15,8 +15,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@TableName("system_role")
-public class SystemRole implements Serializable {
+@TableName("system_role_menu_permission_ref")
+public class SystemRoleMenuPermissionRef implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,16 +24,22 @@ public class SystemRole implements Serializable {
     private Long id;
 
     /**
-     * 角色描述
+     * 关联的角色ID
      */
-    @TableField("description")
-    private String description;
+    @TableField("role_id")
+    private Long roleId;
 
     /**
-     * 角色名称
+     * 角色页面ID
      */
-    @TableField("name")
-    private String name;
+    @TableField("role_menu_id")
+    private Long roleMenuId;
+
+    /**
+     * 页面权限ID
+     */
+    @TableField("page_permission_id")
+    private Long pagePermissionId;
 
     /**
      * 创建人
@@ -54,7 +60,7 @@ public class SystemRole implements Serializable {
     private Long updateBy;
 
     /**
-     * 更新时间
+     * 修改时间
      */
     @TableField("update_time")
     private Timestamp updateTime;

@@ -1,6 +1,5 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
 import com.example.boot.springboottemplatesecurity.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

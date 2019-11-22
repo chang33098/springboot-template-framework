@@ -9,7 +9,7 @@ import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateD
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.GetDictTablePLO;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
 import com.example.boot.springboottemplatebase.service.SystemDictService;
-import com.example.boot.springboottemplatedomain.dict.persistent.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

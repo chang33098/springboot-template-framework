@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemuser.SystemUser">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser">
         <id column="id" property="id" />
         <result column="avatar" property="avatar" />
         <result column="create_time" property="createTime" />

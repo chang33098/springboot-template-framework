@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemPermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempermission.SystemPermission">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission">
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="description" property="description" />

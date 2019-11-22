@@ -3,7 +3,7 @@ package com.example.boot.springboottemplatebase.service.impl;
 import com.example.boot.springboottemplatebase.mapper.SystemDictOptionMapper;
 import com.example.boot.springboottemplatebase.service.SystemDictOptionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatedomain.dict.persistent.SystemDictOption;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDictOption;
 import org.springframework.stereotype.Service;
 
 /**

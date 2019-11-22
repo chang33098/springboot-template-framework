@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatedomain.role.persistent.SystemRole;
+import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole;
 import org.springframework.stereotype.Repository;
 
 /**

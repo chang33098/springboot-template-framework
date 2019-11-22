@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemdict;
+package com.example.boot.springboottemplatebase.domain.systemdict.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 

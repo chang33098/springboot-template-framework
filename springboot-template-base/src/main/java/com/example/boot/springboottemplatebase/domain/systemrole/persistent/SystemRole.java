@@ -1,25 +1,22 @@
-package com.example.boot.springboottemplatebase.domain.systemdict;
+package com.example.boot.springboottemplatebase.domain.systemrole.persistent;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-
+import java.io.Serializable;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
+ * write this class description...
  *
  * @author chang_
- * @since 2019-11-13
+ * @since 2019-11-17
  */
 @Data
 @Accessors(chain = true)
-@TableName("system_dict")
-public class SystemDict implements Serializable {
+@TableName("system_role")
+public class SystemRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,51 +24,45 @@ public class SystemDict implements Serializable {
     private Long id;
 
     /**
-     * 字典描述
+     * 角色描述
      */
     @TableField("description")
     private String description;
 
     /**
-     * 字典类型名称
+     * 角色名称
      */
     @TableField("name")
     private String name;
 
     /**
-     * 字典类型(由大写英文和下划线组成)
-     */
-    @TableField("dict_code")
-    private String dictCode;
-
-    /**
      * 创建人
      */
-    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    @TableField("create_by")
     private Long createBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField("create_time")
     private Timestamp createTime;
 
     /**
      * 修改人
      */
-    @TableField(value = "update_by", fill = FieldFill.UPDATE)
+    @TableField("update_by")
     private Long updateBy;
 
     /**
-     * 修改时间
+     * 更新时间
      */
-    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    @TableField("update_time")
     private Timestamp updateTime;
 
     /**
-     * 删除标记(0:未删除, 1:已删除)
+     * 删除标记(0:未删除,1:已删除)
      */
     @TableField("deleted")
     @TableLogic
-    private Integer deleted;
+    private String deleted;
 }

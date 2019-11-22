@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatebase.domain.systemrole.response;
 
-import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
+import com.example.boot.springboottemplatebase.enumerate.MenuLevel;
 import lombok.Data;
 
 /**
