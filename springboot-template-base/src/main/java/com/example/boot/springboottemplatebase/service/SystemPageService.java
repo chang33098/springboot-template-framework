@@ -16,4 +16,6 @@ public interface SystemPageService extends IService<SystemPage> {
     void modify(ModifyPagePLO pagePLO);
 
     void delete(Long pageId);
+
+    String getPageCodeById(Long pageId);
 }

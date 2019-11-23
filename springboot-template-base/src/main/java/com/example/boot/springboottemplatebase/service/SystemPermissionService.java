@@ -20,4 +20,6 @@ public interface SystemPermissionService extends IService<SystemPermission> {
     void modify(ModifyPermissionPLO permissionPLO);
 
     void delete(Long permissionId);
+
+    String getPermissionCodeById(Long permissionId);
 }

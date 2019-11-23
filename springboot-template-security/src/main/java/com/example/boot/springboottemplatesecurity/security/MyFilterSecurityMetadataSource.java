@@ -1,6 +1,9 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import com.example.boot.springboottemplatesecurity.service.SecurityService;
+import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
+import com.example.boot.springboottemplatebase.service.SystemPageService;
+import com.example.boot.springboottemplatebase.service.SystemPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -32,35 +34,49 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
+    private final SystemPagePermissionRefService pagePermissionRefService;
+    private final SystemPageService pageService;
+    private final SystemPermissionService permissionService;
+
     @Autowired
-    private SecurityService securityService;
+    public MyFilterSecurityMetadataSource(SystemPagePermissionRefService pagePermissionRefService, SystemPageService pageService, SystemPermissionService permissionService) {
+        this.pagePermissionRefService = pagePermissionRefService;
+        this.pageService = pageService;
+        this.permissionService = permissionService;
+    }
+
 
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        // TODO: 2019/8/24 暂时关闭对于URL的访问权限限制
-        
-//        List<PagePermissionRef> permissionRefs = securityService.securityGetPagePermissionList();
-//        if (permissionRefs.isEmpty()) return;
-//
-//        permissionRefs.forEach(permissionRef -> {
-//            List<String> interceptUrls = new ArrayList<>();
-//            try {
-//                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
-//            } catch (Exception e) {
-//                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
-//            }
-//
-//            if (!interceptUrls.isEmpty()) {
-//                interceptUrls.forEach(url -> {
-//                    List<ConfigAttribute> configs = Stream.of(
-//                            new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode()))
-//                            .collect(Collectors.toList());
-//                    resourceMap.put(url, configs);
-//                });
-//            }
-//        });
+        List<SystemPagePermissionRef> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
+        if (permissionRefs.isEmpty()) return;
+
+        permissionRefs.forEach(permissionRef -> {
+            List<String> interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
+
+            if (!interceptUrls.isEmpty()) {
+                interceptUrls.forEach(url -> {
+                    final String pageCode = pageService.getPageCodeById(permissionRef.getPageId());
+                    final String permissionCode = permissionService.getPermissionCodeById(permissionRef.getPermissionId());
+
+                    List<ConfigAttribute> configs = Stream.of(this.getSecurityConfig(pageCode, permissionCode)).collect(Collectors.toList());
+                    resourceMap.put(url, configs);
+                });
+            }
+        });
+    }
+
+    /**
+     * 通过页面代码和权限代码生成SecurityConfig配置
+     *
+     * @param pageCode       页面代码
+     * @param permissionCode 权限代码
+     * @return SecurityConfig
+     */
+    private SecurityConfig getSecurityConfig(String pageCode, String permissionCode) {
+        return new SecurityConfig(pageCode + ":" + permissionCode);
     }
 
     @Override

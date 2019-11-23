@@ -2,6 +2,7 @@ package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SystemPageMapper extends BaseMapper<SystemPage> {
 
+    String getPageCodeById(@Param(value = "pageId") Long pageId);
 }

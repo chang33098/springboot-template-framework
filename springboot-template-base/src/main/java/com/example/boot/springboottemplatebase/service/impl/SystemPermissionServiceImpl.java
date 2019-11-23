@@ -24,10 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements SystemPermissionService {
 
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
+    private final SystemPermissionMapper permissionMapper;
 
     @Autowired
-    public SystemPermissionServiceImpl(SystemPagePermissionRefMapper pagePermissionRefMapper) {
+    public SystemPermissionServiceImpl(SystemPagePermissionRefMapper pagePermissionRefMapper, SystemPermissionMapper permissionMapper) {
         this.pagePermissionRefMapper = pagePermissionRefMapper;
+        this.permissionMapper = permissionMapper;
     }
 
     @Override
@@ -55,5 +57,10 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
         Assert.isFalse(usedCount > 0, "权限[{}]已被使用，无法删除", permission.getName());
 
         this.removeById(permissionId); //删除权限
+    }
+
+    @Override
+    public String getPermissionCodeById(Long permissionId) {
+        return permissionMapper.getPermissionCodeById(permissionId);
     }
 }

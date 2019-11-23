@@ -31,11 +31,13 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
 
     private final SystemPagePermissionRefService pagePermissionRefService;
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
+    private final SystemPageMapper pageMapper;
 
     @Autowired
-    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService, SystemPagePermissionRefMapper pagePermissionRefMapper) {
+    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService, SystemPagePermissionRefMapper pagePermissionRefMapper, SystemPageMapper pageMapper) {
         this.pagePermissionRefService = pagePermissionRefService;
         this.pagePermissionRefMapper = pagePermissionRefMapper;
+        this.pageMapper = pageMapper;
     }
 
     @Override
@@ -79,5 +81,10 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
         pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda()
                 .eq(SystemPagePermissionRef::getPageId, pageId)); //调用SystemPagePermissionRef的逻辑删除方法
         this.removeById(pageId); //删除系统页面
+    }
+
+    @Override
+    public String getPageCodeById(Long pageId) {
+        return pageMapper.getPageCodeById(pageId);
     }
 }

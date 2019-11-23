@@ -20,8 +20,9 @@ import java.util.List;
 @Service
 @Transactional
 public class SystemPagePermissionRefServiceImpl extends ServiceImpl<SystemPagePermissionRefMapper, SystemPagePermissionRef> implements SystemPagePermissionRefService {
+
     @Override
     public List<SystemPagePermissionRef> securityGetPagePermissionList() {
-        return null;
+        return this.list();
     }
 }

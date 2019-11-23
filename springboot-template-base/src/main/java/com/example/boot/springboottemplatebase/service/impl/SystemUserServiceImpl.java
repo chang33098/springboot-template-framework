@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.boot.springboottemplatebase.mapper.SystemUserMapper;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,6 +28,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public Optional<SystemUser> securityGetUserByUsername(String username) {
-        return null;
+        SystemUser user = this.getOne(new QueryWrapper<SystemUser>().lambda().eq(SystemUser::getUsername, username));
+        return Optional.ofNullable(user);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemRoleMenuRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,6 +26,7 @@ public class SystemRoleMenuRefServiceImpl extends ServiceImpl<SystemRoleMenuRefM
 
     @Override
     public List<SystemRoleMenuRef> securityGetRoleMenuListByRoleId(Long roleId) {
-        return null;
+        List<SystemRoleMenuRef> roleMenuRefs = this.list(new QueryWrapper<SystemRoleMenuRef>().lambda().eq(SystemRoleMenuRef::getRoleId, roleId));
+        return roleMenuRefs;
     }
 }

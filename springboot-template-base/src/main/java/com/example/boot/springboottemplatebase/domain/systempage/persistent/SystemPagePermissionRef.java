@@ -7,10 +7,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author chang_
  * @since 2019-11-16
  */
