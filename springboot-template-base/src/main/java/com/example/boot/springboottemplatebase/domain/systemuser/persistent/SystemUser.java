@@ -69,7 +69,7 @@ public class SystemUser implements Serializable {
      * 用户状态 1:正常, 2:已禁用
      */
     @TableField("status")
-    private Integer status;
+    private String status;
 
     /**
      * 修改时间

@@ -1,12 +1,26 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import com.example.boot.springboottemplatesecurity.service.SecurityService;
+import cn.hutool.core.lang.Assert;
+import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole;
+import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO;
+import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuListByRoleIdRO;
+import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuPermissionListByMenuIdsQO;
+import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO;
+import com.example.boot.springboottemplatebase.service.SystemRoleMenuPermissionRefService;
+import com.example.boot.springboottemplatebase.service.SystemRoleMenuRefService;
+import com.example.boot.springboottemplatebase.service.SystemRoleService;
+import com.example.boot.springboottemplatebase.service.SystemUserService;
+import com.example.boot.springboottemplatesecurity.model.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * description: 根据登陆账号加载系统用户的信息
@@ -18,8 +32,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyUserDetailService implements UserDetailsService {
 
+    private final SystemUserService userService;
+    private final SystemRoleService roleService;
+    private final SystemRoleMenuRefService roleMenuRefService;
+    private final SystemRoleMenuPermissionRefService roleMenuPermissionRefService;
+
     @Autowired
-    private SecurityService securityService;
+    public MyUserDetailService(SystemUserService userService, SystemRoleService roleService, SystemRoleMenuRefService roleMenuRefService, SystemRoleMenuPermissionRefService roleMenuPermissionRefService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.roleMenuRefService = roleMenuRefService;
+        this.roleMenuPermissionRefService = roleMenuPermissionRefService;
+    }
+
 
     // TODO: 2019/8/24 统一[spring security]的日志输出格式
 
@@ -33,23 +58,19 @@ public class MyUserDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(final String credentials) throws UsernameNotFoundException, IllegalArgumentException {
-//        final String username = credentials.trim(); //去除两边的空格
-//        SystemUser systemuser = securityService.securityGetUserByUsername(username).orElseThrow(() -> {
-//            log.error("User's account not found: {}", username);
-//            return new UsernameNotFoundException("User's account not found: " + username);
-//        });
-//
-//        SystemRole systemrole = systemuser.getRole();
-//        Assert.notNull(systemrole, "账号[{}]的系统角色为空", username);
-//
-//        List<RoleMenuRef> roleMenus = securityService.securityGetRoleMenuListByRoleId(systemrole.getId()); //加载角色所对应的菜单
-//
-//        List<Long> menuIds = roleMenus.stream().map(RoleMenuRef::getId).collect(Collectors.toList());
-//        List<RoleMenuPermissionRef> rolePermissions = securityService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
-//
-//        return UserPrincipal.create(systemuser, roleMenus, rolePermissions);
+        final String username = credentials.trim(); //去除两边的空格
+        SecurityGetUserByUsernameQO systemuser = userService.securityGetUserByUsername(username).orElseThrow(() -> {
+            log.error("User's account not found: {}", username);
+            return new UsernameNotFoundException("User's account not found: " + username);
+        });
+        Assert.notNull(systemuser.getRoleId(), "账号[{}]的系统角色为空", username);
 
-        return null;
+        List<SecurityGetRoleMenuListByRoleIdRO> roleMenus = roleMenuRefService.securityGetRoleMenuListByRoleId(systemuser.getRoleId()); //加载角色所对应的菜单
+
+        List<Long> menuIds = roleMenus.stream().map(SecurityGetRoleMenuListByRoleIdRO::getMenuId).collect(Collectors.toList());
+        List<SecurityGetRoleMenuPermissionListByMenuIdsQO> rolePermissions = roleMenuPermissionRefService.securityGetRoleMenuPermissionListByMenuIds(menuIds); //加载角色菜单对应的权限
+
+        return UserPrincipal.create(systemuser, roleMenus, rolePermissions);
     }
 
     /**

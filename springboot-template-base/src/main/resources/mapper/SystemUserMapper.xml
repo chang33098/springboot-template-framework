@@ -21,4 +21,26 @@
         <result column="deleted" property="deleted" />
     </resultMap>
 
+    <select id="securityGetUserByUsername"
+            resultType="com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO">
+        select
+            id as user_id,
+            username,
+            `password`,
+            role_id,
+            (select name from system_role where id = role_id) as role_name,
+            phone,
+            nickname,
+            avatar,
+            description,
+            `status`,
+            create_time,
+            update_time,
+            last_login_time
+        from
+            system_user
+        where
+            username = #{username}
+    </select>
+
 </mapper>

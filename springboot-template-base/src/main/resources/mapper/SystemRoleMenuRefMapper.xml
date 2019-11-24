@@ -21,6 +21,19 @@
         <result column="deleted" property="deleted" />
     </resultMap>
     
-    <delete id="deleteAllByRoleId"></delete>
+    <delete id="deleteAllByRoleId">
+        delete from system_role_menu_ref where role_id = #{roleId}
+    </delete>
+
+    <select id="securityGetRoleMenuListByRoleId"
+            resultType="com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuListByRoleIdRO">
+        select
+            id,
+
+        from
+            system_role_menu_ref
+        where
+            role_id = #{roleId}
+    </select>
 
 </mapper>

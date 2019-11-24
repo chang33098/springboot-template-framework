@@ -3,19 +3,36 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemRoleMenuPermissionRefMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuPermissionRef">
-        <id column="id" property="id" />
-        <result column="role_menu_id" property="roleMenuId" />
-        <result column="page_permission_id" property="pagePermissionId" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+    <resultMap id="BaseResultMap"
+               type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuPermissionRef">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="role_menu_id" property="roleMenuId"/>
+        <result column="page_permission_id" property="pagePermissionId"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <delete id="deleteAllByRoleId">
-        delete from
+        DELETE FROM system_role_menu_permission_ref
+        WHERE role_id = #{roleId}
     </delete>
+
+    <select id="securityGetRoleMenuPermissionListByMenuIds"
+            resultType="com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuPermissionListByMenuIdsQO">
+        select
+        (select code from system_page where id = ) as page_code,
+        () as permission_code
+        from
+        system_role_menu_permission_ref
+        where
+        menu_id in
+        <foreach collection="list" item="menuId" index="index" open="(" close=")" separator=",">
+            #{menuId}
+        </foreach>
+    </select>
 
 </mapper>

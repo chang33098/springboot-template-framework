@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
+import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO;
 import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,9 +21,9 @@ import java.util.List;
 @Service
 @Transactional
 public class SystemPagePermissionRefServiceImpl extends ServiceImpl<SystemPagePermissionRefMapper, SystemPagePermissionRef> implements SystemPagePermissionRefService {
-
+    
     @Override
-    public List<SystemPagePermissionRef> securityGetPagePermissionList() {
-        return this.list();
+    public List<SecurityGetPagePermissionListQO> securityGetPagePermissionList() {
+        return this.baseMapper.securityGetPagePermissionList();
     }
 }

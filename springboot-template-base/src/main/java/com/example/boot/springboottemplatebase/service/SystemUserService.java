@@ -2,6 +2,7 @@ package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO;
 
 import java.util.Optional;
 
@@ -11,5 +12,5 @@ import java.util.Optional;
  */
 public interface SystemUserService extends IService<SystemUser> {
 
-    Optional<SystemUser> securityGetUserByUsername(String username);
+    Optional<SecurityGetUserByUsernameQO> securityGetUserByUsername(String username);
 }

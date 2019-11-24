@@ -16,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MenuLevel {
 
-    PARENT_MENU(1), CHILD_MENU(2);
+    PARENT_MENU("1"), CHILD_MENU("2");
 
-    private Integer type;
+    private String type;
 }

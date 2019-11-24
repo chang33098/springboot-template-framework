@@ -33,7 +33,7 @@ public class SystemRoleMenuRef implements Serializable {
      * 菜单级别(1:父菜单, 2:子菜单)
      */
     @TableField("menu_level")
-    private Integer menuLevel;
+    private String menuLevel;
 
     /**
      * 菜单代码(由菜单名称的拼音组成)
@@ -75,7 +75,7 @@ public class SystemRoleMenuRef implements Serializable {
      * 是否展开菜单 0:不展开, 1:展开
      */
     @TableField("opened")
-    private Integer opened;
+    private String opened;
 
     /**
      * 创建人

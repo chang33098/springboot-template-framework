@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatesecurity.security;
 
 import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
@@ -45,12 +46,11 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
         this.permissionService = permissionService;
     }
 
-
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        List<SystemPagePermissionRef> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
+        List<SecurityGetPagePermissionListQO> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
         if (permissionRefs.isEmpty()) return;
 
         permissionRefs.forEach(permissionRef -> {
@@ -58,8 +58,8 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
             if (!interceptUrls.isEmpty()) {
                 interceptUrls.forEach(url -> {
-                    final String pageCode = pageService.getPageCodeById(permissionRef.getPageId());
-                    final String permissionCode = permissionService.getPermissionCodeById(permissionRef.getPermissionId());
+                    final String pageCode = permissionRef.getPageCode();
+                    final String permissionCode = permissionRef.getPermissionCode();
 
                     List<ConfigAttribute> configs = Stream.of(this.getSecurityConfig(pageCode, permissionCode)).collect(Collectors.toList());
                     resourceMap.put(url, configs);
@@ -75,7 +75,8 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
      * @param permissionCode 权限代码
      * @return SecurityConfig
      */
-    private SecurityConfig getSecurityConfig(String pageCode, String permissionCode) {
+    private SecurityConfig getSecurityConfig(final String pageCode,
+                                             final String permissionCode) {
         return new SecurityConfig(pageCode + ":" + permissionCode);
     }
 

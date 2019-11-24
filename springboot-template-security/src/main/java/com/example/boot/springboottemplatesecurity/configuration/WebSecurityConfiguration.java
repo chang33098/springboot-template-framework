@@ -77,7 +77,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public MyUserDetailService userDetailService() {
-        return new MyUserDetailService();
+        return new MyUserDetailService(userService, roleService, roleMenuRefService, roleMenuPermissionRefService);
     }
 
     @Bean

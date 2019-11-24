@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * description write this class description...
+ * 系统用户状态
  * <p>
  * 1：启用
  * 2：禁用
@@ -16,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum UserStatus {
 
-    ENABLED(1), DISABLED(2);
+    ENABLED("1"), DISABLED("2");
 
-    private Integer status;
+    private String status;
 }
