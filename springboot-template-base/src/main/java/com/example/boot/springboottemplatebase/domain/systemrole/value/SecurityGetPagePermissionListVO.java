@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemrole.query;
+package com.example.boot.springboottemplatebase.domain.systemrole.value;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2019/11/24 11:34
  */
 @Data
-public class SecurityGetPagePermissionListQO implements Serializable {
+public class SecurityGetPagePermissionListVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

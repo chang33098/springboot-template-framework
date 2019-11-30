@@ -14,7 +14,7 @@ public class CreateRolePLO {
 
     @NotBlank
     @Length(max = 50)
-    private String name;
+    private String roleName;
     @NotBlank
     @Length(max = 500)
     private String description;

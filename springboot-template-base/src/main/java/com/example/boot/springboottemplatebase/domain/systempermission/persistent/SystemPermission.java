@@ -24,20 +24,20 @@ public class SystemPermission implements Serializable {
     /**
      * 权限代码(由英文和下划线组成)
      */
-    @TableField("code")
-    private String code;
+    @TableField("permission_code")
+    private String permissionCode;
+
+    /**
+     * 权限名称
+     */
+    @TableField("permission_name")
+    private String permissionName;
 
     /**
      * 作用描述
      */
     @TableField("description")
     private String description;
-
-    /**
-     * 权限名称
-     */
-    @TableField("name")
-    private String name;
 
     /**
      * 创建人

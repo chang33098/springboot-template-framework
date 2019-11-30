@@ -27,7 +27,7 @@ public class SystemRoleMenuRef implements Serializable {
      * 菜单图标(使用layui的图标class)
      */
     @TableField("icon")
-    private String icon;
+    private String menuIcon;
 
     /**
      * 菜单级别(1:父菜单, 2:子菜单)

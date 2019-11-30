@@ -20,7 +20,7 @@
     </delete>
 
     <select id="securityGetPagePermissionList"
-            resultType="com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO">
+            resultType="com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO">
         select
             intercept_urls,
             (select code from system_page where id = page_id) as page_code,

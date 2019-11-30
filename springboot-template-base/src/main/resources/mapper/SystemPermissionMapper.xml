@@ -3,20 +3,21 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemPermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="description" property="description" />
-        <result column="name" property="name" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+    <resultMap id="BaseResultMap"
+               type="com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission">
+        <id column="id" property="id"/>
+        <result column="permission_code" property="permissionCode"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="description" property="description"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <select id="getPermissionCodeById" resultType="java.lang.String">
-        select code from system_permission where id = #{permissionId}
+        select code from system_permission where id = #{permissionId} and deleted = '0'
     </select>
 
 </mapper>

@@ -54,7 +54,7 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
         Assert.notNull(permission, "无法获取ID[{}]的权限信息", permissionId);
 
         int usedCount = pagePermissionRefMapper.selectCount(new QueryWrapper<SystemPagePermissionRef>().lambda().eq(SystemPagePermissionRef::getPermissionId, permissionId));
-        Assert.isFalse(usedCount > 0, "权限[{}]已被使用，无法删除", permission.getName());
+        Assert.isFalse(usedCount > 0, "权限[{}]已被使用，无法删除", permission.getPermissionName());
 
         this.removeById(permissionId); //删除权限
     }

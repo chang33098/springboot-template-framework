@@ -1,7 +1,6 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
-import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
@@ -35,22 +34,25 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
-    private final SystemPagePermissionRefService pagePermissionRefService;
-    private final SystemPageService pageService;
-    private final SystemPermissionService permissionService;
-
     @Autowired
-    public MyFilterSecurityMetadataSource(SystemPagePermissionRefService pagePermissionRefService, SystemPageService pageService, SystemPermissionService permissionService) {
-        this.pagePermissionRefService = pagePermissionRefService;
-        this.pageService = pageService;
-        this.permissionService = permissionService;
-    }
+    private SystemPagePermissionRefService pagePermissionRefService;
+    @Autowired
+    private SystemPageService pageService;
+    @Autowired
+    private SystemPermissionService permissionService;
+
+//    @Autowired
+//    public MyFilterSecurityMetadataSource(SystemPagePermissionRefService pagePermissionRefService, SystemPageService pageService, SystemPermissionService permissionService) {
+//        this.pagePermissionRefService = pagePermissionRefService;
+//        this.pageService = pageService;
+//        this.permissionService = permissionService;
+//    }
 
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        List<SecurityGetPagePermissionListQO> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
+        List<SecurityGetPagePermissionListVO> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
         if (permissionRefs.isEmpty()) return;
 
         permissionRefs.forEach(permissionRef -> {

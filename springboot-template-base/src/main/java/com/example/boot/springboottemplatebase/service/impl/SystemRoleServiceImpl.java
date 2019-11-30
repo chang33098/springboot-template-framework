@@ -24,15 +24,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemRole> implements SystemRoleService {
 
-    private final SystemRoleMapper roleMapper;
     private final SystemRoleMenuRefMapper roleMenuRefMapper;
     private final SystemRoleMenuPermissionRefMapper roleMenuPermissionRefMapper;
 
     @Autowired
-    public SystemRoleServiceImpl(SystemRoleMapper roleMapper,
-                                 SystemRoleMenuRefMapper roleMenuRefMapper,
+    public SystemRoleServiceImpl(SystemRoleMenuRefMapper roleMenuRefMapper,
                                  SystemRoleMenuPermissionRefMapper roleMenuPermissionRefMapper) {
-        this.roleMapper = roleMapper;
         this.roleMenuRefMapper = roleMenuRefMapper;
         this.roleMenuPermissionRefMapper = roleMenuPermissionRefMapper;
     }

@@ -3,26 +3,27 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser">
-        <id column="id" property="id" />
-        <result column="avatar" property="avatar" />
-        <result column="create_time" property="createTime" />
-        <result column="description" property="description" />
-        <result column="last_login_time" property="lastLoginTime" />
-        <result column="nickname" property="nickname" />
-        <result column="password" property="password" />
-        <result column="phone" property="phone" />
-        <result column="status" property="status" />
-        <result column="update_time" property="updateTime" />
-        <result column="username" property="username" />
-        <result column="role_id" property="roleId" />
-        <result column="create_by" property="createBy" />
-        <result column="update_by" property="updateBy" />
-        <result column="deleted" property="deleted" />
+    <resultMap id="BaseResultMap"
+               type="com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser">
+        <id column="id" property="id"/>
+        <result column="avatar" property="avatar"/>
+        <result column="nickname" property="nickname"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="role_id" property="roleId"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <select id="securityGetUserByUsername"
-            resultType="com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO">
+            resultType="com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO">
         select
             id as user_id,
             username,

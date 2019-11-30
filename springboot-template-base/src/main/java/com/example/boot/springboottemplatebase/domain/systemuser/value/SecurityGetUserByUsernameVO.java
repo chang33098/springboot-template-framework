@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemuser.query;
+package com.example.boot.springboottemplatebase.domain.systemuser.value;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  * @date 2019/11/24 13:49
  */
 @Data
-public class SecurityGetUserByUsernameQO implements Serializable {
+public class SecurityGetUserByUsernameVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

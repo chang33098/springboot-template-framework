@@ -50,7 +50,6 @@ public class SystemDictControllerTest {
     @Before
     public void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();  //初始化MockMvc对象
-        log.info("开始测试-----------------");
     }
 
     @Test
@@ -64,7 +63,7 @@ public class SystemDictControllerTest {
                 tablePLO.getPageNo(),
                 tablePLO.getPageSize(),
                 tablePLO.getDictCode(),
-                tablePLO.getName()
+                tablePLO.getDictName()
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -108,13 +107,13 @@ public class SystemDictControllerTest {
     public void modifyTest() throws Exception {
         ModifyDictPLO dictPLO = new ModifyDictPLO();
         dictPLO.setDictId(10L);
-        dictPLO.setName("modify-dict-name-" + RandomUtil.randomString(8));
+        dictPLO.setDictName("modify-dict-name-" + RandomUtil.randomString(8));
         dictPLO.setDescription("description-" + RandomUtil.randomString(50));
 
         ModifyDictPLO.DictOption option1 = new ModifyDictPLO.DictOption();
-        option1.setCode(RandomUtil.randomInt(2)).setValue("modify-" + RandomUtil.randomStringUpper(8));
+        option1.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
         ModifyDictPLO.DictOption option2 = new ModifyDictPLO.DictOption();
-        option2.setCode(RandomUtil.randomInt(2)).setValue("modify-" + RandomUtil.randomStringUpper(8));
+        option2.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
 
         List<ModifyDictPLO.DictOption> dictOptions = Stream.of(option1, option2).collect(Collectors.toList());
         dictPLO.setOptions(dictOptions);

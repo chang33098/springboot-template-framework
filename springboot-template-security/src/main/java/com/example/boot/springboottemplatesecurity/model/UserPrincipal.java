@@ -1,9 +1,9 @@
 package com.example.boot.springboottemplatesecurity.model;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuListByRoleIdRO;
-import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuPermissionListByMenuIdsQO;
-import com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO;
+import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
 import com.example.boot.springboottemplatebase.enumerate.MenuLevel;
 import com.example.boot.springboottemplatebase.enumerate.UserStatus;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,12 +53,12 @@ public class UserPrincipal implements UserDetails {
     /**
      * Create systemuser principal
      *
-     * @param systemuser            systemuser po
+     * @param systemuser      systemuser po
      * @param roleMenus       systemuser platform menus
      * @param rolePermissions systemrole systempermission po list
      * @return systemuser principal
      */
-    public static UserPrincipal create(SecurityGetUserByUsernameQO systemuser, List<SecurityGetRoleMenuListByRoleIdRO> roleMenus, List<SecurityGetRoleMenuPermissionListByMenuIdsQO> rolePermissions) {
+    public static UserPrincipal create(SecurityGetUserByUsernameVO systemuser, List<SecurityGetRoleMenuListByRoleIdVO> roleMenus, List<SecurityGetRoleMenuPermissionListByMenuIdsVO> rolePermissions) {
         List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
                 .map(UserPrincipal::createMenu).collect(Collectors.toList());
 
@@ -80,7 +83,7 @@ public class UserPrincipal implements UserDetails {
      * @param roleMenu MenuPO
      * @return MenuRO
      */
-    private static Menu createMenu(SecurityGetRoleMenuListByRoleIdRO roleMenu) {
+    private static Menu createMenu(SecurityGetRoleMenuListByRoleIdVO roleMenu) {
 //        Menu menu = new Menu();
 //        BeanUtil.copyProperties(roleMenu, menu);
 //        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
@@ -95,6 +98,7 @@ public class UserPrincipal implements UserDetails {
 //            });
 //            menu.setChildren(menus);
 //        }
+
         return null;
     }
 

@@ -46,7 +46,6 @@ public class SystemPermissionControllerTest {
     @Before
     public void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();  //初始化MockMvc对象
-        log.info("开始测试-----------------");
     }
 
     @Test
@@ -54,15 +53,15 @@ public class SystemPermissionControllerTest {
         GetPermissionTablePLO permissionTablePLO = new GetPermissionTablePLO();
         permissionTablePLO.setPageNo(1);
         permissionTablePLO.setPageSize(10);
-        permissionTablePLO.setName("");
-        permissionTablePLO.setCode("");
+        permissionTablePLO.setPermissionName("");
+        permissionTablePLO.setPermissionCode("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
                 "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}&code={code}&name={name}",
                 permissionTablePLO.getPageNo(),
                 permissionTablePLO.getPageSize(),
-                permissionTablePLO.getCode(),
-                permissionTablePLO.getName()
+                permissionTablePLO.getPermissionCode(),
+                permissionTablePLO.getPermissionName()
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -75,8 +74,8 @@ public class SystemPermissionControllerTest {
     @Test
     public void create() throws Exception {
         CreatePermissionPLO permissionPLO = new CreatePermissionPLO();
-        permissionPLO.setCode("CREATE_" + RandomUtil.randomStringUpper(5));
-        permissionPLO.setName("create-" + RandomUtil.randomString(8));
+        permissionPLO.setPermissionCode("CREATE_" + RandomUtil.randomStringUpper(5));
+        permissionPLO.setPermissionName("create-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/create")
@@ -96,8 +95,8 @@ public class SystemPermissionControllerTest {
     public void modify() throws Exception {
         ModifyPermissionPLO permissionPLO = new ModifyPermissionPLO();
         permissionPLO.setPermissionId(1L);
-        permissionPLO.setCode("MODIFY_" + RandomUtil.randomStringUpper(5));
-        permissionPLO.setName("modify-" + RandomUtil.randomString(8));
+        permissionPLO.setPermissionCode("MODIFY_" + RandomUtil.randomStringUpper(5));
+        permissionPLO.setPermissionName("modify-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/modify")

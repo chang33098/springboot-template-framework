@@ -8,7 +8,7 @@
         <result column="create_time" property="createTime" />
         <result column="deleted" property="deleted" />
         <result column="description" property="description" />
-        <result column="name" property="name" />
+        <result column="dict_name" property="dictName" />
         <result column="dict_code" property="dictCode" />
         <result column="update_time" property="updateTime" />
         <result column="create_by" property="createBy" />

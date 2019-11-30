@@ -39,7 +39,7 @@ public class SystemPageController {
     @ResponseBody
     public ResponseBodyBean<IPage<SystemPage>> table(GetPageTablePLO plo) {
         LambdaQueryWrapper<SystemPage> wrapper = new QueryWrapper<SystemPage>().lambda()
-                .like(false, SystemPage::getName, plo.getName());
+                .like(false, SystemPage::getPageName, plo.getPageName());
 
         Page<SystemPage> page = new Page<>(plo.getPageNo(), plo.getPageSize());
         IPage<SystemPage> table = pageService.page(page, wrapper);

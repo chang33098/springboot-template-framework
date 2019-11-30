@@ -24,40 +24,28 @@ public class SystemUser implements Serializable {
     private Long id;
 
     /**
-     * 头像
+     * 登陆账号
      */
-    @TableField("avatar")
-    private String avatar;
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    private LocalDateTime createTime;
-
-    /**
-     * 用户描述
-     */
-    @TableField("description")
-    private String description;
-
-    /**
-     * 最后一次登录时间
-     */
-    @TableField("last_login_time")
-    private Timestamp lastLoginTime;
-
-    /**
-     * 昵称
-     */
-    @TableField("nickname")
-    private String nickname;
+    @TableField("username")
+    private String username;
 
     /**
      * 登陆密码
      */
     @TableField("password")
     private String password;
+
+    /**
+     * 头像
+     */
+    @TableField("avatar")
+    private String avatar;
+
+    /**
+     * 昵称
+     */
+    @TableField("nickname")
+    private String nickname;
 
     /**
      * 手机号码
@@ -72,16 +60,16 @@ public class SystemUser implements Serializable {
     private String status;
 
     /**
-     * 修改时间
+     * 用户描述
      */
-    @TableField("update_time")
-    private Timestamp updateTime;
+    @TableField("description")
+    private String description;
 
     /**
-     * 登陆账号
+     * 最后一次登录时间
      */
-    @TableField("username")
-    private String username;
+    @TableField("last_login_time")
+    private Timestamp lastLoginTime;
 
     /**
      * 系统角色ID
@@ -96,10 +84,22 @@ public class SystemUser implements Serializable {
     private Long createBy;
 
     /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private Timestamp createTime;
+
+    /**
      * 修改人
      */
     @TableField("update_by")
     private Long updateBy;
+
+    /**
+     * 修改时间
+     */
+    @TableField("update_time")
+    private Timestamp updateTime;
 
     /**
      * 删除标记(0:未删除,1:已删除)

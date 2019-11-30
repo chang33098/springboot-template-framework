@@ -14,5 +14,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class GetPageTablePLO extends AbstractPaginationPLO {
 
-    private String name;
+    private String pageName;
 }

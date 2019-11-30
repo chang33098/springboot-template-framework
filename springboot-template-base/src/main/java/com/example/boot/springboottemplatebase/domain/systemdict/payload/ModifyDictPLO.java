@@ -23,7 +23,7 @@ public class ModifyDictPLO {
     @NotNull
     private Long dictId;
     @NotBlank
-    private String name;
+    private String dictName;
     @Length(max = 255)
     private String description;
     @Size(min = 1, max = 50)
@@ -32,11 +32,11 @@ public class ModifyDictPLO {
     @Data
     @Accessors(chain = true)
     public static class DictOption {
-        @NotNull
-        @Range(min = 0, max = 127)
-        private Integer code;
+        @NotBlank
+        @Length(max = 10)
+        private String optionCode;
         @NotBlank
         @Length(max = 255)
-        private String value;
+        private String optionValue;
     }
 }

@@ -28,26 +28,26 @@ public class SystemPage implements Serializable {
     /**
      * 模块代码(由英文和下划线组成)
      */
-    @TableField("code")
-    private String code;
+    @TableField("page_code")
+    private String pageCode;
+
+    /**
+     * 页面名称
+     */
+    @TableField("page_name")
+    private String pageName;
+
+    /**
+     * 页面访问链接
+     */
+    @TableField("page_url")
+    private String pageUrl;
 
     /**
      * 页面作用描述
      */
     @TableField("description")
     private String description;
-
-    /**
-     * 页面名称
-     */
-    @TableField("name")
-    private String name;
-
-    /**
-     * 页面访问链接
-     */
-    @TableField("url")
-    private String url;
 
     /**
      * 创建人

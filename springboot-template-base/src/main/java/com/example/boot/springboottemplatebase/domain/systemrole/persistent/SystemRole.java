@@ -24,16 +24,16 @@ public class SystemRole implements Serializable {
     private Long id;
 
     /**
+     * 角色名称
+     */
+    @TableField("role_name")
+    private String roleName;
+
+    /**
      * 角色描述
      */
     @TableField("description")
     private String description;
-
-    /**
-     * 角色名称
-     */
-    @TableField("name")
-    private String name;
 
     /**
      * 创建人

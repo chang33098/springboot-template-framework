@@ -29,14 +29,14 @@ public class SystemDictOption implements Serializable {
     /**
      * 选项代码
      */
-    @TableField("code")
-    private Integer code;
+    @TableField("option_code")
+    private Integer optionCode;
 
     /**
      * 选线值
      */
-    @TableField("value")
-    private String value;
+    @TableField("option_value")
+    private String optionValue;
 
     /**
      * 字典ID

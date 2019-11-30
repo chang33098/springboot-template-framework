@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
-import com.example.boot.springboottemplatebase.domain.systemuser.query.SecurityGetUserByUsernameQO;
+import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
 import com.example.boot.springboottemplatebase.mapper.SystemUserMapper;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements SystemUserService {
 
     @Override
-    public Optional<SecurityGetUserByUsernameQO> securityGetUserByUsername(String username) {
+    public Optional<SecurityGetUserByUsernameVO> securityGetUserByUsername(String username) {
         return this.getBaseMapper().securityGetUserByUsername(username);
     }
 }

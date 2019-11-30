@@ -41,7 +41,7 @@ public class SystemDictController {
     public ResponseBodyBean<IPage<SystemDict>> table(GetDictTablePLO plo) {
         LambdaQueryWrapper<SystemDict> wrapper = new QueryWrapper<SystemDict>().lambda()
                 .eq(false, SystemDict::getDictCode, plo.getDictCode())
-                .eq(false, SystemDict::getName, plo.getName()); //查询条件
+                .eq(false, SystemDict::getDictName, plo.getDictName()); //查询条件
         Page<SystemDict> page = new Page<>(plo.getPageNo(), plo.getPageSize());
         IPage<SystemDict> table = dictService.page(page, wrapper);
 

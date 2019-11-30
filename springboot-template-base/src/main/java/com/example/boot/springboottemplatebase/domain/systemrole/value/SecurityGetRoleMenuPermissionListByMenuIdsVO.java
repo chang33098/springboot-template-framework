@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.domain.systemrole.query;
+package com.example.boot.springboottemplatebase.domain.systemrole.value;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2019/11/24 13:25
  */
 @Data
-public class SecurityGetRoleMenuPermissionListByMenuIdsQO implements Serializable {
+public class SecurityGetRoleMenuPermissionListByMenuIdsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuPermissionRef;
-import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuPermissionListByMenuIdsQO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface SystemRoleMenuPermissionRefMapper extends BaseMapper<SystemRole
 
     void deleteAllByRoleId(Long roleId);
 
-    List<SecurityGetRoleMenuPermissionListByMenuIdsQO> securityGetRoleMenuPermissionListByMenuIds(List<Long> menuIdList);
+    List<SecurityGetRoleMenuPermissionListByMenuIdsVO> securityGetRoleMenuPermissionListByMenuIds(List<Long> menuIdList);
 }

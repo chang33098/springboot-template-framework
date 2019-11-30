@@ -3,17 +3,18 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemPageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="create_time" property="createTime" />
-        <result column="description" property="description" />
-        <result column="name" property="name" />
-        <result column="update_time" property="updateTime" />
-        <result column="url" property="url" />
-        <result column="create_by" property="createBy" />
-        <result column="update_by" property="updateBy" />
-        <result column="deleted" property="deleted" />
+    <resultMap id="BaseResultMap"
+               type="com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage">
+        <id column="id" property="id"/>
+        <result column="page_code" property="pageCode"/>
+        <result column="page_name" property="pageName"/>
+        <result column="page_url" property="pageUrl"/>
+        <result column="description" property="description"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <select id="getPageCodeById" resultType="java.lang.String">

@@ -39,7 +39,7 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
 
     @Override
     public void createDict(CreateDictPLO dictPLO) {
-        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getName, dictPLO.getName()));
+        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictName, dictPLO.getName()));
         Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", dictPLO.getName());
         int uniqueCode = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictCode, dictPLO.getDictCode()));
         Assert.isTrue(uniqueCode < 1, "字典代码[{}]已存在，请不要重复添加", dictPLO.getDictCode());
@@ -59,8 +59,8 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
 
     @Override
     public void modifyDict(ModifyDictPLO dictPLO) {
-        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().notIn(SystemDict::getId, dictPLO.getDictId()).eq(SystemDict::getName, dictPLO.getName()));
-        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", dictPLO.getName());
+        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().notIn(SystemDict::getId, dictPLO.getDictId()).eq(SystemDict::getDictName, dictPLO.getDictName()));
+        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", dictPLO.getDictName());
 
         SystemDict dict = this.getById(dictPLO.getDictId()); //获取根据ID获取数据字典
         Assert.notNull(dict, "不存在ID[{}]的数据", dictPLO.getDictId());

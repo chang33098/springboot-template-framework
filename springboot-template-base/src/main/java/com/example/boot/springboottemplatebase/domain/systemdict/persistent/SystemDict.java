@@ -27,22 +27,22 @@ public class SystemDict implements Serializable {
     private Long id;
 
     /**
-     * 字典描述
-     */
-    @TableField("description")
-    private String description;
-
-    /**
-     * 字典类型名称
-     */
-    @TableField("name")
-    private String name;
-
-    /**
      * 字典类型(由大写英文和下划线组成)
      */
     @TableField("dict_code")
     private String dictCode;
+
+    /**
+     * 字典类型名称
+     */
+    @TableField("dict_name")
+    private String dictName;
+
+    /**
+     * 字典描述
+     */
+    @TableField("description")
+    private String description;
 
     /**
      * 创建人

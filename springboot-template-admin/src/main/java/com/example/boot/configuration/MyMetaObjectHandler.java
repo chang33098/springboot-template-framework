@@ -27,7 +27,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         if (authentication != null) principal = (UserPrincipal) authentication.getPrincipal();
 
         metaObject.setValue("createTime", new Timestamp(System.currentTimeMillis())); //更新时间
-        metaObject.setValue("createBy", principal != null ? principal.getId() : null); //创建人
+        metaObject.setValue("createBy", principal != null ? principal.getUserId() : null); //创建人
     }
 
     @Override
@@ -39,6 +39,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             principal = (UserPrincipal) authentication.getPrincipal();
 
         metaObject.setValue("updateTime", new Timestamp(System.currentTimeMillis())); //更新时间
-        metaObject.setValue("updateBy", principal != null ? principal.getId() : null); //创建人
+        metaObject.setValue("updateBy", principal != null ? principal.getUserId() : null); //创建人
     }
 }

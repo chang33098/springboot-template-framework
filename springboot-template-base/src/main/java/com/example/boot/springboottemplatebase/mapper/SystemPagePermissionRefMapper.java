@@ -2,7 +2,7 @@ package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
-import com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetPagePermissionListQO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +17,5 @@ public interface SystemPagePermissionRefMapper extends BaseMapper<SystemPagePerm
 
     void deleteRefByPageId(@Param(value = "pageId") Long pageId);
 
-    List<SecurityGetPagePermissionListQO> securityGetPagePermissionList();
+    List<SecurityGetPagePermissionListVO> securityGetPagePermissionList();
 }

@@ -35,14 +35,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin(); //在同一个domain下, 允许以iframe的方式打开页面
-
         if (!securityConfiguration.getEnabled()) { //若状态设为false, 放行所有请求
             http.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
             return;
         }
 
         http.csrf().disable(); //关闭csrf验证码
-
         http.authorizeRequests().anyRequest().authenticated(); //除permitAll之外的所有请求需登录过后才能访问
 
         http.formLogin().usernameParameter(securityConfiguration.getFormLogin().getUsernameParam())
@@ -52,15 +50,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl(securityConfiguration.getFormLogin().getDefaultSuccessUrl())
                 .failureUrl(securityConfiguration.getFormLogin().getFailureUrl())
                 .permitAll();
-
         http.logout().logoutUrl(securityConfiguration.getLogout().getLogoutUrl())
                 .logoutSuccessUrl(securityConfiguration.getLogout().getLogoutSuccessUrl())
                 .invalidateHttpSession(securityConfiguration.getLogout().getInvalidateSession());
 
         http.addFilterBefore(usernamePasswordAuthenticationFilter(), MyUsernamePasswordAuthenticationFilter.class); //添加过滤器
-
         http.sessionManagement().maximumSessions(1); //同一帐号好的session只能存在一个
-
         http.rememberMe().rememberMeParameter(securityConfiguration.getRememberMe().getRememberMeParam())
                 .tokenValiditySeconds(securityConfiguration.getRememberMe().getTokenValiditySeconds());
     }
@@ -77,7 +72,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public MyUserDetailService userDetailService() {
-        return new MyUserDetailService(userService, roleService, roleMenuRefService, roleMenuPermissionRefService);
+        return new MyUserDetailService();
     }
 
     @Bean

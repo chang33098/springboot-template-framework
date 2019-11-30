@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created by ANdady on 2019/7/17.
  */
 @Slf4j
-@MapperScan("com.example.boot.mapper")
+@MapperScan("com.example.boot.*.mapper")
 @SpringBootApplication
 public class AdminApplication {
 

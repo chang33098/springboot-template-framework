@@ -19,12 +19,12 @@ public class ModifyPermissionPLO {
     @NotNull
     private Long permissionId;
     @NotBlank
-    @Length(max = 50)
-    private String name;
-    @NotBlank
     @Length(min = 1, max = 50)
     @Pattern(regexp = "^([A-Z][A-Z_]+)$")
-    private String code;
+    private String permissionCode;
+    @NotBlank
+    @Length(max = 50)
+    private String permissionName;
     @Length(max = 255)
     private String description;
 }

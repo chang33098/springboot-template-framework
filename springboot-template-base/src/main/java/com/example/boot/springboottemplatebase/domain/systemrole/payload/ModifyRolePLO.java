@@ -19,7 +19,7 @@ public class ModifyRolePLO {
     private Long roleId;
     @NotBlank
     @Length(max = 50)
-    private String name;
+    private String roleName;
     @NotBlank
     @Length(max = 500)
     private String description;

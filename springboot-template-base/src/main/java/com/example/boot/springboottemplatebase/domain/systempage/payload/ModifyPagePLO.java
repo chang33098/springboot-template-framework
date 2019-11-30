@@ -24,15 +24,15 @@ public class ModifyPagePLO {
     private Long pageId;
     @NotBlank
     @Length(max = 50)
-    private String name;
+    private String pageName;
     @NotBlank
     @Length(min = 1, max = 50)
 //    @Pattern(regexp = "^([A-Z][A-Z_]+)$")
-    private String code;
+    private String pageCode;
     @NotBlank
     @Length(max = 100)
 //    @Pattern(regexp = "^[A-Za-z0-9_/-]+$")
-    private String url;
+    private String pageUrl;
     @NotBlank
     @Length(max = 500)
     private String description;

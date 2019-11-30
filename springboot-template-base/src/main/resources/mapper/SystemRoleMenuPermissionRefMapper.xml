@@ -22,7 +22,7 @@
     </delete>
 
     <select id="securityGetRoleMenuPermissionListByMenuIds"
-            resultType="com.example.boot.springboottemplatebase.domain.systemrole.query.SecurityGetRoleMenuPermissionListByMenuIdsQO">
+            resultType="com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO">
         select
         (select code from system_page where id = ) as page_code,
         () as permission_code

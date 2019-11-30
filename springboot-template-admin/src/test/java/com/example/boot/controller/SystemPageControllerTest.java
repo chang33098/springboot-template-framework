@@ -50,7 +50,6 @@ public class SystemPageControllerTest {
     @Before
     public void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();  //初始化MockMvc对象
-        log.info("开始测试-----------------");
     }
 
     @Test
@@ -63,7 +62,7 @@ public class SystemPageControllerTest {
                 "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}&name={name}",
                 plo.getPageNo(),
                 plo.getPageSize(),
-                plo.getName()
+                plo.getPageName()
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -76,9 +75,9 @@ public class SystemPageControllerTest {
     @Test
     public void createTest() throws Exception {
         CreatePagePLO plo = new CreatePagePLO();
-        plo.setCode("CREATE_" + RandomUtil.randomStringUpper(8));
-        plo.setName(RandomUtil.randomString(16));
-        plo.setUrl("/system/test/" + RandomUtil.randomString(5));
+        plo.setPageCode("CREATE_" + RandomUtil.randomStringUpper(8));
+        plo.setPageName(RandomUtil.randomString(16));
+        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
         plo.setDescription(RandomUtil.randomStringUpper(32));
 
         CreatePagePLO.PagePermission pagePermission1 = new CreatePagePLO.PagePermission();
@@ -110,9 +109,9 @@ public class SystemPageControllerTest {
     public void modifyTest() throws Exception {
         ModifyPagePLO plo = new ModifyPagePLO();
         plo.setPageId(13L); //页面ID
-        plo.setCode("MODIFY_" + RandomUtil.randomStringUpper(8));
-        plo.setName(RandomUtil.randomString(16));
-        plo.setUrl("/system/test/" + RandomUtil.randomString(5));
+        plo.setPageCode("MODIFY_" + RandomUtil.randomStringUpper(8));
+        plo.setPageName(RandomUtil.randomString(16));
+        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
         plo.setDescription(RandomUtil.randomStringUpper(32));
 
         ModifyPagePLO.PagePermission pagePermission1 = new ModifyPagePLO.PagePermission();
