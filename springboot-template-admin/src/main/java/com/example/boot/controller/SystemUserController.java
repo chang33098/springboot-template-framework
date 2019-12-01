@@ -1,6 +1,9 @@
 package com.example.boot.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
@@ -35,9 +38,9 @@ public class SystemUserController {
     public ResponseBodyBean<IPage<SystemUser>> list(@RequestParam(value = "page_no") Integer pageNo,
                                                     @RequestParam(value = "page_size") Integer pageSize,
                                                     SystemUser payload) {
-
-
-
-        return null;
+        LambdaQueryWrapper<SystemUser> wrapper = new QueryWrapper<SystemUser>().lambda();
+        IPage<SystemUser> page = new Page<>(pageNo, pageSize);
+        userService.page(page, wrapper);
+        return ResponseBodyBean.ofData(page);
     }
 }

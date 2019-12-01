@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
-import com.example.boot.springboottemplatebase.domain.systempage.payload.GetPageTablePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
