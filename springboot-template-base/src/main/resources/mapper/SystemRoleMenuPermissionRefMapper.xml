@@ -17,22 +17,24 @@
     </resultMap>
 
     <delete id="deleteAllByRoleId">
-        DELETE FROM system_role_menu_permission_ref
-        WHERE role_id = #{roleId}
+        delete from system_role_menu_permission_ref
+        where role_id = #{roleId}
     </delete>
 
     <select id="securityGetRoleMenuPermissionListByMenuIds"
             resultType="com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO">
         select
-        (select code from system_page where id = ) as page_code,
-        () as permission_code
+        (select page_code from system_page where id = role_menu.page_id) as page_code,
+        (select permission_code from system_permission where id= role_menu_permission.page_permission_id) as permission_code
         from
-        system_role_menu_permission_ref
+        system_role_menu_permission_ref role_menu_permission
+        left join system_role_menu_ref role_menu on role_menu.id = role_menu_permission.role_menu_id
         where
-        menu_id in
+        ref.menu_id in
         <foreach collection="list" item="menuId" index="index" open="(" close=")" separator=",">
             #{menuId}
         </foreach>
+        and ref.deleted = '0'
     </select>
 
 </mapper>

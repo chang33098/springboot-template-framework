@@ -15,11 +15,9 @@ import com.example.boot.springboottemplatebase.domain.systempermission.persisten
  */
 public interface SystemPermissionService extends IService<SystemPermission> {
 
-    void create(CreatePermissionPLO permissionPLO);
+    void create(CreatePermissionPLO payload);
 
-    void modify(ModifyPermissionPLO permissionPLO);
+    void modify(ModifyPermissionPLO payload);
 
     void delete(Long permissionId);
-
-    String getPermissionCodeById(Long permissionId);
 }

@@ -37,27 +37,26 @@ public class SystemPageController {
 
     @GetMapping(value = "table")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemPage>> table(GetPageTablePLO plo) {
-        LambdaQueryWrapper<SystemPage> wrapper = new QueryWrapper<SystemPage>().lambda()
-                .like(false, SystemPage::getPageName, plo.getPageName());
-
-        Page<SystemPage> page = new Page<>(plo.getPageNo(), plo.getPageSize());
+    public ResponseBodyBean<IPage<SystemPage>> table(@RequestParam(value = "page_no") Integer pageNo,
+                                                     @RequestParam(value = "page_size") Integer pageSize,
+                                                     SystemPage payload) {
+        LambdaQueryWrapper<SystemPage> wrapper = new QueryWrapper<SystemPage>().lambda();
+        Page<SystemPage> page = new Page<>(pageNo, pageSize);
         IPage<SystemPage> table = pageService.page(page, wrapper);
-
         return ResponseBodyBean.ofSuccess(table);
     }
 
     @PostMapping(value = "create")
     @ResponseBody
-    public ResponseBodyBean create(@RequestBody @Valid CreatePagePLO plo) {
-        pageService.create(plo);
+    public ResponseBodyBean create(@RequestBody @Valid CreatePagePLO payload) {
+        pageService.create(payload);
         return ResponseBodyBean.ofSuccess("创建成功");
     }
 
     @PutMapping(value = "modify")
     @ResponseBody
-    public ResponseBodyBean modify(@RequestBody @Valid ModifyPagePLO plo) {
-        pageService.modify(plo);
+    public ResponseBodyBean modify(@RequestBody @Valid ModifyPagePLO payload) {
+        pageService.modify(payload);
         return ResponseBodyBean.ofSuccess("编辑成功");
     }
 

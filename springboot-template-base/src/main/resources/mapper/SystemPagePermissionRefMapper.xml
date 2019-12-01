@@ -27,6 +27,8 @@
             (select code from system_permission where id = permission_id) as permission_code
         from
             system_page_permission_ref
+        where
+            deleted = '0'
         order by
             page_id asc
     </select>

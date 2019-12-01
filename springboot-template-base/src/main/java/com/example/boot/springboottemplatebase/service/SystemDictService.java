@@ -15,9 +15,9 @@ import com.example.boot.springboottemplatebase.domain.systemdict.persistent.Syst
  */
 public interface SystemDictService extends IService<SystemDict> {
 
-    void createDict(CreateDictPLO dictPLO);
+    void create(CreateDictPLO payload);
 
-    void modifyDict(ModifyDictPLO dictPLO);
+    void modify(ModifyDictPLO payload);
 
-    void deleteDict(Long dictId);
+    void delete(Long dictId);
 }

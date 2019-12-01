@@ -11,11 +11,9 @@ import com.example.boot.springboottemplatebase.domain.systempage.persistent.Syst
  */
 public interface SystemPageService extends IService<SystemPage> {
 
-    void create(CreatePagePLO pagePLO);
+    void create(CreatePagePLO payload);
 
-    void modify(ModifyPagePLO pagePLO);
+    void modify(ModifyPagePLO payload);
 
     void delete(Long pageId);
-
-    String getPageCodeById(Long pageId);
 }

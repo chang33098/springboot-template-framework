@@ -18,6 +18,6 @@ public class SystemRoleMenuPermissionRefServiceImpl extends ServiceImpl<SystemRo
 
     @Override
     public List<SecurityGetRoleMenuPermissionListByMenuIdsVO> securityGetRoleMenuPermissionListByMenuIds(List<Long> menuIdList) {
-        return null;
+        return this.getBaseMapper().securityGetRoleMenuPermissionListByMenuIds(menuIdList);
     }
 }

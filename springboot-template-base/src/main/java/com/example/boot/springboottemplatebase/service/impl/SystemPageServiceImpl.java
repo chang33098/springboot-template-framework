@@ -31,22 +31,20 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
 
     private final SystemPagePermissionRefService pagePermissionRefService;
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
-    private final SystemPageMapper pageMapper;
 
     @Autowired
-    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService, SystemPagePermissionRefMapper pagePermissionRefMapper, SystemPageMapper pageMapper) {
+    public SystemPageServiceImpl(SystemPagePermissionRefService pagePermissionRefService, SystemPagePermissionRefMapper pagePermissionRefMapper) {
         this.pagePermissionRefService = pagePermissionRefService;
         this.pagePermissionRefMapper = pagePermissionRefMapper;
-        this.pageMapper = pageMapper;
     }
 
     @Override
-    public void create(CreatePagePLO pagePLO) {
+    public void create(CreatePagePLO payload) {
         SystemPage page = new SystemPage();
-        BeanUtil.copyProperties(pagePLO, page);
+        BeanUtil.copyProperties(payload, page);
         this.save(page); //保存页面信息
 
-        pagePLO.getPagePermissions().forEach(pagePermission -> {
+        payload.getPagePermissions().forEach(pagePermission -> {
             SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
             pagePermissionRef.setPageId(page.getId());
             pagePermissionRef.setPermissionId(pagePermission.getPermissionId());
@@ -56,13 +54,13 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
     }
 
     @Override
-    public void modify(ModifyPagePLO pagePLO) {
-        SystemPage page = this.getById(pagePLO.getPageId());
-        Assert.notNull(page, "不存在ID[{}]的数据", pagePLO.getPageId());
+    public void modify(ModifyPagePLO payload) {
+        SystemPage page = this.getById(payload.getPageId());
+        Assert.notNull(page, "不存在ID[{}]的数据", payload.getPageId());
 
-        pagePermissionRefMapper.deleteRefByPageId(pagePLO.getPageId()); //删除旧关联(硬性删除)
+        pagePermissionRefMapper.deleteRefByPageId(payload.getPageId()); //删除旧关联(硬性删除)
 
-        pagePLO.getPagePermissions().forEach(pagePermission -> {
+        payload.getPagePermissions().forEach(pagePermission -> {
             SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
             pagePermissionRef.setPageId(page.getId());
             pagePermissionRef.setPermissionId(pagePermission.getPermissionId());
@@ -70,7 +68,7 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
             pagePermissionRefService.save(pagePermissionRef);
         });
 
-        BeanUtil.copyProperties(pagePLO, page);
+        BeanUtil.copyProperties(payload, page);
         this.saveOrUpdate(page);
     }
 
@@ -81,10 +79,5 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
         pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda()
                 .eq(SystemPagePermissionRef::getPageId, pageId)); //调用SystemPagePermissionRef的逻辑删除方法
         this.removeById(pageId); //删除系统页面
-    }
-
-    @Override
-    public String getPageCodeById(Long pageId) {
-        return pageMapper.getPageCodeById(pageId);
     }
 }

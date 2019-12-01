@@ -16,8 +16,4 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
 
-    <select id="getPermissionCodeById" resultType="java.lang.String">
-        select code from system_permission where id = #{permissionId} and deleted = '0'
-    </select>
-
 </mapper>

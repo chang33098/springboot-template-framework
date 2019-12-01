@@ -48,14 +48,14 @@ public class SystemPermissionController {
 
     @PostMapping(value = "create")
     @ResponseBody
-    public ResponseBodyBean create(@RequestBody @Valid CreatePermissionPLO permissionPLO) {
-        permissionService.create(permissionPLO);
+    public ResponseBodyBean create(@RequestBody @Valid CreatePermissionPLO payload) {
+        permissionService.create(payload);
         return ResponseBodyBean.ofSuccess("创建成功");
     }
 
     @PutMapping(value = "modify")
-    public ResponseBodyBean modify(@RequestBody @Valid ModifyPermissionPLO permissionPLO) {
-        permissionService.modify(permissionPLO);
+    public ResponseBodyBean modify(@RequestBody @Valid ModifyPermissionPLO payload) {
+        permissionService.modify(payload);
         return ResponseBodyBean.ofSuccess("编辑成功");
     }
 

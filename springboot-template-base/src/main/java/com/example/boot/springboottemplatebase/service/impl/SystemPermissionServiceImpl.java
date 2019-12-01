@@ -24,27 +24,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements SystemPermissionService {
 
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
-    private final SystemPermissionMapper permissionMapper;
 
     @Autowired
-    public SystemPermissionServiceImpl(SystemPagePermissionRefMapper pagePermissionRefMapper, SystemPermissionMapper permissionMapper) {
+    public SystemPermissionServiceImpl(SystemPagePermissionRefMapper pagePermissionRefMapper) {
         this.pagePermissionRefMapper = pagePermissionRefMapper;
-        this.permissionMapper = permissionMapper;
     }
 
     @Override
-    public void create(CreatePermissionPLO permissionPLO) {
+    public void create(CreatePermissionPLO payload) {
         SystemPermission permission = new SystemPermission();
-        BeanUtil.copyProperties(permissionPLO, permission);
+        BeanUtil.copyProperties(payload, permission);
         this.save(permission);
     }
 
     @Override
-    public void modify(ModifyPermissionPLO permissionPLO) {
-        SystemPermission permission = this.getById(permissionPLO.getPermissionId());
-        Assert.notNull(permission, "无法获取ID[{}]的权限信息", permissionPLO.getPermissionId());
+    public void modify(ModifyPermissionPLO payload) {
+        SystemPermission permission = this.getById(payload.getPermissionId());
+        Assert.notNull(permission, "无法获取ID[{}]的权限信息", payload.getPermissionId());
 
-        BeanUtil.copyProperties(permissionPLO, permission);
+        BeanUtil.copyProperties(payload, permission);
         this.saveOrUpdate(permission);
     }
 
@@ -57,10 +55,5 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
         Assert.isFalse(usedCount > 0, "权限[{}]已被使用，无法删除", permission.getPermissionName());
 
         this.removeById(permissionId); //删除权限
-    }
-
-    @Override
-    public String getPermissionCodeById(Long permissionId) {
-        return permissionMapper.getPermissionCodeById(permissionId);
     }
 }

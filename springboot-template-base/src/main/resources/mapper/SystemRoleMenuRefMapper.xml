@@ -39,15 +39,12 @@
     </delete>
 
     <sql id="securityGetRoleMenuListByRoleId_column">
-
+        id as menu_id, menu_name, menu_level, parent_id
     </sql>
 
     <select id="securityGetRoleRootMenuListByRoleId" resultMap="SecurityGetRoleMenuListByRoleIdVO">
         select
-            id as menu_id,
-            menu_name,
-            menu_level,
-            parent_id
+            <include refid="securityGetRoleMenuListByRoleId_column"/>
         from
             system_role_menu_ref
         where
@@ -56,10 +53,7 @@
 
     <select id="securityGetRoleChildrenMenuListByParentId" resultMap="SecurityGetRoleMenuListByRoleIdVO">
         select
-            id as menu_id,
-            menu_name,
-            menu_level,
-            parent_id
+            <include refid="securityGetRoleMenuListByRoleId_column"/>
         from
             system_role_menu_ref
         where

@@ -2,7 +2,6 @@ package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +10,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
-
-    String getPermissionCodeById(@Param(value = "permissionId") Long permissionId);
 }

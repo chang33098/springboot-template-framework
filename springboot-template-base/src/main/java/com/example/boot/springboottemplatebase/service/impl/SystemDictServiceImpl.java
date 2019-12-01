@@ -4,15 +4,15 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDictOption;
 import com.example.boot.springboottemplatebase.mapper.SystemDictMapper;
 import com.example.boot.springboottemplatebase.mapper.SystemDictOptionMapper;
 import com.example.boot.springboottemplatebase.service.SystemDictOptionService;
 import com.example.boot.springboottemplatebase.service.SystemDictService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
-import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDictOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,17 +38,17 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
     }
 
     @Override
-    public void createDict(CreateDictPLO dictPLO) {
-        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictName, dictPLO.getName()));
-        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", dictPLO.getName());
-        int uniqueCode = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictCode, dictPLO.getDictCode()));
-        Assert.isTrue(uniqueCode < 1, "字典代码[{}]已存在，请不要重复添加", dictPLO.getDictCode());
+    public void create(CreateDictPLO payload) {
+        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictName, payload.getName()));
+        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", payload.getName());
+        int uniqueCode = this.count(new QueryWrapper<SystemDict>().lambda().eq(SystemDict::getDictCode, payload.getDictCode()));
+        Assert.isTrue(uniqueCode < 1, "字典代码[{}]已存在，请不要重复添加", payload.getDictCode());
 
         SystemDict dict = new SystemDict();
-        BeanUtil.copyProperties(dictPLO, dict);
+        BeanUtil.copyProperties(payload, dict);
         this.save(dict);
 
-        List<SystemDictOption> dictOptions = dictPLO.getOptions().stream().map(option -> {
+        List<SystemDictOption> dictOptions = payload.getOptions().stream().map(option -> {
             SystemDictOption dictOption = new SystemDictOption();
             BeanUtil.copyProperties(option, dictOption);
             dictOption.setDictId(dict.getId());
@@ -58,17 +58,19 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
     }
 
     @Override
-    public void modifyDict(ModifyDictPLO dictPLO) {
-        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda().notIn(SystemDict::getId, dictPLO.getDictId()).eq(SystemDict::getDictName, dictPLO.getDictName()));
-        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", dictPLO.getDictName());
+    public void modify(ModifyDictPLO payload) {
+        int uniqueName = this.count(new QueryWrapper<SystemDict>().lambda()
+                .notIn(SystemDict::getId, payload.getDictId())
+                .eq(SystemDict::getDictName, payload.getDictName()));
+        Assert.isTrue(uniqueName < 1, "字典名称[{}]已存在，请不要重复添加", payload.getDictName());
 
-        SystemDict dict = this.getById(dictPLO.getDictId()); //获取根据ID获取数据字典
-        Assert.notNull(dict, "不存在ID[{}]的数据", dictPLO.getDictId());
-        BeanUtil.copyProperties(dictPLO, dict);
+        SystemDict dict = this.getById(payload.getDictId()); //获取根据ID获取数据字典
+        Assert.notNull(dict, "不存在ID[{}]的数据", payload.getDictId());
+        BeanUtil.copyProperties(payload, dict);
 
-        dictOptionMapper.deleteAllByDictId(dictPLO.getDictId()); //删除数据字典项(硬删除)
+        dictOptionMapper.deleteAllByDictId(payload.getDictId()); //删除数据字典项(硬删除)
 
-        List<SystemDictOption> dictOptions = dictPLO.getOptions().stream().map(option -> {
+        List<SystemDictOption> dictOptions = payload.getOptions().stream().map(option -> {
             SystemDictOption dictOption = new SystemDictOption();
             BeanUtil.copyProperties(option, dictOption);
             dictOption.setDictId(dict.getId());
@@ -80,7 +82,7 @@ public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemD
     }
 
     @Override
-    public void deleteDict(Long dictId) {
+    public void delete(Long dictId) {
         dictOptionService.remove(new UpdateWrapper<SystemDictOption>().lambda().
                 eq(SystemDictOption::getDictId, dictId)); //采用逻辑删除的方式
         this.removeById(dictId);

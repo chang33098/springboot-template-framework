@@ -1,10 +1,20 @@
 package com.example.boot.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.domain.systemrole.payload.CreateRolePLO;
+import com.example.boot.springboottemplatebase.domain.systemrole.payload.ModifyRolePLO;
+import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole;
 import com.example.boot.springboottemplatebase.service.SystemRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * write this class description...
@@ -22,5 +32,36 @@ public class SystemRoleController {
     @Autowired
     public SystemRoleController(SystemRoleService roleService) {
         this.roleService = roleService;
+    }
+
+    @GetMapping(value = "list")
+    @ResponseBody
+    public ResponseBodyBean<IPage<SystemRole>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
+                                                    @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
+                                                    SystemRole payload) {
+        LambdaQueryWrapper<SystemRole> wrapper = new QueryWrapper<SystemRole>().lambda();
+        IPage<SystemRole> page = new Page<>(pageNo, pageSize);
+        roleService.page(page, wrapper);
+        return ResponseBodyBean.ofData(page);
+    }
+
+    @PostMapping(value = "create")
+    @ResponseBody
+    public ResponseBodyBean create(@RequestBody @Valid CreateRolePLO payload) {
+        roleService.create(payload);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @PutMapping(value = "modify")
+    @ResponseBody
+    public ResponseBodyBean modify(@RequestBody @Valid ModifyRolePLO payload) {
+        roleService.modify(payload);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @DeleteMapping(value = "delete")
+    public ResponseBodyBean delete(@RequestParam(value = "role_id") Long roleId) {
+        roleService.delete(roleId);
+        return ResponseBodyBean.ofSuccess();
     }
 }

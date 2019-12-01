@@ -41,7 +41,7 @@
         from
             system_user
         where
-            username = #{username}
+            username = #{username} and deleted = '0'
     </select>
 
 </mapper>

@@ -2,8 +2,6 @@ package com.example.boot.springboottemplatesecurity.security;
 
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
-import com.example.boot.springboottemplatebase.service.SystemPageService;
-import com.example.boot.springboottemplatebase.service.SystemPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -36,17 +34,6 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
 
     @Autowired
     private SystemPagePermissionRefService pagePermissionRefService;
-    @Autowired
-    private SystemPageService pageService;
-    @Autowired
-    private SystemPermissionService permissionService;
-
-//    @Autowired
-//    public MyFilterSecurityMetadataSource(SystemPagePermissionRefService pagePermissionRefService, SystemPageService pageService, SystemPermissionService permissionService) {
-//        this.pagePermissionRefService = pagePermissionRefService;
-//        this.pageService = pageService;
-//        this.permissionService = permissionService;
-//    }
 
     @PostConstruct
     private void loadResources() {

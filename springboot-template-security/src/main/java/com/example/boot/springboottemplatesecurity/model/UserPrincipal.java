@@ -1,5 +1,6 @@
 package com.example.boot.springboottemplatesecurity.model;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO;
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO;
@@ -84,31 +85,31 @@ public class UserPrincipal implements UserDetails {
      * @return MenuRO
      */
     private static Menu createMenu(SecurityGetRoleMenuListByRoleIdVO roleMenu) {
-//        Menu menu = new Menu();
-//        BeanUtil.copyProperties(roleMenu, menu);
-//        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
-//            menu.setUrl(roleMenu.getPage().getUrl());
-//        }
-//
-//        if (!roleMenu.getChildren().isEmpty()) { //空指针异常
-//            List<Menu> menus = new ArrayList<>();
-//            roleMenu.getChildren().forEach(childNode -> {
-//                Menu child = createMenu(childNode);
-//                menus.add(child);
-//            });
-//            menu.setChildren(menus);
-//        }
+        Menu menu = new Menu();
+        BeanUtil.copyProperties(roleMenu, menu, "menuUrl");
+        if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
+            menu.setMenuUrl(roleMenu.getMenuUrl());
+        }
 
-        return null;
+        if (!roleMenu.getChildren().isEmpty()) { //空指针异常
+            List<Menu> menus = new ArrayList<>();
+            roleMenu.getChildren().forEach(childNode -> {
+                Menu child = createMenu(childNode);
+                menus.add(child);
+            });
+            menu.setChildren(menus);
+        }
+
+        return menu;
     }
 
     @Data
     private static class Menu {
-        private Long id;
-        private String url;
-        private String icon;
+        private Long menuId;
+        private String menuIcon;
         private String menuCode;
         private String menuName;
+        private String menuUrl;
         private String menuLevel;
         private Integer sortNo;
         private List<Menu> children = new ArrayList<>();

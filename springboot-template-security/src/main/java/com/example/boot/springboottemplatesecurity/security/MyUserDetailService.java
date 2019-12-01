@@ -36,9 +36,6 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private SystemRoleMenuPermissionRefService roleMenuPermissionRefService;
 
-
-    // TODO: 2019/8/24 统一[spring security]的日志输出格式
-
     /**
      * 初始化security登录用户的信息(通过username获取)
      *

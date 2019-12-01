@@ -17,8 +17,4 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
 
-    <select id="getPageCodeById" resultType="java.lang.String">
-        select code from system_page where id = #{pageId}
-    </select>
-
 </mapper>
