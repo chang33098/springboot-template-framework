@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser;
 import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
 import java.util.Optional;
 

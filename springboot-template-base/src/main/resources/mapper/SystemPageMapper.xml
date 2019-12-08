@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage">
+               type="com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage">
         <id column="id" property="id"/>
         <result column="page_code" property="pageCode"/>
         <result column="page_name" property="pageName"/>

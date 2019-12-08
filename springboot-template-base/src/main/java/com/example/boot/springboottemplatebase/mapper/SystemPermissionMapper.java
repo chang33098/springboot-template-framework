@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
 import org.springframework.stereotype.Repository;
 
 /**

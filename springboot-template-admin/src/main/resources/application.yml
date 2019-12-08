@@ -4,11 +4,11 @@ server:
 
 spring:
   application:
-    name: @parent.name@
+    name: @name@
   profiles:
-      active: @env@
-      include:
-        - security-@env@
+    active: @env@
+    include:
+      - security-@env@
   messages:
     basename: i18n/messages
     encoding: UTF-8

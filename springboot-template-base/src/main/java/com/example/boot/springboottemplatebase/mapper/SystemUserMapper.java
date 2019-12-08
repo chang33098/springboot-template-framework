@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser;
 import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

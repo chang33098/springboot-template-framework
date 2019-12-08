@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO;
 
 import java.util.List;

@@ -3,7 +3,7 @@ package com.example.boot.springboottemplatebase.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.CreateRolePLO;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.ModifyRolePLO;
-import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRole;
 
 /**
  * @author chang_

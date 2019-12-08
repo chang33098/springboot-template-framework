@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuRef;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRef;
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO;
 
 import java.util.List;

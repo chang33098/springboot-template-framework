@@ -9,8 +9,8 @@ import com.example.boot.springboottemplatebase.domain.systempermission.payload.M
 import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.springboottemplatebase.mapper.SystemPermissionMapper;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
-import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

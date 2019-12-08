@@ -3,7 +3,6 @@ package com.example.boot.controller;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
-import com.example.boot.springboottemplatebase.domain.systemdict.payload.GetDictTablePLO;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -54,16 +53,8 @@ public class SystemDictControllerTest {
 
     @Test
     public void tableTest() throws Exception {
-        GetDictTablePLO tablePLO = new GetDictTablePLO();
-        tablePLO.setPageNo(1);
-        tablePLO.setPageSize(10);
-
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}&dictCode={dictCode}&name={name}",
-                tablePLO.getPageNo(),
-                tablePLO.getPageSize(),
-                tablePLO.getDictCode(),
-                tablePLO.getDictName()
+                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();

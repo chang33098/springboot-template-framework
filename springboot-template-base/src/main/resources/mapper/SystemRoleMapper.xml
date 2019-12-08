@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole">
+               type="com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRole">
         <id column="id" property="id"/>
         <result column="role_name" property="roleName"/>
         <result column="description" property="description"/>

@@ -8,7 +8,7 @@ import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +34,9 @@ public class SystemPageController {
         this.pageService = pageService;
     }
 
-    @GetMapping(value = "table")
+    @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemPage>> table(@RequestParam(value = "page_no") Integer pageNo,
+    public ResponseBodyBean<IPage<SystemPage>> list(@RequestParam(value = "page_no") Integer pageNo,
                                                      @RequestParam(value = "page_size") Integer pageSize,
                                                      SystemPage payload) {
         LambdaQueryWrapper<SystemPage> wrapper = new QueryWrapper<SystemPage>().lambda();

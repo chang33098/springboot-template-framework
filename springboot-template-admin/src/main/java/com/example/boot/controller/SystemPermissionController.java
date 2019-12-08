@@ -1,6 +1,5 @@
 package com.example.boot.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
-import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class SystemPermissionController {
         this.permissionService = permissionService;
     }
 
-    @GetMapping(value = "table")
+    @GetMapping(value = "list")
     @ResponseBody
     public ResponseBodyBean<IPage<SystemPermission>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
                                                           @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,

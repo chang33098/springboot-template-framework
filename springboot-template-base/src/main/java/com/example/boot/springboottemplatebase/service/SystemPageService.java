@@ -3,7 +3,7 @@ package com.example.boot.springboottemplatebase.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
 
 /**
  * @author chang_

@@ -3,7 +3,7 @@
 <mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef">
+    <resultMap id="BaseResultMap" type="com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef">
         <id column="id" property="id" />
         <result column="intercept_urls" property="interceptUrls" />
         <result column="page_id" property="pageId" />
@@ -23,8 +23,8 @@
             resultType="com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO">
         select
             intercept_urls,
-            (select code from system_page where id = page_id) as page_code,
-            (select code from system_permission where id = permission_id) as permission_code
+            (select page_code from system_page where id = page_id) as page_code,
+            (select permission_code from system_permission where id = permission_id) as permission_code
         from
             system_page_permission_ref
         where

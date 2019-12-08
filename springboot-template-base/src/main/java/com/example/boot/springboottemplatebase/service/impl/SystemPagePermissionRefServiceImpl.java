@@ -4,7 +4,7 @@ import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityG
 import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

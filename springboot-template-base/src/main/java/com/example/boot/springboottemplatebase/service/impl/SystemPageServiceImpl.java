@@ -11,8 +11,8 @@ import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMap
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPage;
-import com.example.boot.springboottemplatebase.domain.systempage.persistent.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -4,7 +4,7 @@
 
     <!--SystemRoleMenuRef ResultMap-->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuRef">
+               type="com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRef">
         <id column="id" property="id"/>
         <result column="menu_icon" property="menuIcon"/>
         <result column="menu_level" property="menuLevel"/>

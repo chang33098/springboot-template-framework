@@ -3,7 +3,7 @@ package com.example.boot.springboottemplatebase.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
-import com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
 
 /**
  * <p>

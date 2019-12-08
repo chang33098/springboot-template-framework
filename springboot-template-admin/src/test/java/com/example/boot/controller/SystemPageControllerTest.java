@@ -3,7 +3,6 @@ package com.example.boot.controller;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
-import com.example.boot.springboottemplatebase.domain.systempage.payload.GetPageTablePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -54,15 +53,9 @@ public class SystemPageControllerTest {
 
     @Test
     public void tableTest() throws Exception {
-        GetPageTablePLO plo = new GetPageTablePLO();
-        plo.setPageNo(1);
-        plo.setPageSize(10);
-
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}&name={name}",
-                plo.getPageNo(),
-                plo.getPageSize(),
-                plo.getPageName()
+                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}",
+                1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();

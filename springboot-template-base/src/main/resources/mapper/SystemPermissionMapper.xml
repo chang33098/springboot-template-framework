@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systempermission.persistent.SystemPermission">
+               type="com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission">
         <id column="id" property="id"/>
         <result column="permission_code" property="permissionCode"/>
         <result column="permission_name" property="permissionName"/>

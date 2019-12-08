@@ -3,7 +3,7 @@ package com.example.boot.springboottemplatebase.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
-import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.entity.SystemDict;
 
 /**
  * <p>

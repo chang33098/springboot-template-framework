@@ -3,7 +3,6 @@ package com.example.boot.controller;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatebase.domain.systempermission.payload.GetPermissionTablePLO;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -50,18 +49,9 @@ public class SystemPermissionControllerTest {
 
     @Test
     public void table() throws Exception {
-        GetPermissionTablePLO permissionTablePLO = new GetPermissionTablePLO();
-        permissionTablePLO.setPageNo(1);
-        permissionTablePLO.setPageSize(10);
-        permissionTablePLO.setPermissionName("");
-        permissionTablePLO.setPermissionCode("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}&code={code}&name={name}",
-                permissionTablePLO.getPageNo(),
-                permissionTablePLO.getPageSize(),
-                permissionTablePLO.getPermissionCode(),
-                permissionTablePLO.getPermissionName()
+                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();

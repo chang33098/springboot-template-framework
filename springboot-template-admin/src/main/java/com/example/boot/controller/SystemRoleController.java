@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.CreateRolePLO;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.ModifyRolePLO;
-import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRole;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRole;
 import com.example.boot.springboottemplatebase.service.SystemRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

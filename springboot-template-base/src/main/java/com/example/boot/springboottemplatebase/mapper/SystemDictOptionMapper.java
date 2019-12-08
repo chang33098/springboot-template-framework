@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatebase.domain.systemdict.persistent.SystemDictOption;
+import com.example.boot.springboottemplatebase.domain.systemdict.entity.SystemDictOption;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

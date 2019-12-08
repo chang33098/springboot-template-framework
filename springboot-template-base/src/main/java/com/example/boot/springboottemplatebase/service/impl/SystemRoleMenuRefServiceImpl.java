@@ -4,7 +4,7 @@ import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityG
 import com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemRoleMenuRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemrole.persistent.SystemRoleMenuRef;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRef;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

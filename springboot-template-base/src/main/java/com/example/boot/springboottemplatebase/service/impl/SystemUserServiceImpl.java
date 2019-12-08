@@ -4,7 +4,7 @@ import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityG
 import com.example.boot.springboottemplatebase.mapper.SystemUserMapper;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

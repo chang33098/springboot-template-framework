@@ -1,6 +1,9 @@
+logging:
+  config: classpath:logback/logback-security-@env@.xml
+
 custom-configuration:
   security:
-    enabled: true
+    enabled: false
     super-admin:
       username: admin
       password: admin
@@ -12,7 +15,7 @@ custom-configuration:
       default-success-url: /index
       failure-url: /login
     logout:
-      logout-url: /logout
+      logout-url: /j_spring_security_logout
       logout-success-url: /login
       invalidate-session: true
     remember-me:
@@ -26,3 +29,4 @@ custom-configuration:
       - "/swagger-ui.html"
       - "/swagger-resources/**"
       - "/swagger/**"
+      - "/mybatisTest1/**"

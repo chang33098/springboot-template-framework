@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
-import com.example.boot.springboottemplatebase.domain.systemuser.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
