@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatebase.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPageEntity;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * @since 2019-11-16
  */
 @Repository
-public interface SystemPageMapper extends BaseMapper<SystemPage> {
+public interface SystemPageMapper extends BaseMapper<SystemPageEntity> {
 }

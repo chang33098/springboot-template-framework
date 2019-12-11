@@ -2,8 +2,8 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
-import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,11 +23,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * write this class description...
  *
  * @author Chang
- * @date 2019/11/17 1:24
+ * @date 2019/11/13 23:14
  */
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -35,7 +39,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Rollback
 @Transactional
 @WebAppConfiguration
-public class SystemPermissionControllerTest {
+public class SystemDictEntityControllerTest {
 
     private MockMvc mockMvc;
 
@@ -48,10 +52,9 @@ public class SystemPermissionControllerTest {
     }
 
     @Test
-    public void table() throws Exception {
-
+    public void tableTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
+                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -62,16 +65,26 @@ public class SystemPermissionControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
-        CreatePermissionPLO permissionPLO = new CreatePermissionPLO();
-        permissionPLO.setPermissionCode("CREATE_" + RandomUtil.randomStringUpper(5));
-        permissionPLO.setPermissionName("create-" + RandomUtil.randomString(8));
-        permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
+    public void createTest() throws Exception {
+        CreateDictPLO dictPLO = new CreateDictPLO();
+        dictPLO.setName("create-dict-name-" + RandomUtil.randomString(8));
+        dictPLO.setDictCode("dict-code-" + RandomUtil.randomString(8));
+        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/create")
+        CreateDictPLO.DictOption option1 = new CreateDictPLO.DictOption();
+        option1.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
+        CreateDictPLO.DictOption option2 = new CreateDictPLO.DictOption();
+        option2.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
+        CreateDictPLO.DictOption option3 = new CreateDictPLO.DictOption();
+        option3.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
+
+        List<CreateDictPLO.DictOption> dictOptions = Stream.of(option1, option2, option3).collect(Collectors.toList());
+        dictPLO.setOptions(dictOptions);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/dict/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(permissionPLO))
+                .content(JSONUtil.toJsonStr(dictPLO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -82,17 +95,24 @@ public class SystemPermissionControllerTest {
     }
 
     @Test
-    public void modify() throws Exception {
-        ModifyPermissionPLO permissionPLO = new ModifyPermissionPLO();
-        permissionPLO.setPermissionId(1L);
-        permissionPLO.setPermissionCode("MODIFY_" + RandomUtil.randomStringUpper(5));
-        permissionPLO.setPermissionName("modify-" + RandomUtil.randomString(8));
-        permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
+    public void modifyTest() throws Exception {
+        ModifyDictPLO dictPLO = new ModifyDictPLO();
+        dictPLO.setDictId(10L);
+        dictPLO.setDictName("modify-dict-name-" + RandomUtil.randomString(8));
+        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/modify")
+        ModifyDictPLO.DictOption option1 = new ModifyDictPLO.DictOption();
+        option1.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
+        ModifyDictPLO.DictOption option2 = new ModifyDictPLO.DictOption();
+        option2.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
+
+        List<ModifyDictPLO.DictOption> dictOptions = Stream.of(option1, option2).collect(Collectors.toList());
+        dictPLO.setOptions(dictOptions);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/dict/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(permissionPLO))
+                .content(JSONUtil.toJsonStr(dictPLO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -103,9 +123,11 @@ public class SystemPermissionControllerTest {
     }
 
     @Test
-    public void delete() throws Exception {
-        final Long permissionId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempermission/delete?permission_id={permissionId}", permissionId)
+    public void deleteTest() throws Exception {
+        final Long dictId = 16L;
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?dict_id={dictId}", dictId)
+                .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

@@ -70,11 +70,11 @@ public class MyUserDetailService implements UserDetailsService {
      *
      * @param sysuser 超级管理员
      */
-//    private void superAdmin(SystemUser sysuser) {
+//    private void superAdmin(SystemUserEntity sysuser) {
 //        List<SystemMenu> sysmenus = sysMenuService.findAllParentNode();
 //        List<SystemResource> resources = resService.findAllSysRes();
 //
-//        SystemRole adminrole = new SystemRole(new HashSet<>(sysmenus), new HashSet<>(resources));
+//        SystemRoleEntity adminrole = new SystemRoleEntity(new HashSet<>(sysmenus), new HashSet<>(resources));
 //        sysuser.setRole(adminrole);
 //    }
 }

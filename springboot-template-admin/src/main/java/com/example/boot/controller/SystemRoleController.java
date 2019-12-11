@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleEntity;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.CreateRolePLO;
 import com.example.boot.springboottemplatebase.domain.systemrole.payload.ModifyRolePLO;
-import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRole;
 import com.example.boot.springboottemplatebase.service.SystemRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +36,11 @@ public class SystemRoleController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemRole>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
-                                                    @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
-                                                    SystemRole payload) {
-        LambdaQueryWrapper<SystemRole> wrapper = new QueryWrapper<SystemRole>().lambda();
-        IPage<SystemRole> page = new Page<>(pageNo, pageSize);
+    public ResponseBodyBean<IPage<SystemRoleEntity>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
+                                                          @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
+                                                          SystemRoleEntity payload) {
+        LambdaQueryWrapper<SystemRoleEntity> wrapper = new QueryWrapper<SystemRoleEntity>().lambda();
+        IPage<SystemRoleEntity> page = new Page<>(pageNo, pageSize);
         roleService.page(page, wrapper);
         return ResponseBodyBean.ofData(page);
     }

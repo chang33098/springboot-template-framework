@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Table(name = "system_page_permission_ref")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SystemPagePermissionRef extends BaseEntity implements Serializable {
+public class SystemPagePermissionRefEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

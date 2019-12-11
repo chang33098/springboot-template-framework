@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
 import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
-import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermissionEntity;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class SystemPermissionController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemPermission>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
-                                                          @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
-                                                          SystemPermission payload) {
-        LambdaQueryWrapper<SystemPermission> wrapper = new QueryWrapper<SystemPermission>().lambda();
-        Page<SystemPermission> page = new Page<>(pageNo, pageSize);
-        IPage<SystemPermission> table = permissionService.page(page, wrapper);
+    public ResponseBodyBean<IPage<SystemPermissionEntity>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
+                                                                @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
+                                                                SystemPermissionEntity payload) {
+        LambdaQueryWrapper<SystemPermissionEntity> wrapper = new QueryWrapper<SystemPermissionEntity>().lambda();
+        Page<SystemPermissionEntity> page = new Page<>(pageNo, pageSize);
+        IPage<SystemPermissionEntity> table = permissionService.page(page, wrapper);
         return ResponseBodyBean.ofSuccess(table);
     }
 

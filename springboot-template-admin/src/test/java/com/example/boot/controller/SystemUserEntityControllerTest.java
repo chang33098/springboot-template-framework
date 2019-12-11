@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback
 @Transactional
 @WebAppConfiguration
-public class SystemUserControllerTest {
+public class SystemUserEntityControllerTest {
 
 
 }

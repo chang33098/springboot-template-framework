@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuPermissionRef">
+               type="com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuPermissionRefEntity">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="role_menu_id" property="roleMenuId"/>

@@ -9,9 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * <p>系统页面entity</p>
@@ -24,10 +22,12 @@ import javax.persistence.Table;
 @Table(name = "system_page")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SystemPage extends BaseEntity implements Serializable {
+public class SystemPageEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

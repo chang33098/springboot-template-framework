@@ -2,8 +2,8 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
-import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
+import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * write this class description...
  *
  * @author Chang
- * @date 2019/11/13 23:14
+ * @date 2019/11/16 17:13
  */
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 @Rollback
 @Transactional
 @WebAppConfiguration
-public class SystemDictControllerTest {
+public class SystemPageEntityControllerTest {
 
     private MockMvc mockMvc;
 
@@ -54,7 +54,8 @@ public class SystemDictControllerTest {
     @Test
     public void tableTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
+                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}",
+                1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -66,25 +67,28 @@ public class SystemDictControllerTest {
 
     @Test
     public void createTest() throws Exception {
-        CreateDictPLO dictPLO = new CreateDictPLO();
-        dictPLO.setName("create-dict-name-" + RandomUtil.randomString(8));
-        dictPLO.setDictCode("dict-code-" + RandomUtil.randomString(8));
-        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
+        CreatePagePLO plo = new CreatePagePLO();
+        plo.setPageCode("CREATE_" + RandomUtil.randomStringUpper(8));
+        plo.setPageName(RandomUtil.randomString(16));
+        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
+        plo.setDescription(RandomUtil.randomStringUpper(32));
 
-        CreateDictPLO.DictOption option1 = new CreateDictPLO.DictOption();
-        option1.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
-        CreateDictPLO.DictOption option2 = new CreateDictPLO.DictOption();
-        option2.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
-        CreateDictPLO.DictOption option3 = new CreateDictPLO.DictOption();
-        option3.setCode(RandomUtil.randomInt(2)).setValue("create-" + RandomUtil.randomStringUpper(8));
+        CreatePagePLO.PagePermission pagePermission1 = new CreatePagePLO.PagePermission();
+        pagePermission1.setInterceptUrls("/test/create-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
+        CreatePagePLO.PagePermission pagePermission2 = new CreatePagePLO.PagePermission();
+        pagePermission2.setInterceptUrls("/test/create-interceptUrl2/" + RandomUtil.randomString(5)).setPermissionId(2L);
+        CreatePagePLO.PagePermission pagePermission3 = new CreatePagePLO.PagePermission();
+        pagePermission3.setInterceptUrls("/test/create-interceptUrl3/" + RandomUtil.randomString(5)).setPermissionId(3L);
+        CreatePagePLO.PagePermission pagePermission4 = new CreatePagePLO.PagePermission();
+        pagePermission4.setInterceptUrls("/test/create-interceptUrl4/" + RandomUtil.randomString(5)).setPermissionId(4L);
 
-        List<CreateDictPLO.DictOption> dictOptions = Stream.of(option1, option2, option3).collect(Collectors.toList());
-        dictPLO.setOptions(dictOptions);
+        List<CreatePagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2, pagePermission3, pagePermission4).collect(Collectors.toList());
+        plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/dict/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempage/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(dictPLO))
+                .content(JSONUtil.toJsonStr(plo))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -96,23 +100,25 @@ public class SystemDictControllerTest {
 
     @Test
     public void modifyTest() throws Exception {
-        ModifyDictPLO dictPLO = new ModifyDictPLO();
-        dictPLO.setDictId(10L);
-        dictPLO.setDictName("modify-dict-name-" + RandomUtil.randomString(8));
-        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
+        ModifyPagePLO plo = new ModifyPagePLO();
+        plo.setPageId(13L); //页面ID
+        plo.setPageCode("MODIFY_" + RandomUtil.randomStringUpper(8));
+        plo.setPageName(RandomUtil.randomString(16));
+        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
+        plo.setDescription(RandomUtil.randomStringUpper(32));
 
-        ModifyDictPLO.DictOption option1 = new ModifyDictPLO.DictOption();
-        option1.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
-        ModifyDictPLO.DictOption option2 = new ModifyDictPLO.DictOption();
-        option2.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
+        ModifyPagePLO.PagePermission pagePermission1 = new ModifyPagePLO.PagePermission();
+        pagePermission1.setInterceptUrls("/test/modify-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
+        ModifyPagePLO.PagePermission pagePermission2 = new ModifyPagePLO.PagePermission();
+        pagePermission2.setInterceptUrls("/test/modify-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
 
-        List<ModifyDictPLO.DictOption> dictOptions = Stream.of(option1, option2).collect(Collectors.toList());
-        dictPLO.setOptions(dictOptions);
+        List<ModifyPagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2).collect(Collectors.toList());
+        plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/dict/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/systempage/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(dictPLO))
+                .content(JSONUtil.toJsonStr(plo))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -124,10 +130,8 @@ public class SystemDictControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        final Long dictId = 16L;
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?dict_id={dictId}", dictId)
-                .accept(MediaType.APPLICATION_JSON)
+        final Long pageId = 1L;
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempage/delete?page_id={pageId}", pageId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

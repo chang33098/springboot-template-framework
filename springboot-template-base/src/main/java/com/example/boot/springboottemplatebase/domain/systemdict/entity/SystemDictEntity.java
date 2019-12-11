@@ -11,17 +11,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * <p>数据字典项entity</p>
+ * <p>数据字典entity</p>
  *
  * @author chang_
  * @since 2019-11-13
  */
 @Data
 @Entity
-@Table(name = "system_dict_option")
+@Table(name = "system_dict")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SystemDictOption extends BaseEntity implements Serializable {
+public class SystemDictEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,20 +31,20 @@ public class SystemDictOption extends BaseEntity implements Serializable {
     private Long id;
 
     /**
-     * 选项代码
+     * 字典类型(由大写英文和下划线组成)
      */
-    @Column(columnDefinition = "varchar(20) default null comment '字典项代码'")
-    private String optionCode;
+    @Column(columnDefinition = "varchar(20) default null comment '字典类型(由大写英文和下划线组成)'")
+    private String dictCode;
 
     /**
-     * 选线值
+     * 字典名称
      */
-    @Column(columnDefinition = "varchar(20) default null comment '字典项值'")
-    private String optionValue;
+    @Column(columnDefinition = "varchar(100) default null comment '字典名称'")
+    private String dictName;
 
     /**
-     * 字典ID
+     * 字典描述
      */
-    @Column(columnDefinition = "bigint default null comment '字典ID'")
-    private Long dictId;
+    @Column(columnDefinition = "varchar(255) default null comment '字典作用描述'")
+    private String description;
 }

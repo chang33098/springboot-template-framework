@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"
-               type="com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser">
+               type="com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUserEntity">
         <id column="id" property="id"/>
         <result column="avatar" property="avatar"/>
         <result column="nickname" property="nickname"/>

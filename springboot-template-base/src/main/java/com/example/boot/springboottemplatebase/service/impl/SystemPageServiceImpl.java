@@ -11,8 +11,8 @@ import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMap
 import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
-import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPageEntity;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRefEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemPage> implements SystemPageService {
+public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemPageEntity> implements SystemPageService {
 
     private final SystemPagePermissionRefService pagePermissionRefService;
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
@@ -40,12 +40,12 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
 
     @Override
     public void create(CreatePagePLO payload) {
-        SystemPage page = new SystemPage();
+        SystemPageEntity page = new SystemPageEntity();
         BeanUtil.copyProperties(payload, page);
         this.save(page); //保存页面信息
 
         payload.getPagePermissions().forEach(pagePermission -> {
-            SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
+            SystemPagePermissionRefEntity pagePermissionRef = new SystemPagePermissionRefEntity();
             pagePermissionRef.setPageId(page.getId());
             pagePermissionRef.setPermissionId(pagePermission.getPermissionId());
             pagePermissionRef.setInterceptUrls(pagePermission.getInterceptUrls());
@@ -55,13 +55,13 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
 
     @Override
     public void modify(ModifyPagePLO payload) {
-        SystemPage page = this.getById(payload.getPageId());
+        SystemPageEntity page = this.getById(payload.getPageId());
         Assert.notNull(page, "不存在ID[{}]的数据", payload.getPageId());
 
         pagePermissionRefMapper.deleteRefByPageId(payload.getPageId()); //删除旧关联(硬性删除)
 
         payload.getPagePermissions().forEach(pagePermission -> {
-            SystemPagePermissionRef pagePermissionRef = new SystemPagePermissionRef();
+            SystemPagePermissionRefEntity pagePermissionRef = new SystemPagePermissionRefEntity();
             pagePermissionRef.setPageId(page.getId());
             pagePermissionRef.setPermissionId(pagePermission.getPermissionId());
             pagePermissionRef.setInterceptUrls(pagePermission.getInterceptUrls());
@@ -74,10 +74,10 @@ public class SystemPageServiceImpl extends ServiceImpl<SystemPageMapper, SystemP
 
     @Override
     public void delete(Long pageId) {
-        int count = this.count(new QueryWrapper<SystemPage>().lambda().eq(SystemPage::getId, pageId));
+        int count = this.count(new QueryWrapper<SystemPageEntity>().lambda().eq(SystemPageEntity::getId, pageId));
         Assert.isTrue(count > 0, "不存在ID[{}]的数据", pageId);
-        pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRef>().lambda()
-                .eq(SystemPagePermissionRef::getPageId, pageId)); //调用SystemPagePermissionRef的逻辑删除方法
+        pagePermissionRefService.remove(new UpdateWrapper<SystemPagePermissionRefEntity>().lambda()
+                .eq(SystemPagePermissionRefEntity::getPageId, pageId)); //调用SystemPagePermissionRef的逻辑删除方法
         this.removeById(pageId); //删除系统页面
     }
 }

@@ -8,7 +8,7 @@ import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
-import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPage;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPageEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +36,12 @@ public class SystemPageController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemPage>> list(@RequestParam(value = "page_no") Integer pageNo,
-                                                     @RequestParam(value = "page_size") Integer pageSize,
-                                                     SystemPage payload) {
-        LambdaQueryWrapper<SystemPage> wrapper = new QueryWrapper<SystemPage>().lambda();
-        Page<SystemPage> page = new Page<>(pageNo, pageSize);
-        IPage<SystemPage> table = pageService.page(page, wrapper);
+    public ResponseBodyBean<IPage<SystemPageEntity>> list(@RequestParam(value = "page_no") Integer pageNo,
+                                                          @RequestParam(value = "page_size") Integer pageSize,
+                                                          SystemPageEntity payload) {
+        LambdaQueryWrapper<SystemPageEntity> wrapper = new QueryWrapper<SystemPageEntity>().lambda();
+        Page<SystemPageEntity> page = new Page<>(pageNo, pageSize);
+        IPage<SystemPageEntity> table = pageService.page(page, wrapper);
         return ResponseBodyBean.ofSuccess(table);
     }
 

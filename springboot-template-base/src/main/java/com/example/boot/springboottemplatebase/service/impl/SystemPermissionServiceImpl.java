@@ -9,8 +9,8 @@ import com.example.boot.springboottemplatebase.domain.systempermission.payload.M
 import com.example.boot.springboottemplatebase.mapper.SystemPagePermissionRefMapper;
 import com.example.boot.springboottemplatebase.mapper.SystemPermissionMapper;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
-import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRef;
-import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermission;
+import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPagePermissionRefEntity;
+import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermissionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements SystemPermissionService {
+public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermissionEntity> implements SystemPermissionService {
 
     private final SystemPagePermissionRefMapper pagePermissionRefMapper;
 
@@ -32,14 +32,14 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
 
     @Override
     public void create(CreatePermissionPLO payload) {
-        SystemPermission permission = new SystemPermission();
+        SystemPermissionEntity permission = new SystemPermissionEntity();
         BeanUtil.copyProperties(payload, permission);
         this.save(permission);
     }
 
     @Override
     public void modify(ModifyPermissionPLO payload) {
-        SystemPermission permission = this.getById(payload.getPermissionId());
+        SystemPermissionEntity permission = this.getById(payload.getPermissionId());
         Assert.notNull(permission, "无法获取ID[{}]的权限信息", payload.getPermissionId());
 
         BeanUtil.copyProperties(payload, permission);
@@ -48,10 +48,10 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
 
     @Override
     public void delete(Long permissionId) {
-        SystemPermission permission = this.getById(permissionId);
+        SystemPermissionEntity permission = this.getById(permissionId);
         Assert.notNull(permission, "无法获取ID[{}]的权限信息", permissionId);
 
-        int usedCount = pagePermissionRefMapper.selectCount(new QueryWrapper<SystemPagePermissionRef>().lambda().eq(SystemPagePermissionRef::getPermissionId, permissionId));
+        int usedCount = pagePermissionRefMapper.selectCount(new QueryWrapper<SystemPagePermissionRefEntity>().lambda().eq(SystemPagePermissionRefEntity::getPermissionId, permissionId));
         Assert.isFalse(usedCount > 0, "权限[{}]已被使用，无法删除", permission.getPermissionName());
 
         this.removeById(permissionId); //删除权限

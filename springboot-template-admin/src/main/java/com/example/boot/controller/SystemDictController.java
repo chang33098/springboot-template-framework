@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.boot.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
-import com.example.boot.springboottemplatebase.domain.systemdict.entity.SystemDict;
+import com.example.boot.springboottemplatebase.domain.systemdict.entity.SystemDictEntity;
 import com.example.boot.springboottemplatebase.service.SystemDictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +43,11 @@ public class SystemDictController {
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<SystemDict>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
-                                                    @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
-                                                    SystemDict payload) {
-        LambdaQueryWrapper<SystemDict> wrapper = new QueryWrapper<SystemDict>().lambda();
-        IPage<SystemDict> page = new Page<>(pageNo, pageSize);
+    public ResponseBodyBean<IPage<SystemDictEntity>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
+                                                          @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
+                                                          SystemDictEntity payload) {
+        LambdaQueryWrapper<SystemDictEntity> wrapper = new QueryWrapper<SystemDictEntity>().lambda();
+        IPage<SystemDictEntity> page = new Page<>(pageNo, pageSize);
         dictService.page(page, wrapper);
         return ResponseBodyBean.ofSuccess(null);
     }

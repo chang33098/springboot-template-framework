@@ -2,8 +2,8 @@ package com.example.boot.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
-import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.CreatePermissionPLO;
+import com.example.boot.springboottemplatebase.domain.systempermission.payload.ModifyPermissionPLO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,15 +23,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * write this class description...
  *
  * @author Chang
- * @date 2019/11/16 17:13
+ * @date 2019/11/17 1:24
  */
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -39,7 +35,7 @@ import java.util.stream.Stream;
 @Rollback
 @Transactional
 @WebAppConfiguration
-public class SystemPageControllerTest {
+public class SystemPermissionEntityControllerTest {
 
     private MockMvc mockMvc;
 
@@ -52,10 +48,10 @@ public class SystemPageControllerTest {
     }
 
     @Test
-    public void tableTest() throws Exception {
+    public void table() throws Exception {
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}",
-                1, 10
+                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -66,29 +62,16 @@ public class SystemPageControllerTest {
     }
 
     @Test
-    public void createTest() throws Exception {
-        CreatePagePLO plo = new CreatePagePLO();
-        plo.setPageCode("CREATE_" + RandomUtil.randomStringUpper(8));
-        plo.setPageName(RandomUtil.randomString(16));
-        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
-        plo.setDescription(RandomUtil.randomStringUpper(32));
+    public void create() throws Exception {
+        CreatePermissionPLO permissionPLO = new CreatePermissionPLO();
+        permissionPLO.setPermissionCode("CREATE_" + RandomUtil.randomStringUpper(5));
+        permissionPLO.setPermissionName("create-" + RandomUtil.randomString(8));
+        permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        CreatePagePLO.PagePermission pagePermission1 = new CreatePagePLO.PagePermission();
-        pagePermission1.setInterceptUrls("/test/create-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
-        CreatePagePLO.PagePermission pagePermission2 = new CreatePagePLO.PagePermission();
-        pagePermission2.setInterceptUrls("/test/create-interceptUrl2/" + RandomUtil.randomString(5)).setPermissionId(2L);
-        CreatePagePLO.PagePermission pagePermission3 = new CreatePagePLO.PagePermission();
-        pagePermission3.setInterceptUrls("/test/create-interceptUrl3/" + RandomUtil.randomString(5)).setPermissionId(3L);
-        CreatePagePLO.PagePermission pagePermission4 = new CreatePagePLO.PagePermission();
-        pagePermission4.setInterceptUrls("/test/create-interceptUrl4/" + RandomUtil.randomString(5)).setPermissionId(4L);
-
-        List<CreatePagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2, pagePermission3, pagePermission4).collect(Collectors.toList());
-        plo.setPagePermissions(pagePermissions);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempage/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(plo))
+                .content(JSONUtil.toJsonStr(permissionPLO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -99,26 +82,17 @@ public class SystemPageControllerTest {
     }
 
     @Test
-    public void modifyTest() throws Exception {
-        ModifyPagePLO plo = new ModifyPagePLO();
-        plo.setPageId(13L); //页面ID
-        plo.setPageCode("MODIFY_" + RandomUtil.randomStringUpper(8));
-        plo.setPageName(RandomUtil.randomString(16));
-        plo.setPageUrl("/system/test/" + RandomUtil.randomString(5));
-        plo.setDescription(RandomUtil.randomStringUpper(32));
+    public void modify() throws Exception {
+        ModifyPermissionPLO permissionPLO = new ModifyPermissionPLO();
+        permissionPLO.setPermissionId(1L);
+        permissionPLO.setPermissionCode("MODIFY_" + RandomUtil.randomStringUpper(5));
+        permissionPLO.setPermissionName("modify-" + RandomUtil.randomString(8));
+        permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        ModifyPagePLO.PagePermission pagePermission1 = new ModifyPagePLO.PagePermission();
-        pagePermission1.setInterceptUrls("/test/modify-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
-        ModifyPagePLO.PagePermission pagePermission2 = new ModifyPagePLO.PagePermission();
-        pagePermission2.setInterceptUrls("/test/modify-interceptUrl1/" + RandomUtil.randomString(5)).setPermissionId(1L);
-
-        List<ModifyPagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2).collect(Collectors.toList());
-        plo.setPagePermissions(pagePermissions);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/systempage/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(JSONUtil.toJsonStr(plo))
+                .content(JSONUtil.toJsonStr(permissionPLO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -129,9 +103,9 @@ public class SystemPageControllerTest {
     }
 
     @Test
-    public void deleteTest() throws Exception {
-        final Long pageId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempage/delete?page_id={pageId}", pageId)
+    public void delete() throws Exception {
+        final Long permissionId = 1L;
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempermission/delete?permission_id={permissionId}", permissionId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

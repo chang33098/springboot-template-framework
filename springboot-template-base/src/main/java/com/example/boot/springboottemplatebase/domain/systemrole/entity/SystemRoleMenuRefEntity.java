@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Table(name = "system_role_menu_ref")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SystemRoleMenuRef extends BaseEntity implements Serializable {
+public class SystemRoleMenuRefEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

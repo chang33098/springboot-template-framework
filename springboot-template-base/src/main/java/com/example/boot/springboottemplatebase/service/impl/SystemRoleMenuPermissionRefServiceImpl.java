@@ -4,7 +4,7 @@ import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityG
 import com.example.boot.springboottemplatebase.mapper.SystemRoleMenuPermissionRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemRoleMenuPermissionRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuPermissionRef;
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuPermissionRefEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2019-11-17
  */
 @Service
-public class SystemRoleMenuPermissionRefServiceImpl extends ServiceImpl<SystemRoleMenuPermissionRefMapper, SystemRoleMenuPermissionRef> implements SystemRoleMenuPermissionRefService {
+public class SystemRoleMenuPermissionRefServiceImpl extends ServiceImpl<SystemRoleMenuPermissionRefMapper, SystemRoleMenuPermissionRefEntity> implements SystemRoleMenuPermissionRefService {
 
     @Override
     public List<SecurityGetRoleMenuPermissionListByMenuIdsVO> securityGetRoleMenuPermissionListByMenuIds(List<Long> menuIdList) {

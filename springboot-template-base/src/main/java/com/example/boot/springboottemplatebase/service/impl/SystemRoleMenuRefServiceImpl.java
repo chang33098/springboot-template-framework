@@ -1,10 +1,10 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
+import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRefEntity;
 import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO;
 import com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper;
 import com.example.boot.springboottemplatebase.service.SystemRoleMenuRefService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRef;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2019-11-17
  */
 @Service
-public class SystemRoleMenuRefServiceImpl extends ServiceImpl<SystemRoleMenuRefMapper, SystemRoleMenuRef> implements SystemRoleMenuRefService {
+public class SystemRoleMenuRefServiceImpl extends ServiceImpl<SystemRoleMenuRefMapper, SystemRoleMenuRefEntity> implements SystemRoleMenuRefService {
 
     @Override
     public List<SecurityGetRoleMenuListByRoleIdVO> securityGetRoleMenuListByRoleId(Long roleId) {

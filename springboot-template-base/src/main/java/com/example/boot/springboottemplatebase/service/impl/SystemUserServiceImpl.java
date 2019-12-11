@@ -1,10 +1,10 @@
 package com.example.boot.springboottemplatebase.service.impl;
 
+import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUserEntity;
 import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
 import com.example.boot.springboottemplatebase.mapper.SystemUserMapper;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements SystemUserService {
+public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserEntity> implements SystemUserService {
 
     @Override
     public Optional<SecurityGetUserByUsernameVO> securityGetUserByUsername(String username) {

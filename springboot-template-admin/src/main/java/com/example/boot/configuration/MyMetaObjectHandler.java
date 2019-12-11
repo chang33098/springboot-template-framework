@@ -24,7 +24,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserPrincipal principal = null;
-        if (authentication != null) principal = (UserPrincipal) authentication.getPrincipal();
+        if (authentication != null) {
+            principal = (UserPrincipal) authentication.getPrincipal();
+        }
 
         metaObject.setValue("createTime", new Timestamp(System.currentTimeMillis())); //更新时间
         metaObject.setValue("createBy", principal != null ? principal.getUserId() : null); //创建人
@@ -35,8 +37,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserPrincipal principal = null;
-        if (authentication != null)
+        if (authentication != null) {
             principal = (UserPrincipal) authentication.getPrincipal();
+        }
 
         metaObject.setValue("updateTime", new Timestamp(System.currentTimeMillis())); //更新时间
         metaObject.setValue("updateBy", principal != null ? principal.getUserId() : null); //创建人

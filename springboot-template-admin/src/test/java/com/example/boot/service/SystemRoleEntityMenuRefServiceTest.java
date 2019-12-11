@@ -21,7 +21,7 @@ import java.util.List;
 @SpringBootTest
 @Rollback
 @Transactional
-public class SystemRoleMenuRefServiceTest {
+public class SystemRoleEntityMenuRefServiceTest {
 
     @Autowired
     private SystemRoleMenuRefService roleMenuRefService;

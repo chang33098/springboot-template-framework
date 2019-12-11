@@ -22,7 +22,7 @@ import javax.persistence.*;
 @Table(name = "system_permission")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SystemPermission extends BaseEntity implements Serializable {
+public class SystemPermissionEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
