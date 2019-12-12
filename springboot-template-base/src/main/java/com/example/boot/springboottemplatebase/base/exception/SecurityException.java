@@ -1,6 +1,6 @@
-package com.example.boot.exception;
+package com.example.boot.springboottemplatebase.base.exception;
 
-import com.example.boot.exception.base.BaseException;
+import com.example.boot.springboottemplatebase.base.exception.base.BaseException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;

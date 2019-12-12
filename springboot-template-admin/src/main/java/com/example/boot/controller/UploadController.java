@@ -1,6 +1,6 @@
 package com.example.boot.controller;
 
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.common.UploadRO;
 import com.example.boot.properties.CustomUploadConfiguration;
 import lombok.extern.slf4j.Slf4j;

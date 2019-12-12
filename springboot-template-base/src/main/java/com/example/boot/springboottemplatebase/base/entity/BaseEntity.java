@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.base.persistent;
+package com.example.boot.springboottemplatebase.base.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

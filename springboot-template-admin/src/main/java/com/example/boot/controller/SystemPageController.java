@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.CreatePagePLO;
 import com.example.boot.springboottemplatebase.domain.systempage.payload.ModifyPagePLO;
 import com.example.boot.springboottemplatebase.service.SystemPageService;

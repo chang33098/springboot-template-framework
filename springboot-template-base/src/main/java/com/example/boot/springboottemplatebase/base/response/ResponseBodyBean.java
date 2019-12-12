@@ -1,7 +1,7 @@
-package com.example.boot.response;
+package com.example.boot.springboottemplatebase.base.response;
 
-import com.example.boot.exception.BizException;
-import com.example.boot.exception.base.BaseException;
+import com.example.boot.springboottemplatebase.base.exception.BizException;
+import com.example.boot.springboottemplatebase.base.exception.base.BaseException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;

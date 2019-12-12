@@ -3,9 +3,9 @@ package com.example.boot.configuration;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 
-import com.example.boot.exception.ResourceNotFoundException;
-import com.example.boot.exception.base.BaseException;
-import com.example.boot.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.base.exception.ResourceNotFoundException;
+import com.example.boot.springboottemplatebase.base.exception.base.BaseException;
+import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import com.example.boot.springboottemplatesecurity.properties.CustomSecurityConfiguration;
 import com.google.common.collect.ImmutableBiMap;
 import lombok.extern.slf4j.Slf4j;

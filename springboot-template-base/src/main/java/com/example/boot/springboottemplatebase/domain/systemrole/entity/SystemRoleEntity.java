@@ -2,10 +2,9 @@ package com.example.boot.springboottemplatebase.domain.systemrole.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.sql.Timestamp;
 import java.io.Serializable;
 
-import com.example.boot.springboottemplatebase.base.persistent.BaseEntity;
+import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

@@ -1,4 +1,4 @@
-package com.example.boot.exception.base;
+package com.example.boot.springboottemplatebase.base.exception.base;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
