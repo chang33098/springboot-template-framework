@@ -1,12 +1,13 @@
 package com.example.boot.springboottemplatebase.base.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -15,10 +16,19 @@ import java.sql.Timestamp;
  * @description 持久层PO公共父类
  */
 @Data
+@MappedSuperclass
 @EqualsAndHashCode(callSuper = false)
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键ID
+     */
+    @Id
+    @GeneratedValue
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
      * 创建人

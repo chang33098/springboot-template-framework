@@ -40,7 +40,9 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
         resourceMap = new ConcurrentHashMap<>();
 
         List<SecurityGetPagePermissionListVO> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
-        if (permissionRefs.isEmpty()) return;
+        if (permissionRefs.isEmpty()) {
+            return;
+        }
 
         permissionRefs.forEach(permissionRef -> {
             List<String> interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());

@@ -54,7 +54,7 @@ public class SystemDictEntityControllerTest {
     @Test
     public void tableTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/dict/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
+                "/system/dict/list?pageNo={pageNo}&pageSize={pageSize}", 1, 10
         ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();

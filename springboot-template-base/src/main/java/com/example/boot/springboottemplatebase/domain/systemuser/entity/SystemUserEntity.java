@@ -1,9 +1,9 @@
 package com.example.boot.springboottemplatebase.domain.systemuser.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,16 +20,12 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "system_user")
+@TableName(value = "system_user")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class SystemUserEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 登陆账号

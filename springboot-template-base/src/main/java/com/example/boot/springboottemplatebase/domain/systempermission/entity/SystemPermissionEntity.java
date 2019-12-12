@@ -1,9 +1,8 @@
 package com.example.boot.springboottemplatebase.domain.systempermission.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,16 +19,12 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "system_permission")
+@TableName(value = "system_permission")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class SystemPermissionEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 权限代码(由英文和下划线组成)

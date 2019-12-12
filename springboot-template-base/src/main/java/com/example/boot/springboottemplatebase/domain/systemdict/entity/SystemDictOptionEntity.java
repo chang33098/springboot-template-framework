@@ -1,7 +1,6 @@
 package com.example.boot.springboottemplatebase.domain.systemdict.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,16 +18,12 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "system_dict_option")
+@TableName(value = "system_dict_option")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class SystemDictOptionEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 选项代码

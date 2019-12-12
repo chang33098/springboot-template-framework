@@ -1,22 +1,27 @@
 package com.example.boot.springboottemplatebase.base.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
+import com.example.boot.springboottemplatebase.base.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * @author chang_
  * @description 公共controller
  */
 @Slf4j
-public abstract class BaseController<T, S extends IService<T>> {
+public abstract class BaseController<T extends BaseEntity, S extends IService<T>> {
 
     private final String basePath;
     private final String modelName;
@@ -70,7 +75,9 @@ public abstract class BaseController<T, S extends IService<T>> {
     }
 
     @GetMapping(value = "modify-view")
-    public String modifyView(@RequestParam(value = "data-id") String dataId) {
+    public String modifyView(@RequestParam(value = "data-id") String dataId, Model model) {
+        T entity = service.getById(dataId);
+        model.addAttribute("entity", entity);
         return basePath + StrUtil.SLASH + modifyViewName;
     }
 
@@ -82,5 +89,31 @@ public abstract class BaseController<T, S extends IService<T>> {
         IPage<T> page = new Page<>(pageNo, pageSize);
         service.page(page);
         return ResponseBodyBean.ofSuccess(page);
+    }
+
+    @PostMapping(value = "create")
+    @ResponseBody
+    public ResponseBodyBean create(@RequestBody @Valid T payload) {
+        service.save(payload);
+        return ResponseBodyBean.ofSuccess("create success!");
+    }
+
+    @PutMapping(value = "modify")
+    @ResponseBody
+    public ResponseBodyBean modify(@RequestBody @Valid T payload) {
+        Optional<T> optionalT = Optional.ofNullable(service.getById(payload.getId()));
+        T entity = optionalT.orElseThrow(() -> new ResourceNotFoundException("无法获取实体对象"));
+
+        BeanUtil.copyProperties(payload, entity, "id", "createBy", "createTime", "deleted");
+
+        service.saveOrUpdate(entity);
+        return ResponseBodyBean.ofSuccess("modify success!");
+    }
+
+    @DeleteMapping(value = "delete")
+    @ResponseBody
+    public ResponseBodyBean delete(@RequestParam(value = "data-id") String dataId) {
+        service.removeById(dataId);
+        return ResponseBodyBean.ofSuccess("delete success!");
     }
 }

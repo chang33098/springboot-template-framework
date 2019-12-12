@@ -1,7 +1,6 @@
 package com.example.boot.springboottemplatebase.domain.systemrole.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,16 +18,12 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "system_role_menu_ref")
+@TableName(value = "system_role_menu_ref")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class SystemRoleMenuRefEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 菜单图标(使用layui的图标class)

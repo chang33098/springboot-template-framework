@@ -1,8 +1,8 @@
 package com.example.boot.springboottemplatebase.domain.systemrole.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,16 +19,12 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "system_role_menu_permission_ref")
+@TableName(value = "system_role_menu_permission_ref")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class SystemRoleMenuPermissionRefEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 关联的角色ID
