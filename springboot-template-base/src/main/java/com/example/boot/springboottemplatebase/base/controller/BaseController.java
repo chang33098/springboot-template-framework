@@ -2,12 +2,14 @@ package com.example.boot.springboottemplatebase.base.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import com.example.boot.springboottemplatebase.base.exception.ResourceNotFoundException;
 import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.query.QueryGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -85,9 +87,13 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
     @ResponseBody
     public ResponseBodyBean<IPage<T>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
                                            @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
-                                           T payload) {
+                                           T payload) throws IllegalAccessException {
+//        QueryWrapper<T> wrapper = QueryGenerator.generateQueryWrapper(payload, payload.getClass());
+
         IPage<T> page = new Page<>(pageNo, pageSize);
         service.page(page);
+//        service.page(page, wrapper);
+
         return ResponseBodyBean.ofSuccess(page);
     }
 

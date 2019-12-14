@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatebase.enumerate;
+package com.example.boot.springboottemplatebase.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
