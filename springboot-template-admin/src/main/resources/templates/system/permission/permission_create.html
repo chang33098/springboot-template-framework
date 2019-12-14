@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
@@ -10,17 +10,17 @@
                 <input type="text" name="name" lay-verify="required" placeholder="权限名称"
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">命名方式：模块名称_功能名称</div>
+            <div class="layui-form-mid layui-word-aux">命名方式：权限的名称</div>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">权限代码</label>
         <div class="layui-col-md6">
             <div class="layui-input-inline" style="width: 60%;">
-                <input type="text" name="code" lay-verify="required" placeholder="权限代码(由英文和下划线组成)"
+                <input type="text" name="code" lay-verify="required" placeholder="权限代码"
                        class="layui-input" style="font-family: Consolas,serif;">
             </div>
-            <div class="layui-form-mid layui-word-aux">命名方式：模块代码_功能代码</div>
+            <div class="layui-form-mid layui-word-aux">命名方式：由英文和下划线组成</div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -38,10 +38,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form;
-
-    layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+    layui.use(['form'], function () {
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var field = data.field; //表单参数
@@ -49,13 +47,9 @@
                 url: '/system/permission/create',
                 type: 'post',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });

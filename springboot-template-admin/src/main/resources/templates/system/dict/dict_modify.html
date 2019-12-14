@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
@@ -27,14 +27,14 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">模块代码</label>
+        <label class="layui-form-label">用途描述</label>
         <div class="layui-col-md6">
             <textarea name="description" th:text="${dict.description}" class="layui-textarea" placeholder="该字典的用途描述"></textarea>
         </div>
     </div>
 
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>KEY-VALUE</legend>
+        <legend>字典数据</legend>
     </fieldset>
     <div class="layui-form-item dict-option" th:classappend="${optionStat.first} ? template" th:each="option : ${dict.options}">
         <label class="layui-form-label" th:text="${optionStat.first} ? '字典代码' : ''">字典代码</label>
@@ -57,11 +57,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var filter = [];
-    var form;
-
-    layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+    layui.use(['form'], function () {
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var dictId = $('#dict-id').val();
@@ -76,42 +73,38 @@
                 url: '/system/dict/modify/' + dictId,
                 type: 'put',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });
-    });
 
-    $('.layui-form').on('click', '.dict-option .add-option', function () {
-        var div = $('.template').clone();
-        div.removeClass('template');
-        div.find('label').html(''); //清空label
-        div.find('input').val(''); //重置输入框
-        div.find('.layui-input-inline:last').html('<button type="button" class="layui-btn layui-btn-danger del-option"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
-        $('.dict-option:last').after(div);
-        form.render();
-    });
-    $('.layui-form').on('click', '.dict-option .del-option', function () {
-        $(this).parent().parent().remove();
-        form.render();
-    });
-
-    function packagingOption() {
-        var options = []; //字典选项
-        $('.dict-option').each(function () {
-            var option = {};
-            option.code = $(this).find('input[name="option-code"]').val(); //字典代码
-            option.value = $(this).find('input[name="option-value"]').val(); //字典值
-            options.push(option);
+        $('.layui-form').on('click', '.dict-option .add-option', function () {
+            var div = $('.template').clone();
+            div.removeClass('template');
+            div.find('label').html(''); //清空label
+            div.find('input').val(''); //重置输入框
+            div.find('.layui-input-inline:last').html('<button type="button" class="layui-btn layui-btn-danger del-option"><i class="layui-icon layui-icon-close"></i></button>'); //替换成删除btn
+            $('.dict-option:last').after(div);
+            form.render();
         });
-        return options;
-    }
+        $('.layui-form').on('click', '.dict-option .del-option', function () {
+            $(this).parent().parent().remove();
+            form.render();
+        });
+
+        function packagingOption() {
+            var options = []; //字典选项
+            $('.dict-option').each(function () {
+                var option = {};
+                option.code = $(this).find('input[name="option-code"]').val(); //字典代码
+                option.value = $(this).find('input[name="option-value"]').val(); //字典值
+                options.push(option);
+            });
+            return options;
+        }
+    });
 </script>
 </body>
 </html>

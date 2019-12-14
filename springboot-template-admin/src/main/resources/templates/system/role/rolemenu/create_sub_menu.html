@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head>
     <th:block th:replace="common/common_header::header"/>
 </head>
@@ -81,7 +81,7 @@
             <div class="layui-form-item layui-hide">
                 <label class="layui-form-label">菜单权限</label>
                 <div id="page-permission" class="layui-input-block">
-                    <!-- page permission checkbox there -->
+                    <systempagepage permission checkbox there -->
                 </div>
             </div>
             <div class="layui-form-item">
@@ -99,7 +99,6 @@
     layui.use(['form'], function () {
         var form = layui.form;
 
-        /*提交表单*/
         form.on('submit(submit)', function (data) {
             var field = data.field; //表单参数
             var permissionIds = packaging();
@@ -123,7 +122,6 @@
                 }
             })
         });
-        /*打包选中的关联权限*/
         function packaging() {
             var permissionIds = [];
             $('input[name="permissionId"]:checked').each(function () {
@@ -133,9 +131,8 @@
             return permissionIds;
         }
 
-        /*选择菜单图标*/
         $('.choose-icon').click(function () {
-            page.open_view({
+            page.open_dialog({
                 url: '/system/role/choose_menu_icon',
                 title: '选择图标',
                 btn: ['取消'],
@@ -144,18 +141,13 @@
                 }
             })
         });
-        /*选择关联的页面*/
         $('.choose-page').click(function () {
-            page.open_view({
+            page.open_dialog({
                 url: '/system/page/choose_page',
                 title: '系统页面',
                 btn: ['选择页面', '取消'],
                 yes: function (index, layero) {
                     layero.find('iframe').contents().find('.check-data-btn').click();
-
-//                    $('#blank-tips').css('display', 'none');
-//                    $('#page-permission').css('display', 'block');
-
                     $('.layui-hide').removeClass('layui-hide');
 
                     var pageInfo = JSON.parse($('#page-data').val());
@@ -167,17 +159,13 @@
 
                     page.async_request({
                         url: '/system/page/' + pageInfo.id + '/get_page_permission_list',
-                        success: function (result) {
-                            if (result.status === httpstatus.OK.code) {
-                                var data = result.data;
-                                data.forEach(function (value) {
-                                    var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
-                                    $('#page-permission').append(checkbox);
-                                });
-                                form.render(); //重新渲染控件
-                            } else {
-                                layer.msg(result.message, {icon: 5})
-                            }
+                        callback: function (response) {
+                            var data = response.data;
+                            data.forEach(function (value) {
+                                var checkbox = '<input type="checkbox" name="permissionId" value="' + value.id + '" title="' + value.permissionName + '">';
+                                $('#page-permission').append(checkbox);
+                            });
+                            form.render(); //重新渲染控件
                         }
                     });
                 }

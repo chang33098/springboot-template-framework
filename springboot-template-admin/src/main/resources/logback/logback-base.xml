@@ -17,13 +17,13 @@
 
     <!-- Log for Multi Environment Configuration -->
     <springProfile name="dev">
-        <property name="LOG_HOME" value="/opt/logs/springboot-template-framework/logs-dev"/>
+        <property name="LOG_HOME" value="/workspace/opt/logs/springboot-template-framework/logs-dev"/>
     </springProfile>
     <springProfile name="test">
-        <property name="LOG_HOME" value="/opt/logs/springboot-template-framework/logs-test"/>
+        <property name="LOG_HOME" value="/workspace/opt/logs/springboot-template-framework/logs-test"/>
     </springProfile>
     <springProfile name="prod">
-        <property name="LOG_HOME" value="/opt/logs/springboot-template-framework/logs-prod"/>
+        <property name="LOG_HOME" value="/workspace/opt/logs/springboot-template-framework/logs-prod"/>
     </springProfile>
 
     <!-- CONSOLE Log Configuration -->

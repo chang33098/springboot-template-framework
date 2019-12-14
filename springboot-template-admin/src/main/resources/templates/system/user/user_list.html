@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -50,10 +52,12 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-submit lay-filter="form-search">
+                                <button id="form-search" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-submit lay-filter="form-search">
                                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i> 查询
                                 </button>
-                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list" lay-filter="form-reset">
+                                <button id="form-reset" class="layui-btn layui-btn-primary layuiadmin-btn-list"
+                                        lay-filter="form-reset">
                                     <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i> 重置
                                 </button>
                             </div>
@@ -85,12 +89,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
+    var form, table;
 
     layui.use(['form', 'table', 'laydate'], function () {
         form = layui.form;
         table = layui.table;
-        laydate = layui.laydate;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -119,14 +122,16 @@
             event: function (obj) {
                 var data = obj.data;
                 if (obj.event === 'modify') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/user/modify/' + data.id,
-                        title: '编辑'
+                        title: '编辑',
+                        area: ['70%', '80%']
                     });
                 } else if (obj.event === 'detail') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/user/get/' + data.id,
                         title: '详情',
+                        area: ['70%', '80%'],
                         btn: ['返回'],
                         yes: function (index) {
                             layer.close(index);
@@ -137,8 +142,7 @@
                         page.async_request({
                             url: '/system/user/delete/' + id,
                             type: 'delete',
-                            success: function (result) {
-                                layer.msg(result.message, {icon: 1});
+                            callback: function () {
                                 $('#form-search').click();
                             }
                         });
@@ -147,15 +151,16 @@
             }
         });
 
-        var active = {
-            create: function () {
-                page.open_view({
-                    url: '/system/user/create',
-                    title: '添加'
-                });
-            }
-        };
         $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var active = {
+                create: function () {
+                    page.open_dialog({
+                        url: '/system/user/create',
+                        title: '添加',
+                        area: ['70%', '80%']
+                    });
+                }
+            };
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });

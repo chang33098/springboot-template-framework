@@ -1,7 +1,7 @@
 package com.example.boot.springboottemplatesecurity.security;
 
-import com.example.boot.springboottemplatedomain.page.persistent.PagePermissionRef;
-import com.example.boot.springboottemplatesecurity.service.SecurityService;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetPagePermissionListVO;
+import com.example.boot.springboottemplatebase.service.SystemPagePermissionRefService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -34,34 +33,42 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
     @Autowired
-    private SecurityService securityService;
+    private SystemPagePermissionRefService pagePermissionRefService;
 
     @PostConstruct
     private void loadResources() {
         resourceMap = new ConcurrentHashMap<>();
 
-        // TODO: 2019/8/24 暂时关闭对于URL的访问权限限制
-        
-        List<PagePermissionRef> permissionRefs = securityService.securityGetPagePermissionList();
-        if (permissionRefs.isEmpty()) return;
+        List<SecurityGetPagePermissionListVO> permissionRefs = pagePermissionRefService.securityGetPagePermissionList();
+        if (permissionRefs.isEmpty()) {
+            return;
+        }
 
         permissionRefs.forEach(permissionRef -> {
-            List<String> interceptUrls = new ArrayList<>();
-            try {
-                interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
-            } catch (Exception e) {
-                log.error("[spring security]-[MyFilterSecurityMetadataSource]  ");
-            }
+            List<String> interceptUrls = Stream.of(permissionRef.getInterceptUrls().split(";")).collect(Collectors.toList());
 
             if (!interceptUrls.isEmpty()) {
                 interceptUrls.forEach(url -> {
-                    List<ConfigAttribute> configs = Stream.of(
-                            new SecurityConfig(permissionRef.getPage().getCode() + ":" + permissionRef.getPermission().getCode()))
-                            .collect(Collectors.toList());
+                    final String pageCode = permissionRef.getPageCode();
+                    final String permissionCode = permissionRef.getPermissionCode();
+
+                    List<ConfigAttribute> configs = Stream.of(this.getSecurityConfig(pageCode, permissionCode)).collect(Collectors.toList());
                     resourceMap.put(url, configs);
                 });
             }
         });
+    }
+
+    /**
+     * 通过页面代码和权限代码生成SecurityConfig配置
+     *
+     * @param pageCode       页面代码
+     * @param permissionCode 权限代码
+     * @return SecurityConfig
+     */
+    private SecurityConfig getSecurityConfig(final String pageCode,
+                                             final String permissionCode) {
+        return new SecurityConfig(pageCode + ":" + permissionCode);
     }
 
     @Override

@@ -26,7 +26,6 @@ var page = {
                 limitName: 'limit'
             }
         });
-
         table.on('tool(data-table)', option.event);
     },
     file_upload: function (option) {
@@ -62,7 +61,7 @@ var page = {
             }
         })
     },
-    open_view: function (option) {
+    open_dialog: function (option) {
         layer.open({
             type: 2,
             title: option.title || 'title',
@@ -77,7 +76,6 @@ var page = {
         });
     },
     async_request: function (option) {
-        //application/x-www-form-urlencoded; charset=UTF-8
         $.ajax({
             url: domain + option.url,
             async: option.async || true,
@@ -85,7 +83,15 @@ var page = {
             data: option.data || {},
             dataType: option.dataType || 'json',
             contentType: option.contentType || 'application/json; charset=utf-8',
-            success: option.success,
+            success: option.success || function (response) {
+                if (response.status === httpstatus.OK.code) {
+                    layer.msg(response.message, {icon: 1, time: option.time || 1000}, function () {
+                        option.callback.call(response);
+                    });
+                } else {
+                    layer.msg(response.message, {icon: 5})
+                }
+            },
             error: option.error || function (error) {
                 console.info(error);
                 layer.msg(error.responseJSON.message, {icon: 5});

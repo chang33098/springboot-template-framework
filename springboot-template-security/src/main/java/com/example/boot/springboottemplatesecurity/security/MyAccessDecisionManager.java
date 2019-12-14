@@ -37,22 +37,22 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) throws AccessDeniedException, InsufficientAuthenticationException {
-//        if (CollectionUtils.isEmpty(attributes)) {
-//            throw new AccessDeniedException("无访问权限.");
-//        }
-//
-//        List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities(); //用户所拥有的权限
-//        for (ConfigAttribute attribute : attributes) {
-//            String requestPermission = attribute.getAttribute(); //获取请求所需的权限
-//
-//            for (GrantedAuthority authority : authorities) {
-//                if (authority.getAuthority().equals(requestPermission)) {
-//                    return;
-//                }
-//            }
-//        }
-//
-//        throw new AccessDeniedException("无访问权限");
+        if (CollectionUtils.isEmpty(attributes)) {
+            throw new AccessDeniedException("无访问权限.");
+        }
+
+        List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities(); //用户所拥有的权限
+        for (ConfigAttribute attribute : attributes) {
+            String requestPermission = attribute.getAttribute(); //获取请求所需的权限
+
+            for (GrantedAuthority authority : authorities) {
+                if (authority.getAuthority().equals(requestPermission)) {
+                    return;
+                }
+            }
+        }
+
+        throw new AccessDeniedException("无访问权限");
     }
 
     @Override

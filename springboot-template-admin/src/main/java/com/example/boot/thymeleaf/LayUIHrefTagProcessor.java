@@ -1,14 +1,10 @@
 package com.example.boot.thymeleaf;
 
-import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
-import org.thymeleaf.model.IModel;
-import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.model.IProcessableElementTag;
 import org.thymeleaf.processor.element.AbstractAttributeTagProcessor;
-import org.thymeleaf.processor.element.AbstractElementTagProcessor;
 import org.thymeleaf.processor.element.IElementTagStructureHandler;
 import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
@@ -23,7 +19,6 @@ import org.thymeleaf.templatemode.TemplateMode;
  * @author Chang
  * @date 2019/10/20 23:33
  */
-@Slf4j
 public class LayUIHrefTagProcessor extends AbstractAttributeTagProcessor {
 
     private static final String ATTRIBUTE = "href";
@@ -35,7 +30,7 @@ public class LayUIHrefTagProcessor extends AbstractAttributeTagProcessor {
      * elementName：匹配标签元素名。举例来说如果是div，则我们的自定义标签只能用在div标签中。为null能够匹配所有的标签。
      * prefixElementName: 标签名是否要求前缀。
      * attributeName: 自定义标签属性名。这里为text。
-     * prefixAttributeName：属性名是否要求前缀，如果为true，Thymeeleaf会要求使用text属性时必须加上前缀，即thSys:text。
+     * prefixAttributeName：属性名是否要求前缀，如果为true，Thymeeleaf会要求使用href属性时必须加上前缀，即layui:href。
      * precedence：标签处理的优先级，此处使用和Thymeleaf标准方言相同的优先级。
      * removeAttribute：标签处理后是否移除自定义属性。
      *

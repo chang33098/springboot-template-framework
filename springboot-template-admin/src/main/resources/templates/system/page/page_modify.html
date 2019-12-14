@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><th:block th:replace="common/common_header::header"/></head>
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
+<head>
+    <th:block th:replace="common/common_header::header"/>
+</head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="page-id" th:value="${page.id}">
@@ -42,7 +44,8 @@
         <label class="layui-form-label">用途描述</label>
         <div class="layui-input-block">
             <div class="layui-col-md6">
-                <textarea name="description" th:text="${page.description}" class="layui-textarea" placeholder="该页面的用途描述"></textarea>
+                <textarea name="description" th:text="${page.description}" class="layui-textarea"
+                          placeholder="该页面的用途描述"></textarea>
             </div>
         </div>
     </div>
@@ -68,29 +71,35 @@
         <div class="layui-col-lg5">
             <label class="layui-form-label">拦截的URL</label>
             <div class="layui-input-block">
-                <input type="text" name="interceptUrls" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input" style="font-family: Consolas,serif;">
+                <input type="text" name="interceptUrls" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input"
+                       style="font-family: Consolas,serif;">
             </div>
         </div>
     </div>
     <div id="page-permission">
-        <div id="blank-tips" class="layui-form-item" th:styleappend="${#lists.isEmpty(page.pagePermissions) ? '' : 'display: none;'}">
+        <div id="blank-tips" class="layui-form-item"
+             th:styleappend="${#lists.isEmpty(page.pagePermissions) ? '' : 'display: none;'}">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline">
                 <div class="layui-form-mid layui-word-aux">请添加页面所需的权限信息</div>
             </div>
         </div>
         <!-- 添加后的权限信息显示在此处 -->
-        <div th:each="permission : ${page.pagePermissions}" class="layui-form-item layui-row layui-col-space10 page-permission">
+        <div th:each="permission : ${page.pagePermissions}"
+             class="layui-form-item layui-row layui-col-space10 page-permission">
             <div class="layui-col-md2" style="width: auto;">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="permissionId" th:value="${permission.permissionId}" th:title="${permission.permissionName}" checked>
+                    <input type="checkbox" name="permissionId" th:value="${permission.permissionId}"
+                           th:title="${permission.permissionName}" checked>
                 </div>
             </div>
             <div class="layui-col-lg5">
                 <label class="layui-form-label">拦截的URL</label>
                 <div class="layui-input-block">
-                    <input type="text" name="interceptUrls" th:value="${permission.interceptUrls}" placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input" style="font-family: Consolas,serif;">
+                    <input type="text" name="interceptUrls" th:value="${permission.interceptUrls}"
+                           placeholder="例如: /module1/xxx;/module2/xxx" class="layui-input"
+                           style="font-family: Consolas,serif;">
                 </div>
             </div>
         </div>
@@ -103,10 +112,9 @@
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
     var filter = [];
-    var form;
 
     layui.use(['form', 'laydate', 'upload'], function () {
-        form = layui.form;
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var pageId = $('#page-id').val();
@@ -117,64 +125,60 @@
                 url: '/system/page/modify/' + pageId,
                 type: 'put',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });
-    });
 
-    $('.choose-permission-btn').click(function () {
-        var url = $('input[name="url"]').val();
-        if (url === '') {
-            layer.msg('请添加页面的访问url');
-            return;
+        $('.choose-permission-btn').click(function () {
+            var url = $('input[name="url"]').val();
+            if (url === '') {
+                layer.msg('请添加页面的访问url');
+                return;
+            }
+            if (url.substr(url.length - 1) !== '/') url = url + '/';
+
+            page.open_dialog({
+                url: '/system/permission/choose_permission',
+                title: '系统权限',
+                btn: ['添加勾选的权限', '取消'],
+                yes: function (index, layero) {
+                    layero.find('iframe').contents().find('.check-data-btn').click();
+                    $('#blank-tips').css('display', 'none');
+
+                    var permissionData = $('#permission-data').val();
+                    var permissions = JSON.parse(permissionData);
+                    permissions.forEach(function (val) {
+                        if (filter.indexOf(val.code) === -1) {
+                            var div = $('#template').clone();
+                            div.attr('id', '');
+                            div.css('display', 'block');
+                            div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
+                            div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
+                            $('#page-permission').append(div);
+                            filter.push(val.code);
+                        }
+                    });
+                    form.render(); //重新渲染控件
+                }
+            });
+        });
+
+        function packaging() {
+            var permissions = [];
+            $('#page-permission').find('.page-permission').each(function () {
+                if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
+                    var permission = {};
+                    permission.permissionId = $(this).find('input[name="permissionId"]').val();
+                    permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
+                    permissions.push(permission);
+                }
+            });
+            return permissions;
         }
-        if (url.substr(url.length - 1) !== '/') url = url + '/';
-
-        page.open_view({
-            url: '/system/permission/choose_permission',
-            title: '系统权限',
-            btn: ['添加勾选的权限', '取消'],
-            yes: function (index, layero) {
-                layero.find('iframe').contents().find('.check-data-btn').click();
-                $('#blank-tips').css('display', 'none');
-
-                var permissionData = $('#permission-data').val();
-                var permissions = JSON.parse(permissionData);
-                permissions.forEach(function (val) {
-                    if (filter.indexOf(val.code) === -1) {
-                        var div = $('#template').clone();
-                        div.attr('id', '');
-                        div.css('display', 'block');
-                        div.find('input[name="permissionId"]').attr('title', val.name).attr('value', val.id);
-                        div.find('input[name="interceptUrls"]').val(url + val.code.toLowerCase());
-                        $('#page-permission').append(div);
-                        filter.push(val.code);
-                    }
-                });
-                form.render(); //重新渲染控件
-            }
-        });
     });
-
-    function packaging() {
-        var permissions = [];
-        $('#page-permission').find('.page-permission').each(function () {
-            if ($(this).find('input[name="permissionId"]:checked').val() !== undefined) {
-                var permission = {};
-                permission.permissionId = $(this).find('input[name="permissionId"]').val();
-                permission.interceptUrls = $(this).find('input[name="interceptUrls"]').val();
-                permissions.push(permission);
-            }
-        });
-        return permissions;
-    }
 </script>
 </body>
 </html>

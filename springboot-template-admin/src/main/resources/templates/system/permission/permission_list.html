@@ -66,12 +66,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
+    var form, table;
 
-    layui.use(['form', 'table', 'laydate'], function () {
+    layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
-        laydate = layui.laydate;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -97,51 +96,39 @@
             event: function (obj) {
                 var data = obj.data;
                 if (obj.event === 'delete') {
-                    layer.confirm('真的删除行么', function (index) {
-                        // deletePage(data.id);
-
+                    layer.confirm('真的删除行么', function () {
                         page.async_request({
                             url: '/system/permission/delete/' + id,
                             type: 'delete',
-                            success: function (result) {
-                                layer.msg(result.message, {icon: 1});
+                            callback: function () {
                                 $('#form-search').click();
                             }
                         });
                     });
                 } else if (obj.event === 'modify') {
-                    page.open_view({
+                    page.open_dialog({
                         url: '/system/permission/modify/' + data.id,
-                        title: '编辑'
+                        title: '编辑',
+                        area: ['50%', '45%']
                     });
                 }
             }
         });
 
-        var active = {
-            create: function () {
-                page.open_view({
-                    url: '/system/permission/create',
-                    title: '添加'
-                });
-            }
-        };
         $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var active = {
+                create: function () {
+                    page.open_dialog({
+                        url: '/system/permission/create',
+                        title: '添加',
+                        area: ['50%', '45%']
+                    });
+                }
+            };
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
     });
-
-    function deletePage(id) {
-        page.async_request({
-            url: '/system/permission/delete/' + id,
-            type: 'delete',
-            success: function (result) {
-                layer.msg(result.message, {icon: 1});
-                $('#form-search').click();
-            }
-        });
-    }
 </script>
 </body>
 </html>

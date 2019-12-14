@@ -2,11 +2,11 @@ package com.example.boot.springboottemplatesecurity.model;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.example.boot.springboottemplatedomain.role.constants.MenuLevel;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuPermissionRef;
-import com.example.boot.springboottemplatedomain.role.persistent.RoleMenuRef;
-import com.example.boot.springboottemplatedomain.user.constants.UserStatus;
-import com.example.boot.springboottemplatedomain.user.persistent.SystemUser;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO;
+import com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuPermissionListByMenuIdsVO;
+import com.example.boot.springboottemplatebase.domain.systemuser.value.SecurityGetUserByUsernameVO;
+import com.example.boot.springboottemplatebase.enums.MenuLevel;
+import com.example.boot.springboottemplatebase.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +15,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * <h1>UserPrincipal</h1>
- * <p>Custom user details.</p>
+ * <p>Custom systemuser details.</p>
  *
  * @author Chang
  * @date 2019-03-23 20:52
@@ -32,14 +35,14 @@ public class UserPrincipal implements UserDetails {
 
     private static final long serialVersionUID = -53353171692896501L;
 
-    private Long id;
+    private Long userId;
     private String username;
     private String password;
     private String phone;
     private String nickname;
     private String avatar;
     private String description;
-    private Integer status;
+    private String status;
     private Timestamp createTime;
     private Timestamp updateTime;
     private Timestamp lastLoginTime;
@@ -49,29 +52,29 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     /**
-     * Create user principal
+     * Create systemuser principal
      *
-     * @param user            user po
-     * @param roleMenus       user platform menus
-     * @param rolePermissions role permission po list
-     * @return user principal
+     * @param systemuser      systemuser po
+     * @param roleMenus       systemuser platform menus
+     * @param rolePermissions systemrole systempermission po list
+     * @return systemuser principal
      */
-    public static UserPrincipal create(SystemUser user, List<RoleMenuRef> roleMenus, List<RoleMenuPermissionRef> rolePermissions) {
+    public static UserPrincipal create(SecurityGetUserByUsernameVO systemuser, List<SecurityGetRoleMenuListByRoleIdVO> roleMenus, List<SecurityGetRoleMenuPermissionListByMenuIdsVO> rolePermissions) {
         List<Menu> menus = roleMenus.stream().filter(userMenu -> Objects.equals(MenuLevel.PARENT_MENU.getType(), userMenu.getMenuLevel()))
                 .map(UserPrincipal::createMenu).collect(Collectors.toList());
 
         List<GrantedAuthority> authorities = rolePermissions.stream()
-                .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermission().getPermission().getCode()))
+                .filter(rolePermission -> StrUtil.isNotBlank(rolePermission.getPermissionCode()))
                 .map(rolePermission -> new SimpleGrantedAuthority(
-                        rolePermission.getMenu().getPage().getCode() + ":" + rolePermission.getPermission().getPermission().getCode()
+                        rolePermission.getPageCode() + ":" + rolePermission.getPermissionCode()
                 )).collect(Collectors.toList());
 
-        return new UserPrincipal(user.getId(),
-                user.getUsername(), user.getPassword(),
-                user.getPhone(), user.getNickname(), user.getAvatar(), user.getDescription(),
-                user.getStatus(),
-                user.getCreateTime(),
-                user.getUpdateTime(), user.getLastLoginTime(), user.getRole().getName(),
+        return new UserPrincipal(systemuser.getUserId(),
+                systemuser.getUsername(), systemuser.getPassword(),
+                systemuser.getPhone(), systemuser.getNickname(), systemuser.getAvatar(), systemuser.getDescription(),
+                systemuser.getStatus(),
+                systemuser.getCreateTime(),
+                systemuser.getUpdateTime(), systemuser.getLastLoginTime(), systemuser.getRoleName(),
                 menus, authorities);
     }
 
@@ -81,11 +84,11 @@ public class UserPrincipal implements UserDetails {
      * @param roleMenu MenuPO
      * @return MenuRO
      */
-    private static Menu createMenu(RoleMenuRef roleMenu) {
+    private static Menu createMenu(SecurityGetRoleMenuListByRoleIdVO roleMenu) {
         Menu menu = new Menu();
-        BeanUtil.copyProperties(roleMenu, menu);
+        BeanUtil.copyProperties(roleMenu, menu, "menuUrl");
         if (Objects.equals(roleMenu.getMenuLevel(), MenuLevel.CHILD_MENU.getType())) {
-            menu.setUrl(roleMenu.getPage().getUrl());
+            menu.setMenuUrl(roleMenu.getMenuUrl());
         }
 
         if (!roleMenu.getChildren().isEmpty()) { //空指针异常
@@ -96,17 +99,18 @@ public class UserPrincipal implements UserDetails {
             });
             menu.setChildren(menus);
         }
+
         return menu;
     }
 
     @Data
     private static class Menu {
-        private Long id;
-        private String url;
-        private String icon;
+        private Long menuId;
+        private String menuIcon;
         private String menuCode;
         private String menuName;
-        private Integer menuLevel;
+        private String menuUrl;
+        private String menuLevel;
         private Integer sortNo;
         private List<Menu> children = new ArrayList<>();
     }

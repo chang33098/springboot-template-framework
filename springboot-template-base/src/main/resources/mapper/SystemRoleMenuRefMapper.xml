@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.boot.springboottemplatebase.mapper.SystemRoleMenuRefMapper">
+
+    <!--SystemRoleMenuRefEntity ResultMap-->
+    <resultMap id="BaseResultMap"
+               type="com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleMenuRefEntity">
+        <id column="id" property="id"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="menu_level" property="menuLevel"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="page_id" property="pageId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="opened" property="opened"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <!--SecurityGetRoleMenuListByRoleIdVO ResultMap-->
+    <resultMap id="SecurityGetRoleMenuListByRoleIdVO"
+               type="com.example.boot.springboottemplatebase.domain.systemrole.value.SecurityGetRoleMenuListByRoleIdVO">
+        <result column="menu_id" property="menuId"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_level" property="menuLevel"/>
+        <result column="sort_no" property="sortNo"/>
+        <collection select="securityGetRoleChildrenMenuListByParentId" column="menu_id" property="children"/>
+    </resultMap>
+
+    <delete id="deleteAllByRoleId">
+        delete from system_role_menu_ref where role_id = #{roleId}
+    </delete>
+
+    <sql id="securityGetRoleMenuListByRoleId_column">
+        id as menu_id, menu_name, menu_level, parent_id
+    </sql>
+
+    <select id="securityGetRoleRootMenuListByRoleId" resultMap="SecurityGetRoleMenuListByRoleIdVO">
+        select
+            <include refid="securityGetRoleMenuListByRoleId_column"/>
+        from
+            system_role_menu_ref
+        where
+            role_id = #{roleId} and menu_level = '1' and deleted = '0'
+    </select>
+
+    <select id="securityGetRoleChildrenMenuListByParentId" resultMap="SecurityGetRoleMenuListByRoleIdVO">
+        select
+            <include refid="securityGetRoleMenuListByRoleId_column"/>
+        from
+            system_role_menu_ref
+        where
+            parent_id = #{parentId} and deleted = '0'
+    </select>
+
+</mapper>

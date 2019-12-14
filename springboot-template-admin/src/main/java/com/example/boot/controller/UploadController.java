@@ -1,7 +1,7 @@
 package com.example.boot.controller;
 
-import com.example.boot.response.ResponseBodyBean;
-import com.example.boot.model.common.response.UploadRO;
+import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.base.response.UploadRO;
 import com.example.boot.properties.CustomUploadConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * write this class description...
+ * <h1>上传文件Controller</h1>
  *
  * @author Chang
  * @date 2019/8/31 12:02
@@ -41,11 +41,11 @@ public class UploadController {
         final String originalName = file.getOriginalFilename();
         final String suffix = originalName.substring(originalName.lastIndexOf("."));
         final String fileName = System.currentTimeMillis() + suffix; //自定义文件名
+        final Long fileSize = file.getSize(); //获取文件大小(单位:kb)
 
         try {
             File path = new File(customUploadConfiguration.getImage().getPath());
-            if (!path.exists())
-                path.mkdir();
+            if (!path.exists()) path.mkdirs(); //不存在则创建目录
 
             File image = new File(path, fileName);
             file.transferTo(image); //文件传输
@@ -53,6 +53,7 @@ public class UploadController {
             UploadRO uploadRO = new UploadRO();
             uploadRO.setFileName(fileName);
             uploadRO.setOriginalName(originalName);
+            uploadRO.setFileSize(fileSize);
             uploadRO.setResourceLink(customUploadConfiguration.getImage().getDomain() + fileName);
 
             log.info("图片上传成功 filepath: {}", image.getPath());

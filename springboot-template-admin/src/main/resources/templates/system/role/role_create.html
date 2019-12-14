@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head><th:block th:replace="common/common_header::header"/></head>
 <body>
 <form class="layui-form" id="form" lay-filter="form" style="padding: 20px 30px 0 0;">
@@ -28,12 +28,8 @@
 </form>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, tree, util;
-
-    layui.use(['form', 'tree', 'util'], function () {
-        form = layui.form;
-        tree = layui.tree;
-        util = layui.util;
+    layui.use(['form'], function () {
+        var form = layui.form;
 
         form.on('submit(submit)', function (data) {
             var field = data.field; //表单参数
@@ -41,13 +37,9 @@
                 url: '/system/role/create',
                 type: 'post',
                 data: JSON.stringify(field),
-                success: function (result) {
-                    if (result.status === httpstatus.OK.code) {
-                        parent.layui.table.reload('data-table');
-                        parent.layer.close(parent.layer.getFrameIndex(window.name));
-                    } else {
-                        layer.msg(result.message, {icon: 5})
-                    }
+                callback: function () {
+                    parent.layui.table.reload('data-table');
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
                 }
             })
         });

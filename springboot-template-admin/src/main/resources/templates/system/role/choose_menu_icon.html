@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="background: #fbfbfb;">
 <head><th:block th:replace="common/common_header::header"/></head>
 <link th:href="@{/static/layuiadmin/style/global.css}" rel="stylesheet" media="all">
 <body>
@@ -867,21 +867,21 @@
 </ul>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form;
-
     layui.use(['form'], function () {
-        form = layui.form;
+        var form = layui.form;
+
+        $('.site-doc-icon li').click(function () {
+            var icon = $(this).find('div:last').text();
+            parent.$('input[name="icon"]').val(icon);
+            parent.$('#icon-btn').css('display', 'inline-block');
+            parent.$('#icon-btn').html('<i class="layui-icon ' + icon + '"></i>');
+
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
     });
 
-    $('.site-doc-icon li').click(function () {
-        var icon = $(this).find('div:last').text();
-        parent.$('input[name="icon"]').val(icon);
-        parent.$('#icon-btn').css('display', 'inline-block');
-        parent.$('#icon-btn').html('<i class="layui-icon ' + icon + '"></i>');
 
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-    })
 </script>
 </body>
 </html>

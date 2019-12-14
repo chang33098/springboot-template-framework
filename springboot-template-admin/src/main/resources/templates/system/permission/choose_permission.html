@@ -61,12 +61,11 @@
 </div>
 <footer th:replace="common/common_footer::footer"></footer>
 <script type="text/javascript" th:inline="javascript">
-    var form, table, laydate;
+    var form, table;
 
-    layui.use(['form', 'table', 'laydate'], function () {
+    layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
-        laydate = layui.laydate;
 
         form.on('submit(form-search)', function (data) {
             var field = data.field;
@@ -90,18 +89,18 @@
                 {title: '更新时间', field: 'updateTime'}
             ]
         });
-    });
 
-    $('.check-data-btn').click(function () {
-        var checkStatus = table.checkStatus('permission-table'), data = checkStatus.data;
-        if (data.length < 1) {
-            layer.msg('请勾选对应的权限信息', {icon: 5});
-            return;
-        }
-        parent.$('#permission-data').val(JSON.stringify(data));
+        $('.check-data-btn').click(function () {
+            var checkStatus = table.checkStatus('permission-table'), data = checkStatus.data;
+            if (data.length < 1) {
+                layer.msg('请勾选对应的权限信息', {icon: 5});
+                return;
+            }
+            parent.$('#permission-data').val(JSON.stringify(data));
 
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
     });
 </script>
 </body>

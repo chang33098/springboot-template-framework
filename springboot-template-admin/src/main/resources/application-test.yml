@@ -1,13 +1,19 @@
 server:
-  port: 8444
+  port: 8080
 
 spring:
   datasource:
     name: datasource1
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot_template_frameword?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
-    password: root
+    password: FUCKme619
   devtools:
     restart:
       enabled: true
+
+custom-configuration:
+  upload:
+    image:
+      domain: http://localhost/springboottemplate/image/
+      path: G:/STATIC/springboot-template/image

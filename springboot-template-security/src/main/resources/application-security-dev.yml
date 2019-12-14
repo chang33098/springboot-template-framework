@@ -3,7 +3,7 @@ logging:
 
 custom-configuration:
   security:
-    enabled: true
+    enabled: false
     super-admin:
       username: admin
       password: admin
@@ -29,3 +29,4 @@ custom-configuration:
       - "/swagger-ui.html"
       - "/swagger-resources/**"
       - "/swagger/**"
+      - "/mybatisTest1/**"
