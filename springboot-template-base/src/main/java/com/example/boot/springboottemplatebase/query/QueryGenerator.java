@@ -8,6 +8,7 @@ import com.example.boot.springboottemplatebase.base.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,18 +41,25 @@ public class QueryGenerator {
 
         //1.获取查询参数类中的参数属性 & 初始化QueryList
         //
+
         Field[] fields = ReflectUtil.getFields(clazz);
-        List<QueryField> queryFieldList = new ArrayList<>(fields.length);
+        List<QueryField> queryFieldList = new ArrayList<>();
 
         //2.遍历Field List获取对应的字段属性
         //
+        final String defaultDateFormat = "yyyy-MM-dd HH:mm:ss";
+        final QueryMatchType defaultMatchType = QueryMatchType.DEFAULT;
+
         for (Field field : fields) {
+            if (Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
+
+            field.setAccessible(true); //开放访问权限
+
             final String fieldName = field.getName();
             final Object fieldValue = field.get(queryPLO);
             final Class<?> fieldTyp = field.getType();
-
-            final String defaultDateFormat = "yyyy-MM-dd HH:mm:ss";
-            final QueryMatchType defaultMatchType = QueryMatchType.DEFAULT;
 
             QueryField queryField = new QueryField().setFieldName(fieldName)
                     .setFieldValue(fieldValue)
@@ -75,49 +83,6 @@ public class QueryGenerator {
 
         return queryWrapper;
     }
-
-//    public static <P, T> QueryWrapper<T> generateQueryWrapper(P queryPLO, Class<T> clazz) throws IllegalAccessException {
-//        QueryWrapper<T> queryWrapper = new QueryWrapper<T>(); //初始化wrapper
-//
-//        //1.获取查询参数类中的参数属性 & 初始化QueryList
-//        //
-//        Field[] fields = ReflectUtil.getFields(queryPLO.getClass());
-//        List<QueryField> queryFieldList = new ArrayList<>(fields.length);
-//
-//        //2.遍历Field List获取对应的字段属性
-//        //
-//        for (Field field : fields) {
-//            final String fieldName = field.getName();
-//            final Object fieldValue = field.get(queryPLO);
-//            final Class<?> fieldTyp = field.getType();
-//
-//            final String defaultDateFormat = "yyyy-MM-dd HH:mm:ss";
-//            final QueryMatchType defaultMatchType = QueryMatchType.DEFAULT;
-//
-//            QueryField queryField = new QueryField().setFieldName(fieldName)
-//                    .setFieldValue(fieldValue)
-//                    .setFieldType(fieldTyp)
-//                    .setDateFormat(defaultDateFormat)
-//                    .setMatchType(defaultMatchType);
-//
-//            QueryColumn queryColumn = field.getAnnotation(QueryColumn.class);
-//            if (ObjectUtil.isNotNull(queryColumn)) {
-//                queryField.setTableAlias(queryColumn.tableAlias());
-//                queryField.setMapperColumn(queryColumn.mapperColumn());
-//                queryField.setDateFormat(queryColumn.dateFormat());
-//                queryField.setMatchType(queryColumn.matchType());
-//            }
-//            queryFieldList.add(queryField);
-//        }
-//
-//        //3.遍历queryFieldList对象，组装查询条件
-//        //
-//        queryFieldList.forEach(queryField -> {
-//
-//        });
-//
-//        return queryWrapper;
-//    }
 
     /**
      * 组装查询条件
@@ -156,7 +121,10 @@ public class QueryGenerator {
      * @param <T>          持久层实体类
      */
     private static <T> void defaultQueryCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
-        final String fieldName = queryField.getTableAlias() + StrUtil.DOT + StrUtil.toUnderlineCase(queryField.getFieldName());
+        String fieldName = StrUtil.toUnderlineCase(queryField.getFieldName());
+        if (StrUtil.isNotBlank(queryField.getTableAlias())) {
+            fieldName = queryField.getTableAlias() + StrUtil.DOT + fieldName;
+        }
         final Object fieldValue = queryField.getFieldValue();
 
         log.info("********* execute defaultQueryCondition *********");
@@ -188,7 +156,9 @@ public class QueryGenerator {
             case "java.sql.Timestamp":
                 break;
             case "java.lang.String":
-                queryWrapper.like(fieldName, fieldValue);
+                if (StrUtil.isNotBlank((CharSequence) fieldValue)) {
+                    queryWrapper.like(fieldName, fieldValue);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("目前暂不支持[" + queryField.getFieldType().getName() + "]类型的查询条件，敬请谅解");

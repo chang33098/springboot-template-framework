@@ -88,11 +88,11 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
     public ResponseBodyBean<IPage<T>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
                                            @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
                                            T payload) throws IllegalAccessException {
-//        QueryWrapper<T> wrapper = QueryGenerator.generateQueryWrapper(payload, payload.getClass());
+        QueryWrapper<T> wrapper = QueryGenerator.generateQueryWrapper(payload, payload.getClass());
 
         IPage<T> page = new Page<>(pageNo, pageSize);
-        service.page(page);
-//        service.page(page, wrapper);
+//        service.page(page);
+        service.page(page, wrapper);
 
         return ResponseBodyBean.ofSuccess(page);
     }
