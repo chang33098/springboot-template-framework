@@ -47,5 +47,4 @@ public class QueryField {
      * 匹配类型
      */
     private QueryMatchType matchType;
-
 }
