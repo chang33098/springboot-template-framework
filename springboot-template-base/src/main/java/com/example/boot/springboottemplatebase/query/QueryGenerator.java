@@ -1,6 +1,7 @@
 package com.example.boot.springboottemplatebase.query;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -249,9 +250,7 @@ public class QueryGenerator {
             final String dateStr = DateUtil.format((Date) fieldValue, dateFormat);
             queryWrapper.gt(wholeFieldName, DateUtil.parse(dateStr, dateFormat));
         } else if (fieldValue instanceof String && NumberUtil.isNumber((String) fieldValue)) {
-
-            // TODO: 2019/12/17 待续中... 
-
+            queryWrapper.gt(wholeFieldName, queryField);
         } else {
             throw new IllegalArgumentException(StrUtil.format("错误的参数类型: {}  executeGtCondition方法只允许传入数字类型(整数，小数)，日期类型和值为数字的字符串类型的参数", fieldValue.getClass().getName()));
         }
@@ -264,11 +263,35 @@ public class QueryGenerator {
      *
      * @param queryWrapper   QueryWrapper
      * @param wholeFieldName 完整的查询字段名(alias.filed_name)
-     * @param fieldValue     参数值
+     * @param queryField     请求参数值
      * @param <T>            参数实体类
      */
-    private static <T> void executeGeCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final Object fieldValue) {
+    private static <T> void executeGeCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
+        final Object fieldValue = queryField.getFieldValue();
 
+        if (fieldValue instanceof Short) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof Integer) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof Long) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof BigInteger) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof Float) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof Double) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof BigDecimal) {
+            queryWrapper.ge(wholeFieldName, fieldValue);
+        } else if (fieldValue instanceof Date) {
+            final String dateFormat = queryField.getDateFormat();
+            final String dateStr = DateUtil.format((Date) fieldValue, dateFormat);
+            queryWrapper.ge(wholeFieldName, DateUtil.parse(dateStr, dateFormat));
+        } else if (fieldValue instanceof String && NumberUtil.isNumber((String) fieldValue)) {
+            queryWrapper.ge(wholeFieldName, queryField);
+        } else {
+            throw new IllegalArgumentException(StrUtil.format("错误的参数类型: {}  executeGeCondition方法只允许传入数字类型(整数，小数)，日期类型和值为数字的字符串类型的参数", fieldValue.getClass().getName()));
+        }
     }
 
     /**
@@ -316,10 +339,11 @@ public class QueryGenerator {
      * tips: 只允许数字类型(整形，浮点型)、日期类型和值为字符串
      *
      * @param queryWrapper QueryWrapper对象
+     * @param wholeFieldName 完整的查询字段名称
      * @param queryField   查询字段
      * @param <T>          参数实体类
      */
-    private static <T> void executeNotBetweenCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
+    private static <T> void executeNotBetweenCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
 
     }
 
@@ -329,10 +353,11 @@ public class QueryGenerator {
      * tips: LIKE匹配无字段类型的显示(将传入的参数值统一转换成字符串)
      *
      * @param queryWrapper QueryWrapper对象
+     * @param wholeFieldName 完整的查询字段名称
      * @param queryField   查询字段
      * @param <T>          参数实体类型
      */
-    private static <T> void executeLikeCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
+    private static <T> void executeLikeCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
 
 
     }
@@ -341,10 +366,11 @@ public class QueryGenerator {
      * 执行NOT LIKE的匹配条件
      *
      * @param queryWrapper QueryWrapper
+     * @param wholeFieldName 完整的查询字段名称
      * @param queryField   查询字段
      * @param <T>          参数实体类
      */
-    private static <T> void executeNotLikeCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
+    private static <T> void executeNotLikeCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
 
 
     }
@@ -353,10 +379,11 @@ public class QueryGenerator {
      * 执行LIKE LEFT的匹配条件
      *
      * @param queryWrapper QueryWrapper对象
+     * @param wholeFieldName 完整的查询字段名称
      * @param queryField   查询字段
      * @param <T>          参数实体类型
      */
-    private static <T> void executeLikeLeftCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
+    private static <T> void executeLikeLeftCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
 
     }
 
@@ -364,10 +391,11 @@ public class QueryGenerator {
      * 执行LIKE RIGHT的匹配条件
      *
      * @param queryWrapper QueryWrapper对象
+     * @param wholeFieldName 完整的查询字段名称
      * @param queryField   查询字段
      * @param <T>          参数实体类型
      */
-    private static <T> void executeLikeRightCondition(QueryWrapper<T> queryWrapper, QueryField queryField) {
+    private static <T> void executeLikeRightCondition(QueryWrapper<T> queryWrapper, final String wholeFieldName, final QueryField queryField) {
 
     }
 
