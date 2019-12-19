@@ -17,7 +17,7 @@ public enum QueryMatchType {
 
     EQ("等于 = "), NE("不等于 <> "), GT("大于 > "), GE("大于等于 >= "),
 
-    LT("小于 < "), LE("小于等于 <= "), BETWEEN("BETWEEN 值1 AND 值2 "), NOT_BETWEEN("NOT BETWEEN 值1 AND 值2 "),
+    LT("小于 < "), LE("小于等于 <= "),
 
     LIKE("LIKE '%值%' "), NOT_LIKE("NOT LIKE '%值%' "), LIKE_LEFT("LIKE '%值'"), LIKE_RIGHT("LIKE '值%' "),
 

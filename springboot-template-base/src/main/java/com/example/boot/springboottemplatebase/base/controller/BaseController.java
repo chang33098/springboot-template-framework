@@ -91,7 +91,6 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
         QueryWrapper<T> wrapper = QueryGenerator.generateQueryWrapper(payload, payload.getClass());
 
         IPage<T> page = new Page<>(pageNo, pageSize);
-//        service.page(page);
         service.page(page, wrapper);
 
         return ResponseBodyBean.ofSuccess(page);
