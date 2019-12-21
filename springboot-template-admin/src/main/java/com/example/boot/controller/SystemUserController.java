@@ -1,19 +1,11 @@
 package com.example.boot.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
+import com.example.boot.springboottemplatebase.base.controller.BaseController;
 import com.example.boot.springboottemplatebase.domain.systemuser.entity.SystemUserEntity;
 import com.example.boot.springboottemplatebase.service.SystemUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * write this class description...
@@ -24,23 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @Controller
 @RequestMapping(value = "system/user")
-public class SystemUserController {
+public class SystemUserController extends BaseController<SystemUserEntity, SystemUserService> {
 
-    private final SystemUserService userService;
-
-    @Autowired
-    public SystemUserController(SystemUserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping(value = "list")
-    @ResponseBody
-    public ResponseBodyBean<IPage<SystemUserEntity>> list(@RequestParam(value = "page_no") Integer pageNo,
-                                                          @RequestParam(value = "page_size") Integer pageSize,
-                                                          SystemUserEntity payload) {
-        LambdaQueryWrapper<SystemUserEntity> wrapper = new QueryWrapper<SystemUserEntity>().lambda();
-        IPage<SystemUserEntity> page = new Page<>(pageNo, pageSize);
-        userService.page(page, wrapper);
-        return ResponseBodyBean.ofData(page);
+    public SystemUserController() {
+        super("/system/user", "system_user");
     }
 }

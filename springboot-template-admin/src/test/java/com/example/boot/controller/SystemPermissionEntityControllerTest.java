@@ -48,11 +48,10 @@ public class SystemPermissionEntityControllerTest {
     }
 
     @Test
-    public void table() throws Exception {
-
+    public void listTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempermission/table?pageNo={pageNo}&pageSize={pageSize}", 1, 10
-        ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
+                "/system/permission/list?pageNo={page-no}&pageSize={page-size}", 1, 10
+        ).characterEncoding("UTF-8");
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
 
@@ -68,7 +67,7 @@ public class SystemPermissionEntityControllerTest {
         permissionPLO.setPermissionName("create-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/permission/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(permissionPLO))
@@ -89,7 +88,7 @@ public class SystemPermissionEntityControllerTest {
         permissionPLO.setPermissionName("modify-" + RandomUtil.randomString(8));
         permissionPLO.setDescription(RandomUtil.randomStringUpper(16));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempermission/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/permission/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(permissionPLO))
@@ -104,8 +103,9 @@ public class SystemPermissionEntityControllerTest {
 
     @Test
     public void delete() throws Exception {
-        final Long permissionId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempermission/delete?permission_id={permissionId}", permissionId)
+        final Long dataId = 1L;
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/permission/delete?data-id={dataId}", dataId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

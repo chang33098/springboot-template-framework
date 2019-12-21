@@ -32,7 +32,7 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
     private final String modifyViewName;
 
     @Autowired
-    private S service;
+    protected S service;
 
     /**
      * <p>BaseController的构造方法</p>
@@ -85,8 +85,8 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
 
     @GetMapping(value = "list")
     @ResponseBody
-    public ResponseBodyBean<IPage<T>> list(@RequestParam(value = "page_no", defaultValue = "1") Integer pageNo,
-                                           @RequestParam(value = "page_size", defaultValue = "10") Integer pageSize,
+    public ResponseBodyBean<IPage<T>> list(@RequestParam(value = "page-no", defaultValue = "1") Integer pageNo,
+                                           @RequestParam(value = "page-size", defaultValue = "10") Integer pageSize,
                                            T payload) throws IllegalAccessException {
         QueryWrapper<T> wrapper = QueryGenerator.generateQueryWrapper(payload, payload.getClass());
 
@@ -107,7 +107,7 @@ public abstract class BaseController<T extends BaseEntity, S extends IService<T>
     @ResponseBody
     public ResponseBodyBean modify(@RequestBody @Valid T payload) {
         Optional<T> optionalT = Optional.ofNullable(service.getById(payload.getId()));
-        T entity = optionalT.orElseThrow(() -> new ResourceNotFoundException("无法获取实体对象"));
+        T entity = optionalT.orElseThrow(() -> new ResourceNotFoundException(StrUtil.format("无法获取实体对象 dataId:{}", payload.getId())));
 
         BeanUtil.copyProperties(payload, entity, "id", "createBy", "createTime", "deleted");
 

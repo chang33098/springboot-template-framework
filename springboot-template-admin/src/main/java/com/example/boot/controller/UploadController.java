@@ -45,7 +45,9 @@ public class UploadController {
 
         try {
             File path = new File(customUploadConfiguration.getImage().getPath());
-            if (!path.exists()) path.mkdirs(); //不存在则创建目录
+            if (!path.exists()) {
+                path.mkdirs(); //不存在则创建目录
+            }
 
             File image = new File(path, fileName);
             file.transferTo(image); //文件传输

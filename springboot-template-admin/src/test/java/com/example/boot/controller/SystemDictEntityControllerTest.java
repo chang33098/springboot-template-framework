@@ -52,16 +52,15 @@ public class SystemDictEntityControllerTest {
     }
 
     @Test
-    public void tableTest() throws Exception {
+    public void listTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/dict/list?pageNo={pageNo}&pageSize={pageSize}", 1, 10
-        ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
+                "/system/dict/list?pageNo={page-no}&pageSize={page-size}", 1, 10
+        ).characterEncoding("UTF-8");
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
 
         log.info("************[http status  :   {}]**************", response.getStatus());
         log.info("************[response body:   {}]**************", result.getResponse().getContentAsString());
-        log.info(result.getResponse().getContentAsString());
     }
 
     @Test
@@ -99,7 +98,7 @@ public class SystemDictEntityControllerTest {
         ModifyDictPLO dictPLO = new ModifyDictPLO();
         dictPLO.setDictId(10L);
         dictPLO.setDictName("modify-dict-name-" + RandomUtil.randomString(8));
-        dictPLO.setDescription("description-" + RandomUtil.randomString(50));
+        dictPLO.setDescription("modify-dict-description-" + RandomUtil.randomString(50));
 
         ModifyDictPLO.DictOption option1 = new ModifyDictPLO.DictOption();
         option1.setOptionCode(String.valueOf(RandomUtil.randomInt(2))).setOptionValue("modify-" + RandomUtil.randomStringUpper(8));
@@ -124,9 +123,9 @@ public class SystemDictEntityControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        final Long dictId = 16L;
+        final Long dataId = 16L;
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?dict_id={dictId}", dictId)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/dict/delete?data-id={dataId}", dataId)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);

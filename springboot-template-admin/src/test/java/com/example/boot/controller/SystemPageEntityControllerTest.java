@@ -52,17 +52,16 @@ public class SystemPageEntityControllerTest {
     }
 
     @Test
-    public void tableTest() throws Exception {
+    public void listTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/system/systempage/table?pageNo={pageNo}&pageSize={pageSize}",
+                "/system/page/list?pageNo={page-no}&pageSize={page-size}",
                 1, 10
-        ).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON_UTF8);
+        ).characterEncoding("UTF-8");
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
 
         log.info("************[http status  :   {}]**************", response.getStatus());
         log.info("************[response body:   {}]**************", result.getResponse().getContentAsString());
-        log.info(result.getResponse().getContentAsString());
     }
 
     @Test
@@ -85,7 +84,7 @@ public class SystemPageEntityControllerTest {
         List<CreatePagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2, pagePermission3, pagePermission4).collect(Collectors.toList());
         plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/systempage/create")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/system/page/create")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(plo))
@@ -115,7 +114,7 @@ public class SystemPageEntityControllerTest {
         List<ModifyPagePLO.PagePermission> pagePermissions = Stream.of(pagePermission1, pagePermission2).collect(Collectors.toList());
         plo.setPagePermissions(pagePermissions);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/systempage/modify")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/system/page/modify")
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(JSONUtil.toJsonStr(plo))
@@ -130,8 +129,9 @@ public class SystemPageEntityControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        final Long pageId = 1L;
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/systempage/delete?page_id={pageId}", pageId)
+        final Long dataId = 1L;
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/system/page/delete?data-id={dataId}", dataId)
                 .characterEncoding("UTF-8")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
