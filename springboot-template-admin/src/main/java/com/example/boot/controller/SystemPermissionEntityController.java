@@ -1,6 +1,6 @@
 package com.example.boot.controller;
 
-import com.example.boot.springboottemplatebase.base.controller.BaseController;
+import com.example.boot.springboottemplatebase.base.controller.BaseEntityController;
 import com.example.boot.springboottemplatebase.domain.systempermission.entity.SystemPermissionEntity;
 import com.example.boot.springboottemplatebase.service.SystemPermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Controller
 @RequestMapping("system/permission")
-public class SystemPermissionController extends BaseController<SystemPermissionEntity, SystemPermissionService> {
+public class SystemPermissionEntityController extends BaseEntityController<SystemPermissionEntity, SystemPermissionService> {
 
-    public SystemPermissionController() {
+    public SystemPermissionEntityController() {
         super("/system/permission", "system_permission");
     }
 }

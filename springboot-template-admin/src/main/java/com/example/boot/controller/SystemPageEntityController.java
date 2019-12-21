@@ -1,11 +1,15 @@
 package com.example.boot.controller;
 
-import com.example.boot.springboottemplatebase.base.controller.BaseController;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.boot.springboottemplatebase.base.controller.BaseEntityController;
+import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systempage.entity.SystemPageEntity;
 import com.example.boot.springboottemplatebase.service.SystemPageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <p>系统模块-系统页面</p>
@@ -16,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequestMapping("system/page")
-public class SystemPageController extends BaseController<SystemPageEntity, SystemPageService> {
+public class SystemPageEntityController extends BaseEntityController<SystemPageEntity, SystemPageService> {
 
-    public SystemPageController() {
+    public SystemPageEntityController() {
         super("/system/page", "system_page");
     }
 
