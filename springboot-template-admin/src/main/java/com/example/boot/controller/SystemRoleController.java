@@ -1,6 +1,6 @@
 package com.example.boot.controller;
 
-import com.example.boot.springboottemplatebase.base.controller.BaseEntityController;
+import com.example.boot.springboottemplatebase.base.controller.BaseController;
 import com.example.boot.springboottemplatebase.domain.systemrole.entity.SystemRoleEntity;
 import com.example.boot.springboottemplatebase.service.SystemRoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Controller
 @RequestMapping(value = "system/role")
-public class SystemRoleEntityController extends BaseEntityController<SystemRoleEntity, SystemRoleService> {
+public class SystemRoleController extends BaseController<SystemRoleEntity, SystemRoleService> {
 
-    public SystemRoleEntityController() {
+    public SystemRoleController() {
         super("'/system/role", "system_role");
     }
 }

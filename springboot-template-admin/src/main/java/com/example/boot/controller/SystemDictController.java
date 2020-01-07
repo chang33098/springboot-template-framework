@@ -1,10 +1,11 @@
 package com.example.boot.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.boot.springboottemplatebase.base.controller.BaseEntityController;
+import com.example.boot.springboottemplatebase.base.controller.BaseController;
 import com.example.boot.springboottemplatebase.base.response.ResponseBodyBean;
 import com.example.boot.springboottemplatebase.domain.systemdict.entity.SystemDictEntity;
 import com.example.boot.springboottemplatebase.domain.systemdict.payload.CreateDictPLO;
+import com.example.boot.springboottemplatebase.domain.systemdict.payload.ModifyDictPLO;
 import com.example.boot.springboottemplatebase.service.SystemDictService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,9 +23,9 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 @RequestMapping(value = "system/dict")
-public class SystemDictEntityController extends BaseEntityController<SystemDictEntity, SystemDictService> {
+public class SystemDictController extends BaseController<SystemDictEntity, SystemDictService> {
 
-    public SystemDictEntityController() {
+    public SystemDictController() {
         super("/system/dict", "system_dict");
     }
 
@@ -33,7 +34,28 @@ public class SystemDictEntityController extends BaseEntityController<SystemDictE
     public ResponseBodyBean<IPage<SystemDictEntity>> dictList(@RequestParam(value = "page-no", defaultValue = "1") Integer pageNo,
                                                               @RequestParam(value = "page-size", defaultValue = "10") Integer pageSize,
                                                               SystemDictEntity payload) throws IllegalAccessException {
-        IPage<SystemDictEntity> page = this.list(pageNo, pageSize, payload);
-        return ResponseBodyBean.ofSuccess(page);
+//        IPage<SystemDictEntity> page = this.(pageNo, pageSize, payload);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @PostMapping(value = "create")
+    @ResponseBody
+    public ResponseBodyBean creatDict(@RequestBody @Valid CreateDictPLO payload) {
+        service.create(payload);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @PutMapping(value = "modifyDict")
+    @ResponseBody
+    public ResponseBodyBean modifyDict(@RequestBody @Valid ModifyDictPLO payload) {
+        service.modify(payload);
+        return ResponseBodyBean.ofSuccess();
+    }
+
+    @DeleteMapping(value = "delete")
+    @ResponseBody
+    public ResponseBodyBean deleteDict(@RequestParam(value = "data-id") Long dataId) {
+        service.delete(dataId);
+        return ResponseBodyBean.ofSuccess();
     }
 }
