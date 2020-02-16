@@ -1,11 +1,11 @@
-package com.example.boot.springboottemplatestarterbase.distributedLock.redis;
+package com.example.boot.springboottemplatestarterbase.lock.redis;
 
 import cn.hutool.core.util.RandomUtil;
-import com.example.boot.springboottemplatestarterbase.distributedLock.AbstractDistributedLock;
+import com.example.boot.springboottemplatestarterbase.lock.AbstractDistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  * @time 5:52 下午
  **/
 @Slf4j
-@Service
+@Component
 public class RedisDistributedLock extends AbstractDistributedLock {
 
     private RedisTemplate<Object, Object> redisTemplate;

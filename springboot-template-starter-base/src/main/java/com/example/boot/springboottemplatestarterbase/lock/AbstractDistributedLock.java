@@ -1,4 +1,4 @@
-package com.example.boot.springboottemplatestarterbase.distributedLock;
+package com.example.boot.springboottemplatestarterbase.lock;
 
 /**
  * description: 分布式锁抽象父类
