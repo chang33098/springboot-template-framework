@@ -1,6 +1,6 @@
 ### 任务备忘
 
-- [x] 将[springboot-template-admin]模块的首页左侧导航菜单拆分出来
+- [x] 将[springboot-template-bootstrap]模块的首页左侧导航菜单拆分出来
 - [x] 通过登录的用户信息渲染首页的菜单列表
 - [ ] 完成编辑[角色菜单]的开发工作
 - [ ] 完成SpringSecurity模块的改造任务

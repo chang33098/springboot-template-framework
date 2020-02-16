@@ -18,9 +18,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<modules>
-		<module>springboot-template-admin</module>
-		<module>springboot-template-security</module>
-		<module>springboot-template-base</module>
+		<module>springboot-template-bootstrap</module>
+		<module>springboot-template-starter-base</module>
 	</modules>
 
 	<properties>
@@ -58,17 +57,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-admin</artifactId>
+				<artifactId>springboot-template-bootstrap</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-base</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.example.boot</groupId>
-				<artifactId>springboot-template-security</artifactId>
+				<artifactId>springboot-template-starter-base</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-freemarker -->
