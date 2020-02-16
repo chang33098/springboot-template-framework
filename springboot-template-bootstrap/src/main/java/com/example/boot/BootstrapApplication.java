@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 @MapperScan("com.example.boot.*.mapper")
 @SpringBootApplication
+//@EnableTransactionManagement
+//@EnableEncryptableProperties
 public class BootstrapApplication {
 
     public static void main(String[] args) {
