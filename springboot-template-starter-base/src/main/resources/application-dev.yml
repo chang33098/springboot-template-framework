@@ -7,10 +7,16 @@ spring:
       enabled: true
   datasource:
     name: datasource1
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: root
-    password: FUCKme619
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.107.32.119:3306/litemall_dev?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: admin
+    password: ssjxbeginning@mysql2019YS#admin
+#  datasource:
+#    name: datasource1
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+#    username: root
+#    password: FUCKme619
   redis:
     database: 0
     host: 127.0.0.1

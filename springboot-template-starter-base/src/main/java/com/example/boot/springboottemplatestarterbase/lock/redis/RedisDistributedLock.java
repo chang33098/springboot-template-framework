@@ -3,6 +3,7 @@ package com.example.boot.springboottemplatestarterbase.lock.redis;
 import cn.hutool.core.util.RandomUtil;
 import com.example.boot.springboottemplatestarterbase.lock.AbstractDistributedLock;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,10 @@ import java.util.stream.Stream;
  * @time 5:52 下午
  **/
 @Slf4j
-@Component
+@Component(value = "redisDistributedLock")
 public class RedisDistributedLock extends AbstractDistributedLock {
 
+    @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
     private ThreadLocal<String> lockFlag = new ThreadLocal<>();
@@ -47,11 +49,6 @@ public class RedisDistributedLock extends AbstractDistributedLock {
         builder.append("    return 0 ");
         builder.append("end ");
         UNLOCK_LUA = builder.toString();
-    }
-
-    public RedisDistributedLock(RedisTemplate<Object, Object> redisTemplate) {
-        super();
-        this.redisTemplate = redisTemplate;
     }
 
     @Override
