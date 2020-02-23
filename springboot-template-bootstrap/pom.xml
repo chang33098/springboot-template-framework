@@ -45,10 +45,53 @@
     </dependencies>
 
     <build>
+        <!-- set the name of .jar file -->
+        <finalName>${project.parent.artifactId}-${env}-${project.version}</finalName>
         <plugins>
+            <!-- 指定springboot启动类 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- 运行mvn package指令时，跳过Junit的测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!-- https://github.com/spotify/dockerfile-maven/tree/master/docs -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.12</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <!-- <goal>push</goal> -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <contextDirectory>${project.basedir}</contextDirectory>
+                    <buildDirectory>${project.basedir}/target</buildDirectory>
+                    <dockerfile>${project.basedir}/Dockerfile</dockerfile>
+                    <repository>chang3300589/${project.parent.artifactId}-${env}</repository>
+<!--                    <username>chang3300589</username>-->
+<!--                    <password>FUCKme619</password>-->
+                    <tag>${project.version}</tag>
+                    <!-- 项目DockerFile的参数 -->
+                    <buildArgs>
+                        <JAR_PATH>target/${project.build.finalName}.jar</JAR_PATH>
+                        <JAR_NAME>${project.parent.artifactId}.jar</JAR_NAME>
+                        <JAR_XMS>256M</JAR_XMS>
+                        <JAR_XMS>512M</JAR_XMS>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

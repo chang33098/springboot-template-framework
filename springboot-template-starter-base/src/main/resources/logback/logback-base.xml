@@ -16,8 +16,11 @@
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-48.48logger{48} : %m%n%wex"/>
 
     <!-- Log for Multi Environment Configuration -->
-    <springProfile name="dev">
+    <springProfile name="dev-local">
         <property name="LOG_HOME" value="/Users/mac/workspace/logs/springboot-template-framework/dev"/>
+    </springProfile>
+    <springProfile name="dev-docker">
+        <property name="LOG_HOME" value="/opt/logs/springboot-template-framework/dev-docker"/>
     </springProfile>
     <springProfile name="test">
         <property name="LOG_HOME" value="/Users/mac/workspace/logs/springboot-template-framework/test"/>

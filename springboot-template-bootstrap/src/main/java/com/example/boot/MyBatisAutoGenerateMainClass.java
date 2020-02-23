@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
  * @author Chang
  * @date 2019/11/9 21:38
  */
-public class MyBatisAutoGenerator {
+public class MyBatisAutoGenerateMainClass {
 
     private static final String driverName = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";

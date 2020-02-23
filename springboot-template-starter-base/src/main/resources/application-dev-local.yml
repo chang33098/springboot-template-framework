@@ -6,9 +6,9 @@ spring:
     restart:
       enabled: true
   datasource:
-    name: datasource1
+    name: primary
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: FUCKme619
   redis:
@@ -23,6 +23,10 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 0
+
+jasypt:
+  encryptor:
+    password: @project.artifactId@-@env@-privatekey
 
 custom-configuration:
   upload:

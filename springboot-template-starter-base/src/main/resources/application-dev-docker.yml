@@ -6,15 +6,15 @@ spring:
     restart:
       enabled: true
   datasource:
-    name: datasource1
+    name: primary
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
-    username: root
+    url: jdbc:mysql://192.168.99.103:3306/springboot_template_framework?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: chang33098
     password: FUCKme619
   redis:
     database: 0
-    host: 127.0.0.1
-    port: 6379
+    host: 192.168.99.103
+    port: 63799
     password:
     timeout: 10000ms
     lettuce:
