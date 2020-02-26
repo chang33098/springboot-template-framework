@@ -81,8 +81,6 @@
                     <buildDirectory>${project.basedir}/target</buildDirectory>
                     <dockerfile>${project.basedir}/Dockerfile</dockerfile>
                     <repository>chang3300589/${project.parent.artifactId}-${env}</repository>
-<!--                    <username>chang3300589</username>-->
-<!--                    <password>FUCKme619</password>-->
                     <tag>${project.version}</tag>
                     <!-- 项目DockerFile的参数 -->
                     <buildArgs>

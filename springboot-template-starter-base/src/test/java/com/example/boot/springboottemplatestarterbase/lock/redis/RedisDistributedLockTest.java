@@ -1,6 +1,6 @@
 package com.example.boot.springboottemplatestarterbase.lock.redis;
 
-import com.example.boot.springboottemplatestarterbase.StarterBaseApplication;
+import com.example.boot.springboottemplatestarterbase.StarterBaseApplicationTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -17,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 //@Transactional
 @TestPropertySource(locations = "classpath:application.yml")
-@SpringBootTest(classes = StarterBaseApplication.class)
+@SpringBootTest(classes = StarterBaseApplicationTest.class)
 public class RedisDistributedLockTest {
 
     @Autowired

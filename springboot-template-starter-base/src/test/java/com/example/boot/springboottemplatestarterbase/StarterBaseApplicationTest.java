@@ -15,9 +15,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 @MapperScan("com.example.boot.*.mapper")
 @SpringBootApplication
-public class StarterBaseApplication {
+public class StarterBaseApplicationTest {
 
     public static void main(String[] args) {
-        SpringApplication.run(StarterBaseApplication.class, args);
+        SpringApplication.run(StarterBaseApplicationTest.class, args);
     }
 }
