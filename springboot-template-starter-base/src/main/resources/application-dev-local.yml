@@ -23,6 +23,11 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 0
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: springboot-template-framework
 
 jasypt:
   encryptor:
